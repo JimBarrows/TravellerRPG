@@ -1,5 +1,7 @@
 package com.barrows.travller.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * Factory class for creating standard vehicles in the Traveller RPG system.
  */
@@ -15,11 +17,11 @@ public class VehicleFactory {
         vehicle.setDescription("A standard wheeled vehicle for planetary travel");
         vehicle.setTechLevel(5);
         vehicle.setCost(6000);
-        vehicle.setWeight(1.5);
+        vehicle.setWeight(BigDecimal.valueOf(1.5));
         vehicle.setRequiredSkill("Drive");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(3);
-        vehicle.setCargoCapacity(0.2);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(0.2));
         vehicle.setMaxSpeed(120);
         vehicle.setCruisingSpeed(80);
         vehicle.setRange(400);
@@ -44,11 +46,11 @@ public class VehicleFactory {
         vehicle.setDescription("Anti-gravity vehicle for short-range aerial transport");
         vehicle.setTechLevel(8);
         vehicle.setCost(50000);
-        vehicle.setWeight(0.5);
+        vehicle.setWeight(BigDecimal.valueOf(0.5));
         vehicle.setRequiredSkill("Flyer");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(3);
-        vehicle.setCargoCapacity(0.1);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(0.1));
         vehicle.setMaxSpeed(400);
         vehicle.setCruisingSpeed(150);
         vehicle.setRange(1000);
@@ -74,11 +76,11 @@ public class VehicleFactory {
         vehicle.setDescription("Advanced anti-gravity vehicle for high-speed travel");
         vehicle.setTechLevel(9);
         vehicle.setCost(120000);
-        vehicle.setWeight(2.0);
+        vehicle.setWeight(BigDecimal.valueOf(2.0));
         vehicle.setRequiredSkill("Flyer");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(5);
-        vehicle.setCargoCapacity(0.5);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(0.5));
         vehicle.setMaxSpeed(800);
         vehicle.setCruisingSpeed(400);
         vehicle.setRange(2000);
@@ -105,11 +107,11 @@ public class VehicleFactory {
         vehicle.setDescription("Heavy wheeled vehicle for cargo transport");
         vehicle.setTechLevel(5);
         vehicle.setCost(15000);
-        vehicle.setWeight(5.0);
+        vehicle.setWeight(BigDecimal.valueOf(5.0));
         vehicle.setRequiredSkill("Drive");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(2);
-        vehicle.setCargoCapacity(10.0);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(10.0));
         vehicle.setMaxSpeed(90);
         vehicle.setCruisingSpeed(60);
         vehicle.setRange(600);
@@ -134,11 +136,11 @@ public class VehicleFactory {
         vehicle.setDescription("Armored tactical vehicle for military operations");
         vehicle.setTechLevel(7);
         vehicle.setCost(80000);
-        vehicle.setWeight(8.0);
+        vehicle.setWeight(BigDecimal.valueOf(8.0));
         vehicle.setRequiredSkill("Drive");
         vehicle.setCrewRequired(2);
         vehicle.setPassengerCapacity(6);
-        vehicle.setCargoCapacity(1.0);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(1.0));
         vehicle.setMaxSpeed(110);
         vehicle.setCruisingSpeed(70);
         vehicle.setRange(800);
@@ -167,11 +169,11 @@ public class VehicleFactory {
         vehicle.setDescription("Small motorized boat for water travel");
         vehicle.setTechLevel(5);
         vehicle.setCost(8000);
-        vehicle.setWeight(0.8);
+        vehicle.setWeight(BigDecimal.valueOf(0.8));
         vehicle.setRequiredSkill("Seafarer");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(4);
-        vehicle.setCargoCapacity(0.3);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(0.3));
         vehicle.setMaxSpeed(60);
         vehicle.setCruisingSpeed(40);
         vehicle.setRange(200);
@@ -196,11 +198,11 @@ public class VehicleFactory {
         vehicle.setDescription("Small winged aircraft for atmospheric flight");
         vehicle.setTechLevel(6);
         vehicle.setCost(100000);
-        vehicle.setWeight(1.5);
+        vehicle.setWeight(BigDecimal.valueOf(1.5));
         vehicle.setRequiredSkill("Flyer");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(3);
-        vehicle.setCargoCapacity(0.2);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(0.2));
         vehicle.setMaxSpeed(300);
         vehicle.setCruisingSpeed(200);
         vehicle.setRange(1500);
@@ -225,11 +227,11 @@ public class VehicleFactory {
         vehicle.setDescription("Vehicle that hovers above the surface on a cushion of air");
         vehicle.setTechLevel(7);
         vehicle.setCost(40000);
-        vehicle.setWeight(2.0);
+        vehicle.setWeight(BigDecimal.valueOf(2.0));
         vehicle.setRequiredSkill("Flyer");
         vehicle.setCrewRequired(1);
         vehicle.setPassengerCapacity(6);
-        vehicle.setCargoCapacity(1.0);
+        vehicle.setCargoCapacity(BigDecimal.valueOf(1.0));
         vehicle.setMaxSpeed(150);
         vehicle.setCruisingSpeed(100);
         vehicle.setRange(500);

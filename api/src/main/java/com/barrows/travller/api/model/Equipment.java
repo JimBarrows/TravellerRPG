@@ -186,15 +186,6 @@ public class Equipment {
         return lawLevel < restrictedLawLevel || !requiresPermit;
     }
 
-    /**
-     * Sets the weight of the equipment in kg.
-     * This method is provided for backward compatibility with code that uses double.
-     *
-     * @param weight The weight in kg as a double
-     */
-    public void setWeight(double weight) {
-        this.weight = BigDecimal.valueOf(weight);
-    }
 
     /**
      * Returns a string representation of the equipment.

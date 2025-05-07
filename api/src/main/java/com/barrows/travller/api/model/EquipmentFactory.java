@@ -1,5 +1,7 @@
 package com.barrows.travller.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * Factory class for creating standard equipment in the Traveller RPG system.
  */
@@ -15,7 +17,7 @@ public class EquipmentFactory {
         equipment.setDescription("A portable communication device with a range of about 10km");
         equipment.setTechLevel(8);
         equipment.setCost(250);
-        equipment.setWeight(0.5);
+        equipment.setWeight(BigDecimal.valueOf(0.5));
         equipment.setRequiredSkill("Electronics");
         equipment.addFeature("10km Range");
         equipment.addFeature("Encrypted Channels");
@@ -35,7 +37,7 @@ public class EquipmentFactory {
         equipment.setDescription("A comprehensive medical kit for field treatment");
         equipment.setTechLevel(7);
         equipment.setCost(1000);
-        equipment.setWeight(3.0);
+        equipment.setWeight(BigDecimal.valueOf(3.0));
         equipment.setRequiredSkill("Medic");
         equipment.setSkillBonus(1);
         equipment.addFeature("Trauma Treatment");
@@ -55,7 +57,7 @@ public class EquipmentFactory {
         equipment.setDescription("A suit designed to protect against hostile environments");
         equipment.setTechLevel(9);
         equipment.setCost(5000);
-        equipment.setWeight(10.0);
+        equipment.setWeight(BigDecimal.valueOf(10.0));
         equipment.setRequiredSkill("Zero-G");
         equipment.addFeature("Radiation Protection");
         equipment.addFeature("Temperature Regulation");
@@ -76,7 +78,7 @@ public class EquipmentFactory {
         equipment.setDescription("A portable computing device with advanced capabilities");
         equipment.setTechLevel(10);
         equipment.setCost(2000);
-        equipment.setWeight(1.5);
+        equipment.setWeight(BigDecimal.valueOf(1.5));
         equipment.setRequiredSkill("Computer");
         equipment.setSkillBonus(1);
         equipment.addFeature("Data Analysis");
@@ -97,7 +99,7 @@ public class EquipmentFactory {
         equipment.setDescription("A comprehensive set of tools for mechanical and electronic repairs");
         equipment.setTechLevel(7);
         equipment.setCost(500);
-        equipment.setWeight(5.0);
+        equipment.setWeight(BigDecimal.valueOf(5.0));
         equipment.setRequiredSkill("Mechanic");
         equipment.setSkillBonus(1);
         equipment.addFeature("Mechanical Tools");
@@ -117,7 +119,7 @@ public class EquipmentFactory {
         equipment.setDescription("High-powered optical magnification device");
         equipment.setTechLevel(5);
         equipment.setCost(100);
-        equipment.setWeight(1.0);
+        equipment.setWeight(BigDecimal.valueOf(1.0));
         equipment.addFeature("10x Magnification");
         equipment.addFeature("Night Vision");
         equipment.addFeature("Range Finder");
@@ -135,7 +137,7 @@ public class EquipmentFactory {
         equipment.setDescription("Essential supplies for wilderness survival");
         equipment.setTechLevel(4);
         equipment.setCost(200);
-        equipment.setWeight(2.0);
+        equipment.setWeight(BigDecimal.valueOf(2.0));
         equipment.setRequiredSkill("Survival");
         equipment.setSkillBonus(1);
         equipment.addFeature("Water Purification");
@@ -156,7 +158,7 @@ public class EquipmentFactory {
         equipment.setDescription("A compact generator for field power needs");
         equipment.setTechLevel(8);
         equipment.setCost(1500);
-        equipment.setWeight(15.0);
+        equipment.setWeight(BigDecimal.valueOf(15.0));
         equipment.setRequiredSkill("Engineer");
         equipment.addFeature("1kW Output");
         equipment.addFeature("Fuel Efficient");

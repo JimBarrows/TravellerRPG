@@ -146,15 +146,6 @@ public class Armor {
         return Math.max(0, radiation - radiationProtection);
     }
 
-    /**
-     * Sets the weight of the armor in kg.
-     * This method is provided for backward compatibility with code that uses double.
-     *
-     * @param weight The weight in kg as a double
-     */
-    public void setWeight(double weight) {
-        this.weight = BigDecimal.valueOf(weight);
-    }
 
     /**
      * Returns a string representation of the armor.

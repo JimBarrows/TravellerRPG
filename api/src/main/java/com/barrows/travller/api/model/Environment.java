@@ -79,20 +79,6 @@ public class Environment {
     @Column(name = "rule_description", length = 1000)
     private Map<String, String> specialRules;
 
-    /**
-     * Creates a new environment with the specified properties.
-     *
-     * @param name The name of the environment
-     * @param type The type of environment
-     * @param gravity The gravity level
-     * @param atmosphere The atmosphere type
-     * @param temperatureRange The temperature range
-     * @param visibility The visibility conditions
-     */
-    public Environment(String name, EnvironmentType type, double gravity, AtmosphereType atmosphere,
-                      String temperatureRange, VisibilityType visibility) {
-        this(name, type, BigDecimal.valueOf(gravity), atmosphere, temperatureRange, visibility);
-    }
 
     /**
      * Creates a new environment with the specified properties.

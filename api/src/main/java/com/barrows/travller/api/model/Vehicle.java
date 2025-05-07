@@ -307,25 +307,6 @@ public class Vehicle {
         return -3;                      // Bad condition, severe penalty
     }
 
-    /**
-     * Sets the weight of the vehicle in tons.
-     * This method is provided for backward compatibility with code that uses double.
-     *
-     * @param weight The weight in tons as a double
-     */
-    public void setWeight(double weight) {
-        this.weight = BigDecimal.valueOf(weight);
-    }
-
-    /**
-     * Sets the cargo capacity of the vehicle in tons.
-     * This method is provided for backward compatibility with code that uses double.
-     *
-     * @param cargoCapacity The cargo capacity in tons as a double
-     */
-    public void setCargoCapacity(double cargoCapacity) {
-        this.cargoCapacity = BigDecimal.valueOf(cargoCapacity);
-    }
 
     /**
      * Returns a string representation of the vehicle.

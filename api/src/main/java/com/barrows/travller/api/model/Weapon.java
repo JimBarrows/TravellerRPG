@@ -99,7 +99,7 @@ public class Weapon {
         this.automatic = false;
         this.magazine = 0;
         this.cost = 0;
-        this.weight = 0.0;
+        this.weight = BigDecimal.ZERO;
     }
 
     /**
@@ -176,6 +176,7 @@ public class Weapon {
     public boolean isExplosive() {
         return type == WeaponType.EXPLOSIVE;
     }
+
 
     /**
      * Returns a string representation of the weapon.
