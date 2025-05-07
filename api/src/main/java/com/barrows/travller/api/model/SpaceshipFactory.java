@@ -1,5 +1,7 @@
 package com.barrows.travller.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * Factory class for creating standard spaceships in the Traveller RPG system.
  */
@@ -14,12 +16,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Scout/Courier", SpaceshipType.SCOUT);
         spaceship.setDescription("A small, fast ship designed for exploration, reconnaissance, and courier duties");
         spaceship.setTechLevel(9);
-        spaceship.setCostMCr(37.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(37.0));
         spaceship.setDisplacementTons(100);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(1);
         spaceship.setPassengerCapacity(2);
-        spaceship.setCargoCapacity(3.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(3.0));
         spaceship.setJumpDriveRating(2);
         spaceship.setManeuverDriveRating(2);
         spaceship.setPowerPlantRating(2);
@@ -28,11 +30,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(100);
         spaceship.setStructurePoints(20);
         spaceship.setMaxStructurePoints(20);
-        spaceship.setFuelCapacity(22.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(22.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(20.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(20.0));
         spaceship.setMaintenanceRequirements("Monthly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.37);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.37));
         spaceship.addFeature("Advanced Sensors");
         spaceship.addFeature("Laboratory");
         spaceship.addFeature("Computer/1");
@@ -49,12 +51,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Free Trader", SpaceshipType.TRADER);
         spaceship.setDescription("A common merchant vessel designed for cargo transport between worlds");
         spaceship.setTechLevel(9);
-        spaceship.setCostMCr(37.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(37.0));
         spaceship.setDisplacementTons(200);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(4);
         spaceship.setPassengerCapacity(6);
-        spaceship.setCargoCapacity(82.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(82.0));
         spaceship.setJumpDriveRating(1);
         spaceship.setManeuverDriveRating(1);
         spaceship.setPowerPlantRating(2);
@@ -63,11 +65,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(200);
         spaceship.setStructurePoints(40);
         spaceship.setMaxStructurePoints(40);
-        spaceship.setFuelCapacity(40.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(40.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(20.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(20.0));
         spaceship.setMaintenanceRequirements("Monthly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.37);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.37));
         spaceship.addFeature("Cargo Handling Equipment");
         spaceship.addFeature("Computer/1");
         spaceship.addWeapon("Double Turret (Beam Laser)");
@@ -83,12 +85,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Far Trader", SpaceshipType.TRADER);
         spaceship.setDescription("An improved merchant vessel with better jump capability");
         spaceship.setTechLevel(10);
-        spaceship.setCostMCr(45.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(45.0));
         spaceship.setDisplacementTons(200);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(5);
         spaceship.setPassengerCapacity(10);
-        spaceship.setCargoCapacity(64.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(64.0));
         spaceship.setJumpDriveRating(2);
         spaceship.setManeuverDriveRating(1);
         spaceship.setPowerPlantRating(2);
@@ -97,11 +99,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(200);
         spaceship.setStructurePoints(40);
         spaceship.setMaxStructurePoints(40);
-        spaceship.setFuelCapacity(50.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(50.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(20.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(20.0));
         spaceship.setMaintenanceRequirements("Monthly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.45);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.45));
         spaceship.addFeature("Cargo Handling Equipment");
         spaceship.addFeature("Advanced Sensors");
         spaceship.addFeature("Computer/1");
@@ -119,12 +121,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Yacht", SpaceshipType.YACHT);
         spaceship.setDescription("A luxury vessel for private owners, often with high-quality accommodations");
         spaceship.setTechLevel(10);
-        spaceship.setCostMCr(40.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(40.0));
         spaceship.setDisplacementTons(100);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(3);
         spaceship.setPassengerCapacity(6);
-        spaceship.setCargoCapacity(2.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(2.0));
         spaceship.setJumpDriveRating(2);
         spaceship.setManeuverDriveRating(2);
         spaceship.setPowerPlantRating(3);
@@ -133,11 +135,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(100);
         spaceship.setStructurePoints(20);
         spaceship.setMaxStructurePoints(20);
-        spaceship.setFuelCapacity(30.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(30.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(20.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(20.0));
         spaceship.setMaintenanceRequirements("Monthly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.4);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.4));
         spaceship.addFeature("Luxury Accommodations");
         spaceship.addFeature("Advanced Sensors");
         spaceship.addFeature("Computer/2");
@@ -154,12 +156,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Patrol Cruiser", SpaceshipType.PATROL_SHIP);
         spaceship.setDescription("A military vessel used for system security and patrol duties");
         spaceship.setTechLevel(12);
-        spaceship.setCostMCr(80.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(80.0));
         spaceship.setDisplacementTons(400);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(10);
         spaceship.setPassengerCapacity(6);
-        spaceship.setCargoCapacity(10.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(10.0));
         spaceship.setJumpDriveRating(3);
         spaceship.setManeuverDriveRating(3);
         spaceship.setPowerPlantRating(3);
@@ -168,11 +170,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(400);
         spaceship.setStructurePoints(80);
         spaceship.setMaxStructurePoints(80);
-        spaceship.setFuelCapacity(120.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(120.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(40.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(40.0));
         spaceship.setMaintenanceRequirements("Weekly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.8);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.8));
         spaceship.setRequiresPermit(true);
         spaceship.setRestrictedLawLevel(3);
         spaceship.addFeature("Advanced Sensors");
@@ -194,12 +196,12 @@ public class SpaceshipFactory {
         Spaceship spaceship = new Spaceship("Subsidized Merchant", SpaceshipType.FREIGHTER);
         spaceship.setDescription("A government-subsidized merchant vessel for frontier trade routes");
         spaceship.setTechLevel(9);
-        spaceship.setCostMCr(59.0);
+        spaceship.setCostMCr(BigDecimal.valueOf(59.0));
         spaceship.setDisplacementTons(400);
         spaceship.setRequiredSkill("Pilot");
         spaceship.setCrewRequired(9);
         spaceship.setPassengerCapacity(9);
-        spaceship.setCargoCapacity(168.0);
+        spaceship.setCargoCapacity(BigDecimal.valueOf(168.0));
         spaceship.setJumpDriveRating(1);
         spaceship.setManeuverDriveRating(1);
         spaceship.setPowerPlantRating(1);
@@ -208,11 +210,11 @@ public class SpaceshipFactory {
         spaceship.setMaxHullPoints(400);
         spaceship.setStructurePoints(80);
         spaceship.setMaxStructurePoints(80);
-        spaceship.setFuelCapacity(82.0);
+        spaceship.setFuelCapacity(BigDecimal.valueOf(82.0));
         spaceship.setHasFuelScoop(true);
-        spaceship.setFuelConsumptionPerJump(40.0);
+        spaceship.setFuelConsumptionPerJump(BigDecimal.valueOf(40.0));
         spaceship.setMaintenanceRequirements("Monthly maintenance");
-        spaceship.setAnnualMaintenanceCost(0.59);
+        spaceship.setAnnualMaintenanceCost(BigDecimal.valueOf(0.59));
         spaceship.addFeature("Cargo Handling Equipment");
         spaceship.addFeature("Computer/1");
         spaceship.addWeapon("Double Turret (Beam Laser)");

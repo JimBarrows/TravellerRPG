@@ -1,46 +1,72 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
+import jakarta.persistence.*;
 
 /**
  * Represents a homeworld in the Traveller RPG system.
  * A homeworld is a planet or other celestial body where a character originates from,
  * which influences their background and starting skills.
  */
+@Entity
+@Table(name = "homeworlds")
 @Data
+@NoArgsConstructor
 public class Homeworld {
+
+    /**
+     * The unique identifier for the homeworld.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the homeworld.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * The Universal World Profile (UWP) code that describes the world's characteristics.
      * Format: Starport-Size-Atmosphere-Hydrographics-Population-Government-Law Level-Tech Level
      */
+    @Column(nullable = false)
     private String uwp;
 
     /**
      * The type of world (e.g., Garden, Desert, Ice, etc.).
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WorldType type;
 
     /**
      * The trade codes that apply to this world.
      */
+    @ElementCollection
+    @CollectionTable(name = "homeworld_trade_codes", joinColumns = @JoinColumn(name = "homeworld_id"))
+    @Column(name = "trade_code")
     private List<String> tradeCodes;
 
     /**
      * The skills commonly found on this homeworld.
      */
+    @ManyToMany
+    @JoinTable(
+        name = "homeworld_common_skills",
+        joinColumns = @JoinColumn(name = "homeworld_id"),
+        inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private List<Skill> commonSkills;
 
     /**
      * The background information about this homeworld.
      */
+    @Column(length = 2000)
     private String background;
 
     /**

@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.math.BigDecimal;
 
 /**
  * Tests for the Animal class.
@@ -23,7 +24,7 @@ public class AnimalTest {
         Animal horse = AnimalFactory.createHorse();
         assertEquals("Horse", horse.getName());
         assertEquals(AnimalType.MOUNT, horse.getType());
-        assertEquals(500.0, horse.getWeight());
+        assertEquals(BigDecimal.valueOf(500.0), horse.getWeight());
 
         // Test special traits
         assertTrue(horse.getSpecialTraits().contains("Fast Runner"));
@@ -35,7 +36,7 @@ public class AnimalTest {
         Animal horse = AnimalFactory.createHorse();
 
         // Test carrying capacity
-        assertEquals(120.0, horse.getCarryingCapacity()); // 12 strength * 10
+        assertEquals(BigDecimal.valueOf(120.0), horse.getCarryingCapacity()); // 12 strength * 10
 
         // Test dangerous check
         assertFalse(horse.isDangerous());

@@ -1,24 +1,39 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Map;
 import java.util.HashMap;
+import jakarta.persistence.*;
 
 /**
  * Represents an environment in the Traveller RPG system.
  * Environments affect combat and other activities with various modifiers and special rules.
  */
+@Entity
+@Table(name = "environments")
 @Data
+@NoArgsConstructor
 public class Environment {
+
+    /**
+     * The unique identifier for the environment.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the environment.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * The type of environment.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EnvironmentType type;
 
     /**
@@ -29,6 +44,8 @@ public class Environment {
     /**
      * The atmosphere type.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AtmosphereType atmosphere;
 
     /**
@@ -39,16 +56,26 @@ public class Environment {
     /**
      * The visibility conditions.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private VisibilityType visibility;
 
     /**
      * The modifiers applied to different actions in this environment.
      */
+    @ElementCollection
+    @CollectionTable(name = "environment_modifiers", joinColumns = @JoinColumn(name = "environment_id"))
+    @MapKeyColumn(name = "action")
+    @Column(name = "modifier")
     private Map<String, Integer> modifiers;
 
     /**
      * Special rules that apply in this environment.
      */
+    @ElementCollection
+    @CollectionTable(name = "environment_special_rules", joinColumns = @JoinColumn(name = "environment_id"))
+    @MapKeyColumn(name = "rule_name")
+    @Column(name = "rule_description", length = 1000)
     private Map<String, String> specialRules;
 
     /**

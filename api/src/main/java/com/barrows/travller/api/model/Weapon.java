@@ -1,22 +1,37 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
 /**
  * Represents a weapon in the Traveller RPG system.
  * Weapons are used in combat and have various properties that affect their use.
  */
+@Entity
+@Table(name = "weapons")
 @Data
+@NoArgsConstructor
 public class Weapon {
+
+    /**
+     * The unique identifier for the weapon.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the weapon.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * The type of weapon.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WeaponType type;
 
     /**
@@ -27,6 +42,7 @@ public class Weapon {
     /**
      * The damage formula for this weapon (e.g., "3d6", "2d6+3").
      */
+    @Column(nullable = false)
     private String damageFormula;
 
     /**
@@ -58,6 +74,8 @@ public class Weapon {
     /**
      * The skill used with this weapon.
      */
+    @ManyToOne
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
     /**

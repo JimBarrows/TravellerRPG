@@ -170,7 +170,7 @@ public class Animal {
      */
     public BigDecimal getCarryingCapacity() {
         if (type == AnimalType.MOUNT || type == AnimalType.LIVESTOCK) {
-            return BigDecimal.valueOf(strength * 10); // Simple formula: 10kg per point of strength
+            return BigDecimal.valueOf(strength * 10.0); // Simple formula: 10kg per point of strength
         }
         return BigDecimal.ZERO;
     }

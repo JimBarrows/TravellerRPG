@@ -1,17 +1,30 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
 /**
  * Represents armor in the Traveller RPG system.
  * Armor provides protection against damage in combat.
  */
+@Entity
+@Table(name = "armor")
 @Data
+@NoArgsConstructor
 public class Armor {
+
+    /**
+     * The unique identifier for the armor.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the armor.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -52,6 +65,8 @@ public class Armor {
     /**
      * The type of armor.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ArmorType type;
 
     /**

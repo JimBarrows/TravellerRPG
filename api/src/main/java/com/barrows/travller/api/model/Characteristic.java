@@ -1,18 +1,32 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
 /**
  * Represents a character characteristic in the Traveller RPG system.
  * Characteristics include Strength, Dexterity, Endurance, Intelligence, Education, and Social Standing.
  * Each characteristic has a value between 2 and 12 (typically rolled with 2d6).
  */
+@Entity
+@Table(name = "characteristics")
 @Data
+@NoArgsConstructor
 public class Characteristic {
+
+    /**
+     * The unique identifier for the characteristic.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The type of characteristic.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CharacteristicType type;
 
     /**

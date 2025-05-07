@@ -1,21 +1,75 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
+import jakarta.persistence.*;
 
 /**
  * Represents a term served in a career.
  */
+@Entity
+@Table(name = "career_terms")
 @Data
+@NoArgsConstructor
 public class CareerTerm {
+    /**
+     * The unique identifier for the career term.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * The career this term was served in.
+     */
+    @ManyToOne
+    @JoinColumn(name = "career_id")
     private Career career;
+
+    /**
+     * The term number (1 = first term, 2 = second term, etc.).
+     */
     private int termNumber;
+
+    /**
+     * The rank achieved during this term.
+     */
     private int rank;
+
+    /**
+     * The skills gained during this term.
+     */
+    @ManyToMany
+    @JoinTable(
+        name = "career_term_skills",
+        joinColumns = @JoinColumn(name = "career_term_id"),
+        inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private List<Skill> skillsGained;
+
+    /**
+     * The benefits gained during this term.
+     */
+    @ElementCollection
+    @CollectionTable(name = "career_term_benefits", joinColumns = @JoinColumn(name = "career_term_id"))
+    @Column(name = "benefit")
     private List<String> benefits;
+
+    /**
+     * Whether the character was commissioned during this term.
+     */
     private boolean commissioned;
+
+    /**
+     * Whether the character was advanced during this term.
+     */
     private boolean advanced;
+
+    /**
+     * Whether the character survived this term.
+     */
     private boolean survived;
 
     public CareerTerm(Career career, int termNumber) {

@@ -1,22 +1,35 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.time.LocalDate;
+import jakarta.persistence.*;
 
 /**
  * Represents a character in the Traveller RPG system.
  * This is the central model that ties together all the other models.
  */
+@Entity
+@Table(name = "characters")
 @Data
+@NoArgsConstructor
 public class Character {
+
+    /**
+     * The unique identifier for the character.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the character.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -32,46 +45,76 @@ public class Character {
     /**
      * The race of the character.
      */
+    @ManyToOne
+    @JoinColumn(name = "race_id")
     private Race race;
 
     /**
      * The characteristics of the character (STR, DEX, END, INT, EDU, SOC).
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "character_id")
     private List<Characteristic> characteristics;
 
     /**
      * The skills the character has learned.
      */
+    @ManyToMany
+    @JoinTable(
+        name = "character_skills",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private List<Skill> skills;
 
     /**
      * The homeworld the character originates from.
      */
+    @ManyToOne
+    @JoinColumn(name = "homeworld_id")
     private Homeworld homeworld;
 
     /**
      * The careers the character has pursued.
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "character_id")
     private List<CareerTerm> careerHistory;
 
     /**
      * The weapons the character possesses.
      */
+    @ManyToMany
+    @JoinTable(
+        name = "character_weapons",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "weapon_id")
+    )
     private List<Weapon> weapons;
 
     /**
      * The armor the character possesses.
      */
+    @ManyToMany
+    @JoinTable(
+        name = "character_armor",
+        joinColumns = @JoinColumn(name = "character_id"),
+        inverseJoinColumns = @JoinColumn(name = "armor_id")
+    )
     private List<Armor> armor;
 
     /**
      * The armor the character is currently wearing.
      */
+    @ManyToOne
+    @JoinColumn(name = "equipped_armor_id")
     private Armor equippedArmor;
 
     /**
      * The weapon the character is currently wielding.
      */
+    @ManyToOne
+    @JoinColumn(name = "equipped_weapon_id")
     private Weapon equippedWeapon;
 
     /**
@@ -82,11 +125,14 @@ public class Character {
     /**
      * The character's background information.
      */
+    @Column(length = 2000)
     private String background;
 
     /**
      * The character's current status (Alive, Dead, Retired).
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CharacterStatus status;
 
     /**

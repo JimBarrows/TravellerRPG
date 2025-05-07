@@ -1,17 +1,30 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
 /**
  * Represents a skill in the Traveller RPG system.
  * Skills are abilities that characters can learn and improve through training and experience.
  */
+@Entity
+@Table(name = "skills")
 @Data
+@NoArgsConstructor
 public class Skill {
+
+    /**
+     * The unique identifier for the skill.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the skill.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -22,11 +35,15 @@ public class Skill {
     /**
      * The category this skill belongs to.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private SkillCategory category;
 
     /**
      * The characteristic most associated with this skill.
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CharacteristicType primaryCharacteristic;
 
     /**

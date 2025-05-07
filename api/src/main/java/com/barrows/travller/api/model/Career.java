@@ -1,33 +1,52 @@
 package com.barrows.travller.api.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import jakarta.persistence.*;
 
 /**
  * Represents a career in the Traveller RPG system.
  * Careers are the professions that characters can pursue during character creation,
  * which provide skills, benefits, and advancement opportunities.
  */
+@Entity
+@Table(name = "careers")
 @Data
+@NoArgsConstructor
 public class Career {
+
+    /**
+     * The unique identifier for the career.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The name of the career.
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * The description of the career.
      */
+    @Column(length = 2000)
     private String description;
 
     /**
      * The qualification requirements for this career.
      * Map of characteristic type to minimum value required.
      */
+    @ElementCollection
+    @CollectionTable(name = "career_qualification_requirements", joinColumns = @JoinColumn(name = "career_id"))
+    @MapKeyEnumerated(EnumType.STRING)
+    @MapKeyColumn(name = "characteristic_type")
+    @Column(name = "minimum_value")
     private Map<CharacteristicType, Integer> qualificationRequirements;
 
     /**
@@ -38,31 +57,46 @@ public class Career {
     /**
      * The skills available during basic training (first term only).
      */
+    @ManyToMany
+    @JoinTable(
+        name = "career_basic_training_skills",
+        joinColumns = @JoinColumn(name = "career_id"),
+        inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private List<Skill> basicTrainingSkills;
 
     /**
      * The service skills table (skills gained during service).
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "career_id")
     private List<SkillTable> serviceSkillTables;
 
     /**
      * The advanced education skills table (skills gained with EDU 8+).
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "career_id")
     private List<SkillTable> advancedEducationSkillTables;
 
     /**
      * The specialist skills tables.
      */
+    @Transient // This is a complex structure that can't be easily mapped to a database table
     private Map<String, List<SkillTable>> specialistSkillTables;
 
     /**
      * The ranks and rank benefits for this career.
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "career_id")
     private List<Rank> ranks;
 
     /**
      * The mustering out benefits table.
      */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "career_id")
     private List<BenefitTable> musteringOutBenefits;
 
     /**

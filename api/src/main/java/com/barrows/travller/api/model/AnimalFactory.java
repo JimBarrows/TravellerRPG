@@ -15,7 +15,7 @@ public class AnimalFactory {
     public static Animal createDog() {
         Animal animal = new Animal("Dog", AnimalType.DOMESTIC);
         animal.setDescription("A loyal canine companion");
-        animal.setWeight(25.0);
+        animal.setWeight(BigDecimal.valueOf(25.0));
         animal.setHabitat("Domestic environments, human settlements");
         animal.setMovementSpeed(12);
         animal.setStrength(5);
@@ -40,7 +40,7 @@ public class AnimalFactory {
     public static Animal createHorse() {
         Animal animal = new Animal("Horse", AnimalType.MOUNT);
         animal.setDescription("A common riding and draft animal");
-        animal.setWeight(500.0);
+        animal.setWeight(BigDecimal.valueOf(500.0));
         animal.setHabitat("Plains, grasslands, human settlements");
         animal.setMovementSpeed(24);
         animal.setStrength(12);
@@ -65,7 +65,7 @@ public class AnimalFactory {
     public static Animal createCow() {
         Animal animal = new Animal("Cow", AnimalType.LIVESTOCK);
         animal.setDescription("A common source of meat, milk, and leather");
-        animal.setWeight(700.0);
+        animal.setWeight(BigDecimal.valueOf(700.0));
         animal.setHabitat("Farms, grasslands");
         animal.setMovementSpeed(8);
         animal.setStrength(10);
@@ -89,7 +89,7 @@ public class AnimalFactory {
     public static Animal createWolf() {
         Animal animal = new Animal("Wolf", AnimalType.WILD_CARNIVORE);
         animal.setDescription("A pack-hunting predator");
-        animal.setWeight(50.0);
+        animal.setWeight(BigDecimal.valueOf(50.0));
         animal.setHabitat("Forests, mountains, plains");
         animal.setMovementSpeed(15);
         animal.setStrength(7);
@@ -114,7 +114,7 @@ public class AnimalFactory {
     public static Animal createDeer() {
         Animal animal = new Animal("Deer", AnimalType.WILD_HERBIVORE);
         animal.setDescription("A swift forest-dwelling herbivore");
-        animal.setWeight(150.0);
+        animal.setWeight(BigDecimal.valueOf(150.0));
         animal.setHabitat("Forests, woodlands");
         animal.setMovementSpeed(20);
         animal.setStrength(6);
@@ -139,7 +139,7 @@ public class AnimalFactory {
     public static Animal createBear() {
         Animal animal = new Animal("Bear", AnimalType.DANGEROUS);
         animal.setDescription("A large, powerful omnivorous predator");
-        animal.setWeight(400.0);
+        animal.setWeight(BigDecimal.valueOf(400.0));
         animal.setHabitat("Forests, mountains");
         animal.setMovementSpeed(12);
         animal.setArmorRating(1);
@@ -166,7 +166,7 @@ public class AnimalFactory {
     public static Animal createAlienMount() {
         Animal animal = new Animal("Gcarth", AnimalType.EXOTIC);
         animal.setDescription("A six-legged reptilian mount native to high-gravity worlds");
-        animal.setWeight(800.0);
+        animal.setWeight(BigDecimal.valueOf(800.0));
         animal.setHabitat("Rocky terrain, mountains on high-gravity worlds");
         animal.setMovementSpeed(18);
         animal.setArmorRating(3);
