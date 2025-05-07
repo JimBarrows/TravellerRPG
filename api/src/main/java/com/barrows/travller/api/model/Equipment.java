@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
@@ -55,7 +56,7 @@ public class Equipment {
     /**
      * The weight of the equipment in kg.
      */
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * The availability of the equipment (Common, Uncommon, Rare, etc.).
@@ -122,7 +123,7 @@ public class Equipment {
         this.description = "";
         this.techLevel = 0;
         this.cost = 0;
-        this.weight = 0.0;
+        this.weight = BigDecimal.ZERO;
         this.availability = "Common";
         this.requiresPermit = false;
         this.restrictedLawLevel = 0;
@@ -183,6 +184,16 @@ public class Equipment {
      */
     public boolean isLegalAt(int lawLevel) {
         return lawLevel < restrictedLawLevel || !requiresPermit;
+    }
+
+    /**
+     * Sets the weight of the equipment in kg.
+     * This method is provided for backward compatibility with code that uses double.
+     *
+     * @param weight The weight in kg as a double
+     */
+    public void setWeight(double weight) {
+        this.weight = BigDecimal.valueOf(weight);
     }
 
     /**

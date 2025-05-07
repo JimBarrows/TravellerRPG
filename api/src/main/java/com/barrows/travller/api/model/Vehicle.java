@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
@@ -55,7 +56,7 @@ public class Vehicle {
     /**
      * The weight of the vehicle in tons.
      */
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * The availability of the vehicle (Common, Uncommon, Rare, etc.).
@@ -90,7 +91,7 @@ public class Vehicle {
     /**
      * The cargo capacity in tons.
      */
-    private double cargoCapacity;
+    private BigDecimal cargoCapacity;
 
     /**
      * The maximum speed of the vehicle in km/h.
@@ -170,14 +171,14 @@ public class Vehicle {
         this.description = "";
         this.techLevel = 0;
         this.cost = 0;
-        this.weight = 0.0;
+        this.weight = BigDecimal.ZERO;
         this.availability = "Common";
         this.requiresPermit = false;
         this.restrictedLawLevel = 0;
         this.requiredSkill = "";
         this.crewRequired = 1;
         this.passengerCapacity = 0;
-        this.cargoCapacity = 0.0;
+        this.cargoCapacity = BigDecimal.ZERO;
         this.maxSpeed = 0;
         this.cruisingSpeed = 0;
         this.range = 0;
@@ -304,6 +305,26 @@ public class Vehicle {
         if (condition >= 50) return -1; // Fair condition, small penalty
         if (condition >= 30) return -2; // Poor condition, moderate penalty
         return -3;                      // Bad condition, severe penalty
+    }
+
+    /**
+     * Sets the weight of the vehicle in tons.
+     * This method is provided for backward compatibility with code that uses double.
+     *
+     * @param weight The weight in tons as a double
+     */
+    public void setWeight(double weight) {
+        this.weight = BigDecimal.valueOf(weight);
+    }
+
+    /**
+     * Sets the cargo capacity of the vehicle in tons.
+     * This method is provided for backward compatibility with code that uses double.
+     *
+     * @param cargoCapacity The cargo capacity in tons as a double
+     */
+    public void setCargoCapacity(double cargoCapacity) {
+        this.cargoCapacity = BigDecimal.valueOf(cargoCapacity);
     }
 
     /**

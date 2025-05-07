@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 
 /**
@@ -55,7 +56,7 @@ public class Armor {
     /**
      * The weight of the armor in kg.
      */
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * Whether the armor is powered (e.g., battle dress).
@@ -85,7 +86,7 @@ public class Armor {
         this.energyProtection = protection;
         this.radiationProtection = 0;
         this.cost = 0;
-        this.weight = 0.0;
+        this.weight = BigDecimal.ZERO;
         this.powered = false;
     }
 
@@ -143,6 +144,16 @@ public class Armor {
      */
     public int reduceRadiation(int radiation) {
         return Math.max(0, radiation - radiationProtection);
+    }
+
+    /**
+     * Sets the weight of the armor in kg.
+     * This method is provided for backward compatibility with code that uses double.
+     *
+     * @param weight The weight in kg as a double
+     */
+    public void setWeight(double weight) {
+        this.weight = BigDecimal.valueOf(weight);
     }
 
     /**

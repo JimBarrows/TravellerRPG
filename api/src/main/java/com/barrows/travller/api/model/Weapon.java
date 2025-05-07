@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 
 /**
@@ -69,7 +70,7 @@ public class Weapon {
     /**
      * The weight of the weapon in kg.
      */
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * The skill used with this weapon.

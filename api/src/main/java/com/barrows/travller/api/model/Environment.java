@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.HashMap;
 import jakarta.persistence.*;
@@ -39,7 +40,7 @@ public class Environment {
     /**
      * The gravity level relative to Earth (1.0 = Earth normal).
      */
-    private double gravity;
+    private BigDecimal gravity;
 
     /**
      * The atmosphere type.
@@ -90,6 +91,21 @@ public class Environment {
      */
     public Environment(String name, EnvironmentType type, double gravity, AtmosphereType atmosphere,
                       String temperatureRange, VisibilityType visibility) {
+        this(name, type, BigDecimal.valueOf(gravity), atmosphere, temperatureRange, visibility);
+    }
+
+    /**
+     * Creates a new environment with the specified properties.
+     *
+     * @param name The name of the environment
+     * @param type The type of environment
+     * @param gravity The gravity level
+     * @param atmosphere The atmosphere type
+     * @param temperatureRange The temperature range
+     * @param visibility The visibility conditions
+     */
+    public Environment(String name, EnvironmentType type, BigDecimal gravity, AtmosphereType atmosphere,
+                      String temperatureRange, VisibilityType visibility) {
         this.name = name;
         this.type = type;
         this.gravity = gravity;
@@ -100,10 +116,10 @@ public class Environment {
         this.specialRules = new HashMap<>();
 
         // Add default modifiers based on environment properties
-        if (gravity < 0.5) {
+        if (gravity.compareTo(BigDecimal.valueOf(0.5)) < 0) {
             addModifier("Movement", 2);
             addModifier("Melee Combat", -2);
-        } else if (gravity > 1.5) {
+        } else if (gravity.compareTo(BigDecimal.valueOf(1.5)) > 0) {
             addModifier("Movement", -2);
             addModifier("Physical Tasks", -1);
         }
