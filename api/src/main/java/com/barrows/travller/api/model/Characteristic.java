@@ -3,6 +3,8 @@ package com.barrows.travller.api.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a character characteristic in the Traveller RPG system.
@@ -25,6 +27,7 @@ public class Characteristic {
     /**
      * The type of characteristic.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CharacteristicType type;
@@ -32,12 +35,14 @@ public class Characteristic {
     /**
      * The current value of the characteristic (2-12).
      */
+    @Min(0)
     private int value;
 
     /**
      * The original value of the characteristic before any modifications.
      * This is useful for tracking aging effects or other temporary/permanent changes.
      */
+    @Min(0)
     private int originalValue;
 
     /**

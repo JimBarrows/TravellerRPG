@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents a career in the Traveller RPG system.
@@ -29,6 +33,8 @@ public class Career {
     /**
      * The name of the career.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
@@ -52,6 +58,8 @@ public class Career {
     /**
      * The DM (Dice Modifier) applied to qualification rolls.
      */
+    @Min(-3)
+    @Max(3)
     private int qualificationDM;
 
     /**

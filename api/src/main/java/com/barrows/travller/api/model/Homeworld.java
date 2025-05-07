@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents a homeworld in the Traveller RPG system.

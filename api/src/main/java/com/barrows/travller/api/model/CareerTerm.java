@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a term served in a career.
@@ -24,6 +27,7 @@ public class CareerTerm {
     /**
      * The career this term was served in.
      */
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "career_id")
     private Career career;
@@ -31,11 +35,14 @@ public class CareerTerm {
     /**
      * The term number (1 = first term, 2 = second term, etc.).
      */
+    @Min(1)
     private int termNumber;
 
     /**
      * The rank achieved during this term.
      */
+    @Min(0)
+    @Max(6)
     private int rank;
 
     /**

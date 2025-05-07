@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents armor in the Traveller RPG system.
@@ -25,32 +29,40 @@ public class Armor {
     /**
      * The name of the armor.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
     /**
      * The tech level required to manufacture this armor.
      */
+    @Min(0)
+    @Max(15)
     private int techLevel;
 
     /**
      * The protection value against physical damage.
      */
+    @Min(0)
     private int protection;
 
     /**
      * The protection value against energy weapons.
      */
+    @Min(0)
     private int energyProtection;
 
     /**
      * The protection value against radiation.
      */
+    @Min(0)
     private int radiationProtection;
 
     /**
      * The cost of the armor in credits.
      */
+    @Min(0)
     private int cost;
 
     /**
@@ -66,6 +78,7 @@ public class Armor {
     /**
      * The type of armor.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ArmorType type;

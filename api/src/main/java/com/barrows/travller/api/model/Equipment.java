@@ -6,6 +6,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents an equipment item in the Traveller RPG system.
@@ -27,12 +32,15 @@ public class Equipment {
     /**
      * The name of the equipment.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
     /**
      * The type of equipment.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EquipmentType type;
@@ -46,16 +54,20 @@ public class Equipment {
     /**
      * The tech level required to manufacture this equipment.
      */
+    @Min(0)
+    @Max(15)
     private int techLevel;
 
     /**
      * The cost of the equipment in credits.
      */
+    @Min(0)
     private int cost;
 
     /**
      * The weight of the equipment in kg.
      */
+    @DecimalMin("0.0")
     private BigDecimal weight;
 
     /**
@@ -71,6 +83,8 @@ public class Equipment {
     /**
      * The law level at which this equipment becomes restricted.
      */
+    @Min(0)
+    @Max(9)
     private int restrictedLawLevel;
 
     /**
@@ -81,6 +95,8 @@ public class Equipment {
     /**
      * The bonus provided to skill checks when using this equipment.
      */
+    @Min(-3)
+    @Max(3)
     private int skillBonus;
 
     /**
@@ -104,11 +120,14 @@ public class Equipment {
     /**
      * The durability of the equipment (how well it withstands damage).
      */
+    @Min(1)
     private int durability;
 
     /**
      * The current condition of the equipment (100% = perfect).
      */
+    @Min(0)
+    @Max(100)
     private int condition;
 
     /**

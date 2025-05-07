@@ -6,6 +6,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents an animal in the Traveller RPG system.
@@ -27,12 +31,15 @@ public class Animal {
     /**
      * The name of the animal.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
     /**
      * The type of animal.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AnimalType type;
@@ -56,11 +63,13 @@ public class Animal {
     /**
      * The movement speed of the animal (in meters per action).
      */
+    @Min(0)
     private int movementSpeed;
 
     /**
      * The armor rating of the animal (natural protection).
      */
+    @Min(0)
     private int armorRating;
 
     /**
@@ -74,21 +83,29 @@ public class Animal {
     /**
      * The strength of the animal (used for physical tasks).
      */
+    @Min(0)
+    @Max(15)
     private int strength;
 
     /**
      * The dexterity of the animal (used for agility and speed).
      */
+    @Min(0)
+    @Max(15)
     private int dexterity;
 
     /**
      * The endurance of the animal (used for stamina and health).
      */
+    @Min(0)
+    @Max(15)
     private int endurance;
 
     /**
      * The intelligence of the animal (used for problem-solving).
      */
+    @Min(0)
+    @Max(15)
     private int intelligence;
 
     /**
@@ -102,11 +119,14 @@ public class Animal {
     /**
      * The typical cost to purchase this animal (in credits).
      */
+    @Min(0)
     private int cost;
 
     /**
      * The tech level required to handle or breed this animal.
      */
+    @Min(0)
+    @Max(15)
     private int techLevel;
 
     /**

@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.time.LocalDate;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents a character in the Traveller RPG system.
@@ -29,12 +32,15 @@ public class Character {
     /**
      * The name of the character.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
     /**
      * The age of the character in years.
      */
+    @Min(0)
     private int age;
 
     /**
@@ -45,6 +51,7 @@ public class Character {
     /**
      * The race of the character.
      */
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "race_id")
     private Race race;
@@ -120,6 +127,7 @@ public class Character {
     /**
      * The character's current credits.
      */
+    @Min(0)
     private int credits;
 
     /**
@@ -131,6 +139,7 @@ public class Character {
     /**
      * The character's current status (Alive, Dead, Retired).
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CharacterStatus status;

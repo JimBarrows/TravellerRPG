@@ -3,6 +3,10 @@ package com.barrows.travller.api.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents a benefit table entry for mustering out.
@@ -22,11 +26,15 @@ public class BenefitTable {
     /**
      * The dice roll result that corresponds to this benefit.
      */
+    @Min(1)
+    @Max(6)
     private int diceRoll;
 
     /**
      * The benefit description.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String benefit;
 

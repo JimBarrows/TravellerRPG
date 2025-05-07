@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.HashMap;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Represents an environment in the Traveller RPG system.
@@ -27,12 +30,15 @@ public class Environment {
     /**
      * The name of the environment.
      */
+    @NotNull
+    @NotEmpty
     @Column(nullable = false)
     private String name;
 
     /**
      * The type of environment.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EnvironmentType type;
@@ -40,11 +46,13 @@ public class Environment {
     /**
      * The gravity level relative to Earth (1.0 = Earth normal).
      */
+    @DecimalMin("0.0")
     private BigDecimal gravity;
 
     /**
      * The atmosphere type.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AtmosphereType atmosphere;
@@ -57,6 +65,7 @@ public class Environment {
     /**
      * The visibility conditions.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VisibilityType visibility;
