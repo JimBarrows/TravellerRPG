@@ -1,0 +1,146 @@
+package com.barrows.travller.api.model;
+
+import lombok.Data;
+
+/**
+ * Represents armor in the Traveller RPG system.
+ * Armor provides protection against damage in combat.
+ */
+@Data
+public class Armor {
+
+    /**
+     * The name of the armor.
+     */
+    private String name;
+
+    /**
+     * The tech level required to manufacture this armor.
+     */
+    private int techLevel;
+
+    /**
+     * The protection value against physical damage.
+     */
+    private int protection;
+
+    /**
+     * The protection value against energy weapons.
+     */
+    private int energyProtection;
+
+    /**
+     * The protection value against radiation.
+     */
+    private int radiationProtection;
+
+    /**
+     * The cost of the armor in credits.
+     */
+    private int cost;
+
+    /**
+     * The weight of the armor in kg.
+     */
+    private double weight;
+
+    /**
+     * Whether the armor is powered (e.g., battle dress).
+     */
+    private boolean powered;
+
+    /**
+     * The type of armor.
+     */
+    private ArmorType type;
+
+    /**
+     * Creates a new armor with the specified properties.
+     *
+     * @param name The name of the armor
+     * @param type The type of armor
+     * @param techLevel The tech level required
+     * @param protection The protection value
+     */
+    public Armor(String name, ArmorType type, int techLevel, int protection) {
+        this.name = name;
+        this.type = type;
+        this.techLevel = techLevel;
+        this.protection = protection;
+        this.energyProtection = protection;
+        this.radiationProtection = 0;
+        this.cost = 0;
+        this.weight = 0.0;
+        this.powered = false;
+    }
+
+    /**
+     * Creates a new armor with different protection values for different damage types.
+     *
+     * @param name The name of the armor
+     * @param type The type of armor
+     * @param techLevel The tech level required
+     * @param protection The protection value against physical damage
+     * @param energyProtection The protection value against energy weapons
+     * @param radiationProtection The protection value against radiation
+     */
+    public Armor(String name, ArmorType type, int techLevel, int protection, int energyProtection, int radiationProtection) {
+        this(name, type, techLevel, protection);
+        this.energyProtection = energyProtection;
+        this.radiationProtection = radiationProtection;
+    }
+
+    /**
+     * Creates a new powered armor.
+     *
+     * @param name The name of the armor
+     * @param type The type of armor
+     * @param techLevel The tech level required
+     * @param protection The protection value
+     * @param energyProtection The protection value against energy weapons
+     * @param radiationProtection The protection value against radiation
+     * @return A new powered armor
+     */
+    public static Armor createPoweredArmor(String name, ArmorType type, int techLevel, int protection,
+                                          int energyProtection, int radiationProtection) {
+        Armor armor = new Armor(name, type, techLevel, protection, energyProtection, radiationProtection);
+        armor.setPowered(true);
+        return armor;
+    }
+
+    /**
+     * Calculates the damage reduction for a given attack.
+     *
+     * @param damage The incoming damage
+     * @param isEnergyWeapon Whether the attack is from an energy weapon
+     * @return The reduced damage after armor protection
+     */
+    public int reduceDamage(int damage, boolean isEnergyWeapon) {
+        int protectionValue = isEnergyWeapon ? energyProtection : protection;
+        return Math.max(0, damage - protectionValue);
+    }
+
+    /**
+     * Reduces radiation damage.
+     *
+     * @param radiation The incoming radiation damage
+     * @return The reduced radiation damage after armor protection
+     */
+    public int reduceRadiation(int radiation) {
+        return Math.max(0, radiation - radiationProtection);
+    }
+
+    /**
+     * Returns a string representation of the armor.
+     *
+     * @return A string in the format "Name (Protection)"
+     */
+    @Override
+    public String toString() {
+        if (protection == energyProtection) {
+            return name + " (Protection: " + protection + ")";
+        } else {
+            return name + " (Physical: " + protection + ", Energy: " + energyProtection + ")";
+        }
+    }
+}
