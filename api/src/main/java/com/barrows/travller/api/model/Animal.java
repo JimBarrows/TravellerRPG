@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
@@ -45,7 +46,7 @@ public class Animal {
     /**
      * The size of the animal (in kg).
      */
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * The typical habitat of the animal.
@@ -128,7 +129,7 @@ public class Animal {
         this.name = name;
         this.type = type;
         this.description = "";
-        this.weight = 0.0;
+        this.weight = BigDecimal.ZERO;
         this.habitat = "";
         this.movementSpeed = 0;
         this.armorRating = 0;
@@ -167,11 +168,11 @@ public class Animal {
      *
      * @return The carrying capacity in kg, or 0 if not suitable as a beast of burden
      */
-    public double getCarryingCapacity() {
+    public BigDecimal getCarryingCapacity() {
         if (type == AnimalType.MOUNT || type == AnimalType.LIVESTOCK) {
-            return strength * 10.0; // Simple formula: 10kg per point of strength
+            return BigDecimal.valueOf(strength * 10); // Simple formula: 10kg per point of strength
         }
-        return 0.0;
+        return BigDecimal.ZERO;
     }
 
     /**

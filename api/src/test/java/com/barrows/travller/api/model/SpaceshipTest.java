@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.math.BigDecimal;
 
 /**
  * Tests for the Spaceship class.
@@ -23,7 +24,7 @@ public class SpaceshipTest {
         Spaceship freeTrader = SpaceshipFactory.createFreeTrader();
         assertEquals("Free Trader", freeTrader.getName());
         assertEquals(SpaceshipType.TRADER, freeTrader.getType());
-        assertEquals(37.0, freeTrader.getCostMCr());
+        assertEquals(new BigDecimal("37.0"), freeTrader.getCostMCr());
 
         // Test features
         assertTrue(freeTrader.getFeatures().contains("Cargo Handling Equipment"));
@@ -90,21 +91,21 @@ public class SpaceshipTest {
         Spaceship scout = SpaceshipFactory.createScout();
 
         // Test jump fuel calculations
-        assertEquals(10.0, scout.calculateFuelForJump(1)); // 100 tons * 0.1 * 1 parsec
-        assertEquals(20.0, scout.calculateFuelForJump(2)); // 100 tons * 0.1 * 2 parsecs
-        assertEquals(-1, scout.calculateFuelForJump(3)); // Beyond jump rating
+        assertEquals(new BigDecimal("10.0"), scout.calculateFuelForJump(1)); // 100 tons * 0.1 * 1 parsec
+        assertEquals(new BigDecimal("20.0"), scout.calculateFuelForJump(2)); // 100 tons * 0.1 * 2 parsecs
+        assertEquals(new BigDecimal("-1"), scout.calculateFuelForJump(3)); // Beyond jump rating
 
         // Test fuel capacity checks
-        scout.setFuelCapacity(30.0);
+        scout.setFuelCapacity(new BigDecimal("30.0"));
         assertTrue(scout.hasEnoughFuelForJump(1));
         assertTrue(scout.hasEnoughFuelForJump(2));
         assertFalse(scout.hasEnoughFuelForJump(3));
 
         // Test jump execution
         assertTrue(scout.performJump(1));
-        assertEquals(20.0, scout.getFuelCapacity()); // 30 - 10 = 20
+        assertEquals(new BigDecimal("20.0"), scout.getFuelCapacity()); // 30 - 10 = 20
         assertTrue(scout.performJump(2)); // Still has enough fuel for a jump-2
-        assertEquals(0.0, scout.getFuelCapacity()); // 20 - 20 = 0
+        assertEquals(new BigDecimal("0.0"), scout.getFuelCapacity()); // 20 - 20 = 0
     }
 
     @Test

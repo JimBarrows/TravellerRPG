@@ -2,6 +2,7 @@ package com.barrows.travller.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.*;
@@ -50,7 +51,7 @@ public class Spaceship {
     /**
      * The cost of the spaceship in credits (MCr = millions of credits).
      */
-    private double costMCr;
+    private BigDecimal costMCr;
 
     /**
      * The displacement tonnage of the spaceship.
@@ -90,7 +91,7 @@ public class Spaceship {
     /**
      * The cargo capacity in tons.
      */
-    private double cargoCapacity;
+    private BigDecimal cargoCapacity;
 
     /**
      * The jump drive rating (0 = no jump drive, 1-6 = jump capability).
@@ -151,7 +152,7 @@ public class Spaceship {
     /**
      * The fuel capacity in tons.
      */
-    private double fuelCapacity;
+    private BigDecimal fuelCapacity;
 
     /**
      * Whether the spaceship has a fuel scoop.
@@ -161,7 +162,7 @@ public class Spaceship {
     /**
      * The fuel consumption rate per jump.
      */
-    private double fuelConsumptionPerJump;
+    private BigDecimal fuelConsumptionPerJump;
 
     /**
      * The maintenance requirements of the spaceship.
@@ -171,7 +172,7 @@ public class Spaceship {
     /**
      * The annual maintenance cost in credits.
      */
-    private double annualMaintenanceCost;
+    private BigDecimal annualMaintenanceCost;
 
     /**
      * The current condition of the spaceship (100% = perfect).
@@ -189,7 +190,7 @@ public class Spaceship {
         this.type = type;
         this.description = "";
         this.techLevel = 0;
-        this.costMCr = 0.0;
+        this.costMCr = BigDecimal.ZERO;
         this.displacementTons = 0;
         this.availability = "Rare";
         this.requiresPermit = true;
@@ -197,7 +198,7 @@ public class Spaceship {
         this.requiredSkill = "";
         this.crewRequired = 1;
         this.passengerCapacity = 0;
-        this.cargoCapacity = 0.0;
+        this.cargoCapacity = BigDecimal.ZERO;
         this.jumpDriveRating = 0;
         this.maneuverDriveRating = 0;
         this.powerPlantRating = 0;
@@ -208,11 +209,11 @@ public class Spaceship {
         this.maxStructurePoints = 20;
         this.features = new ArrayList<>();
         this.weapons = new ArrayList<>();
-        this.fuelCapacity = 0.0;
+        this.fuelCapacity = BigDecimal.ZERO;
         this.hasFuelScoop = false;
-        this.fuelConsumptionPerJump = 0.0;
+        this.fuelConsumptionPerJump = BigDecimal.ZERO;
         this.maintenanceRequirements = "";
-        this.annualMaintenanceCost = 0.0;
+        this.annualMaintenanceCost = BigDecimal.ZERO;
         this.condition = 100;
     }
 
@@ -311,14 +312,14 @@ public class Spaceship {
      * @param jumpDistance The distance of the jump (1-6 parsecs)
      * @return The amount of fuel required in tons, or -1 if the jump is not possible
      */
-    public double calculateFuelForJump(int jumpDistance) {
+    public BigDecimal calculateFuelForJump(int jumpDistance) {
         // Check if jump is possible with this ship's jump drive
         if (jumpDistance > jumpDriveRating || jumpDistance <= 0) {
-            return -1;
+            return BigDecimal.valueOf(-1);
         }
 
         // In Traveller, fuel consumption is typically 10% of displacement per parsec jumped
-        return (displacementTons * 0.1) * jumpDistance;
+        return BigDecimal.valueOf(displacementTons * 0.1).multiply(BigDecimal.valueOf(jumpDistance));
     }
 
     /**
@@ -328,8 +329,8 @@ public class Spaceship {
      * @return true if the ship has enough fuel, false otherwise
      */
     public boolean hasEnoughFuelForJump(int jumpDistance) {
-        double requiredFuel = calculateFuelForJump(jumpDistance);
-        return requiredFuel > 0 && fuelCapacity >= requiredFuel;
+        BigDecimal requiredFuel = calculateFuelForJump(jumpDistance);
+        return requiredFuel.compareTo(BigDecimal.ZERO) > 0 && fuelCapacity.compareTo(requiredFuel) >= 0;
     }
 
     /**
@@ -345,8 +346,8 @@ public class Spaceship {
         }
 
         // Consume fuel
-        double fuelConsumed = calculateFuelForJump(jumpDistance);
-        fuelCapacity -= fuelConsumed;
+        BigDecimal fuelConsumed = calculateFuelForJump(jumpDistance);
+        fuelCapacity = fuelCapacity.subtract(fuelConsumed);
 
         // In a real implementation, this would involve more complex logic
         // such as jump calculations, misjump possibilities, etc.
@@ -360,9 +361,9 @@ public class Spaceship {
      * @param amount The amount of fuel to add in tons
      * @return The new fuel capacity
      */
-    public double refuel(double amount) {
-        double maxRefuel = fuelConsumptionPerJump * jumpDriveRating; // Maximum fuel capacity
-        fuelCapacity = Math.min(maxRefuel, fuelCapacity + amount);
+    public BigDecimal refuel(BigDecimal amount) {
+        BigDecimal maxRefuel = fuelConsumptionPerJump.multiply(BigDecimal.valueOf(jumpDriveRating)); // Maximum fuel capacity
+        fuelCapacity = fuelCapacity.add(amount).min(maxRefuel);
         return fuelCapacity;
     }
 

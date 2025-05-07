@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -103,7 +104,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
      * @param minCargo The minimum cargo capacity in tons
      * @return A list of vehicles with sufficient cargo capacity
      */
-    List<Vehicle> findByCargoCapacityGreaterThanEqual(double minCargo);
+    List<Vehicle> findByCargoCapacityGreaterThanEqual(BigDecimal minCargo);
 
     /**
      * Finds vehicles with weapons.

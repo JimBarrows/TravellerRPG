@@ -1,5 +1,7 @@
 package com.barrows.travller.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * Factory class for creating standard animals in the Traveller RPG system.
  */

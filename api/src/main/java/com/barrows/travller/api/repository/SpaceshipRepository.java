@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public interface SpaceshipRepository extends JpaRepository<Spaceship, Long> {
      * @param maxPrice The maximum price in MCr
      * @return A list of spaceships within the price range
      */
-    List<Spaceship> findByCostMCrBetween(double minPrice, double maxPrice);
+    List<Spaceship> findByCostMCrBetween(BigDecimal minPrice, BigDecimal maxPrice);
 
     /**
      * Finds spaceships that are legal at the specified law level.
@@ -103,7 +104,7 @@ public interface SpaceshipRepository extends JpaRepository<Spaceship, Long> {
      * @param minCargo The minimum cargo capacity in tons
      * @return A list of spaceships with sufficient cargo capacity
      */
-    List<Spaceship> findByCargoCapacityGreaterThanEqual(double minCargo);
+    List<Spaceship> findByCargoCapacityGreaterThanEqual(BigDecimal minCargo);
 
     /**
      * Finds spaceships with a jump drive rating greater than or equal to the specified value.
