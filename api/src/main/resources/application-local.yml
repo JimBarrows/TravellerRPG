@@ -1,0 +1,23 @@
+# Local development profile
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+    schema:
+      printer:
+        enabled: true
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: DEBUG
+        graphql: DEBUG
+        transaction: DEBUG
+    graphql: DEBUG
+    sql: DEBUG

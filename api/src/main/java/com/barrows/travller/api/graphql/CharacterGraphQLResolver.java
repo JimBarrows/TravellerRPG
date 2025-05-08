@@ -47,11 +47,27 @@ public class CharacterGraphQLResolver {
     }
 
     /**
-     * Query to get all characters.
+     * Query to get all characters with Relay pagination.
      */
     @QueryMapping
-    public List<com.barrows.travller.api.model.Character> characters() {
-        return characterRepository.findAll();
+    public com.barrows.travller.api.graphql.relay.character.CharacterConnection characters(
+            @Argument Integer first,
+            @Argument String after,
+            @Argument Integer last,
+            @Argument String before) {
+
+        // Get all characters
+        List<com.barrows.travller.api.model.Character> characters = characterRepository.findAll();
+
+        // Create a connection using the ConnectionUtil
+        return com.barrows.travller.api.graphql.relay.ConnectionUtil.createConnection(
+                characters,
+                first,
+                after,
+                last,
+                before,
+                new com.barrows.travller.api.graphql.relay.character.CharacterConnectionFactory()
+        );
     }
 
     /**

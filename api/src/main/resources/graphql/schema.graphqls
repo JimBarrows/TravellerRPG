@@ -1,34 +1,58 @@
-"""
-Root GraphQL schema for Traveller RPG API
-"""
+# Root GraphQL schema for Traveller RPG API with Relay support
+
+# An object with an ID
+interface Node {
+    # The ID of the object.
+    id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+    # When paginating forwards, are there more items?
+    hasNextPage: Boolean!
+
+    # When paginating backwards, are there more items?
+    hasPreviousPage: Boolean!
+
+    # When paginating backwards, the cursor to continue.
+    startCursor: String
+
+    # When paginating forwards, the cursor to continue.
+    endCursor: String
+}
 
 type Query {
+    # Fetches an object given its ID
+    node(id: ID!): Node
+
+    # Fetches objects given their IDs
+    nodes(ids: [ID!]!): [Node]!
     # Character queries
     character(id: ID!): Character
-    characters: [Character]
+    characters(first: Int, after: String, last: Int, before: String): CharacterConnection
 
     # Career queries
     career(id: ID!): Career
-    careers: [Career]
+    careers(first: Int, after: String, last: Int, before: String): CareerConnection
 
     # Skill queries
     skill(id: ID!): Skill
-    skills: [Skill]
-    skillsByCategory(category: SkillCategory!): [Skill]
+    skills(first: Int, after: String, last: Int, before: String): SkillConnection
+    skillsByCategory(category: SkillCategory!, first: Int, after: String, last: Int, before: String): SkillConnection
 
     # World queries
     world(id: ID!): World
-    worlds: [World]
+    worlds(first: Int, after: String, last: Int, before: String): WorldConnection
 
     # Equipment queries
     weapon(id: ID!): Weapon
-    weapons: [Weapon]
+    weapons(first: Int, after: String, last: Int, before: String): WeaponConnection
     armor(id: ID!): Armor
-    armors: [Armor]
+    armors(first: Int, after: String, last: Int, before: String): ArmorConnection
     vehicle(id: ID!): Vehicle
-    vehicles: [Vehicle]
+    vehicles(first: Int, after: String, last: Int, before: String): VehicleConnection
     spaceship(id: ID!): Spaceship
-    spaceships: [Spaceship]
+    spaceships(first: Int, after: String, last: Int, before: String): SpaceshipConnection
 }
 
 type Mutation {
@@ -79,7 +103,26 @@ enum SkillCategory {
     ADVANCED_EDUCATION_MARINES
 }
 
-type Character {
+# Connection types for Relay pagination
+type CharacterEdge {
+    # The item at the end of the edge
+    node: Character!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type CharacterConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [CharacterEdge]
+    # A list of nodes
+    nodes: [Character]
+    # Total count of items
+    totalCount: Int
+}
+
+type Character implements Node {
     id: ID!
     name: String!
     age: Int!
@@ -139,7 +182,25 @@ type Homeworld {
     skills: [Skill!]!
 }
 
-type Career {
+type CareerEdge {
+    # The item at the end of the edge
+    node: Career!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type CareerConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [CareerEdge]
+    # A list of nodes
+    nodes: [Career]
+    # Total count of items
+    totalCount: Int
+}
+
+type Career implements Node {
     id: ID!
     name: String!
     description: String
@@ -160,7 +221,25 @@ type CareerTerm {
     survived: Boolean!
 }
 
-type Skill {
+type SkillEdge {
+    # The item at the end of the edge
+    node: Skill!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type SkillConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [SkillEdge]
+    # A list of nodes
+    nodes: [Skill]
+    # Total count of items
+    totalCount: Int
+}
+
+type Skill implements Node {
     id: ID!
     name: String!
     category: SkillCategory!
@@ -202,7 +281,25 @@ type CareerTermResult {
 }
 
 # World types
-type World {
+type WorldEdge {
+    # The item at the end of the edge
+    node: World!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type WorldConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [WorldEdge]
+    # A list of nodes
+    nodes: [World]
+    # Total count of items
+    totalCount: Int
+}
+
+type World implements Node {
     id: ID!
     name: String!
     type: WorldType!
@@ -283,7 +380,25 @@ enum EquipmentType {
     SURVIVAL
 }
 
-type Weapon {
+type WeaponEdge {
+    # The item at the end of the edge
+    node: Weapon!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type WeaponConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [WeaponEdge]
+    # A list of nodes
+    nodes: [Weapon]
+    # Total count of items
+    totalCount: Int
+}
+
+type Weapon implements Node {
     id: ID!
     name: String!
     type: WeaponType!
@@ -307,7 +422,25 @@ enum WeaponType {
     NATURAL
 }
 
-type Armor {
+type ArmorEdge {
+    # The item at the end of the edge
+    node: Armor!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type ArmorConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [ArmorEdge]
+    # A list of nodes
+    nodes: [Armor]
+    # Total count of items
+    totalCount: Int
+}
+
+type Armor implements Node {
     id: ID!
     name: String!
     type: ArmorType!
@@ -327,7 +460,25 @@ enum ArmorType {
     NATURAL
 }
 
-type Vehicle {
+type VehicleEdge {
+    # The item at the end of the edge
+    node: Vehicle!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type VehicleConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [VehicleEdge]
+    # A list of nodes
+    nodes: [Vehicle]
+    # Total count of items
+    totalCount: Int
+}
+
+type Vehicle implements Node {
     id: ID!
     name: String!
     type: VehicleType!
@@ -349,7 +500,25 @@ enum VehicleType {
     GRAV
 }
 
-type Spaceship {
+type SpaceshipEdge {
+    # The item at the end of the edge
+    node: Spaceship!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type SpaceshipConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [SpaceshipEdge]
+    # A list of nodes
+    nodes: [Spaceship]
+    # Total count of items
+    totalCount: Int
+}
+
+type Spaceship implements Node {
     id: ID!
     name: String!
     type: SpaceshipType!
