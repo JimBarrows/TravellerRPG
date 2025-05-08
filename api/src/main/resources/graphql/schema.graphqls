@@ -1,0 +1,379 @@
+"""
+Root GraphQL schema for Traveller RPG API
+"""
+
+type Query {
+    # Character queries
+    character(id: ID!): Character
+    characters: [Character]
+
+    # Career queries
+    career(id: ID!): Career
+    careers: [Career]
+
+    # Skill queries
+    skill(id: ID!): Skill
+    skills: [Skill]
+    skillsByCategory(category: SkillCategory!): [Skill]
+
+    # World queries
+    world(id: ID!): World
+    worlds: [World]
+
+    # Equipment queries
+    weapon(id: ID!): Weapon
+    weapons: [Weapon]
+    armor(id: ID!): Armor
+    armors: [Armor]
+    vehicle(id: ID!): Vehicle
+    vehicles: [Vehicle]
+    spaceship(id: ID!): Spaceship
+    spaceships: [Spaceship]
+}
+
+type Mutation {
+    # Character mutations
+    createCharacter(input: CharacterInput!): Character
+    updateCharacter(id: ID!, input: CharacterInput!): Character
+    deleteCharacter(id: ID!): Boolean
+
+    # Character creation mutations
+    generateCharacteristics(characterId: ID!): Character
+    selectHomeworld(characterId: ID!, homeworldId: ID!): Character
+    selectCareer(characterId: ID!, careerId: ID!): Character
+    attemptCareerQualification(characterId: ID!): CareerQualificationResult
+    completeCareerTerm(characterId: ID!): CareerTermResult
+    musterOut(characterId: ID!): Character
+
+    # Equipment mutations
+    addWeaponToCharacter(characterId: ID!, weaponId: ID!): Character
+    addArmorToCharacter(characterId: ID!, armorId: ID!): Character
+    equipWeapon(characterId: ID!, weaponId: ID!): Character
+    equipArmor(characterId: ID!, armorId: ID!): Character
+}
+
+# Import other schema files
+# Character types
+scalar Date
+
+enum CharacterStatus {
+    ALIVE
+    DEAD
+    RETIRED
+}
+
+enum CharacteristicType {
+    STRENGTH
+    DEXTERITY
+    ENDURANCE
+    INTELLIGENCE
+    EDUCATION
+    SOCIAL_STANDING
+}
+
+enum SkillCategory {
+    PERSONAL_DEVELOPMENT
+    SERVICE_SKILLS
+    ADVANCED_EDUCATION
+    ADVANCED_EDUCATION_NAVAL
+    ADVANCED_EDUCATION_MARINES
+}
+
+type Character {
+    id: ID!
+    name: String!
+    age: Int!
+    gender: String
+    race: Race!
+    characteristics: [Characteristic!]!
+    skills: [Skill!]!
+    homeworld: Homeworld
+    careerHistory: [CareerTerm!]!
+    weapons: [Weapon!]!
+    armor: [Armor!]!
+    equippedWeapon: Weapon
+    equippedArmor: Armor
+    credits: Int!
+    background: String
+    status: CharacterStatus!
+}
+
+input CharacterInput {
+    name: String!
+    gender: String
+    raceId: ID!
+    homeworldId: ID
+    background: String
+}
+
+type Characteristic {
+    id: ID!
+    type: CharacteristicType!
+    value: Int!
+    originalValue: Int!
+}
+
+type Race {
+    id: ID!
+    type: RaceType!
+    description: String
+    characteristicModifiers: [CharacteristicModifier!]!
+}
+
+enum RaceType {
+    HUMAN
+    ASLAN
+    VARGR
+    ZHODANI
+    DROYNE
+}
+
+type CharacteristicModifier {
+    characteristicType: CharacteristicType!
+    modifier: Int!
+}
+
+type Homeworld {
+    id: ID!
+    world: World!
+    skills: [Skill!]!
+}
+
+type Career {
+    id: ID!
+    name: String!
+    description: String
+    qualificationCharacteristic: CharacteristicType!
+    qualificationDifficulty: Int!
+    skillTables: [SkillTable!]!
+    benefitTables: [BenefitTable!]!
+    ranks: [Rank!]!
+}
+
+type CareerTerm {
+    id: ID!
+    career: Career!
+    rank: Int!
+    skills: [Skill!]!
+    benefits: [String!]!
+    events: [String!]!
+    survived: Boolean!
+}
+
+type Skill {
+    id: ID!
+    name: String!
+    category: SkillCategory!
+    level: Int!
+    description: String
+}
+
+type SkillTable {
+    id: ID!
+    name: String!
+    skills: [Skill!]!
+}
+
+type BenefitTable {
+    id: ID!
+    name: String!
+    benefits: [String!]!
+}
+
+type Rank {
+    id: ID!
+    title: String!
+    skills: [Skill!]!
+}
+
+type CareerQualificationResult {
+    character: Character!
+    qualified: Boolean!
+    drafted: Boolean!
+    career: Career
+}
+
+type CareerTermResult {
+    character: Character!
+    survived: Boolean!
+    skills: [Skill!]!
+    benefits: [String!]!
+    events: [String!]!
+}
+
+# World types
+type World {
+    id: ID!
+    name: String!
+    type: WorldType!
+    size: Int!
+    atmosphere: AtmosphereType!
+    hydrographics: Int!
+    population: Int!
+    government: Int!
+    lawLevel: Int!
+    techLevel: Int!
+    starport: String!
+    bases: String
+    travelZone: TravelZone!
+    description: String
+}
+
+enum WorldType {
+    TERRESTRIAL
+    GAS_GIANT
+    ASTEROID_BELT
+}
+
+enum AtmosphereType {
+    NONE
+    TRACE
+    VERY_THIN_TAINTED
+    VERY_THIN
+    THIN_TAINTED
+    THIN
+    STANDARD
+    STANDARD_TAINTED
+    DENSE
+    DENSE_TAINTED
+    EXOTIC
+    CORROSIVE
+    INSIDIOUS
+}
+
+enum TravelZone {
+    GREEN
+    AMBER
+    RED
+}
+
+type Sector {
+    id: ID!
+    name: String!
+    subsectors: [Subsector!]!
+    description: String
+}
+
+type Subsector {
+    id: ID!
+    name: String!
+    worlds: [World!]!
+    description: String
+}
+
+# Equipment types
+type Equipment {
+    id: ID!
+    name: String!
+    type: EquipmentType!
+    techLevel: Int!
+    cost: Int!
+    weight: Float!
+    description: String
+}
+
+enum EquipmentType {
+    GENERAL
+    WEAPON
+    ARMOR
+    VEHICLE
+    SPACESHIP
+    MEDICAL
+    ELECTRONIC
+    SURVIVAL
+}
+
+type Weapon {
+    id: ID!
+    name: String!
+    type: WeaponType!
+    techLevel: Int!
+    cost: Int!
+    weight: Float!
+    damage: String!
+    range: Int!
+    magazine: Int
+    rateOfFire: Int
+    description: String
+}
+
+enum WeaponType {
+    MELEE
+    PISTOL
+    RIFLE
+    SHOTGUN
+    HEAVY_WEAPON
+    EXPLOSIVE
+    NATURAL
+}
+
+type Armor {
+    id: ID!
+    name: String!
+    type: ArmorType!
+    techLevel: Int!
+    cost: Int!
+    weight: Float!
+    protection: Int!
+    radiationProtection: Int!
+    description: String
+}
+
+enum ArmorType {
+    LIGHT
+    MEDIUM
+    HEAVY
+    POWERED
+    NATURAL
+}
+
+type Vehicle {
+    id: ID!
+    name: String!
+    type: VehicleType!
+    techLevel: Int!
+    cost: Int!
+    weight: Float!
+    speed: Int!
+    range: Int!
+    capacity: Int!
+    armor: Int!
+    weapons: [Weapon!]!
+    description: String
+}
+
+enum VehicleType {
+    GROUND
+    WATER
+    AIR
+    GRAV
+}
+
+type Spaceship {
+    id: ID!
+    name: String!
+    type: SpaceshipType!
+    techLevel: Int!
+    cost: Int!
+    tonnage: Int!
+    jumpRating: Int!
+    maneuverRating: Int!
+    powerPlant: Int!
+    fuelCapacity: Int!
+    cargoCapacity: Int!
+    staterooms: Int!
+    lowBerths: Int!
+    weapons: [Weapon!]!
+    description: String
+}
+
+enum SpaceshipType {
+    SCOUT
+    COURIER
+    MERCHANT
+    YACHT
+    PATROL
+    WARSHIP
+    CAPITAL_SHIP
+    STATION
+}

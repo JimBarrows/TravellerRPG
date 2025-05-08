@@ -1,0 +1,759 @@
+package com.barrows.travller.api.graphql;
+
+import com.barrows.travller.api.model.Armor;
+import com.barrows.travller.api.model.BenefitTable;
+import com.barrows.travller.api.model.Career;
+import com.barrows.travller.api.model.CareerTerm;
+import com.barrows.travller.api.model.Characteristic;
+import com.barrows.travller.api.model.CharacterStatus;
+import com.barrows.travller.api.model.CharacteristicType;
+import com.barrows.travller.api.model.Homeworld;
+import com.barrows.travller.api.model.Race;
+import com.barrows.travller.api.model.Rank;
+import com.barrows.travller.api.model.Skill;
+import com.barrows.travller.api.model.SkillTable;
+import com.barrows.travller.api.model.Weapon;
+import com.barrows.travller.api.repository.ArmorRepository;
+import com.barrows.travller.api.repository.CareerRepository;
+import com.barrows.travller.api.repository.CharacterRepository;
+import com.barrows.travller.api.repository.HomeworldRepository;
+import com.barrows.travller.api.repository.RaceRepository;
+import com.barrows.travller.api.repository.WeaponRepository;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+/**
+ * GraphQL resolver for Character-related queries and mutations.
+ */
+@Controller
+public class CharacterResolver {
+
+    private final CharacterRepository characterRepository;
+    private final RaceRepository raceRepository;
+    private final HomeworldRepository homeworldRepository;
+    private final CareerRepository careerRepository;
+    private final WeaponRepository weaponRepository;
+    private final ArmorRepository armorRepository;
+    private final Random random = new Random();
+
+    public CharacterResolver(CharacterRepository characterRepository,
+                            RaceRepository raceRepository,
+                            HomeworldRepository homeworldRepository,
+                            CareerRepository careerRepository,
+                            WeaponRepository weaponRepository,
+                            ArmorRepository armorRepository) {
+        this.characterRepository = characterRepository;
+        this.raceRepository = raceRepository;
+        this.homeworldRepository = homeworldRepository;
+        this.careerRepository = careerRepository;
+        this.weaponRepository = weaponRepository;
+        this.armorRepository = armorRepository;
+    }
+
+    /**
+     * Query to get a character by ID.
+     */
+    @QueryMapping
+    public Character character(@Argument Long id) {
+        return characterRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * Query to get all characters.
+     */
+    @QueryMapping
+    public List<Character> characters() {
+        return characterRepository.findAll();
+    }
+
+    /**
+     * Mutation to create a new character.
+     */
+    @MutationMapping
+    public Character createCharacter(@Argument CharacterInput input) {
+        Race race = raceRepository.findById(input.getRaceId())
+                .orElseThrow(() -> new IllegalArgumentException("Race not found"));
+
+        Character character = new Character(input.getName(), race);
+        character.setGender(input.getGender());
+        character.setBackground(input.getBackground());
+
+        if (input.getHomeworldId() != null) {
+            Homeworld homeworld = homeworldRepository.findById(input.getHomeworldId())
+                    .orElseThrow(() -> new IllegalArgumentException("Homeworld not found"));
+            character.setHomeworld(homeworld);
+        }
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to update an existing character.
+     */
+    @MutationMapping
+    public Character updateCharacter(@Argument Long id, @Argument CharacterInput input) {
+        Character character = characterRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        character.setName(input.getName());
+        character.setGender(input.getGender());
+        character.setBackground(input.getBackground());
+
+        if (input.getRaceId() != null) {
+            Race race = raceRepository.findById(input.getRaceId())
+                    .orElseThrow(() -> new IllegalArgumentException("Race not found"));
+            character.setRace(race);
+        }
+
+        if (input.getHomeworldId() != null) {
+            Homeworld homeworld = homeworldRepository.findById(input.getHomeworldId())
+                    .orElseThrow(() -> new IllegalArgumentException("Homeworld not found"));
+            character.setHomeworld(homeworld);
+        }
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to delete a character.
+     */
+    @MutationMapping
+    public boolean deleteCharacter(@Argument Long id) {
+        if (characterRepository.existsById(id)) {
+            characterRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Mutation to generate characteristics for a character.
+     * In Traveller, characteristics are typically generated by rolling 2d6.
+     */
+    @MutationMapping
+    public Character generateCharacteristics(@Argument Long characterId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        // Clear existing characteristics
+        character.getCharacteristics().clear();
+
+        // Generate new characteristics (2d6 for each)
+        for (CharacteristicType type : CharacteristicType.values()) {
+            int value = rollDice(2, 6);
+            Characteristic characteristic = new Characteristic(type, value);
+            character.addCharacteristic(characteristic);
+        }
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to select a homeworld for a character.
+     */
+    @MutationMapping
+    public Character selectHomeworld(@Argument Long characterId, @Argument Long homeworldId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Homeworld homeworld = homeworldRepository.findById(homeworldId)
+                .orElseThrow(() -> new IllegalArgumentException("Homeworld not found"));
+
+        character.setHomeworld(homeworld);
+
+        // Add homeworld skills to character
+        for (Skill skill : homeworld.getSkills()) {
+            character.addSkill(skill);
+        }
+
+        // Update background to reflect homeworld
+        String background = character.getBackground();
+        if (background == null) {
+            background = "";
+        }
+        background += "Born and raised on " + homeworld.getWorld().getName() + ". ";
+        character.setBackground(background);
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to select a career for a character.
+     */
+    @MutationMapping
+    public Character selectCareer(@Argument Long characterId, @Argument Long careerId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Career career = careerRepository.findById(careerId)
+                .orElseThrow(() -> new IllegalArgumentException("Career not found"));
+
+        // Store the selected career in the character's background for now
+        // The actual career term will be created when qualification is attempted
+        String background = character.getBackground();
+        if (background == null) {
+            background = "";
+        }
+        background += "Attempted to join the " + career.getName() + ". ";
+        character.setBackground(background);
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to attempt qualification for a career.
+     */
+    @MutationMapping
+    public CareerQualificationResult attemptCareerQualification(@Argument Long characterId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        // For this example, we'll assume the career is stored in the background
+        // In a real implementation, you would store this in a proper field
+        String background = character.getBackground();
+        if (background == null || !background.contains("Attempted to join the ")) {
+            throw new IllegalStateException("No career selected for qualification");
+        }
+
+        // Extract career name from background
+        String careerName = background.substring(
+                background.lastIndexOf("Attempted to join the ") + "Attempted to join the ".length(),
+                background.lastIndexOf(".")
+        );
+
+        // Find the career by name
+        Career career = careerRepository.findByName(careerName)
+                .orElseThrow(() -> new IllegalArgumentException("Career not found"));
+
+        // Get the qualification characteristic and difficulty
+        CharacteristicType qualificationCharacteristic = career.getQualificationCharacteristic();
+        int qualificationDifficulty = career.getQualificationDifficulty();
+
+        // Get the character's value for that characteristic
+        Characteristic characteristic = character.getCharacteristic(qualificationCharacteristic);
+        if (characteristic == null) {
+            throw new IllegalStateException("Character does not have the required characteristic");
+        }
+
+        // Roll the dice and add the characteristic modifier
+        int roll = rollDice(2, 6) + characteristic.getValue();
+
+        // Check if the character qualifies
+        boolean qualified = roll >= qualificationDifficulty;
+        boolean drafted = false;
+
+        // If the character doesn't qualify, they might be drafted into the military
+        if (!qualified) {
+            // 50% chance of being drafted
+            drafted = random.nextBoolean();
+
+            if (drafted) {
+                // Find a military career (for this example, we'll assume "Marines" is a military career)
+                Career militaryCareer = careerRepository.findByName("Marines")
+                        .orElse(null);
+
+                if (militaryCareer != null) {
+                    career = militaryCareer;
+                    qualified = true;
+
+                    // Update background
+                    background = background.replace(
+                            "Attempted to join the " + careerName + ".",
+                            "Attempted to join the " + careerName + " but was drafted into the Marines."
+                    );
+                    character.setBackground(background);
+                }
+            } else {
+                // Update background
+                background = background.replace(
+                        "Attempted to join the " + careerName + ".",
+                        "Attempted to join the " + careerName + " but failed qualification."
+                );
+                character.setBackground(background);
+            }
+        } else {
+            // Update background
+            background = background.replace(
+                    "Attempted to join the " + careerName + ".",
+                    "Qualified for the " + careerName + "."
+            );
+            character.setBackground(background);
+        }
+
+        characterRepository.save(character);
+
+        // Create and return the result
+        CareerQualificationResult result = new CareerQualificationResult();
+        result.setCharacter(character);
+        result.setQualified(qualified);
+        result.setDrafted(drafted);
+        result.setCareer(qualified ? career : null);
+
+        return result;
+    }
+
+    /**
+     * Mutation to complete a career term.
+     */
+    @MutationMapping
+    public CareerTermResult completeCareerTerm(@Argument Long characterId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        // For this example, we'll assume the career is stored in the background
+        // In a real implementation, you would store this in a proper field
+        String background = character.getBackground();
+        if (background == null ||
+            (!background.contains("Qualified for the ") && !background.contains("drafted into the "))) {
+            throw new IllegalStateException("No qualified career found");
+        }
+
+        // Extract career name from background
+        String careerName;
+        if (background.contains("Qualified for the ")) {
+            careerName = background.substring(
+                    background.lastIndexOf("Qualified for the ") + "Qualified for the ".length(),
+                    background.lastIndexOf(".")
+            );
+        } else {
+            careerName = background.substring(
+                    background.lastIndexOf("drafted into the ") + "drafted into the ".length(),
+                    background.lastIndexOf(".")
+            );
+        }
+
+        // Find the career by name
+        Career career = careerRepository.findByName(careerName)
+                .orElseThrow(() -> new IllegalArgumentException("Career not found"));
+
+        // Roll for survival
+        boolean survived = rollDice(2, 6) >= 5; // Simplified survival check
+
+        // Create a new career term
+        CareerTerm careerTerm = new CareerTerm();
+        careerTerm.setCareer(career);
+        careerTerm.setRank(1); // Start at rank 1
+        careerTerm.setSurvived(survived);
+
+        // If the character survived, gain skills and benefits
+        List<Skill> gainedSkills = List.of();
+        List<String> benefits = List.of();
+        List<String> events = List.of("Standard term of service.");
+
+        if (survived) {
+            // Gain skills (simplified for this example)
+            // In a real implementation, you would use the career's skill tables
+            gainedSkills = career.getSkillTables().stream()
+                    .flatMap(table -> table.getSkills().stream())
+                    .limit(2) // Gain 2 skills per term
+                    .collect(Collectors.toList());
+
+            for (Skill skill : gainedSkills) {
+                character.addSkill(skill);
+                careerTerm.getSkills().add(skill);
+            }
+
+            // Gain benefits (simplified for this example)
+            // In a real implementation, you would use the career's benefit tables
+            int benefitRoll = rollDice(1, 6);
+            String benefit = switch (benefitRoll) {
+                case 1 -> "Low Passage";
+                case 2 -> "1000 Credits";
+                case 3 -> "2 Ship Shares";
+                case 4 -> "Weapon";
+                case 5 -> "Combat Implant";
+                case 6 -> "Advanced Education";
+                default -> "Nothing";
+            };
+
+            benefits = List.of(benefit);
+            careerTerm.getBenefits().addAll(benefits);
+
+            // Add credits if that was the benefit
+            if (benefit.contains("Credits")) {
+                int amount = Integer.parseInt(benefit.split(" ")[0]);
+                character.setCredits(character.getCredits() + amount);
+            }
+
+            // Add a weapon if that was the benefit
+            if (benefit.equals("Weapon")) {
+                // Find a random weapon
+                List<Weapon> weapons = weaponRepository.findAll();
+                if (!weapons.isEmpty()) {
+                    Weapon weapon = weapons.get(random.nextInt(weapons.size()));
+                    character.addWeapon(weapon);
+                }
+            }
+
+            // Increase age
+            character.setAge(character.getAge() + 4); // Each term is 4 years
+
+            // Update background
+            background += "Completed a term in the " + careerName + ". ";
+            character.setBackground(background);
+        } else {
+            // Character didn't survive the term
+            character.setStatus(CharacterStatus.DEAD);
+
+            // Update background
+            background += "Died during service in the " + careerName + ". ";
+            character.setBackground(background);
+        }
+
+        // Add the career term to the character's history
+        character.getCareerHistory().add(careerTerm);
+
+        characterRepository.save(character);
+
+        // Create and return the result
+        CareerTermResult result = new CareerTermResult();
+        result.setCharacter(character);
+        result.setSurvived(survived);
+        result.setSkills(gainedSkills);
+        result.setBenefits(benefits);
+        result.setEvents(events);
+
+        return result;
+    }
+
+    /**
+     * Mutation to muster out (leave a career with benefits).
+     */
+    @MutationMapping
+    public Character musterOut(@Argument Long characterId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        // Check if the character has completed at least one term
+        if (character.getCareerHistory().isEmpty()) {
+            throw new IllegalStateException("Character has not completed any career terms");
+        }
+
+        // Check if the character is alive
+        if (character.getStatus() != CharacterStatus.ALIVE) {
+            throw new IllegalStateException("Character is not alive");
+        }
+
+        // Get the most recent career term
+        CareerTerm lastTerm = character.getCareerHistory().get(character.getCareerHistory().size() - 1);
+        Career career = lastTerm.getCareer();
+
+        // Calculate mustering out benefits based on number of terms and rank
+        int terms = (int) character.getCareerHistory().stream()
+                .filter(term -> term.getCareer().equals(career))
+                .count();
+
+        int rank = lastTerm.getRank();
+
+        // Simplified mustering out benefits
+        int cashBenefits = terms;
+        int materialBenefits = terms + (rank >= 5 ? 1 : 0);
+
+        // Apply cash benefits
+        for (int i = 0; i < cashBenefits; i++) {
+            int roll = rollDice(1, 6);
+            int amount = switch (roll) {
+                case 1 -> 1000;
+                case 2 -> 5000;
+                case 3 -> 10000;
+                case 4 -> 10000;
+                case 5 -> 20000;
+                case 6 -> 50000;
+                default -> 0;
+            };
+            character.setCredits(character.getCredits() + amount);
+        }
+
+        // Apply material benefits
+        for (int i = 0; i < materialBenefits; i++) {
+            int roll = rollDice(1, 6);
+            switch (roll) {
+                case 1 -> {
+                    // Low Passage
+                    // This would be handled by game logic
+                }
+                case 2 -> {
+                    // +1 INT
+                    Characteristic intelligence = character.getCharacteristic(CharacteristicType.INTELLIGENCE);
+                    if (intelligence != null) {
+                        intelligence.setValue(intelligence.getValue() + 1);
+                    }
+                }
+                case 3 -> {
+                    // +1 EDU
+                    Characteristic education = character.getCharacteristic(CharacteristicType.EDUCATION);
+                    if (education != null) {
+                        education.setValue(education.getValue() + 1);
+                    }
+                }
+                case 4 -> {
+                    // Weapon
+                    List<Weapon> weapons = weaponRepository.findAll();
+                    if (!weapons.isEmpty()) {
+                        Weapon weapon = weapons.get(random.nextInt(weapons.size()));
+                        character.addWeapon(weapon);
+                    }
+                }
+                case 5 -> {
+                    // Armor
+                    List<Armor> armors = armorRepository.findAll();
+                    if (!armors.isEmpty()) {
+                        Armor armor = armors.get(random.nextInt(armors.size()));
+                        character.addArmor(armor);
+                    }
+                }
+                case 6 -> {
+                    // High Passage
+                    // This would be handled by game logic
+                }
+            }
+        }
+
+        // Update background
+        String background = character.getBackground();
+        if (background == null) {
+            background = "";
+        }
+        background += "Mustered out of the " + career.getName() + " after " + terms + " terms. ";
+        character.setBackground(background);
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to add a weapon to a character.
+     */
+    @MutationMapping
+    public Character addWeaponToCharacter(@Argument Long characterId, @Argument Long weaponId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Weapon weapon = weaponRepository.findById(weaponId)
+                .orElseThrow(() -> new IllegalArgumentException("Weapon not found"));
+
+        character.addWeapon(weapon);
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to add armor to a character.
+     */
+    @MutationMapping
+    public Character addArmorToCharacter(@Argument Long characterId, @Argument Long armorId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Armor armor = armorRepository.findById(armorId)
+                .orElseThrow(() -> new IllegalArgumentException("Armor not found"));
+
+        character.addArmor(armor);
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to equip a weapon.
+     */
+    @MutationMapping
+    public Character equipWeapon(@Argument Long characterId, @Argument Long weaponId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Weapon weapon = weaponRepository.findById(weaponId)
+                .orElseThrow(() -> new IllegalArgumentException("Weapon not found"));
+
+        if (!character.equipWeapon(weapon)) {
+            throw new IllegalArgumentException("Character does not have this weapon");
+        }
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Mutation to equip armor.
+     */
+    @MutationMapping
+    public Character equipArmor(@Argument Long characterId, @Argument Long armorId) {
+        Character character = characterRepository.findById(characterId)
+                .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+
+        Armor armor = armorRepository.findById(armorId)
+                .orElseThrow(() -> new IllegalArgumentException("Armor not found"));
+
+        if (!character.equipArmor(armor)) {
+            throw new IllegalArgumentException("Character does not have this armor");
+        }
+
+        return characterRepository.save(character);
+    }
+
+    /**
+     * Helper method to roll dice.
+     *
+     * @param count Number of dice to roll
+     * @param sides Number of sides on each die
+     * @return The sum of the dice rolls
+     */
+    private int rollDice(int count, int sides) {
+        int sum = 0;
+        for (int i = 0; i < count; i++) {
+            sum += random.nextInt(sides) + 1;
+        }
+        return sum;
+    }
+
+    /**
+     * Inner class for career qualification results.
+     */
+    public static class CareerQualificationResult {
+        private Character character;
+        private boolean qualified;
+        private boolean drafted;
+        private Career career;
+
+        public Character getCharacter() {
+            return character;
+        }
+
+        public void setCharacter(Character character) {
+            this.character = character;
+        }
+
+        public boolean isQualified() {
+            return qualified;
+        }
+
+        public void setQualified(boolean qualified) {
+            this.qualified = qualified;
+        }
+
+        public boolean isDrafted() {
+            return drafted;
+        }
+
+        public void setDrafted(boolean drafted) {
+            this.drafted = drafted;
+        }
+
+        public Career getCareer() {
+            return career;
+        }
+
+        public void setCareer(Career career) {
+            this.career = career;
+        }
+    }
+
+    /**
+     * Inner class for career term results.
+     */
+    public static class CareerTermResult {
+        private Character character;
+        private boolean survived;
+        private List<Skill> skills;
+        private List<String> benefits;
+        private List<String> events;
+
+        public Character getCharacter() {
+            return character;
+        }
+
+        public void setCharacter(Character character) {
+            this.character = character;
+        }
+
+        public boolean isSurvived() {
+            return survived;
+        }
+
+        public void setSurvived(boolean survived) {
+            this.survived = survived;
+        }
+
+        public List<Skill> getSkills() {
+            return skills;
+        }
+
+        public void setSkills(List<Skill> skills) {
+            this.skills = skills;
+        }
+
+        public List<String> getBenefits() {
+            return benefits;
+        }
+
+        public void setBenefits(List<String> benefits) {
+            this.benefits = benefits;
+        }
+
+        public List<String> getEvents() {
+            return events;
+        }
+
+        public void setEvents(List<String> events) {
+            this.events = events;
+        }
+    }
+
+    /**
+     * Input class for character creation/update.
+     */
+    public static class CharacterInput {
+        private String name;
+        private String gender;
+        private Long raceId;
+        private Long homeworldId;
+        private String background;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
+            this.gender = gender;
+        }
+
+        public Long getRaceId() {
+            return raceId;
+        }
+
+        public void setRaceId(Long raceId) {
+            this.raceId = raceId;
+        }
+
+        public Long getHomeworldId() {
+            return homeworldId;
+        }
+
+        public void setHomeworldId(Long homeworldId) {
+            this.homeworldId = homeworldId;
+        }
+
+        public String getBackground() {
+            return background;
+        }
+
+        public void setBackground(String background) {
+            this.background = background;
+        }
+    }
+}
