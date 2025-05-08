@@ -285,6 +285,46 @@ INSERT INTO political_entities (name, type, government_type, tech_level, descrip
 ('Sword Worlds Confederation', 'CONFEDERATION', 7, 11, 'A loose confederation of independent worlds with a strong martial tradition and Norse-inspired culture. The Sword Worlds are named after legendary swords from Norse and Finnish mythology. They have a history of conflict with the Imperium and the Darrians, and have been used as a buffer state between the Imperium and the Zhodani Consulate.', '73'),
 ('Aslan Hierate', 'HEGEMONY', 2, 13, 'A loose collection of clan holdings of the Aslan, a major non-human race resembling anthropomorphic lions. The Hierate is not a unified government but rather thousands of independent clan territories. Male Aslan are concerned with territory and honor, while females manage business and trade. Land ownership is the foundation of Aslan society.', '-2500');
 
+-- Insert races
+INSERT INTO races (type, name, description, lifespan, appearance) VALUES
+('HUMAN', 'Human', 'The dominant species in the Imperium, originating from Terra (Earth).', '80-120 years', 'Bipedal humanoids with varied physical characteristics'),
+('ASLAN', 'Aslan', 'Feline-like aliens with a strong honor culture and territorial instincts.', '60-90 years', 'Feline-like humanoids with manes and tawny fur'),
+('VARGR', 'Vargr', 'Canine-derived species known for their charismatic leaders and pack mentality.', '40-60 years', 'Canine-derived humanoids with fur and muzzles'),
+('HIVERS', 'Hivers', 'Six-limbed, non-humanoid aliens with advanced technology and a consensus-based society.', '150-200 years', 'Six-limbed, non-humanoid aliens with radial symmetry'),
+('K_KREE', 'K''kree', 'Massive, centaur-like herbivores with a strong herd mentality and xenophobia.', '90-120 years', 'Massive, centaur-like herbivores with two arms and four legs'),
+('DROYNE', 'Droyne', 'Small, winged aliens with a caste-based society determined by ritual.', '40-60 years', 'Small, winged aliens with chitinous exoskeletons'),
+('ZHODANI', 'Zhodani', 'Human-derived race with strong psionic abilities and a three-tiered society.', '80-120 years', 'Human-like with subtle differences in facial structure');
+
+-- Insert race characteristic modifiers
+INSERT INTO race_characteristic_modifiers (race_id, characteristic_type, modifier) VALUES
+((SELECT id FROM races WHERE type = 'ASLAN'), 'STRENGTH', 1),
+((SELECT id FROM races WHERE type = 'ASLAN'), 'DEXTERITY', 1),
+((SELECT id FROM races WHERE type = 'VARGR'), 'DEXTERITY', 1),
+((SELECT id FROM races WHERE type = 'VARGR'), 'ENDURANCE', -1),
+((SELECT id FROM races WHERE type = 'HIVERS'), 'STRENGTH', -2),
+((SELECT id FROM races WHERE type = 'HIVERS'), 'INTELLIGENCE', 2),
+((SELECT id FROM races WHERE type = 'K_KREE'), 'STRENGTH', 2),
+((SELECT id FROM races WHERE type = 'K_KREE'), 'DEXTERITY', -1),
+((SELECT id FROM races WHERE type = 'DROYNE'), 'STRENGTH', -2),
+((SELECT id FROM races WHERE type = 'DROYNE'), 'DEXTERITY', 1),
+((SELECT id FROM races WHERE type = 'ZHODANI'), 'INTELLIGENCE', 1);
+
+-- Insert race special abilities
+INSERT INTO race_special_abilities (race_id, ability) VALUES
+((SELECT id FROM races WHERE type = 'ASLAN'), 'Natural Weapons (claws)'),
+((SELECT id FROM races WHERE type = 'ASLAN'), 'Territorial Instinct'),
+((SELECT id FROM races WHERE type = 'VARGR'), 'Enhanced Smell'),
+((SELECT id FROM races WHERE type = 'VARGR'), 'Pack Mentality'),
+((SELECT id FROM races WHERE type = 'HIVERS'), 'Six Limbs'),
+((SELECT id FROM races WHERE type = 'HIVERS'), 'Consensus Decision Making'),
+((SELECT id FROM races WHERE type = 'K_KREE'), 'Herbivore'),
+((SELECT id FROM races WHERE type = 'K_KREE'), 'Herd Mentality'),
+((SELECT id FROM races WHERE type = 'K_KREE'), 'Xenophobia'),
+((SELECT id FROM races WHERE type = 'DROYNE'), 'Caste-Based Society'),
+((SELECT id FROM races WHERE type = 'DROYNE'), 'Wings (Limited Flight)'),
+((SELECT id FROM races WHERE type = 'ZHODANI'), 'Psionic Potential'),
+((SELECT id FROM races WHERE type = 'ZHODANI'), 'Three-Tiered Society');
+
 -- Insert political entity characteristics
 INSERT INTO political_entity_characteristics (political_entity_id, characteristic) VALUES
 ((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Ruled by an Emperor/Empress'),

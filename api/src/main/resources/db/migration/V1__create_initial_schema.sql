@@ -275,9 +275,11 @@ CREATE TABLE political_entities (
     name VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
     description VARCHAR(2000),
-    government_type VARCHAR(255),
+    government_type INT,
+    tech_level INT,
     territory_size INT,
-    capital_world_id BIGINT
+    capital_world_id BIGINT,
+    founding_date VARCHAR(255)
 );
 
 -- Subsectors table
@@ -285,6 +287,8 @@ CREATE TABLE subsectors (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     coordinates VARCHAR(255),
+    sector_position VARCHAR(255),
+    description VARCHAR(2000),
     sector_id BIGINT
 );
 
@@ -292,7 +296,8 @@ CREATE TABLE subsectors (
 CREATE TABLE sectors (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    coordinates VARCHAR(255)
+    coordinates VARCHAR(255),
+    description VARCHAR(2000)
 );
 
 -- Add foreign key from subsectors to sectors

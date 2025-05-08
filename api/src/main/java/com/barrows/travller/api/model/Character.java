@@ -151,7 +151,7 @@ public class Character {
         this.name = name;
         this.age = 18; // Starting age
         this.gender = "";
-        this.race = RaceFactory.createHuman(); // Default race is Human
+        this.race = new Race(RaceType.HUMAN); // Default race is Human
         this.characteristics = new ArrayList<>();
         this.skills = new ArrayList<>();
         this.careerHistory = new ArrayList<>();
@@ -181,7 +181,7 @@ public class Character {
      * @param raceType The type of race for the character
      */
     public Character(String name, RaceType raceType) {
-        this(name, RaceFactory.createRace(raceType));
+        this(name, new Race(raceType));
     }
 
     /**
@@ -248,7 +248,7 @@ public class Character {
      * @param raceType The type of the new race
      */
     public void setRace(RaceType raceType) {
-        setRace(RaceFactory.createRace(raceType));
+        setRace(new Race(raceType));
     }
 
     /**
