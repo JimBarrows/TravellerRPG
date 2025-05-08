@@ -1,10 +1,6 @@
 -- Insert statements for data created by factory classes
 
--- Insert sectors
-INSERT INTO sectors (name, coordinates, description) VALUES
-('Spinward Marches', '1120', 'A frontier sector of the Third Imperium, bordering the Zhodani Consulate and other interstellar powers. Known for its strategic importance and frequent border conflicts.'),
-('Solomani Rim', '1827', 'The birthplace of humanity and the heart of the Solomani Confederation. Contains Terra (Earth) and many of the oldest human colonies.'),
-('Zhodani Core', '-320', 'The heart of the Zhodani Consulate, containing the Zhodani homeworld and the central institutions of their psionic society.');
+-- Note: Sectors are already inserted in V2__fix_schema_and_insert_data.sql
 
 -- Insert subsectors
 -- Regina subsector (Spinward Marches)
