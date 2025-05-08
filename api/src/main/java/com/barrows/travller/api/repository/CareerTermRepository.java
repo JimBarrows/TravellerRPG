@@ -2,10 +2,7 @@ package com.barrows.travller.api.repository;
 
 import com.barrows.travller.api.model.Career;
 import com.barrows.travller.api.model.CareerTerm;
-import com.barrows.travller.api.model.Character;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

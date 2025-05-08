@@ -1,8 +1,8 @@
 package com.barrows.travller.api.repository;
 
+import com.barrows.travller.api.model.CharacteristicType;
 import com.barrows.travller.api.model.Skill;
 import com.barrows.travller.api.model.SkillCategory;
-import com.barrows.travller.api.model.CharacteristicType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

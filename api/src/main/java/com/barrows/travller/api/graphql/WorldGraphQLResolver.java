@@ -1,6 +1,5 @@
 package com.barrows.travller.api.graphql;
 
-import com.barrows.travller.api.model.AtmosphereType;
 import com.barrows.travller.api.model.TravelZone;
 import com.barrows.travller.api.model.World;
 import com.barrows.travller.api.model.WorldType;
@@ -143,7 +142,9 @@ public class WorldGraphQLResolver {
     /**
      * Input class for world creation/update.
      */
-    public static class WorldInput {
+    @lombok.Setter
+	@lombok.Getter
+	public static class WorldInput {
         private String name;
         private WorldType type;
         private int size;
@@ -158,108 +159,5 @@ public class WorldGraphQLResolver {
         private TravelZone travelZone;
         private String culturalDetails;
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public WorldType getType() {
-            return type;
-        }
-
-        public void setType(WorldType type) {
-            this.type = type;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public int getAtmosphere() {
-            return atmosphere;
-        }
-
-        public void setAtmosphere(int atmosphere) {
-            this.atmosphere = atmosphere;
-        }
-
-        public int getHydrographics() {
-            return hydrographics;
-        }
-
-        public void setHydrographics(int hydrographics) {
-            this.hydrographics = hydrographics;
-        }
-
-        public int getPopulation() {
-            return population;
-        }
-
-        public void setPopulation(int population) {
-            this.population = population;
-        }
-
-        public int getGovernment() {
-            return government;
-        }
-
-        public void setGovernment(int government) {
-            this.government = government;
-        }
-
-        public int getLawLevel() {
-            return lawLevel;
-        }
-
-        public void setLawLevel(int lawLevel) {
-            this.lawLevel = lawLevel;
-        }
-
-        public int getTechLevel() {
-            return techLevel;
-        }
-
-        public void setTechLevel(int techLevel) {
-            this.techLevel = techLevel;
-        }
-
-        public char getStarportClass() {
-            return starportClass;
-        }
-
-        public void setStarportClass(char starportClass) {
-            this.starportClass = starportClass;
-        }
-
-        public List<String> getBases() {
-            return bases;
-        }
-
-        public void setBases(List<String> bases) {
-            this.bases = bases;
-        }
-
-        public TravelZone getTravelZone() {
-            return travelZone;
-        }
-
-        public void setTravelZone(TravelZone travelZone) {
-            this.travelZone = travelZone;
-        }
-
-        public String getCulturalDetails() {
-            return culturalDetails;
-        }
-
-        public void setCulturalDetails(String culturalDetails) {
-            this.culturalDetails = culturalDetails;
-        }
-    }
+	}
 }

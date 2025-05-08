@@ -1,31 +1,13 @@
 package com.barrows.travller.api.graphql;
 
-import com.barrows.travller.api.model.Armor;
-import com.barrows.travller.api.model.Career;
-import com.barrows.travller.api.model.CareerTerm;
-import com.barrows.travller.api.model.Characteristic;
-import com.barrows.travller.api.model.CharacterStatus;
-import com.barrows.travller.api.model.CharacteristicType;
-import com.barrows.travller.api.model.Homeworld;
-import com.barrows.travller.api.model.Race;
-import com.barrows.travller.api.model.Skill;
-import com.barrows.travller.api.model.Weapon;
-import com.barrows.travller.api.repository.ArmorRepository;
-import com.barrows.travller.api.repository.CareerRepository;
-import com.barrows.travller.api.repository.CharacterRepository;
-import com.barrows.travller.api.repository.HomeworldRepository;
-import com.barrows.travller.api.repository.RaceRepository;
-import com.barrows.travller.api.repository.WeaponRepository;
+import com.barrows.travller.api.model.*;
+import com.barrows.travller.api.repository.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
