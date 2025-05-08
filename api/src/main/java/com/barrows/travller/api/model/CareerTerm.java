@@ -98,4 +98,14 @@ public class CareerTerm {
     public void addBenefit(String benefit) {
         benefits.add(benefit);
     }
+
+    /**
+     * Gets the skills gained during this term.
+     * This is an alias for getSkillsGained() for backward compatibility.
+     *
+     * @return The skills gained during this term
+     */
+    public List<Skill> getSkills() {
+        return skillsGained;
+    }
 }

@@ -113,4 +113,21 @@ public interface WorldRepository extends JpaRepository<World, Long> {
      */
     @Query("SELECT w FROM World w WHERE LOWER(w.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR w.uwp LIKE CONCAT('%', :searchTerm, '%')")
     List<World> searchByNameOrUwp(@Param("searchTerm") String searchTerm);
+
+    /**
+     * Finds worlds by atmosphere value.
+     *
+     * @param atmosphere The atmosphere value
+     * @return A list of worlds with the specified atmosphere
+     */
+    List<World> findByAtmosphere(int atmosphere);
+
+    /**
+     * Finds worlds with tech level between the specified values (inclusive).
+     *
+     * @param minTechLevel The minimum tech level
+     * @param maxTechLevel The maximum tech level
+     * @return A list of worlds with tech level in the specified range
+     */
+    List<World> findByTechLevelBetween(int minTechLevel, int maxTechLevel);
 }

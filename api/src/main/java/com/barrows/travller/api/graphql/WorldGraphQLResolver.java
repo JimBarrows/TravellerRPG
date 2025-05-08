@@ -60,7 +60,7 @@ public class WorldGraphQLResolver {
      * Query to find worlds by atmosphere type.
      */
     @QueryMapping
-    public List<World> worldsByAtmosphere(@Argument AtmosphereType atmosphere) {
+    public List<World> worldsByAtmosphere(@Argument int atmosphere) {
         return worldRepository.findByAtmosphere(atmosphere);
     }
 
@@ -95,10 +95,10 @@ public class WorldGraphQLResolver {
         world.setGovernment(input.getGovernment());
         world.setLawLevel(input.getLawLevel());
         world.setTechLevel(input.getTechLevel());
-        world.setStarport(input.getStarport());
+        world.setStarportClass(input.getStarportClass());
         world.setBases(input.getBases());
         world.setTravelZone(input.getTravelZone());
-        world.setDescription(input.getDescription());
+        world.setCulturalDetails(input.getCulturalDetails());
 
         return worldRepository.save(world);
     }
@@ -120,10 +120,10 @@ public class WorldGraphQLResolver {
         world.setGovernment(input.getGovernment());
         world.setLawLevel(input.getLawLevel());
         world.setTechLevel(input.getTechLevel());
-        world.setStarport(input.getStarport());
+        world.setStarportClass(input.getStarportClass());
         world.setBases(input.getBases());
         world.setTravelZone(input.getTravelZone());
-        world.setDescription(input.getDescription());
+        world.setCulturalDetails(input.getCulturalDetails());
 
         return worldRepository.save(world);
     }
@@ -147,16 +147,16 @@ public class WorldGraphQLResolver {
         private String name;
         private WorldType type;
         private int size;
-        private AtmosphereType atmosphere;
+        private int atmosphere;
         private int hydrographics;
         private int population;
         private int government;
         private int lawLevel;
         private int techLevel;
-        private String starport;
-        private String bases;
+        private char starportClass;
+        private List<String> bases;
         private TravelZone travelZone;
-        private String description;
+        private String culturalDetails;
 
         public String getName() {
             return name;
@@ -182,11 +182,11 @@ public class WorldGraphQLResolver {
             this.size = size;
         }
 
-        public AtmosphereType getAtmosphere() {
+        public int getAtmosphere() {
             return atmosphere;
         }
 
-        public void setAtmosphere(AtmosphereType atmosphere) {
+        public void setAtmosphere(int atmosphere) {
             this.atmosphere = atmosphere;
         }
 
@@ -230,19 +230,19 @@ public class WorldGraphQLResolver {
             this.techLevel = techLevel;
         }
 
-        public String getStarport() {
-            return starport;
+        public char getStarportClass() {
+            return starportClass;
         }
 
-        public void setStarport(String starport) {
-            this.starport = starport;
+        public void setStarportClass(char starportClass) {
+            this.starportClass = starportClass;
         }
 
-        public String getBases() {
+        public List<String> getBases() {
             return bases;
         }
 
-        public void setBases(String bases) {
+        public void setBases(List<String> bases) {
             this.bases = bases;
         }
 
@@ -254,12 +254,12 @@ public class WorldGraphQLResolver {
             this.travelZone = travelZone;
         }
 
-        public String getDescription() {
-            return description;
+        public String getCulturalDetails() {
+            return culturalDetails;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setCulturalDetails(String culturalDetails) {
+            this.culturalDetails = culturalDetails;
         }
     }
 }

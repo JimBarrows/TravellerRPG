@@ -44,8 +44,42 @@ dependencies {
 	testImplementation 'org.testcontainers:kafka'
 	testImplementation 'org.testcontainers:postgresql'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Cucumber dependencies
+	testImplementation 'io.cucumber:cucumber-java:7.15.0'
+	testImplementation 'io.cucumber:cucumber-spring:7.15.0'
+	testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.15.0'
+	testImplementation 'org.junit.platform:junit-platform-suite-api:1.10.2'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+// Create a custom task for running Cucumber tests
+task runCucumberTests(type: JavaExec) {
+	description = 'Runs Cucumber BDD tests.'
+	group = 'verification'
+
+	mainClass = 'io.cucumber.core.cli.Main'
+
+	classpath = sourceSets.test.runtimeClasspath
+
+	args = [
+		'--plugin', 'pretty',
+		'--plugin', 'html:build/reports/cucumber/cucumber.html',
+		'--glue', 'com.barrows.travller.api.cucumber',
+		'../features'
+	]
+}
+
+// Create a custom verification task that doesn't depend on the test task
+task verifyWithCucumber {
+	description = 'Runs Cucumber tests as part of verification.'
+	group = 'verification'
+
+	dependsOn runCucumberTests
+}
+
+// Add our custom verification task to the build process
+gradle.taskGraph.whenReady { graph ->
+	if (graph.hasTask(':build')) {
+		verifyWithCucumber.execute()
+	}
 }

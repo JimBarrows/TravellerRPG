@@ -230,4 +230,44 @@ public class Career {
     public String toString() {
         return name;
     }
+
+    /**
+     * Gets the primary qualification characteristic for this career.
+     * This is the first characteristic in the qualification requirements map.
+     *
+     * @return The qualification characteristic type, or null if none defined
+     */
+    public CharacteristicType getQualificationCharacteristic() {
+        if (qualificationRequirements == null || qualificationRequirements.isEmpty()) {
+            return CharacteristicType.INTELLIGENCE; // Default to INT if none defined
+        }
+        return qualificationRequirements.keySet().iterator().next();
+    }
+
+    /**
+     * Gets the qualification difficulty for this career.
+     * This is the standard difficulty (8) plus any qualification DM.
+     *
+     * @return The qualification difficulty
+     */
+    public int getQualificationDifficulty() {
+        return 8 - qualificationDM; // Standard difficulty is 8, adjusted by DM
+    }
+
+    /**
+     * Gets all skill tables for this career.
+     * This combines service skill tables and advanced education skill tables.
+     *
+     * @return A list of all skill tables
+     */
+    public List<SkillTable> getSkillTables() {
+        List<SkillTable> allTables = new ArrayList<>();
+        if (serviceSkillTables != null) {
+            allTables.addAll(serviceSkillTables);
+        }
+        if (advancedEducationSkillTables != null) {
+            allTables.addAll(advancedEducationSkillTables);
+        }
+        return allTables;
+    }
 }

@@ -4,6 +4,7 @@ import com.barrows.travller.api.model.Armor;
 import com.barrows.travller.api.model.BenefitTable;
 import com.barrows.travller.api.model.Career;
 import com.barrows.travller.api.model.CareerTerm;
+import com.barrows.travller.api.model.Character;
 import com.barrows.travller.api.model.Characteristic;
 import com.barrows.travller.api.model.CharacterStatus;
 import com.barrows.travller.api.model.CharacteristicType;
@@ -172,7 +173,7 @@ public class CharacterResolver {
         character.setHomeworld(homeworld);
 
         // Add homeworld skills to character
-        for (Skill skill : homeworld.getSkills()) {
+        for (Skill skill : homeworld.getCommonSkills()) {
             character.addSkill(skill);
         }
 
@@ -181,7 +182,7 @@ public class CharacterResolver {
         if (background == null) {
             background = "";
         }
-        background += "Born and raised on " + homeworld.getWorld().getName() + ". ";
+        background += "Born and raised on " + homeworld.getName() + ". ";
         character.setBackground(background);
 
         return characterRepository.save(character);
@@ -232,7 +233,7 @@ public class CharacterResolver {
         );
 
         // Find the career by name
-        Career career = careerRepository.findByName(careerName)
+        Career career = careerRepository.findByNameIgnoreCase(careerName)
                 .orElseThrow(() -> new IllegalArgumentException("Career not found"));
 
         // Get the qualification characteristic and difficulty
@@ -259,7 +260,7 @@ public class CharacterResolver {
 
             if (drafted) {
                 // Find a military career (for this example, we'll assume "Marines" is a military career)
-                Career militaryCareer = careerRepository.findByName("Marines")
+                Career militaryCareer = careerRepository.findByNameIgnoreCase("Marines")
                         .orElse(null);
 
                 if (militaryCareer != null) {
@@ -333,7 +334,7 @@ public class CharacterResolver {
         }
 
         // Find the career by name
-        Career career = careerRepository.findByName(careerName)
+        Career career = careerRepository.findByNameIgnoreCase(careerName)
                 .orElseThrow(() -> new IllegalArgumentException("Career not found"));
 
         // Roll for survival
