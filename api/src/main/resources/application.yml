@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   flyway:
     baseline-on-migrate: true
-    locations: classpath:db/migration/V1__create_initial_schema.sql,classpath:db/migration/V2__fix_schema_and_insert_data.sql
+    locations: classpath:db/migration
   profiles:
     active: local
   docker:
