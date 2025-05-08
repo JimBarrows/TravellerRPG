@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of armor in Traveller.
  */
+@lombok.Getter
 public enum ArmorType {
     CLOTH("Cloth"),
     MESH("Mesh"),
@@ -18,7 +19,4 @@ public enum ArmorType {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different categories of skills in Traveller.
  */
+@lombok.Getter
 public enum SkillCategory {
     COMBAT("Combat"),
     SPACE("Space"),
@@ -19,7 +20,4 @@ public enum SkillCategory {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

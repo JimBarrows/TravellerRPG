@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different statuses a character can have.
  */
+@lombok.Getter
 public enum CharacterStatus {
     ALIVE("Alive"),
     DEAD("Dead"),
@@ -14,7 +15,4 @@ public enum CharacterStatus {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

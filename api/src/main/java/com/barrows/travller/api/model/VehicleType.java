@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of vehicles in the Traveller RPG universe.
  */
+@lombok.Getter
 public enum VehicleType {
     GROUND_CAR("Ground Car", "Standard wheeled vehicle for planetary travel"),
     GROUND_TRUCK("Ground Truck", "Heavy wheeled vehicle for cargo transport"),
@@ -41,11 +42,4 @@ public enum VehicleType {
         this.description = description;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of worlds in Traveller.
  */
+@lombok.Getter
 public enum WorldType {
     GARDEN("Garden World"),
     DESERT("Desert World"),
@@ -27,7 +28,4 @@ public enum WorldType {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of weapons in Traveller.
  */
+@lombok.Getter
 public enum WeaponType {
     MELEE("Melee"),
     PISTOL("Pistol"),
@@ -21,7 +22,4 @@ public enum WeaponType {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

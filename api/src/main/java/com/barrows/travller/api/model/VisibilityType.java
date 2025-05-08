@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different visibility conditions in Traveller.
  */
+@lombok.Getter
 public enum VisibilityType {
     CLEAR("Clear", 0),
     LIGHT_COVER("Light Cover", -1),
@@ -22,11 +23,4 @@ public enum VisibilityType {
         this.modifier = modifier;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public int getModifier() {
-        return modifier;
-    }
 }

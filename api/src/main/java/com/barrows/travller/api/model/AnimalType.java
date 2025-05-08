@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of animals in the Traveller RPG universe.
  */
+@lombok.Getter
 public enum AnimalType {
     DOMESTIC("Domestic", "Animals bred for companionship or work"),
     LIVESTOCK("Livestock", "Animals raised for food, materials, or labor"),
@@ -23,11 +24,4 @@ public enum AnimalType {
         this.description = description;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

@@ -15,7 +15,8 @@ public class SubsectorFactory {
 
         // Add some standard worlds to the subsector
         World regina = WorldFactory.createWorld("Terra");
-        regina.setName("Regina");
+		assert regina != null;
+		regina.setName("Regina");
         regina.setHexCoordinates("1910");
 
         World efate = new World("Efate", "A646930-D", WorldType.GARDEN);
@@ -170,17 +171,12 @@ public class SubsectorFactory {
      * @return A new subsector of the specified name, or null if not recognized
      */
     public static Subsector createSubsector(String name) {
-        switch (name.toLowerCase()) {
-            case "regina":
-                return createImperialSubsector();
-            case "sword worlds":
-                return createSwordWorldsSubsector();
-            case "lair":
-                return createVargrSubsector();
-            case "cronor":
-                return createZhodaniSubsector();
-            default:
-                return null;
-        }
+		return switch (name.toLowerCase()) {
+			case "regina" -> createImperialSubsector();
+			case "sword worlds" -> createSwordWorldsSubsector();
+			case "lair" -> createVargrSubsector();
+			case "cronor" -> createZhodaniSubsector();
+			default -> null;
+		};
     }
 }

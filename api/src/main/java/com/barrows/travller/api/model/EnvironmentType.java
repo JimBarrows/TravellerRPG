@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of environments in Traveller.
  */
+@lombok.Getter
 public enum EnvironmentType {
     PLANETARY_SURFACE("Planetary Surface"),
     UNDERWATER("Underwater"),
@@ -24,7 +25,4 @@ public enum EnvironmentType {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

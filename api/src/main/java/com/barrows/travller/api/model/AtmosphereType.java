@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of atmospheres in Traveller.
  */
+@lombok.Getter
 public enum AtmosphereType {
     NONE("None", "Vacuum"),
     TRACE("Trace", "Extremely thin, requires vacc suit"),
@@ -25,11 +26,4 @@ public enum AtmosphereType {
         this.description = description;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

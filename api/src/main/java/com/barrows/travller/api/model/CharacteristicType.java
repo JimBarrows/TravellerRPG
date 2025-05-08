@@ -3,6 +3,7 @@ package com.barrows.travller.api.model;
 /**
  * Enum representing the different types of characteristics in Traveller.
  */
+@lombok.Getter
 public enum CharacteristicType {
     STRENGTH("Strength", "STR"),
     DEXTERITY("Dexterity", "DEX"),
@@ -19,11 +20,4 @@ public enum CharacteristicType {
         this.abbreviation = abbreviation;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
 }
