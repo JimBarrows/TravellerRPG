@@ -2,7 +2,6 @@ spring:
   application:
     name: API
   flyway:
-    clean-on-validation-error: true
     baseline-on-migrate: true
     locations: classpath:db/migration/V1__create_initial_schema.sql,classpath:db/migration/V2__fix_schema_and_insert_data.sql
 logging:
