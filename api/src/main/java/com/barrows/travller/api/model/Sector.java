@@ -1,10 +1,11 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
+
 import java.util.ArrayList;
-import jakarta.persistence.*;
+import java.util.List;
 
 /**
  * Represents a sector in the Traveller RPG system.

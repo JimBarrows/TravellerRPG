@@ -1,7 +1,5 @@
 package com.barrows.travller.api.model;
 
-import java.util.Arrays;
-
 /**
  * Factory class for creating standard subsectors in the Traveller RPG system.
  */

@@ -1,9 +1,10 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
-import jakarta.persistence.*;
 
 /**
  * Represents a weapon in the Traveller RPG system.

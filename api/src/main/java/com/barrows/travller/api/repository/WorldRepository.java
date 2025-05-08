@@ -1,8 +1,8 @@
 package com.barrows.travller.api.repository;
 
+import com.barrows.travller.api.model.TravelZone;
 import com.barrows.travller.api.model.World;
 import com.barrows.travller.api.model.WorldType;
-import com.barrows.travller.api.model.TravelZone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

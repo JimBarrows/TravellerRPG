@@ -1,13 +1,14 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
+
 import java.util.ArrayList;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Represents a term served in a career.

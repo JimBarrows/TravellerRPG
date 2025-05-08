@@ -1,14 +1,15 @@
 package com.barrows.travller.api.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
-import java.util.Map;
-import java.util.HashMap;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents an environment in the Traveller RPG system.

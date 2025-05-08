@@ -1,12 +1,11 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
+
 import java.util.ArrayList;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * Represents a homeworld in the Traveller RPG system.

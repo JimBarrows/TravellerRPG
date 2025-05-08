@@ -1,8 +1,8 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
 /**
  * Represents a skill in the Traveller RPG system.

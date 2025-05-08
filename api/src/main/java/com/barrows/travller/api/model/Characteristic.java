@@ -1,10 +1,10 @@
 package com.barrows.travller.api.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a character characteristic in the Traveller RPG system.

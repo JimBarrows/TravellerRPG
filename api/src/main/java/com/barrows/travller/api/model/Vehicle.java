@@ -1,11 +1,12 @@
 package com.barrows.travller.api.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.ArrayList;
-import jakarta.persistence.*;
+import java.util.List;
 
 /**
  * Represents a vehicle in the Traveller RPG system.
