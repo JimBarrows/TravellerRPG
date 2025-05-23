@@ -27,6 +27,12 @@ type Query {
 
     # Fetches objects given their IDs
     nodes(ids: [ID!]!): [Node]!
+
+    # Tenant queries
+    tenant(id: ID!): Tenant
+    tenants(first: Int, after: String, last: Int, before: String): TenantConnection
+    currentTenant: Tenant
+
     # Character queries
     character(id: ID!): Character
     characters(first: Int, after: String, last: Int, before: String): CharacterConnection
@@ -56,6 +62,10 @@ type Query {
 }
 
 type Mutation {
+    # Tenant mutations
+    createTenant(input: TenantInput!): Tenant
+    updateTenant(id: ID!, input: TenantInput!): Tenant
+
     # Character mutations
     createCharacter(input: CharacterInput!): Character
     updateCharacter(id: ID!, input: CharacterInput!): Character
@@ -77,6 +87,36 @@ type Mutation {
 }
 
 # Import other schema files
+# Tenant types
+type TenantEdge {
+    # The item at the end of the edge
+    node: Tenant!
+    # A cursor for use in pagination
+    cursor: String!
+}
+
+type TenantConnection {
+    # Information to aid in pagination
+    pageInfo: PageInfo!
+    # A list of edges
+    edges: [TenantEdge]
+    # A list of nodes
+    nodes: [Tenant]
+    # Total count of items
+    totalCount: Int
+}
+
+type Tenant implements Node {
+    id: ID!
+    name: String!
+    description: String
+}
+
+input TenantInput {
+    name: String!
+    description: String
+}
+
 # Character types
 scalar Date
 

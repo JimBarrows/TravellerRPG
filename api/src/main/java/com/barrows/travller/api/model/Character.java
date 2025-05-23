@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -17,8 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "characters")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Character {
+public class Character extends TenantAwareEntity {
 
     /**
      * The unique identifier for the character.

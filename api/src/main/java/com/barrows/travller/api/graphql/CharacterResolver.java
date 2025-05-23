@@ -3,6 +3,7 @@ package com.barrows.travller.api.graphql;
 import com.barrows.travller.api.model.*;
 import com.barrows.travller.api.model.Character;
 import com.barrows.travller.api.repository.*;
+import com.barrows.travller.api.tenant.TenantService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -24,6 +25,7 @@ public class CharacterResolver {
     private final CareerRepository careerRepository;
     private final WeaponRepository weaponRepository;
     private final ArmorRepository armorRepository;
+    private final TenantService tenantService;
     private final Random random = new Random();
 
     public CharacterResolver(CharacterRepository characterRepository,
@@ -31,33 +33,37 @@ public class CharacterResolver {
                             HomeworldRepository homeworldRepository,
                             CareerRepository careerRepository,
                             WeaponRepository weaponRepository,
-                            ArmorRepository armorRepository) {
+                            ArmorRepository armorRepository,
+                            TenantService tenantService) {
         this.characterRepository = characterRepository;
         this.raceRepository = raceRepository;
         this.homeworldRepository = homeworldRepository;
         this.careerRepository = careerRepository;
         this.weaponRepository = weaponRepository;
         this.armorRepository = armorRepository;
+        this.tenantService = tenantService;
     }
 
     /**
-     * Query to get a character by ID.
+     * Query to get a character by ID for the current tenant.
      */
     @QueryMapping
     public Character character(@Argument Long id) {
-        return characterRepository.findById(id).orElse(null);
+        Long tenantId = tenantService.getCurrentTenantId();
+        return characterRepository.findByIdAndTenantId(id, tenantId).orElse(null);
     }
 
     /**
-     * Query to get all characters (legacy method, use CharacterGraphQLResolver.characters() instead).
+     * Query to get all characters for the current tenant.
      * This method is kept for backward compatibility but is not exposed via GraphQL.
      */
     public List<Character> getAllCharacters() {
-        return characterRepository.findAll();
+        Long tenantId = tenantService.getCurrentTenantId();
+        return characterRepository.findAllByTenantId(tenantId);
     }
 
     /**
-     * Mutation to create a new character.
+     * Mutation to create a new character for the current tenant.
      */
     @MutationMapping
     public Character createCharacter(@Argument CharacterInput input) {
@@ -73,6 +79,9 @@ public class CharacterResolver {
                     .orElseThrow(() -> new IllegalArgumentException("Homeworld not found"));
             character.setHomeworld(homeworld);
         }
+
+        // Set the tenant in the new character
+        tenantService.setTenant(character);
 
         return characterRepository.save(character);
     }
