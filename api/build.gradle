@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(23)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-database-postgresql'
@@ -62,8 +63,8 @@ task runCucumberTests(type: JavaExec) {
 
 	mainClass = 'io.cucumber.core.cli.Main'
 
-	// Explicitly use Java 23
-	executable = '/Users/JimBarrows/Library/Java/JavaVirtualMachines/openjdk-23.0.2/Contents/Home/bin/java'
+	// Explicitly use Java 21
+	executable = '/Users/JimBarrows/Library/Java/JavaVirtualMachines/openjdk-21.0.2/Contents/Home/bin/java'
 
 	// Print Java version before running tests
 	doFirst {
