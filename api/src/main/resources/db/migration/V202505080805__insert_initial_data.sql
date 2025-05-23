@@ -321,30 +321,4 @@ INSERT INTO race_special_abilities (race_id, ability) VALUES
 ((SELECT id FROM races WHERE type = 'ZHODANI'), 'Psionic Potential'),
 ((SELECT id FROM races WHERE type = 'ZHODANI'), 'Three-Tiered Society');
 
--- Insert political entity characteristics
-INSERT INTO political_entity_characteristics (political_entity_id, characteristic) VALUES
-((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Ruled by an Emperor/Empress'),
-((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Nobility system with hereditary titles'),
-((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Decentralized governance'),
-((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Strong military (Imperial Navy)'),
-((SELECT id FROM political_entities WHERE name = 'Third Imperium'), 'Interstellar trade network'),
-((SELECT id FROM political_entities WHERE name = 'Zhodani Consulate'), 'Psionic ruling class'),
-((SELECT id FROM political_entities WHERE name = 'Zhodani Consulate'), 'Three-tiered social structure'),
-((SELECT id FROM political_entities WHERE name = 'Zhodani Consulate'), 'Thought police'),
-((SELECT id FROM political_entities WHERE name = 'Zhodani Consulate'), 'Centralized governance'),
-((SELECT id FROM political_entities WHERE name = 'Zhodani Consulate'), 'Expansionist policy'),
-((SELECT id FROM political_entities WHERE name = 'Solomani Confederation'), 'Human supremacist ideology'),
-((SELECT id FROM political_entities WHERE name = 'Solomani Confederation'), 'Loose confederation of worlds'),
-((SELECT id FROM political_entities WHERE name = 'Solomani Confederation'), 'Strong military'),
-((SELECT id FROM political_entities WHERE name = 'Solomani Confederation'), 'Hostile to the Imperium'),
-((SELECT id FROM political_entities WHERE name = 'Solomani Confederation'), 'Controls Terra (Earth)'),
-((SELECT id FROM political_entities WHERE name = 'Sword Worlds Confederation'), 'Martial culture'),
-((SELECT id FROM political_entities WHERE name = 'Sword Worlds Confederation'), 'Norse-inspired traditions'),
-((SELECT id FROM political_entities WHERE name = 'Sword Worlds Confederation'), 'Independent spirit'),
-((SELECT id FROM political_entities WHERE name = 'Sword Worlds Confederation'), 'Frequent internal conflicts'),
-((SELECT id FROM political_entities WHERE name = 'Sword Worlds Confederation'), 'Buffer state between major powers'),
-((SELECT id FROM political_entities WHERE name = 'Aslan Hierate'), 'Clan-based society'),
-((SELECT id FROM political_entities WHERE name = 'Aslan Hierate'), 'Strong territorial instincts'),
-((SELECT id FROM political_entities WHERE name = 'Aslan Hierate'), 'Gender-based division of roles'),
-((SELECT id FROM political_entities WHERE name = 'Aslan Hierate'), 'Honor-focused culture'),
-((SELECT id FROM political_entities WHERE name = 'Aslan Hierate'), 'Expansionist tendencies');
+-- Political entity characteristics will be inserted in a later migration

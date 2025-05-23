@@ -2,18 +2,19 @@ spring:
   application:
     name: API
   datasource:
-    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5433/mydatabase
+    username: myuser
+    password: secret
     driver-class-name: org.postgresql.Driver
   flyway:
     baseline-on-migrate: true
     locations: classpath:db/migration
+    validate-on-migrate: false
   profiles:
     active: local
   docker:
     compose:
-      file: ./api/compose.yaml
+      file: ./compose.yaml
 
 # Common configuration for all profiles
 logging:

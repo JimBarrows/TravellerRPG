@@ -11,3 +11,4 @@ ALTER TABLE subsectors ADD COLUMN IF NOT EXISTS description VARCHAR(2000);
 ALTER TABLE political_entities ADD COLUMN IF NOT EXISTS tech_level INT;
 ALTER TABLE political_entities ADD COLUMN IF NOT EXISTS founding_date VARCHAR(255);
 ALTER TABLE political_entities ALTER COLUMN government_type TYPE INT USING (government_type::INT);
+

@@ -49,10 +49,10 @@ public class CharacterResolver {
     }
 
     /**
-     * Query to get all characters.
+     * Query to get all characters (legacy method, use CharacterGraphQLResolver.characters() instead).
+     * This method is kept for backward compatibility but is not exposed via GraphQL.
      */
-    @QueryMapping
-    public List<Character> characters() {
+    public List<Character> getAllCharacters() {
         return characterRepository.findAll();
     }
 
