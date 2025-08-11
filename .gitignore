@@ -36,3 +36,37 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+node_modules/
+# Environment variables
+.env
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+# tasks.json
+# tasks/
+
+# MCP configuration files (contain API keys)
+.mcp.json
+.cursor/mcp.json
+.windsurf/mcp.json
+
+# Copyright protected books and PDFs
+Books/
+*.pdf

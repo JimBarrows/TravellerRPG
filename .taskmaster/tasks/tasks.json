@@ -1,0 +1,1422 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "AWS Infrastructure Setup with CDK",
+        "description": "Set up the foundational AWS infrastructure using CDK, including authentication, API, database, storage, and compute stacks.",
+        "details": "Create a new AWS CDK project using TypeScript (v2.80+). Implement the stack structure as defined in the PRD: auth-stack.ts (Cognito), api-stack.ts (AppSync GraphQL), database-stack.ts (RDS PostgreSQL), storage-stack.ts (S3), and compute-stack.ts (Lambda). Configure environment variables using AWS SSM Parameter Store. Set up CI/CD pipeline with GitHub Actions for automated deployments. Use AWS CDK Pipelines for multi-environment deployments (dev, staging, prod). Implement infrastructure as code best practices with proper tagging, resource naming conventions, and security groups. Configure CloudWatch for logging and monitoring. Estimated effort: 3-5 days.",
+        "testStrategy": "Write unit tests for each CDK construct using Jest. Create snapshot tests for stack configurations. Implement integration tests to verify resource creation and connections. Use AWS CDK's 'cdk diff' to validate changes before deployment. Test deployment in a development environment before promoting to staging/production. Verify all resources are created correctly and accessible.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize AWS CDK Project with TypeScript",
+            "description": "Set up the initial CDK project structure with TypeScript and configure the development environment.",
+            "dependencies": [],
+            "details": "Create a new AWS CDK project using TypeScript v2.80+. Initialize the project structure with proper folder organization. Set up linting, formatting, and testing frameworks. Configure TypeScript compiler options. Install necessary AWS CDK dependencies and libraries. Create the main stack entry point and environment configuration files.",
+            "status": "done",
+            "testStrategy": "Verify project initialization with 'cdk synth' command. Ensure TypeScript compilation works correctly. Test the development workflow with sample resource creation."
+          },
+          {
+            "id": 2,
+            "title": "Implement Authentication Stack (Cognito)",
+            "description": "Create the auth-stack.ts to implement AWS Cognito for user authentication and authorization.",
+            "dependencies": [],
+            "details": "Implement auth-stack.ts with AWS Cognito User Pool configuration. Set up user pool clients for web and mobile applications. Configure password policies, MFA settings, and account recovery flows. Implement identity providers for social login. Create user groups and IAM roles for authorization. Set up Cognito triggers with Lambda functions as needed.",
+            "status": "done",
+            "testStrategy": "Write unit tests for the Cognito stack using Jest. Create snapshot tests for stack configuration. Verify IAM permissions and security settings. Test user pool client settings and OAuth flows."
+          },
+          {
+            "id": 3,
+            "title": "Implement API Stack (AppSync GraphQL)",
+            "description": "Create the api-stack.ts to implement AppSync GraphQL API with schema definition and resolvers.",
+            "dependencies": [],
+            "details": "Implement api-stack.ts with AWS AppSync GraphQL API. Define GraphQL schema with types, queries, mutations, and subscriptions. Set up API authentication with Cognito User Pools. Create resolver functions for GraphQL operations. Implement data sources connections to other AWS services. Configure API caching and logging options.",
+            "status": "done",
+            "testStrategy": "Write unit tests for the AppSync stack using Jest. Create snapshot tests for GraphQL schema. Test resolver mappings and data source connections. Verify authentication configuration and access controls."
+          },
+          {
+            "id": 4,
+            "title": "Implement Database Stack (RDS PostgreSQL)",
+            "description": "Create the database-stack.ts to implement RDS PostgreSQL database with proper security and scaling configurations.",
+            "dependencies": [],
+            "details": "Implement database-stack.ts with AWS RDS PostgreSQL. Configure instance type, storage, and scaling options. Set up security groups and network access controls. Implement database credentials management with AWS Secrets Manager. Configure database parameters, backup policies, and maintenance windows. Set up database monitoring and alarms.",
+            "status": "done",
+            "testStrategy": "Write unit tests for the RDS stack using Jest. Create snapshot tests for database configuration. Test security group rules and network settings. Verify secrets management implementation. Test database connection from other stacks."
+          },
+          {
+            "id": 5,
+            "title": "Implement Storage Stack (S3)",
+            "description": "Create the storage-stack.ts to implement S3 buckets for file storage with appropriate access policies.",
+            "dependencies": [],
+            "details": "Implement storage-stack.ts with AWS S3 buckets. Configure bucket properties, lifecycle policies, and versioning. Set up CORS configuration for web access. Implement bucket policies and access controls. Configure encryption settings for data at rest. Set up event notifications for file operations. Implement CloudFront distribution for content delivery if needed.",
+            "status": "done",
+            "testStrategy": "Write unit tests for the S3 stack using Jest. Create snapshot tests for bucket configurations. Test bucket policies and access controls. Verify CORS settings and encryption configuration. Test event notification setup."
+          },
+          {
+            "id": 6,
+            "title": "Implement Compute Stack (Lambda)",
+            "description": "Create the compute-stack.ts to implement Lambda functions with appropriate IAM roles and event triggers.",
+            "dependencies": [],
+            "details": "Implement compute-stack.ts with AWS Lambda functions. Create Lambda functions for various application features. Configure function memory, timeout, and runtime settings. Set up IAM roles and permissions for Lambda execution. Implement event sources and triggers from other AWS services. Configure environment variables and layer dependencies. Set up function logging and monitoring.",
+            "status": "done",
+            "testStrategy": "Write unit tests for the Lambda stack using Jest. Create snapshot tests for function configurations. Test IAM role permissions and policies. Verify event source mappings. Test Lambda function local invocation with mock events."
+          },
+          {
+            "id": 7,
+            "title": "Configure Environment Variables and Parameter Store",
+            "description": "Set up AWS SSM Parameter Store for managing environment variables across different deployment environments.",
+            "dependencies": [],
+            "details": "Configure AWS SSM Parameter Store for environment variables. Create parameter hierarchies for different environments (dev, staging, prod). Set up secure string parameters for sensitive information. Implement parameter access from CDK stacks. Create parameter references in Lambda functions and other resources. Implement parameter rotation policies for secrets.",
+            "status": "done",
+            "testStrategy": "Test parameter creation and access from CDK stacks. Verify secure parameter handling. Test parameter value retrieval in Lambda functions. Ensure proper parameter naming conventions and organization."
+          },
+          {
+            "id": 8,
+            "title": "Implement CI/CD Pipeline with GitHub Actions and CDK Pipelines",
+            "description": "Set up automated deployment pipeline using GitHub Actions and AWS CDK Pipelines for multi-environment deployments.",
+            "dependencies": [],
+            "details": "Implement CI/CD pipeline using GitHub Actions and AWS CDK Pipelines. Create pipeline stack for multi-environment deployments (dev, staging, prod). Configure GitHub Actions workflow files for automated builds and tests. Set up deployment stages with approval gates. Implement infrastructure testing in the pipeline. Configure notifications for pipeline events. Set up rollback mechanisms for failed deployments.",
+            "status": "pending",
+            "testStrategy": "Test pipeline deployment with sample changes. Verify environment promotion workflow. Test approval gates and manual interventions. Ensure proper IAM permissions for pipeline execution. Test rollback functionality for failed deployments."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "User Authentication System Implementation",
+        "description": "Implement the user authentication system with registration, login, profile management, and multi-factor authentication using AWS Cognito.",
+        "details": "Set up AWS Cognito User Pool with email and social provider (Google, Apple) authentication. Configure password policies, MFA settings, and account recovery flows. Create custom authentication UI components in React using AWS Amplify Auth (v5.3+) for the web application. For mobile, implement authentication flows using AWS Amplify React Native library. Implement user registration with email verification, social login integration, password recovery via email, and multi-factor authentication support. Create profile management UI with avatar upload (store in S3), display name, and timezone selection. Implement JWT token handling with proper refresh mechanisms. Add account deletion functionality with data export option. Implement subscription tier management (Free, Standard, Premium) with appropriate access controls.",
+        "testStrategy": "Create unit tests for authentication components using React Testing Library. Implement integration tests for the complete authentication flow. Test social provider authentication with mock providers. Verify MFA enrollment and verification processes. Test password recovery and account deletion flows. Ensure proper error handling and user feedback for all authentication scenarios. Test subscription tier access controls.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "AWS Cognito User Pool Setup",
+            "description": "Configure AWS Cognito User Pool with email and social provider authentication options",
+            "dependencies": [],
+            "details": "Set up AWS Cognito User Pool with appropriate settings for the application. Configure email authentication with verification. Integrate social identity providers including Google and Apple. Set up password policies with complexity requirements. Configure MFA settings with SMS and authenticator app options. Implement account recovery flows with secure verification methods.",
+            "status": "pending",
+            "testStrategy": "Verify User Pool creation and configuration in AWS Console. Test email verification flow. Validate social provider integration with test accounts. Confirm password policy enforcement. Test MFA enrollment and verification. Verify account recovery processes."
+          },
+          {
+            "id": 2,
+            "title": "Web Authentication UI Components",
+            "description": "Create custom React authentication UI components using AWS Amplify Auth",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Develop responsive React components for authentication flows using AWS Amplify Auth v5.3+. Create registration form with email verification. Implement login form with remember me option. Design password recovery interface with email verification. Build MFA enrollment and verification screens. Create social login buttons with appropriate branding. Implement error handling and validation for all forms.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for all authentication components using React Testing Library. Test form validation logic. Verify component state management. Test responsive design across device sizes. Validate accessibility compliance."
+          },
+          {
+            "id": 3,
+            "title": "Mobile Authentication Implementation",
+            "description": "Implement authentication flows for mobile using AWS Amplify React Native library",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Set up AWS Amplify React Native library in the mobile application. Create native authentication screens for registration, login, and password recovery. Implement social login integration with native SDKs. Design mobile-optimized MFA enrollment and verification flows. Ensure smooth authentication state management across app restarts. Implement biometric authentication options where available.",
+            "status": "pending",
+            "testStrategy": "Test authentication flows on both iOS and Android devices. Verify social login functionality with test accounts. Test MFA enrollment and verification on mobile. Validate offline behavior and reconnection handling. Test biometric authentication on supported devices."
+          },
+          {
+            "id": 4,
+            "title": "User Registration and Login Flows",
+            "description": "Implement complete user registration, verification, and login processes",
+            "dependencies": [
+              "2.1",
+              "2.2",
+              "2.3"
+            ],
+            "details": "Develop the complete user registration flow with email verification. Implement social login integration with account linking options. Create password recovery via email with secure token handling. Set up multi-factor authentication enrollment and verification. Implement remember me functionality with secure cookie storage. Create comprehensive error handling for all authentication scenarios.",
+            "status": "pending",
+            "testStrategy": "Create end-to-end tests for registration flows. Test social login and account linking. Verify password recovery process. Test MFA enrollment and verification. Validate error handling for invalid credentials and network issues."
+          },
+          {
+            "id": 5,
+            "title": "Profile Management Implementation",
+            "description": "Create profile management UI with avatar upload and user preferences",
+            "dependencies": [
+              "2.4"
+            ],
+            "details": "Develop profile management interface with editable user information. Implement avatar upload functionality with S3 storage integration. Create display name and timezone selection options. Add email change functionality with verification. Implement password change with current password verification. Design UI for viewing and managing connected social accounts.",
+            "status": "pending",
+            "testStrategy": "Test profile data updating and validation. Verify avatar upload, cropping, and storage. Test email change verification flow. Validate password change functionality. Test timezone selection and application."
+          },
+          {
+            "id": 6,
+            "title": "JWT Token Management",
+            "description": "Implement secure JWT token handling with refresh mechanisms",
+            "dependencies": [
+              "2.4"
+            ],
+            "details": "Set up JWT token handling for authenticated API requests. Implement token refresh mechanisms to maintain sessions. Create secure token storage in browser/device. Develop authentication state management across the application. Implement token validation on API endpoints. Create session timeout handling with user notifications.",
+            "status": "pending",
+            "testStrategy": "Test token generation and validation. Verify refresh token functionality. Test token expiration handling. Validate secure storage implementation. Test authentication state persistence across page reloads."
+          },
+          {
+            "id": 7,
+            "title": "Account Management and Subscription Tiers",
+            "description": "Implement account deletion, data export, and subscription tier management",
+            "dependencies": [
+              "2.5",
+              "2.6"
+            ],
+            "details": "Create account deletion functionality with confirmation flow. Implement data export option for user data portability. Develop subscription tier management (Free, Standard, Premium). Set up appropriate access controls based on subscription level. Create upgrade/downgrade flows with payment integration. Implement subscription status indicators throughout the application.",
+            "status": "pending",
+            "testStrategy": "Test account deletion and data cleanup. Verify data export format and completeness. Test subscription tier changes and access control enforcement. Validate payment integration for subscription changes. Test subscription status display accuracy."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Database Schema Implementation",
+        "description": "Design and implement the PostgreSQL database schema for users, campaigns, characters, and game data as specified in the PRD.",
+        "details": "Set up RDS PostgreSQL (version 14+) instance with appropriate instance size and storage configuration. Implement the core tables structure as defined in the PRD, including users, campaigns, campaign_members, characters, character_skills, character_equipment, starships, star_systems, planets, trade_goods, encounters, combat_sessions, custom_content, house_rules, handouts, and session_notes. Create proper relationships between tables with foreign keys and constraints. Implement indexes for frequently queried fields to optimize performance. Set up database migrations using a tool like Prisma Migrate or TypeORM. Configure database backup and restore procedures. Implement data validation at the database level where appropriate. Consider implementing row-level security for multi-tenant data isolation.",
+        "testStrategy": "Create unit tests for database schema validation. Test database migrations for both upgrade and rollback scenarios. Implement performance tests for common query patterns. Verify foreign key constraints and cascading operations. Test data integrity with sample datasets. Validate backup and restore procedures. Ensure proper error handling for constraint violations.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up RDS PostgreSQL instance",
+            "description": "Configure and deploy a PostgreSQL 14+ database instance on AWS RDS with appropriate sizing and security settings",
+            "dependencies": [],
+            "details": "Create an RDS PostgreSQL instance (version 14+) with appropriate instance size based on expected load. Configure storage with auto-scaling enabled. Set up security groups and network access controls. Configure parameter groups for optimal performance. Enable encryption at rest. Set up monitoring and alerting through CloudWatch.",
+            "status": "pending",
+            "testStrategy": "Verify database connectivity from application servers. Test backup and restore functionality. Benchmark database performance under expected load. Validate encryption and security configurations."
+          },
+          {
+            "id": 2,
+            "title": "Implement core user and campaign tables",
+            "description": "Create database schema for users, campaigns, and campaign_members tables with proper relationships",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Design and implement the users table with authentication fields. Create campaigns table with game settings and metadata. Implement campaign_members table to manage user-campaign relationships with role permissions. Set up appropriate indexes on frequently queried fields. Implement foreign key constraints between tables. Add timestamps for created_at and updated_at.",
+            "status": "pending",
+            "testStrategy": "Validate table relationships with test data. Verify foreign key constraints prevent orphaned records. Test indexes improve query performance. Ensure proper cascading behavior on record deletion."
+          },
+          {
+            "id": 3,
+            "title": "Implement character-related tables",
+            "description": "Create database schema for characters, character_skills, and character_equipment tables with relationships",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Design and implement the characters table with all attributes from the PRD. Create character_skills table to track skills and proficiency levels. Implement character_equipment table for inventory management. Set up proper foreign key relationships to users and campaigns. Add appropriate indexes for performance optimization. Implement constraints for data validation.",
+            "status": "pending",
+            "testStrategy": "Test character creation, updating, and deletion workflows. Verify skill and equipment relationships maintain integrity. Validate constraints prevent invalid data. Test query performance for character retrieval operations."
+          },
+          {
+            "id": 4,
+            "title": "Implement game world tables",
+            "description": "Create database schema for star_systems, planets, starships, and trade_goods tables",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Design and implement star_systems table with sector coordinates and metadata. Create planets table with Universal World Profile (UWP) codes and characteristics. Implement starships table with specifications and status. Create trade_goods table with categories and base prices. Set up proper relationships between these tables. Add appropriate indexes for spatial and text searches.",
+            "status": "pending",
+            "testStrategy": "Validate spatial queries for star systems and planets. Test relationships between planets and star systems. Verify trade goods data can be efficiently queried by various attributes. Test starship data integrity with sample datasets."
+          },
+          {
+            "id": 5,
+            "title": "Implement gameplay tables",
+            "description": "Create database schema for encounters, combat_sessions, and related gameplay tables",
+            "dependencies": [
+              "3.3",
+              "3.4"
+            ],
+            "details": "Design and implement encounters table for storing NPC and event data. Create combat_sessions table to track initiative and combat state. Implement related tables for combat participants and actions. Set up foreign key relationships to characters and campaigns. Add indexes for performance optimization of combat queries. Implement constraints for valid game state transitions.",
+            "status": "pending",
+            "testStrategy": "Test combat session creation and state transitions. Verify encounter data integrity with sample scenarios. Test performance of combat-related queries. Validate constraints prevent invalid game states."
+          },
+          {
+            "id": 6,
+            "title": "Implement content management tables",
+            "description": "Create database schema for custom_content, house_rules, handouts, and session_notes tables",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Design and implement custom_content table for user-created game elements. Create house_rules table to store campaign-specific rule modifications. Implement handouts table for sharing images and documents. Create session_notes table with rich text capabilities. Set up proper relationships to campaigns and users. Add full-text search capabilities for content tables.",
+            "status": "pending",
+            "testStrategy": "Test full-text search functionality across content tables. Verify content ownership and permissions. Test rich text storage and retrieval. Validate relationships maintain data integrity during campaign operations."
+          },
+          {
+            "id": 7,
+            "title": "Set up database migrations",
+            "description": "Implement database migration system using Prisma Migrate or TypeORM for version control",
+            "dependencies": [
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6"
+            ],
+            "details": "Select and configure a database migration tool (Prisma Migrate or TypeORM). Create initial migration scripts for all tables. Implement version control for database schema changes. Set up migration testing environment. Create documentation for migration processes. Implement rollback capabilities for failed migrations. Configure CI/CD pipeline integration for automated migrations.",
+            "status": "pending",
+            "testStrategy": "Test migration process in development and staging environments. Verify rollback functionality works correctly. Test migration scripts against sample data. Validate CI/CD pipeline correctly applies migrations during deployment."
+          },
+          {
+            "id": 8,
+            "title": "Implement database security and optimization",
+            "description": "Configure row-level security, backup procedures, and performance optimizations",
+            "dependencies": [
+              "3.1",
+              "3.7"
+            ],
+            "details": "Implement row-level security policies for multi-tenant data isolation. Configure automated backup procedures with appropriate retention policies. Set up point-in-time recovery capabilities. Create database roles with least-privilege permissions. Implement connection pooling for performance. Configure query logging for performance monitoring. Create maintenance procedures for database optimization.",
+            "status": "pending",
+            "testStrategy": "Test row-level security with different user contexts. Verify backup and restore procedures work correctly. Benchmark query performance before and after optimizations. Validate security controls prevent unauthorized access to data."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "GraphQL API Development",
+        "description": "Develop the GraphQL API using AWS AppSync with resolvers for all core functionality as outlined in the PRD.",
+        "details": "Set up AWS AppSync GraphQL API with schema definitions for User, Campaign, Character, and other types as specified in the PRD. Implement resolvers using AWS Lambda (Node.js 18+) for complex business logic. Use direct DynamoDB resolvers for simple CRUD operations where applicable. Implement GraphQL subscriptions for real-time updates using WebSockets. Create field-level authorization using AWS Cognito groups and custom directives. Implement pagination for list queries using the connection pattern. Add caching strategies for frequently accessed data. Implement error handling and logging for all resolvers. Create custom scalars for specialized data types (DateTime, JSON, etc.). Set up rate limiting and throttling to prevent abuse. Document the API using GraphQL schema directives.",
+        "testStrategy": "Write unit tests for each resolver using Jest. Create integration tests for the complete API using a tool like Apollo Client Testing. Test subscription functionality with multiple clients. Verify authorization rules for different user roles. Test error scenarios and edge cases. Implement performance testing for resolver execution time. Validate schema changes against existing clients for backward compatibility.",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define GraphQL Schema",
+            "description": "Create the GraphQL schema with type definitions for User, Campaign, Character, and other core entities",
+            "dependencies": [],
+            "details": "Define GraphQL types, queries, mutations, and subscriptions based on the PRD requirements. Include User, Campaign, Character, and game-related types with appropriate fields, relationships, and input types. Create custom scalars for specialized data types (DateTime, JSON, etc.). Document the schema using GraphQL schema directives.",
+            "status": "pending",
+            "testStrategy": "Validate schema against GraphQL specification. Test schema with mock queries to ensure all required fields and relationships are properly defined."
+          },
+          {
+            "id": 2,
+            "title": "Set Up AWS AppSync API",
+            "description": "Configure AWS AppSync service and connect it to the authentication system",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create a new AppSync API in AWS. Configure API authentication using AWS Cognito. Set up API keys for development and testing. Configure logging and monitoring. Implement rate limiting and throttling to prevent abuse.",
+            "status": "pending",
+            "testStrategy": "Verify API creation and configuration. Test authentication integration with Cognito. Confirm rate limiting functionality works as expected."
+          },
+          {
+            "id": 3,
+            "title": "Implement DynamoDB Direct Resolvers",
+            "description": "Create direct DynamoDB resolvers for simple CRUD operations",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Identify operations suitable for direct DynamoDB resolvers. Configure VTL templates for these resolvers. Implement request and response mapping templates. Set up proper error handling and response formatting.",
+            "status": "pending",
+            "testStrategy": "Test each resolver with valid and invalid inputs. Verify correct data retrieval and manipulation. Test error handling for edge cases."
+          },
+          {
+            "id": 4,
+            "title": "Develop Lambda Resolvers",
+            "description": "Create AWS Lambda functions for complex business logic resolvers",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Develop Node.js 18+ Lambda functions for complex operations. Implement business logic for game mechanics, character management, and campaign operations. Create proper error handling and logging. Optimize Lambda performance and memory allocation.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for each Lambda function using Jest. Test with various input scenarios. Verify error handling and edge cases."
+          },
+          {
+            "id": 5,
+            "title": "Implement GraphQL Subscriptions",
+            "description": "Set up real-time updates using WebSocket-based GraphQL subscriptions",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Configure WebSocket endpoints for subscriptions. Implement subscription resolvers for real-time updates on game state changes, chat messages, and other time-sensitive data. Test subscription performance and reliability.",
+            "status": "pending",
+            "testStrategy": "Test subscription functionality with multiple concurrent clients. Verify message delivery and ordering. Test reconnection scenarios and subscription filtering."
+          },
+          {
+            "id": 6,
+            "title": "Configure Field-Level Authorization",
+            "description": "Implement field-level access control using AWS Cognito groups and custom directives",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Create custom GraphQL directives for authorization. Configure field-level permissions based on user roles (Player, GM, Admin). Implement authorization checks in resolvers. Test access control with different user roles.",
+            "status": "pending",
+            "testStrategy": "Test authorization rules with users in different Cognito groups. Verify field-level access control works as expected. Test unauthorized access attempts."
+          },
+          {
+            "id": 7,
+            "title": "Implement Pagination",
+            "description": "Add pagination support for list queries using the GraphQL connection pattern",
+            "dependencies": [
+              "4.3",
+              "4.4"
+            ],
+            "details": "Implement the connection pattern for paginated queries. Add support for cursor-based pagination. Configure limit and offset parameters. Optimize query performance for large datasets.",
+            "status": "pending",
+            "testStrategy": "Test pagination with various page sizes. Verify cursor functionality for forward and backward navigation. Test performance with large datasets."
+          },
+          {
+            "id": 8,
+            "title": "Implement Caching Strategy",
+            "description": "Set up caching for frequently accessed data to improve performance",
+            "dependencies": [
+              "4.3",
+              "4.4"
+            ],
+            "details": "Configure AppSync caching settings. Implement cache control directives in the schema. Set appropriate TTL values for different data types. Implement cache invalidation strategies for data updates.",
+            "status": "pending",
+            "testStrategy": "Measure performance improvements with caching enabled. Test cache invalidation on data updates. Verify cache hits and misses are working as expected."
+          },
+          {
+            "id": 9,
+            "title": "Create API Documentation and Testing Suite",
+            "description": "Document the API and create comprehensive tests for all resolvers",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4",
+              "4.5",
+              "4.6",
+              "4.7",
+              "4.8"
+            ],
+            "details": "Create detailed API documentation using GraphQL schema directives. Develop a comprehensive testing suite for all resolvers. Implement integration tests using Apollo Client Testing. Create performance tests for critical operations.",
+            "status": "pending",
+            "testStrategy": "Verify documentation accuracy and completeness. Run the full test suite to ensure all resolvers work as expected. Test API performance under load."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Web Application Foundation with React/Vite",
+        "description": "Set up the web application foundation using React, Vite, and Tailwind CSS with the feature-based organization structure.",
+        "details": "Initialize a new React project using Vite (v4.3+) with TypeScript. Set up Tailwind CSS (v3.3+) for styling with a custom theme matching the Traveller RPG aesthetic. Implement the feature-based folder structure as defined in the PRD. Set up routing using React Router (v6.11+) with lazy loading for code splitting. Configure Apollo Client (v3.7+) for GraphQL API communication. Implement global state management using React Context API or Redux Toolkit. Create reusable UI components following the Atomic Design methodology. Set up error boundary components for graceful error handling. Implement responsive layouts for desktop, tablet, and mobile views. Configure PWA capabilities for offline support. Set up internationalization using i18next for future localization. Implement dark mode support using Tailwind's dark mode feature.",
+        "testStrategy": "Write unit tests for components using React Testing Library and Vitest. Create snapshot tests for UI components. Implement integration tests for page flows. Test responsive layouts across different viewport sizes. Verify offline functionality with service worker mocking. Test dark mode toggle and theme persistence. Ensure accessibility compliance using axe-core testing library.",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize React Project with Vite and TypeScript",
+            "description": "Set up the foundation of the web application using Vite and TypeScript with proper configuration.",
+            "dependencies": [],
+            "details": "Create a new project using Vite CLI with React and TypeScript template. Configure tsconfig.json with strict type checking. Set up ESLint and Prettier for code quality. Create the initial project structure with src directory. Configure environment variables with .env files for different environments. Set up build and development scripts in package.json.",
+            "status": "pending",
+            "testStrategy": "Verify the project builds without errors. Test the development server functionality. Validate TypeScript configuration with sample components."
+          },
+          {
+            "id": 2,
+            "title": "Implement Feature-Based Folder Structure",
+            "description": "Organize the codebase using a feature-based folder structure as defined in the PRD.",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Create the main directory structure with features/, shared/, utils/, and config/ folders. Within features/, create subdirectories for each major feature (auth, character, campaign, etc.). Set up the shared/ directory with common components, hooks, and contexts. Implement the utils/ directory with helper functions. Create a config/ directory for application configuration. Document the folder structure in README.md for developer onboarding.",
+            "status": "pending",
+            "testStrategy": "Review the structure against PRD requirements. Verify import paths work correctly. Test the organization with sample components in each section."
+          },
+          {
+            "id": 3,
+            "title": "Set Up Tailwind CSS with Custom Theme",
+            "description": "Configure Tailwind CSS with a custom theme that matches the Traveller RPG aesthetic.",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Install Tailwind CSS v3.3+ and configure it with PostCSS. Create a tailwind.config.js file with custom colors, fonts, and spacing that match the Traveller RPG aesthetic. Set up a base styles file with global CSS variables. Configure dark mode support using Tailwind's dark mode feature. Create utility classes for common UI patterns. Implement responsive breakpoints for different device sizes.",
+            "status": "pending",
+            "testStrategy": "Verify custom theme colors render correctly. Test dark mode toggle functionality. Ensure responsive classes work across different viewport sizes."
+          },
+          {
+            "id": 4,
+            "title": "Implement Routing with React Router",
+            "description": "Set up application routing using React Router v6.11+ with lazy loading for code splitting.",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Install React Router v6.11+. Create a router configuration with route definitions. Implement lazy loading for routes using React.lazy() and Suspense. Set up nested routes for feature areas. Create protected routes that require authentication. Implement route guards for authorization. Add loading indicators for route transitions. Configure 404 page for undefined routes.",
+            "status": "pending",
+            "testStrategy": "Test navigation between routes. Verify protected routes redirect unauthenticated users. Test lazy loading with network throttling. Ensure 404 page appears for invalid routes."
+          },
+          {
+            "id": 5,
+            "title": "Configure Apollo Client for GraphQL",
+            "description": "Set up Apollo Client v3.7+ for GraphQL API communication with proper caching and error handling.",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Install Apollo Client v3.7+ and required dependencies. Configure the Apollo Client instance with the GraphQL endpoint. Set up authentication token handling in requests. Implement optimistic UI updates for mutations. Configure the Apollo cache for efficient data storage. Create custom error handling for GraphQL errors. Set up polling for real-time data where needed. Implement offline support with cache persistence.",
+            "status": "pending",
+            "testStrategy": "Test GraphQL queries and mutations against mock endpoints. Verify error handling displays appropriate messages. Test offline functionality with network disconnection."
+          },
+          {
+            "id": 6,
+            "title": "Implement Global State Management",
+            "description": "Set up global state management using React Context API or Redux Toolkit for application-wide state.",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Evaluate and choose between React Context API and Redux Toolkit based on application needs. Create the store structure with proper typing. Implement actions and reducers for core functionality. Set up selectors for efficient state access. Configure middleware for side effects (thunks or sagas). Implement persistence for relevant state with local storage. Create hooks for accessing state in components.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for reducers and selectors. Test state changes with different actions. Verify persistence works across page refreshes."
+          },
+          {
+            "id": 7,
+            "title": "Create Reusable UI Component Library",
+            "description": "Develop a set of reusable UI components following the Atomic Design methodology with Traveller RPG styling.",
+            "dependencies": [
+              "5.1",
+              "5.3"
+            ],
+            "details": "Implement Atomic Design structure with atoms/, molecules/, organisms/, templates/, and pages/ directories. Create basic atoms (Button, Input, Typography, etc.) with proper styling. Build molecules by composing atoms (Form fields, Cards, etc.). Develop organisms for complex UI sections. Implement templates for page layouts. Create a component documentation system. Ensure all components are responsive and support dark mode. Implement accessibility features (ARIA attributes, keyboard navigation).",
+            "status": "pending",
+            "testStrategy": "Create snapshot tests for all components. Test responsive behavior across breakpoints. Verify accessibility with automated tools. Test dark mode appearance for all components."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Mobile Application Setup with React Native",
+        "description": "Set up the mobile application foundation using React Native with the screen-based organization structure.",
+        "details": "Initialize a new React Native project using Expo (SDK 48+) with TypeScript. Configure the folder structure as defined in the PRD with screens, navigation, components, services, store, and utils. Set up navigation using React Navigation (v6.x) with tab, stack, and drawer navigators. Implement Apollo Client for GraphQL API communication. Configure global state management using React Context API or Redux Toolkit. Set up custom theme and styling with a consistent design system. Implement responsive layouts for different device sizes. Configure offline support with AsyncStorage for data persistence. Set up push notification handling using Expo Notifications. Implement deep linking for sharing content. Configure app icons and splash screens. Set up code signing for iOS and Android builds. Implement gesture handlers for mobile-specific interactions.",
+        "testStrategy": "Write unit tests using Jest and React Native Testing Library. Create snapshot tests for UI components. Implement integration tests for screen flows. Test on multiple device sizes and OS versions using Expo's testing tools. Verify offline functionality and data synchronization. Test push notification handling. Ensure accessibility compliance using React Native's accessibility tools.",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize React Native Project with Expo",
+            "description": "Set up the initial React Native project using Expo SDK 48+ with TypeScript configuration",
+            "dependencies": [],
+            "details": "Create a new React Native project using 'npx create-expo-app -t expo-template-typescript'. Configure tsconfig.json with strict type checking. Set up ESLint and Prettier for code quality. Initialize Git repository with appropriate .gitignore file. Update app.json with project metadata and configuration options. Install necessary development dependencies.",
+            "status": "pending",
+            "testStrategy": "Verify project builds successfully with 'npx expo start'. Test TypeScript configuration by intentionally introducing type errors. Ensure the development environment works across iOS simulator, Android emulator, and web."
+          },
+          {
+            "id": 2,
+            "title": "Configure Project Folder Structure",
+            "description": "Implement the folder structure as defined in the PRD with screens, navigation, components, services, store, and utils",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Create the main directory structure: /src with subdirectories for /screens (organized by feature), /navigation, /components (shared UI elements), /services (API clients), /store (state management), /utils (helper functions), /hooks (custom hooks), /assets (images, fonts), and /types (TypeScript definitions). Set up index files for clean imports. Create README files documenting the purpose of each directory. Implement barrel exports for simplified imports.",
+            "status": "pending",
+            "testStrategy": "Review folder structure against PRD requirements. Verify import paths work correctly by creating sample files in each directory and importing them elsewhere."
+          },
+          {
+            "id": 3,
+            "title": "Set Up Navigation System",
+            "description": "Implement React Navigation v6.x with tab, stack, and drawer navigators for app routing",
+            "dependencies": [
+              "6.1",
+              "6.2"
+            ],
+            "details": "Install React Navigation core and dependencies: '@react-navigation/native', '@react-navigation/bottom-tabs', '@react-navigation/stack', '@react-navigation/drawer'. Configure navigation container in App.tsx. Implement main tab navigator with placeholder screens. Set up stack navigators for each main section. Create drawer navigator for settings and additional options. Configure navigation theming to match app design. Implement type-safe navigation with TypeScript.",
+            "status": "pending",
+            "testStrategy": "Test navigation flow between screens. Verify back button behavior works correctly. Test deep linking configuration. Ensure navigation state persists across app reloads. Test navigation animations and transitions on both iOS and Android."
+          },
+          {
+            "id": 4,
+            "title": "Implement Apollo Client for GraphQL",
+            "description": "Set up Apollo Client for GraphQL API communication with proper caching and error handling",
+            "dependencies": [
+              "6.1",
+              "6.2"
+            ],
+            "details": "Install Apollo Client packages: '@apollo/client', 'graphql'. Configure Apollo Client with the GraphQL endpoint URL. Set up cache policies and persistence. Implement authentication token handling in requests. Create custom error handling for network issues. Set up Apollo Provider at the app root. Create sample queries and mutations. Implement optimistic UI updates for better user experience. Configure offline support with cache persistence.",
+            "status": "pending",
+            "testStrategy": "Test GraphQL queries against mock endpoints. Verify error handling with intentionally failed requests. Test cache invalidation and updates. Ensure offline functionality works by disabling network connection. Verify authentication token refresh logic."
+          },
+          {
+            "id": 5,
+            "title": "Configure State Management and UI Foundation",
+            "description": "Set up global state management, theming, styling, and responsive layouts",
+            "dependencies": [
+              "6.1",
+              "6.2",
+              "6.3",
+              "6.4"
+            ],
+            "details": "Implement global state management using React Context API or Redux Toolkit. Create theme provider with consistent color palette, typography, and spacing. Set up responsive layout utilities for different device sizes. Configure AsyncStorage for data persistence. Implement basic UI components following the design system: buttons, inputs, cards, modals. Set up app icons and splash screens for iOS and Android. Configure dark mode support. Implement basic gesture handlers for swipe interactions.",
+            "status": "pending",
+            "testStrategy": "Test state management with complex state changes. Verify UI components render correctly on different device sizes. Test theme switching between light and dark modes. Verify data persistence across app restarts. Test gesture interactions on both platforms."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Character Creation System",
+        "description": "Implement the character creation wizard following the Traveller lifepath system with career paths, background events, skill assignment, and equipment selection.",
+        "details": "Create a multi-step wizard interface for character creation using a form library like Formik or React Hook Form. Implement the Traveller lifepath system with random and manual options. Create components for career path selection with all core careers from the Traveller rulebook. Implement background events generation with random tables. Create skill assignment interface with point allocation and specializations. Develop starting equipment selection based on available credits. Implement character portrait upload to S3 or avatar generator using a library like DiceBear Avatars. Store character data in the database with proper validation. Implement save/load functionality for character creation in progress. Create a final review step before character completion. Generate downloadable/printable character sheet in PDF format using a library like jsPDF or react-pdf.",
+        "testStrategy": "Write unit tests for each step of the character creation wizard. Create integration tests for the complete character creation flow. Test random generation algorithms for consistency and fairness. Verify data validation and error handling. Test save/load functionality for in-progress characters. Ensure the wizard works on both web and mobile platforms. Test PDF generation for different character configurations.",
+        "priority": "high",
+        "dependencies": [
+          3,
+          4,
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Multi-step Wizard Interface Implementation",
+            "description": "Create the UI framework for the character creation wizard with navigation between steps",
+            "dependencies": [],
+            "details": "Implement a multi-step wizard interface using Formik or React Hook Form. Create a container component with step navigation, progress tracking, and state management. Design responsive layouts for each step with consistent styling. Implement form validation rules and error handling for each step. Add navigation controls (previous, next, save) with proper state persistence.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for wizard navigation and state management. Test form validation logic and error handling. Verify responsive design across different screen sizes. Test keyboard navigation and accessibility compliance."
+          },
+          {
+            "id": 2,
+            "title": "Traveller Lifepath System Implementation",
+            "description": "Implement the core Traveller lifepath system with both random and manual options",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create data structures for the Traveller lifepath system including characteristics generation (STR, DEX, END, INT, EDU, SOC). Implement random generation algorithms following Traveller rules. Create UI components for both random and manual characteristic assignment. Implement homeworld selection with UWP (Universal World Profile) integration. Add background generation with social class and starting skills.",
+            "status": "pending",
+            "testStrategy": "Test random generation algorithms for statistical distribution and fairness. Verify all Traveller rulebook formulas are correctly implemented. Test edge cases for characteristic values. Ensure proper validation of manual entries."
+          },
+          {
+            "id": 3,
+            "title": "Career Path Selection Components",
+            "description": "Create components for selecting and managing character career paths",
+            "dependencies": [
+              "7.2"
+            ],
+            "details": "Implement all core careers from the Traveller rulebook (Scout, Marine, Army, Merchant, etc.). Create UI for career qualification checks and entry requirements. Implement term-based progression with skill acquisition, rank advancement, and benefits. Add career events and mishap tables with random generation. Create mustering-out benefits calculation based on terms served and rank.",
+            "status": "pending",
+            "testStrategy": "Test career qualification logic against rulebook specifications. Verify skill acquisition and advancement calculations. Test random event generation for proper distribution. Ensure all career paths function correctly with different character profiles."
+          },
+          {
+            "id": 4,
+            "title": "Background Events Generation System",
+            "description": "Implement the system for generating and managing character background events",
+            "dependencies": [
+              "7.3"
+            ],
+            "details": "Create data structures for background event tables from the Traveller rulebook. Implement random event generation with appropriate weighting. Design UI for displaying and selecting background events. Add support for event consequences that affect skills, characteristics, or equipment. Implement connections between events to create coherent character backgrounds.",
+            "status": "pending",
+            "testStrategy": "Test random event generation for proper distribution and weighting. Verify event consequences are correctly applied to character data. Test edge cases with multiple interconnected events. Ensure UI properly displays all event details and options."
+          },
+          {
+            "id": 5,
+            "title": "Skill Assignment Interface",
+            "description": "Create the interface for assigning and managing character skills",
+            "dependencies": [
+              "7.2",
+              "7.3",
+              "7.4"
+            ],
+            "details": "Implement the complete Traveller skill list with categories and specializations. Create UI for skill point allocation with validation for maximum levels. Add skill prerequisites and dependencies based on rulebook. Implement skill bonuses from characteristics. Create search and filter functionality for finding skills. Add tooltips with skill descriptions and usage examples.",
+            "status": "pending",
+            "testStrategy": "Test skill point allocation logic and validation. Verify skill prerequisites and dependencies function correctly. Test search and filter functionality with various queries. Ensure skill bonuses are correctly calculated from characteristics."
+          },
+          {
+            "id": 6,
+            "title": "Equipment Selection System",
+            "description": "Develop the system for selecting and managing starting equipment",
+            "dependencies": [
+              "7.5"
+            ],
+            "details": "Create database of equipment items from Traveller rulebook with prices, weights, and descriptions. Implement starting credits calculation based on career and benefits. Create UI for browsing, searching, and selecting equipment. Add encumbrance calculation and carrying capacity limits. Implement equipment dependencies and prerequisites (e.g., weapon accessories requiring specific weapons).",
+            "status": "pending",
+            "testStrategy": "Test equipment selection and purchase logic with credit limits. Verify encumbrance calculations against rulebook specifications. Test equipment dependencies and prerequisites. Ensure all equipment data is accurately represented from the rulebook."
+          },
+          {
+            "id": 7,
+            "title": "Character Portrait and Avatar System",
+            "description": "Implement character portrait upload to S3 or avatar generation using DiceBear Avatars",
+            "dependencies": [],
+            "details": "Set up S3 bucket configuration for portrait storage with proper security settings. Implement image upload with preview, cropping, and resizing. Add integration with DiceBear Avatars API for procedural avatar generation. Create UI for selecting between upload and generated avatars. Implement image optimization for different display contexts (thumbnail, full view).",
+            "status": "pending",
+            "testStrategy": "Test image upload, cropping, and storage functionality. Verify S3 security configurations prevent unauthorized access. Test avatar generation with different parameters. Ensure proper error handling for failed uploads or generation."
+          },
+          {
+            "id": 8,
+            "title": "Character Data Storage and PDF Generation",
+            "description": "Implement database storage, save/load functionality, and PDF character sheet generation",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3",
+              "7.4",
+              "7.5",
+              "7.6",
+              "7.7"
+            ],
+            "details": "Create database schema for storing complete character data with proper validation. Implement save/load functionality for characters in progress. Add autosave feature to prevent data loss. Create final review step before character completion. Implement PDF character sheet generation using jsPDF or react-pdf with proper formatting and styling. Add options for different PDF layouts (compact, detailed).",
+            "status": "pending",
+            "testStrategy": "Test database storage and retrieval with various character configurations. Verify save/load functionality preserves all character data. Test autosave feature under different network conditions. Ensure PDF generation produces correctly formatted documents across different browsers."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Character Sheet Management",
+        "description": "Develop the interactive character sheet with characteristics display, skills tracking, equipment management, finances, conditions, notes, and advancement tracking.",
+        "details": "Create a responsive character sheet layout with sections for characteristics, skills, equipment, finances, conditions, notes, and advancement. Implement editable fields with real-time validation and database updates. Create a characteristics display for STR, DEX, END, INT, EDU, SOC with modifiers. Implement skills tracking with levels, specializations, and usage tracking. Develop equipment management with encumbrance calculation, equipped/stored status, and item details. Create credits and finances tracking with transaction history. Implement conditions and status effects with visual indicators. Develop a rich text editor for notes and background using a library like Slate.js or TipTap. Create experience and advancement tracking with milestone markers. Implement character version history and backup functionality. Add character sharing via link or QR code generation.",
+        "testStrategy": "Write unit tests for each section of the character sheet. Create integration tests for editing and saving character data. Test real-time updates and validation. Verify encumbrance calculations and equipment management. Test rich text editor functionality for notes. Ensure responsive layout works on different devices. Test character sharing and QR code generation. Verify version history and backup/restore functionality.",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Responsive Character Sheet Layout",
+            "description": "Create a responsive layout with all required sections for the character sheet",
+            "dependencies": [],
+            "details": "Design and implement a responsive grid layout for the character sheet with sections for characteristics, skills, equipment, finances, conditions, notes, and advancement. Use CSS Grid or Flexbox for responsive behavior across desktop and mobile devices. Implement collapsible sections for better mobile experience. Create navigation between sections for easy access.",
+            "status": "pending",
+            "testStrategy": "Test responsive behavior across different screen sizes. Verify all sections render correctly on desktop, tablet, and mobile. Test collapsible functionality and navigation between sections."
+          },
+          {
+            "id": 2,
+            "title": "Editable Fields with Real-time Validation",
+            "description": "Implement editable fields throughout the character sheet with validation and database updates",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Create reusable form components for different data types (text, number, select, etc.). Implement real-time validation for all editable fields with appropriate error messages. Set up debounced auto-save functionality to update the database. Add visual indicators for saving status (saving, saved, error). Implement optimistic UI updates with rollback on error.",
+            "status": "pending",
+            "testStrategy": "Test validation rules for all field types. Verify error messages display correctly. Test auto-save functionality with network delays and failures. Verify database updates occur correctly."
+          },
+          {
+            "id": 3,
+            "title": "Characteristics Display Implementation",
+            "description": "Create the display for the six main characteristics with modifiers",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Implement the display for the six main characteristics (STR, DEX, END, INT, EDU, SOC) with current values and modifiers. Create visual representation of characteristic levels with color coding or indicators. Add tooltips explaining each characteristic and how modifiers are calculated. Implement editing functionality with validation for characteristic ranges.",
+            "status": "pending",
+            "testStrategy": "Test display of characteristics and modifiers. Verify modifier calculations are correct. Test editing functionality with valid and invalid inputs. Verify tooltips display correctly."
+          },
+          {
+            "id": 4,
+            "title": "Skills Tracking System",
+            "description": "Implement the skills tracking system with levels, specializations, and usage tracking",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create a skills management interface with categorized skill lists. Implement skill level tracking with visual indicators. Add specialization support with additional bonuses. Create skill usage tracking to record when skills are used. Implement skill filtering and searching functionality. Add skill description tooltips with rules references.",
+            "status": "pending",
+            "testStrategy": "Test adding, editing, and removing skills. Verify specialization bonuses apply correctly. Test skill usage tracking records properly. Verify filtering and searching works as expected."
+          },
+          {
+            "id": 5,
+            "title": "Equipment Management System",
+            "description": "Develop the equipment management system with encumbrance calculation and item details",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create an equipment management interface with categorized inventory. Implement equipped/stored status toggling for items. Add encumbrance calculation based on item weight and character strength. Create detailed item view with all properties and descriptions. Implement item transfer between characters. Add custom item creation functionality.",
+            "status": "pending",
+            "testStrategy": "Test adding, editing, and removing equipment. Verify encumbrance calculations update correctly. Test equipped/stored status changes. Verify item transfers work properly between characters."
+          },
+          {
+            "id": 6,
+            "title": "Credits and Finances Tracking",
+            "description": "Create the credits and finances tracking system with transaction history",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Implement credits tracking with current balance display. Create transaction history log with date, amount, description, and categories. Add income and expense tracking with summaries. Implement financial reports with filtering by date and category. Create debt tracking functionality with payment schedules.",
+            "status": "pending",
+            "testStrategy": "Test adding credits and expenses. Verify transaction history records correctly. Test financial reports with different filters. Verify balance calculations are accurate after multiple transactions."
+          },
+          {
+            "id": 7,
+            "title": "Conditions and Status Effects",
+            "description": "Implement conditions and status effects with visual indicators",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create a conditions management system with standard Traveller conditions. Implement visual indicators for active conditions on the character sheet. Add duration tracking for temporary conditions with automatic expiration. Create condition application interface with custom duration and effects. Implement condition effects on character statistics and skills.",
+            "status": "pending",
+            "testStrategy": "Test applying and removing conditions. Verify visual indicators display correctly. Test duration tracking and automatic expiration. Verify condition effects apply correctly to character statistics."
+          },
+          {
+            "id": 8,
+            "title": "Notes and Background Rich Text Editor",
+            "description": "Develop a rich text editor for character notes and background",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Integrate a rich text editor library (Slate.js or TipTap) for character notes. Implement formatting options including headings, lists, tables, and text styling. Add image upload and embedding functionality. Create multiple note categories (background, session notes, etc.). Implement auto-save functionality with version history.",
+            "status": "pending",
+            "testStrategy": "Test all formatting options in the rich text editor. Verify image uploads and embedding works correctly. Test auto-save functionality with network interruptions. Verify note categories save and load properly."
+          },
+          {
+            "id": 9,
+            "title": "Experience and Character History",
+            "description": "Create experience tracking, advancement, and character version history",
+            "dependencies": [
+              "8.1",
+              "8.2",
+              "8.3",
+              "8.4"
+            ],
+            "details": "Implement experience point tracking with milestone markers. Create skill and characteristic advancement interface with point allocation. Develop character version history with dated snapshots. Implement character backup and restore functionality. Add character sharing via link or QR code generation with permission settings.",
+            "status": "pending",
+            "testStrategy": "Test experience point tracking and milestone recording. Verify advancement mechanics work correctly. Test version history creation and restoration. Verify character sharing works with different permission levels."
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Dice Rolling System",
+        "description": "Implement the 3D animated dice rolling system with roll history, public/private rolls, modifiers, macros, and templates.",
+        "details": "Create a 3D animated dice rolling system using Three.js (v0.152+) with physics simulation. Implement standard Traveller dice notation (2d6, boon/bane, etc.). Create roll history with timestamps and results storage. Implement public/private roll toggle with visibility controls. Develop advantage/disadvantage modifiers for rolls. Create dice macros system for saving common rolls. Implement roll templates for specific actions (skill checks, combat, etc.). Store roll results in the database for analysis and replay. Create a dice tray UI component for desktop and mobile. Implement sound effects for dice rolls with volume control. Add haptic feedback for mobile dice rolls. Create a simplified 2D fallback for low-performance devices.",
+        "testStrategy": "Write unit tests for dice rolling logic and probability distributions. Create visual regression tests for the dice animation. Test roll history and storage. Verify public/private roll visibility controls. Test dice macros creation and execution. Ensure performance on both high and low-end devices. Test sound effects and haptic feedback. Verify accessibility for users who prefer non-animated options.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "3D Dice Animation System",
+            "description": "Implement the core 3D animated dice rolling system with physics simulation using Three.js",
+            "dependencies": [],
+            "details": "Set up Three.js (v0.152+) environment with physics engine integration. Create 3D models for all dice types (d4, d6, d8, d10, d12, d20, d100). Implement realistic physics for dice rolling, bouncing, and collision detection. Add camera controls and lighting effects for optimal visualization. Develop a dice tray boundary system to contain rolls. Create a simplified 2D fallback rendering system for low-performance devices. Implement haptic feedback for mobile devices and sound effects with volume control options.",
+            "status": "pending",
+            "testStrategy": "Perform visual regression testing to ensure consistent dice appearance across browsers. Test physics simulation for randomness and proper probability distribution. Benchmark performance across different devices to ensure smooth animation. Verify the 2D fallback system activates correctly on low-performance devices. Test sound effects and haptic feedback functionality."
+          },
+          {
+            "id": 2,
+            "title": "Dice Notation and Roll Logic",
+            "description": "Implement standard Traveller dice notation parser and roll calculation logic",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Create a parser for standard Traveller dice notation (2d6, boon/bane, etc.). Implement roll calculation logic for all dice types and combinations. Develop advantage/disadvantage modifier system. Create result evaluation functions for success/failure determination based on target numbers. Implement critical success/failure detection. Ensure proper random number generation with cryptographically secure methods where appropriate. Support complex dice expressions with mathematical operations.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for dice notation parsing with various input formats. Test roll calculation logic for accuracy across different dice combinations. Verify statistical distribution of results over large sample sizes. Test advantage/disadvantage modifiers for correct implementation. Validate critical success/failure detection against Traveller rulebook specifications."
+          },
+          {
+            "id": 3,
+            "title": "Roll History and Database Integration",
+            "description": "Create roll history system with timestamps, results storage, and database integration",
+            "dependencies": [
+              "9.1",
+              "9.2"
+            ],
+            "details": "Implement roll history tracking with timestamps, user information, and complete roll details. Create database schema for storing roll results. Develop API endpoints for saving and retrieving roll history. Implement pagination and filtering for roll history display. Create roll replay functionality to visualize previous rolls. Add export options for roll history data. Implement analytics for tracking roll statistics over time.",
+            "status": "pending",
+            "testStrategy": "Test database integration for proper storage and retrieval of roll data. Verify timestamp accuracy across different timezones. Test pagination and filtering functionality with large datasets. Validate roll replay visualization matches original roll results. Ensure proper error handling for database connection issues."
+          },
+          {
+            "id": 4,
+            "title": "Public/Private Roll System and Visibility Controls",
+            "description": "Implement public/private roll toggle with visibility controls for GM and players",
+            "dependencies": [
+              "9.2",
+              "9.3"
+            ],
+            "details": "Create UI toggle for public/private roll selection. Implement visibility permission system based on user roles (GM, player). Develop notification system for public rolls to alert relevant players. Create visual indicators for roll visibility status. Implement GM override controls for viewing all rolls. Add options for selective visibility to specific players. Ensure proper synchronization across all connected clients when rolls are made.",
+            "status": "pending",
+            "testStrategy": "Test visibility controls with different user role combinations. Verify notifications are sent only to authorized users. Test GM override functionality for accessing private rolls. Validate real-time updates across multiple connected clients. Test edge cases like disconnection during roll execution."
+          },
+          {
+            "id": 5,
+            "title": "Dice Macros and Templates System",
+            "description": "Develop dice macros system for saving common rolls and roll templates for specific actions",
+            "dependencies": [
+              "9.2",
+              "9.3",
+              "9.4"
+            ],
+            "details": "Create interface for defining and saving dice macros with custom names. Implement macro execution with single-click functionality. Develop template system for common game actions (skill checks, combat, etc.). Create UI for organizing and categorizing macros and templates. Implement import/export functionality for sharing macros between users. Add macro editing and deletion capabilities. Develop conditional logic for advanced macro functionality based on character attributes.",
+            "status": "pending",
+            "testStrategy": "Test macro creation, editing, and deletion functionality. Verify template system correctly applies game rules for different action types. Test import/export functionality across different browsers. Validate conditional logic in advanced macros. Test performance with large numbers of saved macros."
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Campaign Management System",
+        "description": "Develop the campaign creation, management, and GM tools including NPC generator, encounter builder, initiative tracker, and session management.",
+        "details": "Create a campaign setup wizard with templates and setting selection. Implement house rules configuration with toggles and custom values. Develop an invitation system for players with email/link sharing. Create a campaign calendar with session scheduling and integration with Google/Apple calendars. Implement NPC generator with quick stats based on Traveller rules. Develop encounter builder with difficulty calculator and balance metrics. Create initiative tracker for combat with drag-and-drop reordering. Implement campaign timeline for tracking events and history. Develop location manager for planets/stations with search and filtering. Create plot thread tracker for storylines with status and connections. Implement session notes with markdown support using a library like Marked. Develop handouts system for sharing documents/images with players. Implement campaign settings management for GMs.",
+        "testStrategy": "Write unit tests for campaign creation and management functions. Create integration tests for the complete campaign workflow. Test NPC generation for balance and variety. Verify encounter builder calculations. Test initiative tracker ordering and state management. Ensure calendar integration works with external services. Test handouts sharing and permissions. Verify markdown rendering for session notes. Test campaign settings persistence and application.",
+        "priority": "high",
+        "dependencies": [
+          4,
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Campaign Setup Wizard",
+            "description": "Develop a step-by-step campaign creation wizard with templates and setting selection options.",
+            "dependencies": [],
+            "details": "Create a multi-step wizard interface with progress indicators. Implement template selection for common campaign types (exploration, military, trade, etc.). Add setting configuration options including subsectors, tech levels, and political boundaries. Include campaign name, description, and cover image upload functionality. Store campaign metadata in the database with proper validation.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for each wizard step. Create integration tests for the complete campaign creation flow. Test template loading and application. Verify data validation and error handling."
+          },
+          {
+            "id": 2,
+            "title": "House Rules Configuration",
+            "description": "Implement a system for GMs to configure house rules with toggles and custom values.",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create a comprehensive house rules interface with categorized sections (character creation, combat, skills, etc.). Implement toggle switches for binary rules. Add number inputs with validation for custom values. Include text fields for rule descriptions. Create preset configurations for common house rule combinations. Implement rule conflict detection and resolution.",
+            "status": "pending",
+            "testStrategy": "Test toggle functionality and state persistence. Verify validation for numeric inputs. Test preset loading and application. Ensure rule conflicts are properly detected and resolved."
+          },
+          {
+            "id": 3,
+            "title": "Player Invitation System",
+            "description": "Develop a system for inviting players to campaigns via email or shareable links.",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create an invitation management interface for GMs. Implement email invitation sending with customizable messages. Generate unique, secure invitation links with expiration dates. Develop a player onboarding process for accepting invitations. Add player role assignment (player, assistant GM, observer). Implement invitation tracking and management for GMs.",
+            "status": "pending",
+            "testStrategy": "Test email delivery and formatting. Verify link generation and security. Test the invitation acceptance flow. Ensure proper role assignment and permissions."
+          },
+          {
+            "id": 4,
+            "title": "Campaign Calendar and Scheduling",
+            "description": "Create a campaign calendar with session scheduling and integration with external calendar services.",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Develop a calendar interface showing both in-game and real-world dates. Implement session scheduling with time zone support. Create integration with Google Calendar and Apple Calendar using their APIs. Add notification system for upcoming sessions. Include recurring session setup. Implement session availability polling for players.",
+            "status": "pending",
+            "testStrategy": "Test calendar rendering and navigation. Verify external calendar API integration. Test notification delivery. Ensure time zone handling works correctly. Test availability polling functionality."
+          },
+          {
+            "id": 5,
+            "title": "NPC Generator",
+            "description": "Implement an NPC generator with quick stats based on Traveller rules.",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create an NPC generation interface with random and manual options. Implement Traveller-specific characteristics generation (STR, DEX, END, INT, EDU, SOC). Add career and background generation based on rulebook tables. Include equipment and skill assignment. Develop NPC personality and motivation generators. Create NPC templates for common roles (merchant, patron, antagonist).",
+            "status": "pending",
+            "testStrategy": "Test random generation algorithms for consistency and fairness. Verify NPC data structure and storage. Test template application and customization. Ensure generated NPCs follow Traveller rules."
+          },
+          {
+            "id": 6,
+            "title": "Encounter Builder",
+            "description": "Develop an encounter builder with difficulty calculator and balance metrics.",
+            "dependencies": [
+              "10.5"
+            ],
+            "details": "Create an encounter building interface for combat and non-combat scenarios. Implement NPC/enemy selection and grouping. Develop difficulty calculation based on player character levels and numbers. Add environmental factors and complications. Create encounter templates for common scenarios. Implement encounter saving and organization.",
+            "status": "pending",
+            "testStrategy": "Test difficulty calculations against manual examples. Verify encounter data structure and storage. Test template application. Ensure balance metrics accurately reflect encounter difficulty."
+          },
+          {
+            "id": 7,
+            "title": "Initiative Tracker",
+            "description": "Create an initiative tracker for combat with drag-and-drop reordering and state management.",
+            "dependencies": [
+              "10.5",
+              "10.6"
+            ],
+            "details": "Develop a visual initiative order display for combat. Implement Traveller-specific initiative calculation rules. Add drag-and-drop functionality for manual reordering. Create turn management with active character highlighting. Implement condition and effect tracking with duration countdown. Add quick action buttons for common combat actions.",
+            "status": "pending",
+            "testStrategy": "Test initiative calculation against rulebook examples. Verify drag-and-drop functionality. Test turn progression and state management. Ensure condition tracking and expiration works correctly."
+          },
+          {
+            "id": 8,
+            "title": "Campaign Timeline and Location Manager",
+            "description": "Implement campaign timeline for tracking events and location manager for planets/stations.",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create a visual timeline interface for tracking campaign events. Implement event creation with dates, descriptions, and connections. Develop a location manager for planets, stations, and points of interest. Add search and filtering capabilities. Include mapping functionality with subsector display. Implement location detail pages with customizable fields.",
+            "status": "pending",
+            "testStrategy": "Test timeline rendering and navigation. Verify event creation and editing. Test location search and filtering. Ensure mapping functionality correctly displays spatial relationships."
+          },
+          {
+            "id": 9,
+            "title": "Plot Thread Tracker and Session Notes",
+            "description": "Develop plot thread tracker for storylines and session notes with markdown support.",
+            "dependencies": [
+              "10.8"
+            ],
+            "details": "Create a plot thread management system with status tracking and connections. Implement visual relationship mapping between plot elements. Develop session notes interface with markdown support using the Marked library. Add tagging and categorization for notes. Include player-visible and GM-only sections. Implement search functionality across notes.",
+            "status": "pending",
+            "testStrategy": "Test plot thread creation and relationship mapping. Verify markdown rendering and editing. Test note categorization and filtering. Ensure search functionality returns relevant results."
+          },
+          {
+            "id": 10,
+            "title": "Handouts System and Campaign Settings Management",
+            "description": "Implement handouts system for sharing documents/images and campaign settings management for GMs.",
+            "dependencies": [
+              "10.1",
+              "10.9"
+            ],
+            "details": "Create a handout management system for documents, images, and other media. Implement access control for player visibility. Develop file upload and organization capabilities. Create campaign settings management interface for GMs. Implement backup and restore functionality. Add campaign export and import features for sharing campaigns.",
+            "status": "pending",
+            "testStrategy": "Test file upload and storage. Verify access control and visibility settings. Test backup and restore functionality. Ensure campaign export/import preserves all relevant data."
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "World Building Tools",
+        "description": "Implement the sector generator, system generator, planet generator, trade routes, faction manager, and custom content creation tools.",
+        "details": "Create a sector generator with hex maps using a library like D3.js or Pixi.js. Implement the Traveller system generation algorithms for star systems. Develop planet generator with Universal World Profile (UWP) codes following Traveller rules. Create trade route calculator based on distance and world types. Implement faction manager for organizations with relationships and goals. Develop custom content creation tools for user-generated content. Create visualization components for sectors, systems, and planets. Implement data export/import functionality for world building elements. Create a search and filter system for generated content. Implement sharing and collaboration features for world building. Store generated content in the database with proper indexing for retrieval.",
+        "testStrategy": "Write unit tests for generation algorithms to ensure they follow Traveller rules. Create visual tests for map rendering. Test trade route calculations for accuracy. Verify faction relationship tracking. Test custom content creation and validation. Ensure export/import functionality preserves all data. Test search and filtering performance with large datasets. Verify sharing and permissions for collaborative world building.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Sector and System Generator Implementation",
+            "description": "Create the sector generator with hex maps and implement the Traveller system generation algorithms for star systems.",
+            "dependencies": [],
+            "details": "Implement a sector generator using D3.js or Pixi.js to create interactive hex maps. Develop the Traveller system generation algorithms that handle star types, planetary positions, and system characteristics. Create a unified interface that allows users to generate entire sectors or individual systems. Include options for customization of generation parameters and random seed values for reproducibility.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for the generation algorithms to ensure they follow Traveller rules. Create visual tests for hex map rendering. Test edge cases like sector boundaries and unusual system configurations. Verify that generated systems conform to Traveller probability distributions."
+          },
+          {
+            "id": 2,
+            "title": "Planet Generator with UWP Codes",
+            "description": "Develop the planet generator that creates worlds with Universal World Profile (UWP) codes following Traveller rules.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Implement the planet generation system that creates detailed worlds with atmosphere, hydrographics, population, government, law level, tech level, and other characteristics according to Traveller rules. Generate UWP codes for each world and provide detailed explanations of each code component. Include visualization of planetary features based on generated characteristics. Create random name generation for planets with options for custom naming.",
+            "status": "pending",
+            "testStrategy": "Test UWP code generation against Traveller rulebook examples. Verify that planet characteristics are internally consistent and follow game rules. Test edge cases like extreme environments and unusual world types. Ensure visualization components accurately represent the generated data."
+          },
+          {
+            "id": 3,
+            "title": "Trade Routes and Economic System",
+            "description": "Create the trade route calculator based on distance and world types, with economic modeling for the sector.",
+            "dependencies": [
+              "11.1",
+              "11.2"
+            ],
+            "details": "Develop an algorithm that calculates optimal trade routes between worlds based on distance, world characteristics, and economic factors. Implement visualization of trade routes on the sector map with different line styles for route types. Create an economic model that calculates trade goods, prices, and potential profits. Include filters to show different types of trade routes (major, minor, specialized) and allow users to customize trade parameters.",
+            "status": "pending",
+            "testStrategy": "Test trade route calculations for accuracy against manual calculations. Verify that economic models produce realistic results consistent with Traveller rules. Test visualization of routes on different map scales. Ensure performance remains acceptable with large numbers of routes."
+          },
+          {
+            "id": 4,
+            "title": "Faction Manager Implementation",
+            "description": "Implement the faction manager for organizations with relationships, goals, and influence within the sector.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Create a faction management system that allows users to define organizations with specific goals, resources, and relationships. Implement relationship tracking between factions with alliance/rivalry metrics. Develop visualization of faction influence on sector maps. Include tools for generating random factions appropriate to sector characteristics. Create interfaces for managing faction assets, territory, and notable NPCs.",
+            "status": "pending",
+            "testStrategy": "Test faction relationship calculations and influence mapping. Verify that randomly generated factions are appropriate to their contexts. Test faction editing and relationship management interfaces. Ensure faction data is properly persisted and retrieved from the database."
+          },
+          {
+            "id": 5,
+            "title": "Custom Content Creation and Data Management",
+            "description": "Develop custom content creation tools and implement data export/import functionality for world building elements.",
+            "dependencies": [
+              "11.1",
+              "11.2",
+              "11.3",
+              "11.4"
+            ],
+            "details": "Create interfaces for users to customize and create their own content including planets, systems, factions, and trade routes. Implement data validation to ensure user-created content follows game rules. Develop export/import functionality using JSON format for sharing world building elements. Create a search and filter system for generated content with advanced filtering options. Implement database storage with proper indexing for efficient retrieval. Add sharing and collaboration features for world building elements.",
+            "status": "pending",
+            "testStrategy": "Test custom content creation with validation for rule compliance. Verify that export/import functionality preserves all data attributes. Test search and filter functionality with large datasets. Ensure database operations are efficient and properly indexed. Test sharing functionality between different user accounts."
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Combat Management System",
+        "description": "Develop the combat tracker with turn order, action economy, range bands, damage application, effect duration, and combat log.",
+        "details": "Create a combat tracker interface with turn order management. Implement initiative calculation based on Traveller rules. Develop action economy display with available and used actions. Create range bands visualization with distance tracking. Implement damage application automation with character sheet integration. Develop effect duration tracking with countdown and expiration. Create combat log with timestamped events and replay functionality. Implement targeting system for attacks and effects. Create quick NPC/enemy addition to combat. Develop status effect application and removal. Implement combat state persistence for session continuity. Create combat statistics and analysis for GMs.",
+        "testStrategy": "Write unit tests for combat mechanics and calculations. Create integration tests for the complete combat flow. Test initiative ordering and turn management. Verify damage application and character sheet updates. Test effect duration tracking and expiration. Ensure combat log accurately records all events. Test combat state persistence and restoration. Verify performance with large combat scenarios.",
+        "priority": "medium",
+        "dependencies": [
+          8,
+          9,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Turn Order and Initiative System",
+            "description": "Implement the combat turn order management system with initiative calculation based on Traveller rules",
+            "dependencies": [],
+            "details": "Create a turn order interface that displays all combatants in initiative order. Implement initiative calculation algorithms following Traveller rules. Develop UI components for displaying current turn, next up, and round tracking. Add functionality to manually adjust initiative order when needed. Include visual indicators for active combatant and status effects affecting turn order.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for initiative calculation algorithms. Test edge cases like initiative ties. Create integration tests for the complete turn cycle. Verify visual indicators update correctly when turn changes. Test manual initiative adjustments."
+          },
+          {
+            "id": 2,
+            "title": "Action Economy and Range Management",
+            "description": "Develop the action economy display and range bands visualization system",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "Create an action economy tracker showing available, used, and remaining actions per combatant. Implement different action types (minor, major, reactions) with appropriate limitations. Develop a visual range band system showing relative positions of combatants. Create interface for moving combatants between range bands. Implement distance tracking with automatic updates to applicable modifiers based on range.",
+            "status": "pending",
+            "testStrategy": "Test action usage tracking across different action types. Verify range band calculations and movement costs. Test modifier applications based on range changes. Ensure UI updates correctly when actions are used or range changes."
+          },
+          {
+            "id": 3,
+            "title": "Damage Application and Character Integration",
+            "description": "Implement automated damage application system with character sheet integration",
+            "dependencies": [
+              "12.2"
+            ],
+            "details": "Create damage calculation system supporting different damage types from Traveller rules. Implement automated application of damage to character sheets with armor reduction. Develop critical hit and special damage effect systems. Create healing and recovery tracking. Implement character status changes based on damage thresholds (unconscious, dying, etc.). Add visual feedback for damage application.",
+            "status": "pending",
+            "testStrategy": "Test damage calculations with various weapon types and armor combinations. Verify character sheet updates correctly after damage application. Test critical hit mechanics and special damage effects. Ensure status changes trigger appropriate UI updates and restrictions."
+          },
+          {
+            "id": 4,
+            "title": "Effect Duration and Status Tracking",
+            "description": "Develop effect duration tracking with countdown and expiration functionality",
+            "dependencies": [
+              "12.3"
+            ],
+            "details": "Create a system for tracking temporary effects with duration in rounds, minutes, or hours. Implement automatic countdown of effect durations during combat. Develop visual indicators for active effects on combatants. Create interface for applying and removing status effects manually. Implement automatic expiration of effects with appropriate notifications and state changes.",
+            "status": "pending",
+            "testStrategy": "Test duration tracking across different time units. Verify automatic countdown works correctly across turn changes. Test manual application and removal of effects. Ensure expired effects are properly removed with appropriate notifications."
+          },
+          {
+            "id": 5,
+            "title": "Combat Log and Targeting System",
+            "description": "Create combat log with timestamped events and implement targeting system for attacks",
+            "dependencies": [
+              "12.4"
+            ],
+            "details": "Develop a combat log that records all actions, damage, and effects with timestamps. Implement filtering and search functionality for the combat log. Create replay functionality to review previous rounds. Develop a targeting system for selecting recipients of attacks and effects. Implement quick NPC/enemy addition to combat with templates. Create combat statistics tracking for post-combat analysis.",
+            "status": "pending",
+            "testStrategy": "Test combat log entries for accuracy and completeness. Verify filtering and search functionality works correctly. Test targeting system with various attack types and multiple targets. Ensure NPC addition works smoothly with proper initiative integration. Test combat statistics for accuracy."
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Starship Operations System",
+        "description": "Implement the starship registry, crew positions, ship combat, jump navigation, cargo management, maintenance, and customization features.",
+        "details": "Create a starship registry with stats based on Traveller ship designs. Implement crew positions assignment with role-based interfaces. Develop ship combat tracker with initiative and actions. Create jump navigation calculator with parsecs and fuel consumption. Implement cargo management system with volume and weight tracking. Develop maintenance schedule tracking with costs and consequences. Create ship customization builder with components and pricing. Implement 3D ship model viewer using Three.js (optional). Create ship sheet with all relevant information. Develop ship purchase and financing system. Implement ship-to-ship communications. Create boarding and ship interior mapping tools.",
+        "testStrategy": "Write unit tests for ship mechanics and calculations. Create integration tests for ship management workflows. Test crew assignment and role permissions. Verify jump calculations for accuracy. Test cargo management with different cargo types. Ensure maintenance tracking functions correctly. Test ship customization with different components. Verify 3D model rendering if implemented. Test ship combat resolution and damage application.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Starship Database Schema Design",
+            "description": "Design and implement the database schema for starships including all necessary attributes from Traveller ship designs.",
+            "dependencies": [],
+            "details": "Create database models for starships with fields for hull type, tonnage, jump capability, maneuver drive, power plant, weapons, defenses, fuel capacity, staterooms, cargo capacity, and other ship statistics. Include tables for ship components, modifications, and customizations. Design relationships between ships and characters/crews.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Starship Registry Interface",
+            "description": "Develop the user interface for browsing, searching, and managing starships in the registry.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Create a responsive interface for viewing ship listings with filtering and sorting options. Implement detailed ship view pages showing all statistics and specifications. Add administrative controls for GMs to add, edit, and remove ships from the campaign registry. Include ship comparison functionality.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Crew Position Management System",
+            "description": "Implement the system for assigning characters to crew positions with role-specific interfaces and permissions.",
+            "dependencies": [
+              "13.1",
+              "13.2"
+            ],
+            "details": "Define standard crew positions (pilot, engineer, gunner, etc.) with associated skill requirements and responsibilities. Create UI for assigning characters to positions with validation. Develop role-specific dashboards and controls for each position. Implement permission system to restrict actions based on assigned role.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Ship Combat System",
+            "description": "Develop the ship-to-ship combat tracker with initiative, actions, and damage resolution.",
+            "dependencies": [
+              "13.1",
+              "13.3"
+            ],
+            "details": "Implement initiative tracking for ship combat based on crew skills and ship characteristics. Create action management system with standard ship combat actions (maneuver, fire weapons, electronic warfare, etc.). Develop damage application system with hit location and critical damage effects. Integrate with the dice rolling system for attack and defense rolls.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Jump Navigation Calculator",
+            "description": "Create the jump navigation system with parsec calculation, fuel consumption, and route planning.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Implement parsec distance calculator between star systems. Develop jump drive fuel consumption formulas based on ship specifications and jump distance. Create route planning interface with optimal path finding. Add jump time calculation and random misjump functionality. Integrate with the campaign map system.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Cargo Management System",
+            "description": "Implement the cargo tracking system with volume, weight, and value calculations.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Create cargo database schema with item types, dimensions, weight, and value. Develop cargo hold visualization showing space utilization. Implement cargo manifest interface with sorting and filtering. Add cargo loading/unloading functionality with time calculations. Include special cargo types (hazardous, refrigerated, live) with special requirements.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Ship Maintenance Tracker",
+            "description": "Develop the maintenance scheduling and tracking system with costs and mechanical consequences.",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Implement maintenance schedule generation based on ship usage and specifications. Create maintenance task tracking with costs, time requirements, and skill checks. Develop consequences system for missed maintenance (performance degradation, system failures). Add parts inventory management and procurement interface.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Ship Customization Builder",
+            "description": "Create the ship modification and customization system with component selection and pricing.",
+            "dependencies": [
+              "13.1",
+              "13.7"
+            ],
+            "details": "Develop component database with all available ship modifications and upgrades. Create interactive ship builder interface for adding/removing components with real-time stat updates. Implement validation to prevent incompatible configurations. Calculate costs, construction time, and skill requirements for modifications. Include visualization of changes where applicable.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "3D Ship Model Viewer",
+            "description": "Implement an optional 3D visualization system for starships using Three.js.",
+            "dependencies": [
+              "13.1",
+              "13.2"
+            ],
+            "details": "Create or integrate 3D models for common ship types. Implement Three.js viewer with camera controls, lighting, and ship rotation. Add component highlighting for damage visualization. Develop optional interior view for ship deck plans. Ensure performance optimization for various devices. Make this feature optional with fallback to 2D representations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Ship Purchase and Financing System",
+            "description": "Develop the system for characters to purchase, finance, and manage ownership of starships.",
+            "dependencies": [
+              "13.1",
+              "13.8"
+            ],
+            "details": "Implement ship marketplace with new and used vessels. Create financing calculator with loan terms, interest rates, and payment schedules. Develop ownership management for individual or group ownership. Implement ship value depreciation over time. Add ship sale and transfer functionality. Integrate with character financial systems for payments and income.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Trade and Commerce System",
+        "description": "Develop the trade goods database, price calculator, speculative trade simulator, passenger management, contract generator, and profit/loss tracking.",
+        "details": "Create a trade goods database with categories and base prices. Implement price calculator by world based on UWP codes. Develop speculative trade simulator with risk/reward mechanics. Create passenger management system with requirements and payment. Implement contract generator for missions with objectives and rewards. Develop profit/loss tracking ledger with transaction history. Create trade route visualization on sector maps. Implement market fluctuations based on events and time. Develop broker skill integration for negotiations. Create customs and legal status tracking for goods. Implement trade analytics for identifying profitable routes.",
+        "testStrategy": "Write unit tests for price calculations and trade mechanics. Create integration tests for the complete trade workflow. Test speculative trade simulation for balance and variety. Verify passenger management requirements and payments. Test contract generation for appropriate difficulty and rewards. Ensure profit/loss tracking accurately records all transactions. Test market fluctuations and their impact on prices. Verify broker skill effects on negotiations.",
+        "priority": "low",
+        "dependencies": [
+          11,
+          13
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Trade Goods Database and Price Calculator",
+            "description": "Create a comprehensive trade goods database with categories and implement a price calculator based on UWP codes",
+            "dependencies": [],
+            "details": "Develop a database schema for trade goods with categories (industrial, agricultural, luxury, etc.), base prices, legality status, and volume/mass properties. Implement a price calculator that adjusts base prices according to world UWP codes, particularly trade codes, population, and tech level. Include price modifiers for supply/demand based on world characteristics.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for price calculation algorithms with various UWP combinations. Create integration tests to verify database integrity and price calculations. Test edge cases like extreme tech levels and unusual world combinations."
+          },
+          {
+            "id": 2,
+            "title": "Speculative Trade Simulator",
+            "description": "Develop a speculative trade simulator with risk/reward mechanics and market fluctuations",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Create a simulation system that calculates potential profits and risks for speculative trade between worlds. Implement random events that affect trade (piracy, market crashes, windfalls). Develop market fluctuation mechanics based on time passage and in-game events. Include broker skill integration that affects buy/sell prices and availability of goods.",
+            "status": "pending",
+            "testStrategy": "Test probability distributions of trade outcomes to ensure balanced risk/reward. Verify market fluctuations occur appropriately based on events. Test broker skill effects on negotiations and prices."
+          },
+          {
+            "id": 3,
+            "title": "Passenger and Contract Management",
+            "description": "Implement passenger management system and contract generator for missions with objectives and rewards",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Create a passenger generation system with varying requirements (low/middle/high passage) and appropriate payment scales. Develop a contract mission generator with varied objectives (delivery, transport, survey) and appropriate rewards based on difficulty, distance, and risk. Include special passenger types (VIPs, fugitives) with unique requirements and complications.",
+            "status": "pending",
+            "testStrategy": "Test passenger generation for appropriate variety and payment scales. Verify contract generation produces balanced and interesting missions. Test edge cases like extremely long journeys or high-risk contracts."
+          },
+          {
+            "id": 4,
+            "title": "Profit/Loss Tracking and Trade Analytics",
+            "description": "Develop a profit/loss tracking ledger with transaction history and trade analytics for identifying profitable routes",
+            "dependencies": [
+              "14.1",
+              "14.2",
+              "14.3"
+            ],
+            "details": "Create a financial ledger system that tracks all transactions with timestamps and categories. Implement profit/loss calculations for trade runs, passenger transport, and contracts. Develop analytics tools that identify potentially profitable trade routes based on historical data. Include visualization of profit margins by good type, route, and time period.",
+            "status": "pending",
+            "testStrategy": "Test ledger accuracy with complex transaction sequences. Verify profit/loss calculations match expected outcomes. Test analytics recommendations against known profitable routes to ensure accuracy."
+          },
+          {
+            "id": 5,
+            "title": "Trade Route Visualization and Legal Status Tracking",
+            "description": "Create trade route visualization on sector maps and implement customs and legal status tracking for goods",
+            "dependencies": [
+              "14.1",
+              "14.4"
+            ],
+            "details": "Develop a visual representation of trade routes on sector maps with color coding for profitability and volume. Implement customs inspection mechanics with contraband detection based on world law levels. Create a legal status tracking system for goods across different jurisdictions. Include visualization tools showing legal/illegal goods by world and potential penalties.",
+            "status": "pending",
+            "testStrategy": "Test route visualization for clarity and accuracy. Verify customs inspection mechanics work correctly with different contraband types and law levels. Test edge cases like smuggling specialized goods to restrictive worlds."
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Rules Reference and Communication Features",
+        "description": "Implement the searchable rules database, quick references, in-game communication, and asynchronous play features.",
+        "details": "Create a searchable rules database with full-text search capabilities. Implement bookmarks and favorites for quick access to rules. Create cross-references with hyperlinks between related rules. Develop examples with interactive dice notation. Implement FAQ section with curated answers. Create a glossary of Traveller terms with definitions. Develop quick reference sheets for common actions. Implement GM screen with tables and information. Create skill descriptions with popup details. Develop equipment stats comparison tools. Implement text chat with dice roll integration using WebSockets. Create drawing tools for tactical maps using Canvas API. Implement ping system for drawing attention to map areas. Develop emote library for roleplay expressions. Create play-by-post support for asynchronous gameplay. Implement turn notifications via email/push. Develop activity feed for campaign updates.",
+        "testStrategy": "Write unit tests for search functionality and accuracy. Create integration tests for rules navigation and references. Test bookmark creation and retrieval. Verify chat functionality with different message types. Test drawing tools for performance and accuracy. Ensure ping system works across all clients. Test play-by-post turn management. Verify notification delivery for different platforms. Test activity feed updates and filtering.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Searchable Rules Database Implementation",
+            "description": "Develop a comprehensive searchable rules database with full-text search capabilities, bookmarks, and cross-references.",
+            "dependencies": [],
+            "details": "Implement Elasticsearch or similar search engine for full-text search across all rules content. Create a database schema for rules storage with proper indexing. Develop bookmark and favorites functionality with user-specific storage. Implement cross-referencing system with hyperlinks between related rules. Create an admin interface for rules content management. Ensure mobile-responsive design for all database views.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for search accuracy and relevance ranking. Test bookmark creation, retrieval, and deletion. Verify cross-reference links work bidirectionally. Perform load testing on search functionality with large datasets. Test mobile responsiveness across different devices."
+          },
+          {
+            "id": 2,
+            "title": "Quick Reference Tools Development",
+            "description": "Create quick reference tools including glossary, FAQ section, GM screen, and skill descriptions with interactive elements.",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Develop a comprehensive glossary of Traveller terms with searchable definitions. Create an FAQ section with curated answers to common questions. Implement GM screen with collapsible sections for tables and reference information. Design skill descriptions with popup details and usage examples. Develop equipment stats comparison tools with filtering and sorting capabilities. Implement interactive dice notation for examples that can be clicked to roll.",
+            "status": "pending",
+            "testStrategy": "Test glossary search functionality and term accuracy. Verify FAQ content is properly categorized and searchable. Test GM screen layout on different screen sizes. Ensure skill popups display correctly and close properly. Validate equipment comparison tool calculations and sorting functions."
+          },
+          {
+            "id": 3,
+            "title": "In-Game Communication System",
+            "description": "Implement real-time and asynchronous communication features including text chat, drawing tools, and ping system.",
+            "dependencies": [],
+            "details": "Develop WebSocket-based text chat with message persistence and history. Implement dice roll integration within chat using standard Traveller notation. Create Canvas API-based drawing tools for tactical maps with layer support. Develop ping system for highlighting map areas during gameplay. Create emote library with custom expressions for roleplay enhancement. Implement user presence indicators and typing notifications.",
+            "status": "pending",
+            "testStrategy": "Test WebSocket connections for reliability and reconnection handling. Verify dice roll parsing and result generation accuracy. Test drawing tools performance with complex maps. Ensure ping system works across all connected clients. Validate emote rendering and selection interface."
+          },
+          {
+            "id": 4,
+            "title": "Asynchronous Play Support",
+            "description": "Develop features supporting play-by-post and asynchronous gameplay with notifications and activity tracking.",
+            "dependencies": [
+              "15.3"
+            ],
+            "details": "Create play-by-post framework with threaded conversations and character actions. Implement turn management system with clear indicators of whose turn it is. Develop notification system for turn alerts via email and push notifications. Create activity feed showing recent campaign updates and player actions. Implement read/unread tracking for posts and updates. Develop time estimation features for player availability.",
+            "status": "pending",
+            "testStrategy": "Test notification delivery across email and push channels. Verify turn management correctly tracks and updates player turns. Test activity feed for proper chronological ordering and filtering. Ensure read/unread status persists correctly across sessions and devices. Test system performance with multiple concurrent campaigns."
+          },
+          {
+            "id": 5,
+            "title": "Integration and Performance Optimization",
+            "description": "Integrate all rules reference and communication features with the core application and optimize for performance.",
+            "dependencies": [
+              "15.1",
+              "15.2",
+              "15.3",
+              "15.4"
+            ],
+            "details": "Integrate all components with the main application navigation and UI. Implement caching strategies for rules content to improve load times. Optimize search indexing for faster query results. Implement lazy loading for images and content in reference materials. Create offline access capabilities for essential rules content. Develop performance monitoring for communication features. Ensure cross-platform consistency between web and mobile implementations.",
+            "status": "pending",
+            "testStrategy": "Conduct end-to-end testing of integrated features. Measure and benchmark load times before and after optimization. Test offline functionality with various network conditions. Perform cross-browser and cross-device compatibility testing. Conduct user acceptance testing with actual play sessions."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-09T19:12:13.004Z",
+      "updated": "2025-08-11T16:55:45.017Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

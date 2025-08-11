@@ -1,0 +1,133 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-11T14:57:41.816Z",
+		"tasksAnalyzed": 15,
+		"totalTasks": 15,
+		"analysisCount": 15,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "AWS Infrastructure Setup with CDK",
+			"complexityScore": 8,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Break down the AWS CDK infrastructure setup into more detailed subtasks, including security configuration, networking setup, resource tagging strategy, cross-stack references, environment-specific configurations, monitoring setup, cost optimization, disaster recovery planning, and documentation tasks.",
+			"reasoning": "This task involves setting up multiple AWS services (Cognito, AppSync, RDS, S3, Lambda) using infrastructure as code with CDK. It requires deep AWS knowledge, TypeScript expertise, and understanding of CI/CD pipelines. The multi-environment deployment adds complexity, as does security configuration and proper resource management. The existing 8 subtasks cover the basics but miss important aspects like networking, security groups, IAM policies, monitoring details, and disaster recovery planning."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Character Creation System",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Further break down the character creation system implementation to include more detailed subtasks for validation rules, state management between wizard steps, random generation algorithms, career-specific logic, character history generation, UI/UX for the wizard interface, accessibility features, and mobile-responsive design considerations.",
+			"reasoning": "This task involves complex game mechanics from the Traveller RPG system, requiring implementation of intricate character generation rules with both random and manual options. The multi-step wizard needs sophisticated state management, and the system must handle complex relationships between skills, careers, and equipment. The existing 8 subtasks are comprehensive but could benefit from more detailed breakdown of validation logic, state persistence, and UI/UX considerations for both web and mobile platforms."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Character Sheet Management",
+			"complexityScore": 8,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Expand the character sheet management subtasks to include more detailed components for real-time collaboration features, conflict resolution for concurrent edits, performance optimization for large character datasets, printable character sheet generation, character comparison tools, and integration with virtual tabletop platforms.",
+			"reasoning": "This task requires building a complex interactive character sheet with multiple interconnected sections that must update in real-time. It involves sophisticated state management, database synchronization, and real-time validation. The rich text editor, equipment management with encumbrance calculations, and version history add significant complexity. The existing 9 subtasks cover the main sections but don't adequately address real-time collaboration, performance optimization, and integration with other systems."
+		},
+		{
+			"taskId": 12,
+			"taskTitle": "Combat Management System",
+			"complexityScore": 9,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Further break down the combat management system to include detailed subtasks for combat state persistence, multi-participant synchronization, combat AI for NPCs, battlefield visualization, special abilities and exceptions handling, performance optimization for large combats, and integration with character sheets and dice rolling systems.",
+			"reasoning": "This task involves implementing a real-time combat system with complex game mechanics including initiative, action economy, range tracking, and effect duration. It requires sophisticated state management, real-time updates across multiple clients, and integration with character sheets and dice systems. The existing 5 subtasks are too broad and don't adequately address the complexity of state synchronization, battlefield visualization, and handling of special abilities and edge cases in combat."
+		},
+		{
+			"taskId": 13,
+			"taskTitle": "Starship Operations System",
+			"complexityScore": 9,
+			"recommendedSubtasks": 15,
+			"expansionPrompt": "Expand the starship operations system subtasks to include more detailed components for fuel management, life support systems, damage control procedures, ship-to-ship communications, boarding operations, ship security systems, sensor and scanning operations, docking procedures, and integration with the world map for navigation.",
+			"reasoning": "This task involves implementing a comprehensive starship system with multiple interconnected components including registry, crew management, combat, navigation, cargo, maintenance, and customization. The 3D ship model viewer adds technical complexity. The system must integrate with character sheets, combat systems, and the world map. The existing 10 subtasks cover the basics but miss important details about ship operations like fuel management, life support, damage control, and integration with other game systems."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "User Authentication System Implementation",
+			"complexityScore": 7,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Break down the user authentication system implementation into more detailed subtasks including security testing, rate limiting implementation, session management, authentication state persistence, cross-device synchronization, analytics for authentication patterns, custom authentication flows, and integration with external identity providers.",
+			"reasoning": "This task involves implementing a secure authentication system using AWS Cognito with multiple authentication methods (email, social providers), MFA, and profile management. It requires implementation across both web and mobile platforms. The JWT token handling, subscription tier management, and account deletion with data export add complexity. The existing 7 subtasks cover the main components but don't adequately address security testing, rate limiting, session management, and analytics."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Database Schema Implementation",
+			"complexityScore": 8,
+			"recommendedSubtasks": 12,
+			"expansionPrompt": "Expand the database schema implementation to include more detailed subtasks for data validation rules, stored procedures, database views, performance tuning, data archiving strategy, audit logging, data encryption implementation, and schema documentation with entity-relationship diagrams.",
+			"reasoning": "This task involves designing and implementing a complex database schema with 15+ interconnected tables for a game system. It requires setting up RDS PostgreSQL, implementing proper relationships, indexes, and constraints. The migration system, backup procedures, and row-level security add significant complexity. The existing 8 subtasks cover the main components but don't adequately address data validation rules, stored procedures, performance tuning, and comprehensive documentation needs."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Web Application Foundation with React/Vite",
+			"complexityScore": 6,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "Further break down the web application foundation setup to include detailed subtasks for performance optimization, code splitting strategy, error boundary implementation, analytics integration, accessibility compliance, browser compatibility testing, SEO optimization, and progressive web app (PWA) configuration.",
+			"reasoning": "This task involves setting up the foundation for a React application with TypeScript, Tailwind CSS, routing, state management, and API communication. While technically complex, it follows established patterns and has good library support. The existing 7 subtasks cover the main setup components but could benefit from more detailed breakdown of performance optimization, error handling, accessibility, and PWA features to ensure a robust foundation."
+		},
+		{
+			"taskId": 15,
+			"taskTitle": "Rules Reference and Communication Features",
+			"complexityScore": 7,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Expand the rules reference and communication features to include more detailed subtasks for search optimization, content management system for rules updates, offline access capabilities, multimedia content integration, accessibility features for rules content, and advanced filtering options.",
+			"reasoning": "This task combines two complex features: a searchable rules database with cross-references and bookmarks, and a real-time communication system with drawing tools and dice integration. The WebSocket implementation, Canvas API usage, and full-text search capabilities add technical complexity. The existing 5 subtasks are quite broad and would benefit from more detailed breakdown, particularly around search optimization, content management, and offline capabilities."
+		},
+		{
+			"taskId": 14,
+			"taskTitle": "Trade and Commerce System",
+			"complexityScore": 8,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Break down the trade and commerce system into more detailed subtasks including economic simulation algorithms, market fluctuation mechanics, trade visualization components, contract negotiation interfaces, risk assessment tools, and integration with the starship and character financial systems.",
+			"reasoning": "This task involves implementing a complex economic simulation system with trade goods, pricing based on world characteristics, speculative trade with risk/reward mechanics, and contract generation. It requires sophisticated algorithms for price calculation, market fluctuations, and route optimization. The existing 5 subtasks cover the main components but don't adequately address the complexity of the economic simulation, market dynamics, and integration with other game systems."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "GraphQL API Development",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down this task with a focus on graphql api development.",
+			"reasoning": "Automatically added due to missing analysis in AI response."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Mobile Application Setup with React Native",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down this task with a focus on mobile application setup with react native.",
+			"reasoning": "Automatically added due to missing analysis in AI response."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Dice Rolling System",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down this task with a focus on dice rolling system.",
+			"reasoning": "Automatically added due to missing analysis in AI response."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Campaign Management System",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down this task with a focus on campaign management system.",
+			"reasoning": "Automatically added due to missing analysis in AI response."
+		},
+		{
+			"taskId": 11,
+			"taskTitle": "World Building Tools",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Break down this task with a focus on world building tools.",
+			"reasoning": "Automatically added due to missing analysis in AI response."
+		}
+	]
+}
