@@ -1,0 +1,28 @@
+{
+  "name": "traveller-rpg-common-layer",
+  "version": "1.0.0",
+  "description": "Common utilities and dependencies for Traveller RPG Lambda functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.0.0",
+    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@aws-sdk/client-rds-data": "^3.0.0",
+    "pg": "^8.11.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "layer",
+    "traveller",
+    "rpg"
+  ],
+  "author": "Traveller RPG Development Team",
+  "license": "MIT"
+}

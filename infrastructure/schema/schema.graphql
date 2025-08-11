@@ -1,0 +1,277 @@
+# Traveller RPG GraphQL Schema
+
+type User {
+  id: ID!
+  email: String!
+  displayName: String
+  avatar: String
+  timezone: String
+  subscriptionTier: SubscriptionTier!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum SubscriptionTier {
+  FREE
+  STANDARD
+  PREMIUM
+}
+
+type Campaign {
+  id: ID!
+  name: String!
+  description: String
+  gamemaster: User!
+  players: [User!]!
+  characters: [Character!]!
+  sessions: [Session!]!
+  settings: CampaignSettings
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type CampaignSettings {
+  houseRules: AWSJSON
+  allowedBooks: [String!]
+  maxPlayers: Int
+  isPublic: Boolean
+}
+
+type Character {
+  id: ID!
+  name: String!
+  player: User!
+  campaign: Campaign!
+  characteristics: Characteristics!
+  skills: [Skill!]!
+  equipment: [Equipment!]!
+  credits: Int!
+  history: [LifeEvent!]!
+  notes: String
+  portrait: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Characteristics {
+  strength: Int!
+  dexterity: Int!
+  endurance: Int!
+  intelligence: Int!
+  education: Int!
+  socialStanding: Int!
+}
+
+type Skill {
+  id: ID!
+  name: String!
+  level: Int!
+  specialization: String
+}
+
+type Equipment {
+  id: ID!
+  name: String!
+  description: String
+  weight: Float
+  cost: Int
+  quantity: Int!
+  equipped: Boolean!
+}
+
+type LifeEvent {
+  id: ID!
+  age: Int!
+  event: String!
+  description: String
+  effects: AWSJSON
+}
+
+type Session {
+  id: ID!
+  campaign: Campaign!
+  name: String!
+  scheduledFor: AWSDateTime
+  duration: Int
+  notes: String
+  participants: [User!]!
+  status: SessionStatus!
+  createdAt: AWSDateTime!
+}
+
+enum SessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+type DiceRoll {
+  id: ID!
+  roller: User!
+  campaign: Campaign!
+  dice: String!
+  result: Int!
+  modifiers: [String!]
+  timestamp: AWSDateTime!
+  isPublic: Boolean!
+}
+
+# Queries
+type Query {
+  # User queries
+  getUser(id: ID!): User
+  getCurrentUser: User
+  
+  # Campaign queries
+  getCampaign(id: ID!): Campaign
+  listCampaigns(filter: CampaignFilter): [Campaign!]!
+  listUserCampaigns: [Campaign!]!
+  
+  # Character queries
+  getCharacter(id: ID!): Character
+  listCharacters(campaignId: ID!): [Character!]!
+  listUserCharacters: [Character!]!
+  
+  # Session queries
+  getSession(id: ID!): Session
+  listSessions(campaignId: ID!): [Session!]!
+  
+  # Dice roll queries
+  listDiceRolls(campaignId: ID!, limit: Int): [DiceRoll!]!
+}
+
+# Mutations
+type Mutation {
+  # User mutations
+  updateUserProfile(input: UpdateUserProfileInput!): User
+  
+  # Campaign mutations
+  createCampaign(input: CreateCampaignInput!): Campaign
+  updateCampaign(id: ID!, input: UpdateCampaignInput!): Campaign
+  deleteCampaign(id: ID!): Boolean
+  invitePlayerToCampaign(campaignId: ID!, email: String!): Boolean
+  
+  # Character mutations
+  createCharacter(input: CreateCharacterInput!): Character
+  updateCharacter(id: ID!, input: UpdateCharacterInput!): Character
+  deleteCharacter(id: ID!): Boolean
+  
+  # Session mutations
+  createSession(input: CreateSessionInput!): Session
+  updateSession(id: ID!, input: UpdateSessionInput!): Session
+  
+  # Dice roll mutations
+  rollDice(input: RollDiceInput!): DiceRoll
+}
+
+# Subscriptions
+type Subscription {
+  # Real-time updates
+  onCampaignUpdate(campaignId: ID!): Campaign
+    @aws_subscribe(mutations: ["updateCampaign"])
+  
+  onCharacterUpdate(characterId: ID!): Character
+    @aws_subscribe(mutations: ["updateCharacter"])
+    
+  onDiceRoll(campaignId: ID!): DiceRoll
+    @aws_subscribe(mutations: ["rollDice"])
+    
+  onSessionUpdate(campaignId: ID!): Session
+    @aws_subscribe(mutations: ["createSession", "updateSession"])
+}
+
+# Input types
+input CampaignFilter {
+  name: String
+  gamemaster: ID
+  isPublic: Boolean
+}
+
+input UpdateUserProfileInput {
+  displayName: String
+  timezone: String
+}
+
+input CreateCampaignInput {
+  name: String!
+  description: String
+  settings: CampaignSettingsInput
+}
+
+input UpdateCampaignInput {
+  name: String
+  description: String
+  settings: CampaignSettingsInput
+}
+
+input CampaignSettingsInput {
+  houseRules: AWSJSON
+  allowedBooks: [String!]
+  maxPlayers: Int
+  isPublic: Boolean
+}
+
+input CreateCharacterInput {
+  name: String!
+  campaignId: ID!
+  characteristics: CharacteristicsInput!
+  portrait: String
+}
+
+input UpdateCharacterInput {
+  name: String
+  characteristics: CharacteristicsInput
+  skills: [SkillInput!]
+  equipment: [EquipmentInput!]
+  credits: Int
+  notes: String
+  portrait: String
+}
+
+input CharacteristicsInput {
+  strength: Int!
+  dexterity: Int!
+  endurance: Int!
+  intelligence: Int!
+  education: Int!
+  socialStanding: Int!
+}
+
+input SkillInput {
+  name: String!
+  level: Int!
+  specialization: String
+}
+
+input EquipmentInput {
+  name: String!
+  description: String
+  weight: Float
+  cost: Int
+  quantity: Int!
+  equipped: Boolean!
+}
+
+input CreateSessionInput {
+  campaignId: ID!
+  name: String!
+  scheduledFor: AWSDateTime
+  duration: Int
+}
+
+input UpdateSessionInput {
+  name: String
+  scheduledFor: AWSDateTime
+  duration: Int
+  notes: String
+  status: SessionStatus
+}
+
+input RollDiceInput {
+  campaignId: ID!
+  dice: String!
+  modifiers: [String!]
+  isPublic: Boolean!
+  description: String
+}
