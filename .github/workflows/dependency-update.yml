@@ -39,7 +39,7 @@ jobs:
           npm audit fix || true
       
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: update npm dependencies'
@@ -89,7 +89,7 @@ jobs:
           ./gradlew wrapper --gradle-version=latest
       
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: update gradle dependencies'
