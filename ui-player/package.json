@@ -22,7 +22,7 @@
     "@aws-amplify/core": "^6.13.1",
     "@cucumber/cucumber": "^12.1.0",
     "@cucumber/pretty-formatter": "^2.0.1",
-    "@eslint/js": "^9.25.0",
+    "@eslint/js": "^9.33.0",
     "@playwright/test": "^1.54.2",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
