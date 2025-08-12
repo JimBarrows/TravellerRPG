@@ -1,0 +1,1 @@
+const CampaignCreatePage = () => { return <div><h1 className="text-3xl font-bold mb-6">CampaignCreate</h1><p className="text-muted-foreground">Coming soon...</p></div>; }; export default CampaignCreatePage;
