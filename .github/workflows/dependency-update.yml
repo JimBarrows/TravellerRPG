@@ -1,0 +1,172 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Run every Monday at 3 AM UTC
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18.x'
+  JAVA_VERSION: '21'
+
+jobs:
+  # Update npm dependencies
+  update-npm:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Update infrastructure dependencies
+        working-directory: ./infrastructure
+        run: |
+          npx npm-check-updates -u
+          npm install
+          npm audit fix || true
+      
+      - name: Update web app dependencies  
+        working-directory: ./ui-player
+        run: |
+          npx npm-check-updates -u
+          npm install
+          npm audit fix || true
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update npm dependencies'
+          title: '🔄 Update NPM Dependencies'
+          body: |
+            ## Automated Dependency Updates
+            
+            This PR updates NPM dependencies to their latest versions.
+            
+            ### Changes
+            - Updated infrastructure dependencies
+            - Updated web application dependencies
+            - Fixed security vulnerabilities (if any)
+            
+            ### Checklist
+            - [ ] All tests pass
+            - [ ] Application builds successfully
+            - [ ] No breaking changes identified
+            
+            ---
+            *This PR was automatically created by the dependency update workflow.*
+          branch: deps/npm-updates
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+
+  # Update Java/Gradle dependencies
+  update-gradle:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Update Gradle dependencies
+        working-directory: ./api
+        run: |
+          chmod +x gradlew
+          ./gradlew dependencyUpdates -Drevision=release
+          ./gradlew wrapper --gradle-version=latest
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update gradle dependencies'
+          title: '🔄 Update Gradle Dependencies'
+          body: |
+            ## Automated Dependency Updates
+            
+            This PR updates Gradle dependencies to their latest versions.
+            
+            ### Changes
+            - Updated Spring Boot dependencies
+            - Updated Gradle wrapper
+            - Updated test dependencies
+            
+            ### Checklist
+            - [ ] All tests pass
+            - [ ] Application builds successfully
+            - [ ] No breaking changes identified
+            
+            ---
+            *This PR was automatically created by the dependency update workflow.*
+          branch: deps/gradle-updates
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            backend
+
+  # Security audit
+  security-audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Run npm audit
+        run: |
+          echo "## NPM Security Audit Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### Infrastructure" >> $GITHUB_STEP_SUMMARY
+          cd infrastructure
+          npm audit --json > audit.json || true
+          if [ -s audit.json ]; then
+            VULNS=$(jq '.metadata.vulnerabilities' audit.json)
+            echo "Found vulnerabilities: $VULNS" >> $GITHUB_STEP_SUMMARY
+          fi
+          cd ..
+          
+          echo "### Web Application" >> $GITHUB_STEP_SUMMARY
+          cd ui-player
+          npm audit --json > audit.json || true
+          if [ -s audit.json ]; then
+            VULNS=$(jq '.metadata.vulnerabilities' audit.json)
+            echo "Found vulnerabilities: $VULNS" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          output: 'trivy-report.txt'
+      
+      - name: Upload security reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            **/audit.json
+            trivy-report.txt
+          retention-days: 30

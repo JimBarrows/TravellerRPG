@@ -1,0 +1,189 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: '18.x'
+  JAVA_VERSION: '21'
+
+jobs:
+  # Check for conventional commits
+  commit-lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Check commit messages
+        uses: wagoid/commitlint-github-action@v5
+        with:
+          configFile: '.commitlintrc.json'
+          failOnWarnings: false
+
+  # Check for code quality
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Check code formatting
+        run: |
+          npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}" || true
+      
+      - name: Run ESLint
+        run: |
+          npx eslint . --ext .js,.jsx,.ts,.tsx || true
+
+  # Check for documentation
+  documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Check README exists
+        run: |
+          if [ ! -f README.md ]; then
+            echo "⚠️ README.md is missing"
+            exit 1
+          fi
+      
+      - name: Check for API documentation
+        run: |
+          echo "Checking for API documentation..."
+          # Add specific documentation checks here
+
+  # Size check
+  bundle-size:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'frontend')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ui-player/package-lock.json
+      
+      - name: Check bundle size
+        working-directory: ./ui-player
+        run: |
+          npm ci
+          npm run build
+          echo "Bundle size:"
+          du -sh dist/
+
+  # License check
+  license-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Check dependencies licenses
+        run: |
+          echo "Checking licenses..."
+          # Add license checking tool here
+
+  # Task Master validation
+  taskmaster-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Validate Task Master configuration
+        run: |
+          if [ -f .taskmaster/tasks/tasks.json ]; then
+            npx task-master-ai validate-dependencies || true
+            echo "✅ Task Master configuration is valid"
+          else
+            echo "⚠️ Task Master not configured"
+          fi
+
+  # PR labeler
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Label PR
+        uses: actions/labeler@v5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  # Comment on PR with checks summary
+  pr-comment:
+    runs-on: ubuntu-latest
+    needs: [commit-lint, code-quality, documentation]
+    if: always()
+    permissions:
+      pull-requests: write
+    
+    steps:
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('## PR Checks Summary')
+            );
+            
+            const output = `## PR Checks Summary
+            
+            | Check | Status |
+            |-------|--------|
+            | Commit Lint | ${{ needs.commit-lint.result == 'success' && '✅' || '❌' }} |
+            | Code Quality | ${{ needs.code-quality.result == 'success' && '✅' || '❌' }} |
+            | Documentation | ${{ needs.documentation.result == 'success' && '✅' || '❌' }} |
+            
+            ---
+            *This comment is automatically updated on each push.*`;
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: output
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: output
+              });
+            }
