@@ -1,0 +1,335 @@
+# Extended Traveller RPG GraphQL Schema
+# Additional types for world building, trade, and gameplay
+
+# World Building Types
+type StarSystem {
+  id: ID!
+  name: String!
+  hexLocation: String!
+  sector: String!
+  subsector: String
+  allegiance: String
+  starType: String
+  gasGiants: Int
+  planets: [Planet!]!
+  tradeRoutes: [TradeRoute!]!
+  campaign: Campaign
+}
+
+type Planet {
+  id: ID!
+  name: String!
+  starSystem: StarSystem!
+  uwp: String!
+  tradeCodes: [String!]!
+  starport: String!
+  size: Int!
+  atmosphere: Int!
+  hydrographics: Int!
+  population: Int!
+  government: Int!
+  lawLevel: Int!
+  techLevel: Int!
+  gasGiant: Boolean!
+  bases: [String!]
+  description: String
+}
+
+# Trade and Commerce Types
+type TradeGood {
+  id: ID!
+  name: String!
+  category: String!
+  basePrice: Int!
+  availability: String!
+  dtm: Int!
+  description: String
+}
+
+type TradeRoute {
+  id: ID!
+  originSystem: StarSystem!
+  destinationSystem: StarSystem!
+  distance: Int!
+  profitability: Float
+  goods: [TradeGood!]!
+  campaign: Campaign!
+}
+
+# Starship Types
+type Starship {
+  id: ID!
+  name: String!
+  shipClass: String!
+  tonnage: Int!
+  jumpDrive: Int
+  maneuverDrive: Int
+  powerPlant: Int
+  fuel: Int!
+  cargo: Int!
+  passengers: Int!
+  staterooms: Int!
+  lowBerths: Int!
+  turrets: Int!
+  cost: Int!
+  owner: Character
+  crew: [Character!]!
+  currentLocation: StarSystem
+  campaign: Campaign!
+}
+
+# Combat Types
+type Encounter {
+  id: ID!
+  name: String!
+  description: String
+  encounterType: String!
+  difficulty: Int
+  campaign: Campaign!
+  session: Session
+  combatSessions: [CombatSession!]!
+}
+
+type CombatSession {
+  id: ID!
+  encounter: Encounter!
+  participants: [Character!]!
+  currentRound: Int!
+  currentTurn: Int!
+  status: CombatStatus!
+  startTime: AWSDateTime!
+  endTime: AWSDateTime
+  campaign: Campaign!
+}
+
+enum CombatStatus {
+  SETUP
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+type CombatAction {
+  id: ID!
+  combatSession: CombatSession!
+  character: Character!
+  actionType: String!
+  target: String
+  result: String
+  damage: Int
+  roundNumber: Int!
+  initiative: Int!
+  timestamp: AWSDateTime!
+}
+
+# Enhanced Character Types
+type CharacterSkill {
+  id: ID!
+  character: Character!
+  name: String!
+  level: Int!
+  specialization: String
+}
+
+type CharacterEquipment {
+  id: ID!
+  character: Character!
+  name: String!
+  category: String!
+  description: String
+  weight: Float
+  cost: Int
+  quantity: Int!
+  equipped: Boolean!
+}
+
+# Extended Queries
+extend type Query {
+  # World building queries
+  getStarSystem(id: ID!): StarSystem
+  listStarSystems(campaignId: ID!): [StarSystem!]!
+  getPlanet(id: ID!): Planet
+  listPlanets(systemId: ID!): [Planet!]!
+  
+  # Trade queries
+  getTradeGood(id: ID!): TradeGood
+  listTradeGoods(filter: TradeGoodFilter): [TradeGood!]!
+  getTradeRoute(id: ID!): TradeRoute
+  listTradeRoutes(campaignId: ID!): [TradeRoute!]!
+  
+  # Starship queries
+  getStarship(id: ID!): Starship
+  listStarships(campaignId: ID!): [Starship!]!
+  listUserStarships: [Starship!]!
+  
+  # Combat queries
+  getEncounter(id: ID!): Encounter
+  listEncounters(campaignId: ID!): [Encounter!]!
+  getCombatSession(id: ID!): CombatSession
+  listCombatSessions(campaignId: ID!): [CombatSession!]!
+}
+
+# Extended Mutations
+extend type Mutation {
+  # World building mutations
+  createStarSystem(input: CreateStarSystemInput!): StarSystem
+  updateStarSystem(id: ID!, input: UpdateStarSystemInput!): StarSystem
+  deleteStarSystem(id: ID!): Boolean
+  
+  createPlanet(input: CreatePlanetInput!): Planet
+  updatePlanet(id: ID!, input: UpdatePlanetInput!): Planet
+  deletePlanet(id: ID!): Boolean
+  
+  # Trade mutations
+  createTradeRoute(input: CreateTradeRouteInput!): TradeRoute
+  updateTradeRoute(id: ID!, input: UpdateTradeRouteInput!): TradeRoute
+  deleteTradeRoute(id: ID!): Boolean
+  
+  # Starship mutations
+  createStarship(input: CreateStarshipInput!): Starship
+  updateStarship(id: ID!, input: UpdateStarshipInput!): Starship
+  deleteStarship(id: ID!): Boolean
+  assignStarshipCrew(starshipId: ID!, characterId: ID!, position: String!): Boolean
+  
+  # Combat mutations
+  createEncounter(input: CreateEncounterInput!): Encounter
+  updateEncounter(id: ID!, input: UpdateEncounterInput!): Encounter
+  deleteEncounter(id: ID!): Boolean
+  
+  startCombat(input: StartCombatInput!): CombatSession
+  endCombat(combatSessionId: ID!): CombatSession
+  addCombatAction(input: CombatActionInput!): CombatAction
+}
+
+# Extended Subscriptions
+extend type Subscription {
+  # Combat subscriptions
+  onCombatUpdate(combatSessionId: ID!): CombatSession
+    @aws_subscribe(mutations: ["startCombat", "endCombat", "addCombatAction"])
+    
+  onEncounterUpdate(campaignId: ID!): Encounter
+    @aws_subscribe(mutations: ["createEncounter", "updateEncounter"])
+    
+  # World updates
+  onStarSystemUpdate(campaignId: ID!): StarSystem
+    @aws_subscribe(mutations: ["createStarSystem", "updateStarSystem"])
+}
+
+# Input Types for World Building
+input CreateStarSystemInput {
+  name: String!
+  hexLocation: String!
+  sector: String!
+  subsector: String
+  allegiance: String
+  starType: String
+  gasGiants: Int
+  campaignId: ID!
+}
+
+input UpdateStarSystemInput {
+  name: String
+  hexLocation: String
+  sector: String
+  subsector: String
+  allegiance: String
+  starType: String
+  gasGiants: Int
+}
+
+input CreatePlanetInput {
+  name: String!
+  starSystemId: ID!
+  uwp: String!
+  gasGiant: Boolean!
+  bases: [String!]
+  description: String
+}
+
+input UpdatePlanetInput {
+  name: String
+  uwp: String
+  gasGiant: Boolean
+  bases: [String!]
+  description: String
+}
+
+# Input Types for Trade
+input TradeGoodFilter {
+  category: String
+  availability: String
+  maxPrice: Int
+}
+
+input CreateTradeRouteInput {
+  originSystemId: ID!
+  destinationSystemId: ID!
+  campaignId: ID!
+  goods: [ID!]!
+}
+
+input UpdateTradeRouteInput {
+  goods: [ID!]
+  profitability: Float
+}
+
+# Input Types for Starships
+input CreateStarshipInput {
+  name: String!
+  shipClass: String!
+  tonnage: Int!
+  jumpDrive: Int
+  maneuverDrive: Int
+  powerPlant: Int
+  fuel: Int!
+  cargo: Int!
+  passengers: Int!
+  staterooms: Int!
+  lowBerths: Int!
+  turrets: Int!
+  cost: Int!
+  currentLocationId: ID
+  campaignId: ID!
+}
+
+input UpdateStarshipInput {
+  name: String
+  jumpDrive: Int
+  maneuverDrive: Int
+  powerPlant: Int
+  fuel: Int
+  cargo: Int
+  currentLocationId: ID
+}
+
+# Input Types for Combat
+input CreateEncounterInput {
+  name: String!
+  description: String
+  encounterType: String!
+  difficulty: Int
+  campaignId: ID!
+  sessionId: ID
+}
+
+input UpdateEncounterInput {
+  name: String
+  description: String
+  encounterType: String
+  difficulty: Int
+}
+
+input StartCombatInput {
+  encounterId: ID!
+  participantIds: [ID!]!
+}
+
+input CombatActionInput {
+  combatSessionId: ID!
+  characterId: ID!
+  actionType: String!
+  target: String
+  result: String
+  damage: Int
+  initiative: Int!
+}

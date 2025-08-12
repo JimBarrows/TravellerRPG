@@ -1,0 +1,27 @@
+{
+  "name": "traveller-graphql-resolvers",
+  "version": "1.0.0",
+  "description": "GraphQL resolvers for Traveller RPG platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.450.0",
+    "@prisma/client": "^5.16.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.12"
+  },
+  "keywords": [
+    "graphql",
+    "aws-lambda",
+    "traveller-rpg",
+    "resolvers"
+  ]
+}
