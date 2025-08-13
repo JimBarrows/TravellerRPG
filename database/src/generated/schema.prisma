@@ -1,0 +1,697 @@
+// Traveller RPG Database Schema
+// This schema defines the PostgreSQL database structure for the Traveller RPG platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MANAGEMENT TABLES
+// ============================================================================
+
+model User {
+  id               String           @id @default(cuid())
+  email            String           @unique
+  displayName      String?
+  avatar           String?
+  timezone         String           @default("UTC")
+  subscriptionTier SubscriptionTier @default(FREE)
+
+  // Authentication fields (managed by AWS Cognito)
+  cognitoUserId String  @unique
+  emailVerified Boolean @default(false)
+
+  // Audit fields
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLoginAt DateTime?
+
+  // Relationships
+  ownedCampaigns  Campaign[]       @relation("CampaignGamemaster")
+  campaignMembers CampaignMember[]
+  characters      Character[]
+  diceRolls       DiceRoll[]
+  customContent   CustomContent[]
+  sessionNotes    SessionNote[]
+  handouts        Handout[]
+
+  @@index([email])
+  @@index([cognitoUserId])
+  @@index([subscriptionTier])
+  @@map("users")
+}
+
+enum SubscriptionTier {
+  FREE
+  STANDARD
+  PREMIUM
+
+  @@map("subscription_tier")
+}
+
+// ============================================================================
+// CAMPAIGN MANAGEMENT TABLES
+// ============================================================================
+
+model Campaign {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+
+  // Campaign settings
+  maxPlayers   Int?     @default(6)
+  isPublic     Boolean  @default(false)
+  allowedBooks String[] // Array of rulebook identifiers
+  houseRules   Json? // Flexible JSON storage for house rules
+
+  // Relationships
+  gamemaster   User   @relation("CampaignGamemaster", fields: [gamemasterId], references: [id], onDelete: Cascade)
+  gamemasterId String
+
+  members        CampaignMember[]
+  characters     Character[]
+  sessions       Session[]
+  diceRolls      DiceRoll[]
+  encounters     Encounter[]
+  starSystems    StarSystem[]
+  starships      Starship[]
+  customContent  CustomContent[]
+  houseRulesData HouseRule[]
+  handouts       Handout[]
+  sessionNotes   SessionNote[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([gamemasterId])
+  @@index([isPublic])
+  @@index([createdAt])
+  @@map("campaigns")
+}
+
+model CampaignMember {
+  id String @id @default(cuid())
+
+  // Relationships
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+
+  // Member settings
+  role     CampaignRole @default(PLAYER)
+  isActive Boolean      @default(true)
+  joinedAt DateTime     @default(now())
+
+  @@unique([campaignId, userId])
+  @@map("campaign_members")
+}
+
+enum CampaignRole {
+  GAMEMASTER
+  PLAYER
+  OBSERVER
+
+  @@map("campaign_role")
+}
+
+// ============================================================================
+// CHARACTER TABLES
+// ============================================================================
+
+model Character {
+  id       String  @id @default(cuid())
+  name     String
+  credits  Int     @default(0)
+  notes    String?
+  portrait String? // URL to character portrait image
+
+  // Character background
+  homeworld String?
+  age       Int?
+  gender    String?
+  species   String? @default("Human")
+
+  // Relationships
+  player     User     @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId   String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+
+  characteristics Characteristics?
+  skills          CharacterSkill[]
+  equipment       CharacterEquipment[]
+  lifeEvents      LifeEvent[]
+  combatActions   CombatAction[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([playerId, campaignId, name]) // Player can't have duplicate character names in same campaign
+  @@index([playerId])
+  @@index([campaignId])
+  @@index([name])
+  @@map("characters")
+}
+
+model Characteristics {
+  id String @id @default(cuid())
+
+  // Core characteristics
+  strength       Int @default(7)
+  dexterity      Int @default(7)
+  endurance      Int @default(7)
+  intelligence   Int @default(7)
+  education      Int @default(7)
+  socialStanding Int @default(7)
+
+  // Derived characteristics (calculated)
+  physicalDamage Int? // STR + END / 2 (rounded down)
+  mentalDamage   Int? // INT + EDU / 2 (rounded down)
+
+  // Relationships
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId String    @unique
+
+  @@map("characteristics")
+}
+
+model CharacterSkill {
+  id String @id @default(cuid())
+
+  // Skill details
+  name           String
+  level          Int     @default(0)
+  specialization String?
+
+  // Relationships
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId String
+
+  @@unique([characterId, name, specialization])
+  @@map("character_skills")
+}
+
+model CharacterEquipment {
+  id String @id @default(cuid())
+
+  // Equipment details
+  name        String
+  description String?
+  weight      Float?
+  cost        Int?
+  quantity    Int     @default(1)
+  equipped    Boolean @default(false)
+
+  // Equipment categories
+  category    String? // Weapon, Armor, Tool, etc.
+  subcategory String? // More specific categorization
+
+  // Weapon-specific fields (nullable for non-weapons)
+  weaponType String? // Melee, Ranged, etc.
+  damage     String? // Damage dice notation (e.g., "2d6+1")
+  range      String? // Range categories
+
+  // Armor-specific fields
+  armorValue Int? // Protection value
+  armorType  String? // Light, Heavy, etc.
+
+  // Relationships
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId String
+
+  @@map("character_equipment")
+}
+
+model LifeEvent {
+  id String @id @default(cuid())
+
+  // Event details
+  age         Int
+  event       String
+  description String?
+  effects     Json? // Flexible storage for event effects
+
+  // Career information
+  career String?
+  rank   String?
+  skills String[] // Skills gained from this event
+
+  // Relationships
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId String
+
+  @@map("life_events")
+}
+
+// ============================================================================
+// GAME WORLD TABLES
+// ============================================================================
+
+model StarSystem {
+  id String @id @default(cuid())
+
+  // System identification
+  name        String
+  hexLocation String // Hex coordinates (e.g., "0101")
+  sector      String // Sector name
+  subsector   String? // Subsector designation
+
+  // System properties
+  allegiance String? // Political allegiance
+  starType   String? // Stellar classification
+  gasGiants  Int     @default(0)
+
+  // Navigation
+  jumpRoutes String[] // Connected systems
+
+  // Relationships
+  campaign   Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String? // Null for canonical systems
+
+  planets                Planet[]
+  tradeRoutes            TradeRoute[] @relation("TradeRouteOrigin")
+  tradeRoutesDestination TradeRoute[] @relation("TradeRouteDestination")
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campaignId, hexLocation]) // Unique hex per campaign
+  @@index([sector, hexLocation])
+  @@index([name])
+  @@map("star_systems")
+}
+
+model Planet {
+  id String @id @default(cuid())
+
+  // Basic information
+  name String
+  uwp  String // Universal World Profile
+
+  // Physical characteristics
+  size          Int // 0-A hex
+  atmosphere    Int // 0-F hex
+  hydrographics Int // 0-A hex
+  population    Int // 0-C hex
+  government    Int // 0-F hex
+  lawLevel      Int // 0-J hex
+  techLevel     Int // 0-G+ hex
+
+  // Economic data
+  starport   String // A, B, C, D, E, X
+  tradeCodes String[] // Array of trade classification codes
+
+  // Additional data
+  bases    String[] // Military/Scout bases present
+  gasGiant Boolean  @default(false)
+
+  // Description
+  description String?
+  notes       String?
+
+  // Relationships
+  starSystem   StarSystem @relation(fields: [starSystemId], references: [id], onDelete: Cascade)
+  starSystemId String
+
+  tradeGoods TradeGood[]
+
+  @@map("planets")
+}
+
+model Starship {
+  id String @id @default(cuid())
+
+  // Basic information
+  name     String
+  class    String // Ship class/type
+  hullCode String? // Hull designation
+
+  // Technical specifications
+  tonnage       Int // Displacement tons
+  jumpDrive     Int @default(0) // Jump rating
+  maneuverDrive Int @default(0) // Maneuver rating
+  powerPlant    Int @default(0) // Power plant rating
+
+  // Performance
+  crew       Int @default(1)
+  passengers Int @default(0)
+  cargo      Int @default(0) // Cargo capacity in tons
+  fuel       Int @default(0) // Fuel capacity in tons
+
+  // Combat statistics
+  armor   Int   @default(0)
+  weapons Json? // Weapon systems as JSON
+
+  // Status
+  status   String  @default("Active") // Active, Damaged, Destroyed, etc.
+  location String? // Current location
+
+  // Ownership (optional - could be NPC ships)
+  owner String? // Owner name or organization
+
+  // Relationships (for player ships)
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId String?
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("starships")
+}
+
+model TradeGood {
+  id String @id @default(cuid())
+
+  // Trade good information
+  name      String
+  category  String // Food, Textiles, Metals, etc.
+  basePrice Int // Base price in credits per ton
+
+  // Market data
+  availability String? // Common, Uncommon, Rare, etc.
+  legality     String? // Legal status
+
+  // Modifiers
+  dtm Int @default(0) // Die modifier for availability
+
+  // Relationships
+  planet   Planet? @relation(fields: [planetId], references: [id])
+  planetId String?
+
+  @@map("trade_goods")
+}
+
+model TradeRoute {
+  id String @id @default(cuid())
+
+  // Route information
+  name       String
+  distance   Int // Distance in parsecs
+  difficulty Int    @default(0) // Navigation difficulty
+
+  // Relationships
+  origin        StarSystem @relation("TradeRouteOrigin", fields: [originId], references: [id])
+  originId      String
+  destination   StarSystem @relation("TradeRouteDestination", fields: [destinationId], references: [id])
+  destinationId String
+
+  // Trade data
+  cargoTypes   String[] // Types of cargo commonly traded
+  profitMargin Float? // Average profit margin
+
+  @@unique([originId, destinationId])
+  @@map("trade_routes")
+}
+
+// ============================================================================
+// GAMEPLAY TABLES
+// ============================================================================
+
+model Session {
+  id String @id @default(cuid())
+
+  // Session details
+  name         String
+  scheduledFor DateTime?
+  duration     Int? // Duration in minutes
+  notes        String?
+  status       SessionStatus @default(SCHEDULED)
+
+  // Relationships
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+
+  participants   String[] // Array of user IDs who participated
+  encounters     Encounter[]
+  combatSessions CombatSession[]
+  sessionNotes   SessionNote[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([campaignId, scheduledFor])
+  @@index([status])
+  @@map("sessions")
+}
+
+enum SessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+
+  @@map("session_status")
+}
+
+model Encounter {
+  id String @id @default(cuid())
+
+  // Encounter details
+  name          String
+  description   String?
+  encounterType String // Combat, Social, Exploration, etc.
+  difficulty    Int? // Difficulty rating
+
+  // Environment
+  location    String?
+  environment Json? // Environmental conditions, terrain, etc.
+
+  // NPCs and entities
+  npcs    Json? // NPC data as JSON
+  rewards Json? // Rewards, loot, experience, etc.
+
+  // Status
+  status  String  @default("Planned") // Planned, Active, Completed
+  outcome String? // Brief outcome description
+
+  // Relationships
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+  session    Session? @relation(fields: [sessionId], references: [id])
+  sessionId  String?
+
+  combatSessions CombatSession[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("encounters")
+}
+
+model CombatSession {
+  id String @id @default(cuid())
+
+  // Combat details
+  name   String?
+  round  Int     @default(1)
+  phase  String  @default("Initiative") // Initiative, Action, Recovery
+  status String  @default("Active") // Active, Paused, Completed
+
+  // Initiative tracking
+  initiative Json? // Initiative order and values
+
+  // Relationships
+  encounter   Encounter? @relation(fields: [encounterId], references: [id])
+  encounterId String?
+  session     Session?   @relation(fields: [sessionId], references: [id])
+  sessionId   String?
+
+  actions CombatAction[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("combat_sessions")
+}
+
+model CombatAction {
+  id String @id @default(cuid())
+
+  // Action details
+  actionType  String // Attack, Move, Skill, etc.
+  description String?
+  target      String? // Target description
+  result      Json? // Action results (damage, effects, etc.)
+
+  // Dice rolls
+  diceRolled String? // Dice notation used
+  rollResult Int? // Dice roll result
+  modifiers  Json? // Applied modifiers
+
+  // Relationships
+  character       Character?    @relation(fields: [characterId], references: [id])
+  characterId     String? // Null for NPC actions
+  combatSession   CombatSession @relation(fields: [combatSessionId], references: [id], onDelete: Cascade)
+  combatSessionId String
+
+  // Timing
+  round     Int
+  timestamp DateTime @default(now())
+
+  @@map("combat_actions")
+}
+
+model DiceRoll {
+  id String @id @default(cuid())
+
+  // Roll details
+  dice        String // Dice notation (e.g., "2d6+1")
+  result      Int // Final result
+  individual  Int[] // Individual die results
+  modifiers   String[] // Applied modifiers
+  description String? // What the roll was for
+
+  // Visibility
+  isPublic Boolean @default(true)
+  isGMOnly Boolean @default(false)
+
+  // Relationships
+  roller     User     @relation(fields: [rollerId], references: [id])
+  rollerId   String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+
+  // Context
+  character String? // Character name if roll was for a character
+  skill     String? // Skill being rolled if applicable
+
+  // Audit fields
+  timestamp DateTime @default(now())
+
+  @@index([campaignId, timestamp])
+  @@index([rollerId])
+  @@map("dice_rolls")
+}
+
+// ============================================================================
+// CONTENT MANAGEMENT TABLES
+// ============================================================================
+
+model CustomContent {
+  id String @id @default(cuid())
+
+  // Content details
+  title       String
+  description String?
+  contentType String // Equipment, Ship, Career, etc.
+  category    String? // Subcategory
+
+  // Content data
+  data Json // Flexible JSON storage for content
+  tags String[] // Tags for searching/filtering
+
+  // Publishing
+  isPublic   Boolean @default(false)
+  isOfficial Boolean @default(false)
+
+  // Relationships
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId String? // Null for global content
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([authorId])
+  @@index([campaignId])
+  @@index([contentType])
+  @@index([isPublic])
+  @@map("custom_content")
+}
+
+model HouseRule {
+  id String @id @default(cuid())
+
+  // Rule details
+  title       String
+  description String
+  category    String // Combat, Skills, Equipment, etc.
+  ruleText    String // The actual rule modification
+
+  // References
+  pageReference String? // Reference to official rulebook page
+  replaces      String? // What official rule this replaces
+
+  // Status
+  isActive Boolean @default(true)
+
+  // Relationships
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("house_rules")
+}
+
+model Handout {
+  id String @id @default(cuid())
+
+  // Handout details
+  title       String
+  description String?
+  content     String? // Text content
+  imageUrl    String? // URL to image file
+  fileUrl     String? // URL to attached file
+
+  // Distribution
+  isPlayerVisible Boolean  @default(true)
+  recipients      String[] // Specific user IDs, empty = all players
+
+  // Relationships
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("handouts")
+}
+
+model SessionNote {
+  id String @id @default(cuid())
+
+  // Note details
+  title    String?
+  content  String // Rich text content
+  noteType String  @default("General") // General, Combat, Plot, NPC, etc.
+
+  // Organization
+  tags     String[]
+  isPublic Boolean  @default(false) // Visible to players
+
+  // Relationships
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId String
+  session    Session? @relation(fields: [sessionId], references: [id])
+  sessionId  String? // Can be associated with a specific session
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("session_notes")
+}

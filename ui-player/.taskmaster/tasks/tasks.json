@@ -1,0 +1,538 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Complete User Registration Flow with Email Verification",
+        "description": "Implement the complete user registration flow including email verification, password strength validation, and proper error handling.",
+        "details": "Extend the existing RegistrationForm component to include:\n\n1. Email verification flow using AWS Amplify Auth.confirmSignUp() and Auth.resendSignUp()\n2. Password strength validation using zxcvbn (v4.4.2) library for client-side validation\n3. Form validation using React Hook Form (v7.45.0+) with Zod (v3.22.0+) schema validation\n4. Implement loading states using React Suspense or a custom loading state manager\n5. Error handling for all Cognito error codes with user-friendly messages\n6. Create a VerificationForm component for the email verification code entry\n\nCode structure:\n```tsx\n// src/features/auth/components/RegistrationForm.tsx\nimport { Auth } from 'aws-amplify';\nimport { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport zxcvbn from 'zxcvbn';\nimport { z } from 'zod';\n\nconst registrationSchema = z.object({\n  email: z.string().email('Please enter a valid email'),\n  password: z.string().min(8, 'Password must be at least 8 characters'),\n  confirmPassword: z.string()\n}).refine(data => data.password === data.confirmPassword, {\n  message: 'Passwords do not match',\n  path: ['confirmPassword']\n});\n\n// Implement form with validation, submission handling, and verification flow\n```\n\nConnect to the existing AuthContext to update the authentication state after successful registration and verification. Ensure proper navigation to the verification page and then to the login page or dashboard based on the authentication flow.",
+        "testStrategy": "1. Unit tests for the RegistrationForm component using Vitest:\n   - Test form validation for valid/invalid inputs\n   - Test password strength meter\n   - Test loading states\n   - Mock AWS Amplify Auth calls\n\n2. BDD tests using Cucumber:\n   - Scenario: User registers with valid information\n   - Scenario: User enters invalid email format\n   - Scenario: User enters weak password\n   - Scenario: User enters mismatched passwords\n   - Scenario: User successfully verifies email\n   - Scenario: User requests new verification code\n\n3. Integration tests:\n   - Test integration with AWS Cognito using a test user pool",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Registration Form with Validation",
+            "description": "Create the registration form with React Hook Form, Zod schema validation, and password strength validation using zxcvbn.",
+            "dependencies": [],
+            "details": "Extend the RegistrationForm component to include email and password fields with proper validation. Implement password strength validation using zxcvbn library to provide real-time feedback to users. Use React Hook Form with Zod schema validation to handle form state and validation rules. Include visual indicators for password strength and validation errors.",
+            "status": "done",
+            "testStrategy": "Write unit tests for form validation logic, testing valid and invalid inputs. Test password strength meter functionality with various password inputs. Mock form submission to verify proper data handling."
+          },
+          {
+            "id": 2,
+            "title": "Create Email Verification Component",
+            "description": "Develop a VerificationForm component for email verification code entry and handling.",
+            "dependencies": [],
+            "details": "Create a separate VerificationForm component that accepts a verification code from the user. Implement the verification logic using AWS Amplify's Auth.confirmSignUp() method. Add functionality to resend verification codes using Auth.resendSignUp(). Include proper validation for the verification code format and provide clear error messages for invalid codes.",
+            "status": "done",
+            "testStrategy": "Test verification code validation for correct format. Mock AWS Amplify Auth.confirmSignUp() and Auth.resendSignUp() calls to test successful and failed verification scenarios. Test the resend verification code functionality."
+          },
+          {
+            "id": 3,
+            "title": "Implement Loading States and UI Feedback",
+            "description": "Add loading states and user feedback mechanisms throughout the registration and verification flow.",
+            "dependencies": [],
+            "details": "Implement loading indicators using React Suspense or a custom loading state manager to provide visual feedback during form submission and API calls. Add transition animations between registration steps. Ensure the UI is disabled during loading states to prevent multiple submissions. Include progress indicators for multi-step registration process.",
+            "status": "done",
+            "testStrategy": "Test loading state transitions during form submission. Verify UI elements are properly disabled during loading states. Test that loading indicators appear and disappear at appropriate times."
+          },
+          {
+            "id": 4,
+            "title": "Implement Error Handling for Cognito Errors",
+            "description": "Create comprehensive error handling for all AWS Cognito error codes with user-friendly messages.",
+            "dependencies": [],
+            "details": "Map all possible AWS Cognito error codes to user-friendly error messages. Implement error display components that show appropriate messages based on the error type. Handle specific errors like 'UsernameExistsException', 'InvalidPasswordException', and 'ExpiredCodeException' with contextual guidance for users. Create a centralized error handling utility that can be reused across authentication components.",
+            "status": "done",
+            "testStrategy": "Test error handling for all common Cognito error types. Verify that appropriate user-friendly messages are displayed for each error code. Test error recovery flows, such as resending verification codes after expiration."
+          },
+          {
+            "id": 5,
+            "title": "Integrate with AuthContext and Navigation Flow",
+            "description": "Connect the registration and verification components to the existing AuthContext and implement proper navigation flow.",
+            "dependencies": [],
+            "details": "Update the AuthContext to handle registration state and verification status. Implement navigation logic to move users between registration, verification, and login/dashboard pages. Use React Router for navigation between authentication steps. Update authentication state after successful registration and verification. Implement proper redirection based on authentication status, including handling cases where users refresh the page during the registration process.",
+            "status": "done",
+            "testStrategy": "Test integration with AuthContext by verifying context updates after registration and verification. Test navigation flows between registration, verification, and post-login pages. Test persistence of registration state when navigating between pages."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Enhance Login Flow with Session Persistence",
+        "description": "Improve the login flow to include 'remember me' functionality, clear error messages, loading states, and session persistence across browser refreshes.",
+        "details": "Enhance the existing LoginForm component with the following features:\n\n1. Add 'Remember Me' checkbox using AWS Amplify's Auth.signIn() with the 'remember' option\n2. Implement proper loading states during authentication\n3. Create comprehensive error handling for all Cognito authentication errors\n4. Set up automatic redirect after successful login using React Router v6.14+\n5. Implement session persistence using AWS Amplify's Auth.currentAuthenticatedUser() and Auth.currentSession()\n\nCode implementation:\n```tsx\n// src/features/auth/components/LoginForm.tsx\nimport { Auth } from 'aws-amplify';\nimport { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { z } from 'zod';\nimport { useNavigate } from 'react-router-dom';\nimport { useAuth } from '../contexts/AuthContext';\n\nconst loginSchema = z.object({\n  email: z.string().email('Please enter a valid email'),\n  password: z.string().min(1, 'Password is required'),\n  rememberMe: z.boolean().optional()\n});\n\nconst LoginForm = () => {\n  const { setUser } = useAuth();\n  const navigate = useNavigate();\n  const [loading, setLoading] = useState(false);\n  const [error, setError] = useState('');\n  \n  // Implement form with validation\n  // Handle login with remember me option\n  // Implement error handling for all Cognito error codes\n  // Update auth context and redirect on success\n};\n```\n\nUpdate the AuthContext to properly handle session persistence:\n```tsx\n// src/features/auth/contexts/AuthContext.tsx\nimport { Auth } from 'aws-amplify';\n\n// Add session check on initial load\nconst checkSession = async () => {\n  try {\n    const user = await Auth.currentAuthenticatedUser();\n    setUser(user);\n    return user;\n  } catch (error) {\n    setUser(null);\n    return null;\n  }\n};\n\n// Call checkSession in useEffect on component mount\n```",
+        "testStrategy": "1. Unit tests for LoginForm component:\n   - Test form validation\n   - Test loading states\n   - Test error message display\n   - Mock AWS Amplify Auth calls\n\n2. BDD tests using Cucumber:\n   - Scenario: User logs in with valid credentials\n   - Scenario: User logs in with invalid credentials\n   - Scenario: User logs in with 'Remember Me' checked\n   - Scenario: User session persists after browser refresh\n   - Scenario: User receives appropriate error messages\n\n3. Integration tests:\n   - Test integration with AWS Cognito\n   - Test session persistence across page reloads",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement 'Remember Me' Functionality",
+            "description": "Add a 'Remember Me' checkbox to the login form and implement the functionality using AWS Amplify's Auth.signIn() with the 'remember' option.",
+            "dependencies": [],
+            "details": "Update the LoginForm component to include a checkbox for 'Remember Me' option. Modify the form state to capture this preference. Update the login submission handler to pass the 'remember' option to Auth.signIn(). Test that the session persists appropriately when this option is selected.",
+            "status": "pending",
+            "testStrategy": "Unit test the LoginForm component to verify the checkbox renders correctly. Test that the form state includes the rememberMe value. Mock Auth.signIn() to verify it's called with the correct parameters when the checkbox is checked vs unchecked."
+          },
+          {
+            "id": 2,
+            "title": "Implement Loading States and Error Handling",
+            "description": "Add proper loading states during authentication and comprehensive error handling for all Cognito authentication errors.",
+            "dependencies": [],
+            "details": "Update the LoginForm component to manage loading state during authentication attempts. Create a mapping of Cognito error codes to user-friendly messages. Implement error display in the UI that shows specific messages based on the error type. Handle network errors separately from authentication errors.",
+            "status": "pending",
+            "testStrategy": "Test loading state transitions during form submission. Mock different Cognito error responses and verify appropriate error messages are displayed. Test error clearing when form inputs change or on resubmission."
+          },
+          {
+            "id": 3,
+            "title": "Implement Post-Login Redirect",
+            "description": "Set up automatic redirect after successful login using React Router v6.14+, including handling of intended destinations.",
+            "dependencies": [
+              "2.1",
+              "2.2"
+            ],
+            "details": "Update the login flow to redirect users after successful authentication. Implement logic to redirect to the originally requested protected route if applicable, or to a default dashboard route. Use React Router's useNavigate hook for navigation. Consider implementing a redirect delay to ensure the auth context is fully updated before navigation.",
+            "status": "pending",
+            "testStrategy": "Test successful redirects after login. Test that users are redirected to their intended destination if they were redirected to login from a protected route. Test fallback to default route when no intended destination exists."
+          },
+          {
+            "id": 4,
+            "title": "Implement Session Persistence",
+            "description": "Implement session persistence using AWS Amplify's Auth.currentAuthenticatedUser() and Auth.currentSession() to maintain login state across browser refreshes.",
+            "dependencies": [],
+            "details": "Update the AuthContext to check for existing sessions on initial load using Auth.currentAuthenticatedUser(). Implement proper error handling for session retrieval failures. Add logic to refresh the session if needed. Update the user state in the context based on the session check results.",
+            "status": "pending",
+            "testStrategy": "Test that the application correctly identifies and loads an existing user session on page refresh. Test session expiration handling. Mock Auth.currentAuthenticatedUser() to return various states and verify the application responds correctly."
+          },
+          {
+            "id": 5,
+            "title": "Integrate Form Validation with React Hook Form and Zod",
+            "description": "Enhance the login form with comprehensive validation using React Hook Form with Zod schema validation.",
+            "dependencies": [],
+            "details": "Complete the implementation of the login form using React Hook Form with zodResolver. Define validation rules for email and password fields. Implement field-level error messages. Ensure form submission is prevented when validation fails. Add appropriate aria attributes for accessibility.",
+            "status": "pending",
+            "testStrategy": "Test form validation for various input scenarios (empty fields, invalid email format, etc.). Verify error messages appear correctly for invalid inputs. Test that form submission is blocked when validation fails. Test that validation errors clear appropriately when inputs are corrected."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Implement JWT Token Management with Refresh Mechanism",
+        "description": "Create a robust JWT token management system with automatic refresh, session timeout warnings, and secure token storage.",
+        "details": "Implement a token management service that handles JWT tokens from Cognito:\n\n1. Create a TokenService to manage token lifecycle:\n   - Store tokens securely (use HttpOnly cookies where possible, or secure localStorage with encryption)\n   - Implement automatic token refresh before expiration\n   - Handle token validation\n\n2. Add session timeout detection and warnings:\n   - Calculate time until token expiration\n   - Show warnings before session expires\n   - Implement background refresh without UI interruption\n\n3. Handle token refresh failures gracefully:\n   - Implement retry mechanism with exponential backoff\n   - Force logout on persistent failures\n\nCode implementation:\n```tsx\n// src/features/auth/services/TokenService.ts\nimport { Auth } from 'aws-amplify';\nimport { jwtDecode } from 'jwt-decode';\n\nclass TokenService {\n  private refreshTimeoutId: NodeJS.Timeout | null = null;\n  private warningTimeoutId: NodeJS.Timeout | null = null;\n  \n  // Get current session and extract tokens\n  async getTokens() {\n    try {\n      const session = await Auth.currentSession();\n      return {\n        idToken: session.getIdToken().getJwtToken(),\n        accessToken: session.getAccessToken().getJwtToken(),\n        refreshToken: session.getRefreshToken().getToken()\n      };\n    } catch (error) {\n      return null;\n    }\n  }\n  \n  // Schedule token refresh before expiration\n  scheduleTokenRefresh(token: string) {\n    const decoded = jwtDecode(token);\n    const expiresAt = decoded.exp * 1000; // Convert to milliseconds\n    const timeUntilExpiry = expiresAt - Date.now();\n    const refreshTime = timeUntilExpiry - (5 * 60 * 1000); // Refresh 5 minutes before expiry\n    \n    // Schedule refresh\n    // Schedule warning\n  }\n  \n  // Refresh token implementation\n  // Token validation implementation\n  // Warning notification implementation\n}\n\nexport const tokenService = new TokenService();\n```\n\n4. Create an Axios interceptor to handle token refresh for API calls:\n```tsx\n// src/api/axiosConfig.ts\nimport axios from 'axios';\nimport { tokenService } from '../features/auth/services/TokenService';\n\nconst api = axios.create({\n  baseURL: process.env.API_URL\n});\n\n// Request interceptor to add token\napi.interceptors.request.use(async (config) => {\n  const tokens = await tokenService.getTokens();\n  if (tokens) {\n    config.headers.Authorization = `Bearer ${tokens.idToken}`;\n  }\n  return config;\n});\n\n// Response interceptor to handle token refresh\napi.interceptors.response.use(\n  (response) => response,\n  async (error) => {\n    // Handle 401 errors with token refresh\n  }\n);\n```",
+        "testStrategy": "1. Unit tests for TokenService:\n   - Test token extraction and parsing\n   - Test expiration calculation\n   - Test refresh scheduling\n   - Mock Auth.currentSession() responses\n\n2. Integration tests:\n   - Test token refresh flow with Cognito\n   - Test session timeout warnings\n   - Test automatic refresh behavior\n\n3. E2E tests:\n   - Test session persistence across long periods\n   - Test refresh behavior with network interruptions\n   - Test logout on persistent refresh failures",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Secure Token Storage",
+            "description": "Create methods to securely store and retrieve JWT tokens using HttpOnly cookies or encrypted localStorage",
+            "dependencies": [],
+            "details": "Develop secure storage mechanisms for JWT tokens with the following features:\n- Implement HttpOnly cookie storage as the primary method\n- Create a fallback mechanism using encrypted localStorage\n- Add methods to store, retrieve, and clear tokens\n- Implement encryption/decryption utilities for localStorage storage\n- Handle browser compatibility issues\n<info added on 2025-08-12T02:38:24.639Z>\nImplementation completed for the TokenManager class with the following features:\n- Successfully integrated Web Crypto API for token encryption/decryption\n- Created methods for secure token storage in both localStorage and sessionStorage with encryption\n- Implemented token validation functionality to verify token integrity and authenticity\n- Added expiration checking to proactively handle token timeouts\n- Developed comprehensive unit tests covering all functionality\n- All tests are passing, confirming the implementation meets security requirements\n</info added on 2025-08-12T02:38:24.639Z>",
+            "status": "done",
+            "testStrategy": "- Unit test cookie storage and retrieval functions\n- Test encryption/decryption utilities\n- Mock browser storage APIs\n- Test fallback mechanisms when cookies are disabled\n- Verify secure attributes are properly set on cookies"
+          },
+          {
+            "id": 2,
+            "title": "Implement Token Validation and Refresh Logic",
+            "description": "Create functions to validate tokens, calculate expiration times, and handle automatic token refresh",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Develop the core token validation and refresh functionality:\n- Complete the scheduleTokenRefresh method to handle timing\n- Implement token validation using jwtDecode\n- Create refreshToken method with exponential backoff retry logic\n- Add event emitters for token refresh events\n- Implement background refresh without UI interruption\n- Handle edge cases like clock drift",
+            "status": "pending",
+            "testStrategy": "- Unit test token validation logic\n- Test expiration time calculations\n- Mock Auth.currentSession() responses\n- Test refresh scheduling with different token expiration times\n- Verify retry mechanism works correctly with simulated failures"
+          },
+          {
+            "id": 3,
+            "title": "Implement Session Timeout Warnings",
+            "description": "Create a system to detect approaching token expiration and display warnings to users",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Develop the session timeout warning system:\n- Calculate time until token expiration\n- Implement scheduleSessionWarning method\n- Create UI components for warning notifications\n- Add configurable warning thresholds (e.g., 5 min, 1 min)\n- Implement user interaction handling (extend session, logout)\n- Ensure warnings are cleared when session is refreshed\n<info added on 2025-08-12T02:43:26.170Z>\nImplemented SessionTimeoutWarning component with the following accessibility features:\n- Screen reader compatibility with proper ARIA attributes (aria-live, aria-atomic)\n- Keyboard navigation support (Tab, Enter, Escape)\n- Focus management that traps focus within the modal during warning display\n- High contrast visual indicators for remaining time\n\nSession monitoring features include:\n- Real-time token expiration tracking\n- Automatic countdown timer with visual indicators\n- Configurable warning thresholds successfully implemented\n\nUser notification system includes:\n- Modal dialog for primary warnings\n- Status bar notifications for early warnings\n- Audio cues for critical timeout warnings\n\nAll unit tests completed:\n- Component rendering tests\n- Timer functionality tests\n- User interaction tests (extend/logout)\n- Accessibility compliance tests\n</info added on 2025-08-12T02:43:26.170Z>",
+            "status": "done",
+            "testStrategy": "- Test warning timing calculations\n- Verify UI components render correctly\n- Test user interaction flows\n- Mock token service to simulate different expiration scenarios\n- Test warning dismissal and session extension"
+          },
+          {
+            "id": 4,
+            "title": "Complete Axios Interceptors for API Authentication",
+            "description": "Finish implementing Axios interceptors to handle authentication headers and automatic token refresh on 401 errors",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "Complete the Axios interceptor implementation:\n- Finalize request interceptor to add authentication headers\n- Implement response interceptor to handle 401/403 errors\n- Add token refresh logic in the error handler\n- Implement request queueing during token refresh\n- Add retry logic for failed requests after successful token refresh\n- Handle edge cases like multiple concurrent requests",
+            "status": "pending",
+            "testStrategy": "- Test request interceptor adds correct headers\n- Test response interceptor handles 401 errors correctly\n- Verify request queueing works during token refresh\n- Test retry logic after token refresh\n- Mock API responses to simulate various error scenarios"
+          },
+          {
+            "id": 5,
+            "title": "Implement TokenService Integration and Error Handling",
+            "description": "Integrate TokenService with the authentication system and implement comprehensive error handling",
+            "dependencies": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4"
+            ],
+            "details": "Complete the TokenService integration:\n- Connect TokenService with Auth events (login, logout, etc.)\n- Implement global error handling for token-related errors\n- Add logging for token lifecycle events\n- Create force logout mechanism for persistent failures\n- Implement session recovery after browser refresh\n- Add methods to clear token state on logout\n- Create public API for TokenService",
+            "status": "pending",
+            "testStrategy": "- Test integration with Auth events\n- Verify error handling for various failure scenarios\n- Test session recovery after page refresh\n- Test force logout functionality\n- Integration tests with the full authentication flow"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Create Profile Management UI with Avatar Upload",
+        "description": "Develop a profile management page where users can view and edit their profile information and upload profile avatars to S3.",
+        "details": "Create a comprehensive profile management UI with the following components:\n\n1. ProfilePage component:\n   - Display current user information from Cognito\n   - Allow editing of user attributes (name, email, etc.)\n   - Implement form validation and error handling\n\n2. Avatar upload functionality:\n   - Create AvatarUpload component with drag-and-drop support using react-dropzone (v14.2.3+)\n   - Implement image preview and cropping using react-image-crop (v10.1.5+)\n   - Add file type and size validation\n\n3. S3 integration for avatar storage:\n   - Use AWS Amplify Storage for S3 uploads\n   - Implement proper CDN access with CloudFront\n   - Handle upload progress and errors\n\nCode implementation:\n```tsx\n// src/features/profile/components/ProfilePage.tsx\nimport { Auth } from 'aws-amplify';\nimport { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { z } from 'zod';\nimport { AvatarUpload } from './AvatarUpload';\nimport { useAuth } from '../../auth/contexts/AuthContext';\n\nconst profileSchema = z.object({\n  name: z.string().min(1, 'Name is required'),\n  email: z.string().email('Please enter a valid email'),\n  // Add other profile fields\n});\n\nconst ProfilePage = () => {\n  const { user, updateUser } = useAuth();\n  const [loading, setLoading] = useState(false);\n  const [error, setError] = useState('');\n  \n  // Implement form with user data\n  // Handle profile updates\n  // Display avatar and upload component\n};\n```\n\n```tsx\n// src/features/profile/components/AvatarUpload.tsx\nimport { useDropzone } from 'react-dropzone';\nimport { useState } from 'react';\nimport ReactCrop, { Crop } from 'react-image-crop';\nimport { Storage } from 'aws-amplify';\n\nconst AvatarUpload = ({ onUploadComplete }) => {\n  const [file, setFile] = useState(null);\n  const [preview, setPreview] = useState('');\n  const [crop, setCrop] = useState<Crop>({ unit: '%', width: 100, aspect: 1 });\n  const [uploading, setUploading] = useState(false);\n  \n  // Implement dropzone for file selection\n  // Implement image cropping\n  // Handle S3 upload with progress\n  // Process image before upload (resize, format)\n};\n```\n\n4. Create a reusable Avatar component for display throughout the app:\n```tsx\n// src/features/profile/components/Avatar.tsx\nconst Avatar = ({ url, size = 'md', alt }) => {\n  // Implement avatar display with different size options\n  // Handle loading and error states\n  // Use CDN URL for optimized delivery\n};\n```\n\n5. Update AuthContext to include profile photo:\n```tsx\n// Update AuthContext to include profile information\nconst updateUserAvatar = async (avatarUrl) => {\n  try {\n    await Auth.updateUserAttributes(user, {\n      'picture': avatarUrl\n    });\n    setUser({\n      ...user,\n      attributes: {\n        ...user.attributes,\n        picture: avatarUrl\n      }\n    });\n  } catch (error) {\n    throw error;\n  }\n};\n```",
+        "testStrategy": "1. Unit tests for ProfilePage and AvatarUpload components:\n   - Test form validation\n   - Test file validation\n   - Test image cropping functionality\n   - Mock S3 uploads\n\n2. BDD tests using Cucumber:\n   - Scenario: User updates profile information\n   - Scenario: User uploads valid avatar image\n   - Scenario: User attempts to upload invalid file type\n   - Scenario: User crops and saves avatar image\n\n3. Integration tests:\n   - Test S3 upload integration\n   - Test Cognito user attribute updates\n   - Test CDN access for uploaded images\n\n4. Visual regression tests:\n   - Test Avatar component at different sizes\n   - Test responsive behavior of profile page",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement ProfilePage Component with Form Validation",
+            "description": "Create the ProfilePage component that displays and allows editing of user information from Cognito with proper form validation.",
+            "dependencies": [],
+            "details": "Develop the ProfilePage component that retrieves user data from Cognito and displays it in an editable form. Implement form validation using react-hook-form with zod schema validation. Include fields for name, email, and other relevant user attributes. Add proper loading states during data fetching and submission. Implement error handling for form validation and API errors.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for the ProfilePage component to verify form validation rules, test loading states during submission, and verify error message display. Mock the Auth service calls to test different response scenarios."
+          },
+          {
+            "id": 2,
+            "title": "Create AvatarUpload Component with Drag-and-Drop",
+            "description": "Develop the AvatarUpload component with drag-and-drop functionality, image preview, and cropping capabilities.",
+            "dependencies": [],
+            "details": "Implement the AvatarUpload component using react-dropzone for file selection with drag-and-drop support. Add image preview functionality to show the selected image before upload. Integrate react-image-crop to allow users to crop their avatar images. Implement file validation to check for proper image types (JPEG, PNG) and file size limits (e.g., max 5MB). Create a user-friendly interface with clear instructions and visual feedback.",
+            "status": "pending",
+            "testStrategy": "Test the AvatarUpload component for proper file acceptance/rejection based on type and size. Verify the image preview and cropping functionality works correctly. Test drag-and-drop behavior and ensure proper error messages are displayed for invalid files."
+          },
+          {
+            "id": 3,
+            "title": "Implement S3 Integration for Avatar Storage",
+            "description": "Set up AWS Amplify Storage integration for uploading avatar images to S3 with progress tracking and CDN configuration.",
+            "dependencies": [
+              "4.2"
+            ],
+            "details": "Configure AWS Amplify Storage for S3 uploads from the AvatarUpload component. Implement upload progress tracking to show users the status of their uploads. Set up proper error handling for upload failures. Configure CloudFront CDN access for optimized image delivery. Implement image processing before upload (resize, compress) to optimize storage and delivery. Create helper functions to generate proper CDN URLs for avatars.",
+            "status": "pending",
+            "testStrategy": "Mock the Storage API to test successful uploads, upload failures, and progress events. Verify that images are properly processed before upload. Test CDN URL generation and error handling during the upload process."
+          },
+          {
+            "id": 4,
+            "title": "Create Reusable Avatar Component",
+            "description": "Develop a reusable Avatar component that can display user profile images throughout the application.",
+            "dependencies": [
+              "4.3"
+            ],
+            "details": "Create a flexible Avatar component that can display user profile images in different sizes (small, medium, large). Implement proper handling of loading states and fallback to default avatars when images are unavailable. Use the CDN URL for optimized delivery. Add support for image caching and lazy loading. Ensure the component handles various aspect ratios and image formats correctly.",
+            "status": "pending",
+            "testStrategy": "Test the Avatar component with various image URLs, sizes, and loading states. Verify that fallback avatars are displayed when the primary image fails to load. Test the component's responsiveness across different screen sizes."
+          },
+          {
+            "id": 5,
+            "title": "Update AuthContext with Profile Management Integration",
+            "description": "Enhance the AuthContext to include profile management functionality and avatar update capabilities.",
+            "dependencies": [
+              "4.1",
+              "4.3",
+              "4.4"
+            ],
+            "details": "Update the AuthContext to include methods for updating user profile information and avatar images. Implement updateUserAvatar function to store the avatar URL in Cognito user attributes. Create methods to refresh user data after profile updates. Ensure the user context is properly updated throughout the application when profile changes occur. Add proper error handling and loading states for profile update operations.",
+            "status": "pending",
+            "testStrategy": "Test the updated AuthContext methods for updating user attributes and avatar URLs. Verify that the user context is properly updated after profile changes. Test error handling during profile update operations and ensure the application state remains consistent."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement Account Management with Data Export",
+        "description": "Create account management functionality including account deletion, data export, and subscription tier management.",
+        "details": "Develop a comprehensive account management system with the following features:\n\n1. AccountSettings component:\n   - Display current account status and settings\n   - Provide interface for account management actions\n\n2. Account deletion workflow:\n   - Create confirmation dialog with password verification\n   - Implement data cleanup process\n   - Handle Cognito user deletion via Auth.deleteUser()\n\n3. Data export functionality:\n   - Create data export service to collect user data\n   - Generate downloadable JSON file\n   - Include all user-generated content\n\n4. Subscription tier management:\n   - Implement tier selection UI\n   - Display feature comparison table\n   - Integrate with payment processing (Stripe recommended)\n\nCode implementation:\n```tsx\n// src/features/account/components/AccountSettings.tsx\nimport { Auth } from 'aws-amplify';\nimport { useState } from 'react';\nimport { useAuth } from '../../auth/contexts/AuthContext';\nimport { ConfirmationDialog } from '../../common/components/ConfirmationDialog';\nimport { DataExportService } from '../services/DataExportService';\nimport { SubscriptionTierSelector } from './SubscriptionTierSelector';\n\nconst AccountSettings = () => {\n  const { user, logout } = useAuth();\n  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);\n  const [exportInProgress, setExportInProgress] = useState(false);\n  \n  // Implement account settings UI\n  // Handle account deletion flow\n  // Implement data export functionality\n  // Display subscription management\n};\n```\n\n```tsx\n// src/features/account/services/DataExportService.ts\nimport { API } from 'aws-amplify';\n\nclass DataExportService {\n  async exportUserData(userId: string) {\n    try {\n      // Fetch user data from various sources\n      const userData = await API.get('travellerApi', `/users/${userId}/data`, {});\n      \n      // Format data as JSON\n      const formattedData = JSON.stringify(userData, null, 2);\n      \n      // Create downloadable file\n      const blob = new Blob([formattedData], { type: 'application/json' });\n      const url = URL.createObjectURL(blob);\n      \n      // Trigger download\n      const a = document.createElement('a');\n      a.href = url;\n      a.download = `traveller-data-${Date.now()}.json`;\n      a.click();\n      \n      URL.revokeObjectURL(url);\n      return true;\n    } catch (error) {\n      console.error('Data export failed:', error);\n      throw error;\n    }\n  }\n}\n\nexport const dataExportService = new DataExportService();\n```\n\n5. Create a feature flag system based on subscription tier:\n```tsx\n// src/features/subscription/services/FeatureFlagService.ts\nimport { useAuth } from '../../auth/contexts/AuthContext';\n\nexport enum SubscriptionTier {\n  FREE = 'free',\n  STANDARD = 'standard',\n  PREMIUM = 'premium'\n}\n\nconst tierFeatures = {\n  [SubscriptionTier.FREE]: ['basic_character_creation', 'limited_campaigns'],\n  [SubscriptionTier.STANDARD]: ['basic_character_creation', 'unlimited_campaigns', 'advanced_tools'],\n  [SubscriptionTier.PREMIUM]: ['basic_character_creation', 'unlimited_campaigns', 'advanced_tools', 'gm_tools', 'custom_content']\n};\n\nexport const useFeatureFlag = (featureKey: string) => {\n  const { user } = useAuth();\n  const userTier = user?.attributes?.['custom:subscription_tier'] || SubscriptionTier.FREE;\n  \n  return tierFeatures[userTier].includes(featureKey);\n};\n```",
+        "testStrategy": "1. Unit tests for AccountSettings component:\n   - Test UI rendering for different account states\n   - Test confirmation dialog behavior\n   - Mock Auth.deleteUser() calls\n\n2. Unit tests for DataExportService:\n   - Test data formatting\n   - Test file generation\n   - Mock API responses\n\n3. BDD tests using Cucumber:\n   - Scenario: User exports account data\n   - Scenario: User deletes account\n   - Scenario: User changes subscription tier\n   - Scenario: User attempts to access premium features with free tier\n\n4. Integration tests:\n   - Test integration with payment processing\n   - Test feature flag system with different subscription tiers\n   - Test data export with real backend",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement AccountSettings Component UI",
+            "description": "Create the UI for the AccountSettings component displaying user information and management options",
+            "dependencies": [],
+            "details": "Develop the AccountSettings component UI that displays current account status, user information, and provides interfaces for account management actions. Include sections for profile information display, account deletion option, data export functionality, and subscription management. Implement responsive design for different screen sizes and ensure accessibility compliance.\n<info added on 2025-08-12T02:43:44.430Z>\nCompleted implementation of the AccountSettings component UI with all required features. The component now includes:\n\n- Profile information display and editing functionality\n- Subscription tier information display\n- Data export functionality with download options\n- Account deletion workflow with confirmation dialog and password verification\n- Integration with SessionTimeoutWarning component for session management\n- Responsive design implementation for all screen sizes\n- Accessibility compliance (WCAG 2.1 AA standards)\n- Comprehensive unit tests for all component features\n\nAll UI elements are styled according to the design system and the component is ready for integration with backend services.\n</info added on 2025-08-12T02:43:44.430Z>",
+            "status": "done",
+            "testStrategy": "Unit test the AccountSettings component rendering with different user states. Test conditional rendering of UI elements based on subscription tier. Verify all action buttons trigger the correct handlers. Test accessibility using axe or similar tools."
+          },
+          {
+            "id": 2,
+            "title": "Implement Account Deletion Workflow",
+            "description": "Create the complete account deletion process with confirmation dialog and data cleanup",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Implement the account deletion workflow including a confirmation dialog with password verification to prevent accidental deletions. Create the data cleanup process that removes user data from all relevant data stores. Integrate with Cognito's Auth.deleteUser() for user account removal. Handle success and error states appropriately with user feedback. Implement proper logging for deletion events.",
+            "status": "pending",
+            "testStrategy": "Unit test the confirmation dialog behavior including validation. Mock Auth.deleteUser() calls to test success and failure scenarios. Test the complete deletion flow with integration tests. Verify proper cleanup of user data across all data stores."
+          },
+          {
+            "id": 3,
+            "title": "Complete Data Export Service Implementation",
+            "description": "Finish the DataExportService to collect, format and provide user data for download",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Complete the implementation of the DataExportService to collect user data from all relevant sources. Ensure the service properly formats data as JSON, creates downloadable files, and handles errors gracefully. Implement progress indicators for long-running export operations. Add support for different export formats (JSON, CSV) if required. Ensure exported data is properly sanitized and structured.\n<info added on 2025-08-12T02:44:04.668Z>\nSuccessfully implemented comprehensive DataExportService with GDPR-compliant data export functionality including user data collection, sanitization, JSON formatting, and secure download capabilities. All unit tests written and passing. Service includes privacy notices, file size calculation, and proper error handling. Added support for both JSON and CSV export formats with progress indicators for long-running operations. Implemented data categorization to help users understand exported content and included timestamps for all exported data to maintain audit trails. The service now handles large datasets efficiently through pagination and streaming downloads.\n</info added on 2025-08-12T02:44:04.668Z>",
+            "status": "done",
+            "testStrategy": "Unit test the data collection, formatting, and file generation functions. Mock API responses for testing. Test error handling scenarios. Verify the structure and content of exported data matches requirements. Test performance with large datasets."
+          },
+          {
+            "id": 4,
+            "title": "Implement Subscription Tier Management",
+            "description": "Create the UI and logic for managing subscription tiers with payment integration",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Implement the subscription tier management functionality including tier selection UI, feature comparison table, and integration with Stripe for payment processing. Create the SubscriptionTierSelector component to display available tiers with pricing and features. Implement the upgrade/downgrade workflow with proper validation and confirmation. Handle payment processing callbacks and subscription status updates.\n<info added on 2025-08-12T02:44:26.157Z>\nCompleted comprehensive SubscriptionService implementation with full subscription tier management (Free, Standard, Premium), feature access control, billing calculations, proration logic, and subscription status updates. All unit tests written and passing. Service includes upgrade/downgrade flows, payment method management, and pricing display utilities. The implementation successfully integrates with Stripe for payment processing and handles subscription lifecycle events including trial periods, cancellations, and renewals. Added robust error handling for payment failures and implemented subscription analytics tracking to monitor conversion rates and churn.\n</info added on 2025-08-12T02:44:26.157Z>",
+            "status": "done",
+            "testStrategy": "Unit test the SubscriptionTierSelector component rendering and interactions. Mock Stripe API calls to test payment flows. Test subscription change workflows including upgrades and downgrades. Verify proper handling of payment success and failure scenarios."
+          },
+          {
+            "id": 5,
+            "title": "Implement Feature Flag System Based on Subscription Tier",
+            "description": "Complete the feature flag system to enable/disable features based on user subscription tier",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Finalize the implementation of the feature flag system that controls access to features based on the user's subscription tier. Complete the useFeatureFlag hook to check user permissions against feature requirements. Implement the tierFeatures configuration with all feature definitions. Create UI components that conditionally render based on feature flags. Add documentation for developers on how to use the feature flag system.",
+            "status": "pending",
+            "testStrategy": "Unit test the useFeatureFlag hook with different subscription tiers and features. Test conditional rendering of components based on feature flags. Verify correct feature access across all subscription tiers. Test edge cases like undefined user or subscription tier."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Implement Social Login Integration",
+        "description": "Integrate social login options (Google and Apple) with the existing authentication system to provide alternative login methods.",
+        "details": "Implement social login functionality using AWS Cognito's federated identity providers:\n\n1. Configure OAuth providers in AWS Cognito:\n   - Set up Google OAuth client ID and secret\n   - Set up Apple Sign In configuration\n   - Configure callback URLs and scopes\n\n2. Create social login buttons and UI:\n   - Implement Google login button with proper branding\n   - Implement Apple Sign In button following Apple's design guidelines\n   - Add social login options to the login form\n\n3. Implement social login flow:\n   - Use Auth.federatedSignIn() method from AWS Amplify\n   - Handle OAuth redirects and callbacks\n   - Process user information from social providers\n\nCode implementation:\n```tsx\n// src/features/auth/components/SocialLoginButtons.tsx\nimport { Auth } from 'aws-amplify';\nimport { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';\n\nconst SocialLoginButtons = () => {\n  const handleGoogleSignIn = () => {\n    Auth.federatedSignIn({\n      provider: CognitoHostedUIIdentityProvider.Google\n    });\n  };\n  \n  const handleAppleSignIn = () => {\n    Auth.federatedSignIn({\n      provider: CognitoHostedUIIdentityProvider.Apple\n    });\n  };\n  \n  return (\n    <div className=\"social-login-container\">\n      <button \n        onClick={handleGoogleSignIn}\n        className=\"google-login-button\"\n      >\n        <GoogleIcon /> Continue with Google\n      </button>\n      \n      <button \n        onClick={handleAppleSignIn}\n        className=\"apple-login-button\"\n      >\n        <AppleIcon /> Continue with Apple\n      </button>\n    </div>\n  );\n};\n```\n\n4. Handle social account linking with existing accounts:\n```tsx\n// src/features/auth/services/SocialAccountService.ts\nimport { Auth, API } from 'aws-amplify';\n\nclass SocialAccountService {\n  async linkSocialAccount(provider: string, token: string) {\n    try {\n      // Link social account to existing Cognito account\n      return await Auth.federatedSignIn({\n        provider,\n        token,\n        user: await Auth.currentAuthenticatedUser()\n      });\n    } catch (error) {\n      console.error('Error linking social account:', error);\n      throw error;\n    }\n  }\n  \n  async unlinkSocialAccount(provider: string) {\n    try {\n      // Unlink social account\n      return await API.post('travellerApi', '/auth/unlink-social', {\n        body: { provider }\n      });\n    } catch (error) {\n      console.error('Error unlinking social account:', error);\n      throw error;\n    }\n  }\n}\n\nexport const socialAccountService = new SocialAccountService();\n```\n\n5. Update the AuthContext to handle social login state:\n```tsx\n// Update AuthContext to handle social login\nconst handleSocialLoginCallback = async () => {\n  try {\n    // Process URL parameters after social login redirect\n    const urlParams = new URLSearchParams(window.location.search);\n    const code = urlParams.get('code');\n    const state = urlParams.get('state');\n    \n    if (code && state) {\n      // Exchange code for tokens\n      const user = await Auth.currentAuthenticatedUser();\n      setUser(user);\n      return user;\n    }\n  } catch (error) {\n    console.error('Social login callback error:', error);\n    setUser(null);\n  }\n};\n```",
+        "testStrategy": "1. Unit tests for SocialLoginButtons component:\n   - Test button rendering and click handlers\n   - Mock Auth.federatedSignIn() calls\n\n2. Unit tests for SocialAccountService:\n   - Test account linking and unlinking methods\n   - Mock API responses\n\n3. BDD tests using Cucumber:\n   - Scenario: User signs in with Google account\n   - Scenario: User signs in with Apple account\n   - Scenario: User links social account to existing account\n   - Scenario: User unlinks social account\n\n4. Integration tests:\n   - Test OAuth flow with Google and Apple\n   - Test redirect handling and token exchange\n   - Test user profile merging with social data",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure OAuth Providers in AWS Cognito",
+            "description": "Set up Google and Apple OAuth providers in AWS Cognito with proper client IDs, secrets, callback URLs, and scopes.",
+            "dependencies": [],
+            "details": "Create and configure OAuth providers in AWS Cognito console:\n- Register application with Google Cloud Platform to obtain OAuth client ID and secret\n- Register application with Apple Developer account to get Sign In with Apple credentials\n- Configure callback URLs in both provider dashboards\n- Set up proper scopes for user profile access (email, profile)\n- Add both providers to the Cognito User Pool\n- Configure hosted UI settings if needed\n- Test provider configuration through AWS console",
+            "status": "pending",
+            "testStrategy": "- Verify provider configuration in AWS Cognito console\n- Test OAuth configuration using AWS CLI commands\n- Create test credentials for both providers\n- Validate callback URL configuration"
+          },
+          {
+            "id": 2,
+            "title": "Implement Social Login UI Components",
+            "description": "Create branded social login buttons for Google and Apple following their respective design guidelines and integrate them into the login form.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Develop UI components for social login:\n- Create SocialLoginButtons component with proper styling\n- Implement Google login button with Google's branding requirements\n- Implement Apple Sign In button following Apple's Human Interface Guidelines\n- Add proper icons and text for each provider\n- Ensure responsive design for all screen sizes\n- Add loading states for buttons\n- Integrate buttons into the existing login form\n- Implement proper accessibility attributes",
+            "status": "pending",
+            "testStrategy": "- Unit test SocialLoginButtons component rendering\n- Test button click handlers\n- Verify proper styling against provider guidelines\n- Test responsive behavior\n- Validate accessibility compliance"
+          },
+          {
+            "id": 3,
+            "title": "Implement Social Login Authentication Flow",
+            "description": "Develop the authentication flow for social login using AWS Amplify's Auth.federatedSignIn() method, handling redirects and user information processing.",
+            "dependencies": [
+              "6.1",
+              "6.2"
+            ],
+            "details": "Implement the authentication flow for social login:\n- Use Auth.federatedSignIn() method from AWS Amplify\n- Create provider-specific authentication handlers\n- Implement OAuth redirect handling\n- Process callback parameters after authentication\n- Extract user information from social providers\n- Handle authentication errors and edge cases\n- Implement proper state management during the flow\n- Add logging for debugging purposes",
+            "status": "pending",
+            "testStrategy": "- Mock Auth.federatedSignIn() calls in unit tests\n- Test redirect handling\n- Test callback processing\n- Simulate various error conditions\n- Integration test with test credentials\n- End-to-end test of complete authentication flow"
+          },
+          {
+            "id": 4,
+            "title": "Implement Social Account Linking Service",
+            "description": "Create a service to handle linking and unlinking social accounts with existing user accounts in the system.",
+            "dependencies": [
+              "6.3"
+            ],
+            "details": "Develop the SocialAccountService to manage account linking:\n- Implement linkSocialAccount method to connect social identities to existing accounts\n- Create unlinkSocialAccount method to remove social provider connections\n- Add proper error handling for linking failures\n- Implement validation to prevent removing all authentication methods\n- Create UI for account linking management\n- Add confirmation dialogs for unlinking actions\n- Implement proper state updates after linking/unlinking\n- Add API endpoints for account management if needed",
+            "status": "pending",
+            "testStrategy": "- Unit test SocialAccountService methods\n- Mock API responses for linking/unlinking\n- Test error handling scenarios\n- Test validation logic\n- Integration test with Cognito\n- Test UI components for account management"
+          },
+          {
+            "id": 5,
+            "title": "Update AuthContext for Social Login State Management",
+            "description": "Enhance the AuthContext to handle social login state, process callbacks, and manage user sessions after social authentication.",
+            "dependencies": [
+              "6.3",
+              "6.4"
+            ],
+            "details": "Update the application's authentication context:\n- Modify AuthContext to handle social login state\n- Implement handleSocialLoginCallback function to process redirect parameters\n- Add state management for social login sessions\n- Update user profile handling to include social provider information\n- Implement session persistence for social logins\n- Add methods to check which social providers are linked\n- Update login flow to handle both traditional and social login\n- Ensure proper error handling and user feedback",
+            "status": "pending",
+            "testStrategy": "- Unit test AuthContext with social login handling\n- Test URL parameter processing\n- Mock Auth.currentAuthenticatedUser() responses\n- Test state management during social login flow\n- Test error handling scenarios\n- Integration test with mock OAuth providers"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Multi-Factor Authentication (MFA)",
+        "description": "Add support for TOTP-based multi-factor authentication with QR code setup and backup codes management.",
+        "details": "Implement a comprehensive MFA system using AWS Cognito's MFA capabilities:\n\n1. Create MFA setup component:\n   - Generate QR code for TOTP setup using Auth.setupTOTP()\n   - Implement verification flow for MFA activation\n   - Create step-by-step setup wizard\n\n2. Implement MFA verification during login:\n   - Detect MFA requirement during login\n   - Show MFA code input form when required\n   - Handle verification with Auth.confirmSignIn()\n\n3. Create backup codes management:\n   - Generate and display backup codes\n   - Allow regeneration of backup codes\n   - Implement backup code verification\n\nCode implementation:\n```tsx\n// src/features/auth/components/MFASetup.tsx\nimport { Auth } from 'aws-amplify';\nimport { useState } from 'react';\nimport QRCode from 'qrcode.react';\n\nconst MFASetup = () => {\n  const [qrCode, setQrCode] = useState('');\n  const [verificationCode, setVerificationCode] = useState('');\n  const [backupCodes, setBackupCodes] = useState([]);\n  const [step, setStep] = useState('generate'); // 'generate', 'verify', 'backup'\n  \n  const generateQRCode = async () => {\n    try {\n      const user = await Auth.currentAuthenticatedUser();\n      const totpCode = await Auth.setupTOTP(user);\n      const issuer = encodeURIComponent('Traveller RPG');\n      const username = encodeURIComponent(user.username);\n      const totpString = `otpauth://totp/${issuer}:${username}?secret=${totpCode}&issuer=${issuer}`;\n      \n      setQrCode(totpString);\n      setStep('verify');\n    } catch (error) {\n      console.error('Error generating QR code:', error);\n    }\n  };\n  \n  const verifyAndEnableMFA = async () => {\n    try {\n      const user = await Auth.currentAuthenticatedUser();\n      await Auth.verifyTotpToken(user, verificationCode);\n      await Auth.setPreferredMFA(user, 'TOTP');\n      \n      // Generate backup codes\n      const codes = await generateBackupCodes();\n      setBackupCodes(codes);\n      setStep('backup');\n    } catch (error) {\n      console.error('Error verifying MFA:', error);\n    }\n  };\n  \n  const generateBackupCodes = async () => {\n    // In a real implementation, this would call a backend API\n    // to generate and store backup codes\n    // For now, we'll simulate it\n    return Array(8).fill(0).map(() => \n      Math.random().toString(36).substring(2, 8).toUpperCase()\n    );\n  };\n  \n  // Render different steps of the MFA setup process\n};\n```\n\n```tsx\n// src/features/auth/components/MFAVerification.tsx\nimport { Auth } from 'aws-amplify';\nimport { useState } from 'react';\n\nconst MFAVerification = ({ onComplete }) => {\n  const [code, setCode] = useState('');\n  const [error, setError] = useState('');\n  const [usingBackupCode, setUsingBackupCode] = useState(false);\n  \n  const verifyMFACode = async () => {\n    try {\n      const user = await Auth.currentAuthenticatedUser();\n      await Auth.confirmSignIn(\n        user,\n        code,\n        usingBackupCode ? 'SMS_MFA' : 'SOFTWARE_TOKEN_MFA'\n      );\n      onComplete();\n    } catch (error) {\n      setError('Invalid verification code. Please try again.');\n      console.error('MFA verification error:', error);\n    }\n  };\n  \n  // Render MFA verification UI\n};\n```\n\n4. Update the login flow to handle MFA challenges:\n```tsx\n// Update LoginForm to handle MFA challenges\nconst handleSignIn = async (data) => {\n  try {\n    setLoading(true);\n    setError('');\n    \n    const user = await Auth.signIn(data.email, data.password);\n    \n    // Check if MFA is required\n    if (user.challengeName === 'SOFTWARE_TOKEN_MFA' || user.challengeName === 'SMS_MFA') {\n      setMfaRequired(true);\n      setCurrentUser(user);\n    } else {\n      // Normal sign-in completion\n      setUser(user);\n      navigate('/dashboard');\n    }\n  } catch (error) {\n    handleAuthError(error);\n  } finally {\n    setLoading(false);\n  }\n};\n```",
+        "testStrategy": "1. Unit tests for MFASetup component:\n   - Test QR code generation\n   - Test verification flow\n   - Test backup codes generation\n   - Mock Auth calls\n\n2. Unit tests for MFAVerification component:\n   - Test code verification\n   - Test error handling\n   - Mock Auth.confirmSignIn() calls\n\n3. BDD tests using Cucumber:\n   - Scenario: User sets up MFA for the first time\n   - Scenario: User logs in with MFA enabled\n   - Scenario: User uses backup code for login\n   - Scenario: User regenerates backup codes\n\n4. Integration tests:\n   - Test end-to-end MFA setup with Cognito\n   - Test MFA verification during login\n   - Test backup codes functionality",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create MFA Setup Component with QR Code Generation",
+            "description": "Implement the MFA setup component that generates and displays a QR code for TOTP setup using AWS Cognito's Auth.setupTOTP() method.",
+            "dependencies": [],
+            "details": "Develop the MFASetup component that handles the first step of MFA activation. Implement the generateQRCode function to retrieve the current authenticated user, call Auth.setupTOTP(), and format the TOTP string with proper issuer and username encoding. Create the UI to display the generated QR code using qrcode.react library. Include proper error handling and loading states.",
+            "status": "pending",
+            "testStrategy": "Write unit tests for QR code generation functionality, testing the proper formatting of the TOTP string. Mock Auth.currentAuthenticatedUser() and Auth.setupTOTP() calls. Test error handling when API calls fail. Verify the component renders the QR code correctly when data is available."
+          },
+          {
+            "id": 2,
+            "title": "Implement MFA Verification and Activation Flow",
+            "description": "Create the verification step of the MFA setup process, allowing users to verify their TOTP code and enable MFA on their account.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Complete the verifyAndEnableMFA function in the MFASetup component to verify the user's TOTP token using Auth.verifyTotpToken() and set it as the preferred MFA method with Auth.setPreferredMFA(). Implement the UI for the verification step, including a code input field, validation, and error handling. Create a step-based workflow that guides users through the MFA setup process.",
+            "status": "pending",
+            "testStrategy": "Test the verification flow with valid and invalid verification codes. Mock Auth.verifyTotpToken() and Auth.setPreferredMFA() calls. Verify proper state transitions between setup steps. Test error handling and validation of the verification code input."
+          },
+          {
+            "id": 3,
+            "title": "Develop Backup Codes Generation and Management",
+            "description": "Implement the generation, display, and management of backup codes for account recovery when MFA devices are unavailable.",
+            "dependencies": [
+              "7.2"
+            ],
+            "details": "Create a backend API endpoint to generate and store backup codes securely. Implement the generateBackupCodes function to call this endpoint and retrieve the codes. Design the UI to display backup codes to users with instructions for saving them securely. Add functionality to regenerate backup codes if needed. Include a mechanism to mark backup codes as used when they are utilized for authentication.",
+            "status": "pending",
+            "testStrategy": "Test backup code generation, including API integration. Verify the UI correctly displays the generated codes. Test the regeneration functionality and confirm it invalidates previous codes. Test the backup code verification flow during login."
+          },
+          {
+            "id": 4,
+            "title": "Create MFA Verification Component for Login",
+            "description": "Implement the MFAVerification component that handles verification of MFA codes during the login process.",
+            "dependencies": [],
+            "details": "Complete the MFAVerification component to handle both TOTP and backup code verification. Implement the verifyMFACode function to call Auth.confirmSignIn() with the appropriate challenge type based on whether a standard TOTP code or backup code is being used. Create a toggle to switch between TOTP and backup code input. Add comprehensive error handling and user feedback for failed verification attempts.",
+            "status": "pending",
+            "testStrategy": "Test the MFAVerification component with both valid and invalid codes. Mock Auth.confirmSignIn() calls with different responses. Test the UI toggle between TOTP and backup code modes. Verify error messages are displayed correctly for different error scenarios."
+          },
+          {
+            "id": 5,
+            "title": "Update Login Flow to Handle MFA Challenges",
+            "description": "Modify the existing login flow to detect when MFA is required and present the appropriate verification UI.",
+            "dependencies": [
+              "7.4"
+            ],
+            "details": "Update the LoginForm component to check for MFA challenges after successful password authentication. Modify the handleSignIn function to detect when a user has MFA enabled and show the MFAVerification component when needed. Implement state management to track the authentication flow and maintain the partially authenticated user object between steps. Add proper navigation after successful MFA verification to complete the login process.",
+            "status": "pending",
+            "testStrategy": "Test the login flow with users who have MFA enabled and disabled. Mock Auth.signIn() to return different challenge types. Verify the correct components are displayed based on the authentication state. Test the complete authentication flow from username/password to MFA verification to successful login."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Implement Comprehensive Error Handling and Security Enhancements",
+        "description": "Create a robust error handling system for authentication flows and implement security enhancements including CSRF protection, rate limiting, and audit logging.",
+        "details": "Develop a comprehensive error handling and security system:\n\n1. Create an AuthErrorHandler service:\n   - Map Cognito error codes to user-friendly messages\n   - Implement consistent error display across auth components\n   - Add logging for authentication errors\n\n2. Implement CSRF protection:\n   - Generate and validate CSRF tokens for sensitive operations\n   - Add CSRF token to forms and API requests\n\n3. Add rate limiting for authentication endpoints:\n   - Implement client-side throttling\n   - Add server-side rate limiting configuration\n\n4. Create security audit logging:\n   - Log security events (login attempts, password changes, etc.)\n   - Implement secure logging with sensitive data redaction\n\nCode implementation:\n```tsx\n// src/features/auth/services/AuthErrorHandler.ts\nclass AuthErrorHandler {\n  // Map of Cognito error codes to user-friendly messages\n  private errorMessages = {\n    NotAuthorizedException: 'Incorrect username or password',\n    UserNotFoundException: 'Account not found',\n    UsernameExistsException: 'An account with this email already exists',\n    CodeMismatchException: 'Invalid verification code',\n    ExpiredCodeException: 'Verification code has expired',\n    LimitExceededException: 'Too many attempts. Please try again later',\n    // Add more error mappings\n  };\n  \n  getErrorMessage(error: any): string {\n    if (!error) return 'An unknown error occurred';\n    \n    // Extract error code from Cognito error\n    const errorCode = error.code || (error.message ? error.message.split(':')[0] : '');\n    \n    // Return user-friendly message or default message\n    return this.errorMessages[errorCode] || error.message || 'An unexpected error occurred';\n  }\n  \n  logAuthError(error: any, context: string): void {\n    // Log error with context but redact sensitive information\n    console.error(`Auth error in ${context}:`, {\n      code: error.code,\n      message: error.message,\n      time: new Date().toISOString()\n    });\n    \n    // In production, send to monitoring service\n    // this.monitoringService.captureException(error);\n  }\n}\n\nexport const authErrorHandler = new AuthErrorHandler();\n```\n\n```tsx\n// src/features/auth/services/CSRFService.ts\nclass CSRFService {\n  private tokenKey = 'csrf_token';\n  \n  generateToken(): string {\n    const token = Array(32)\n      .fill(0)\n      .map(() => Math.random().toString(36).charAt(2))\n      .join('');\n    \n    // Store token in sessionStorage\n    sessionStorage.setItem(this.tokenKey, token);\n    return token;\n  }\n  \n  getToken(): string {\n    return sessionStorage.getItem(this.tokenKey) || this.generateToken();\n  }\n  \n  validateToken(token: string): boolean {\n    const storedToken = sessionStorage.getItem(this.tokenKey);\n    return storedToken === token;\n  }\n}\n\nexport const csrfService = new CSRFService();\n```\n\n```tsx\n// src/features/auth/services/SecurityAuditService.ts\nimport { API } from 'aws-amplify';\n\nenum SecurityEventType {\n  LOGIN_SUCCESS = 'login_success',\n  LOGIN_FAILURE = 'login_failure',\n  LOGOUT = 'logout',\n  PASSWORD_CHANGE = 'password_change',\n  MFA_ENABLED = 'mfa_enabled',\n  MFA_DISABLED = 'mfa_disabled',\n  ACCOUNT_CREATED = 'account_created',\n  ACCOUNT_DELETED = 'account_deleted'\n}\n\nclass SecurityAuditService {\n  async logSecurityEvent(eventType: SecurityEventType, metadata: any = {}) {\n    try {\n      // Redact sensitive information\n      const safeMetadata = this.redactSensitiveData(metadata);\n      \n      // Log event to backend\n      await API.post('travellerApi', '/security/audit-log', {\n        body: {\n          eventType,\n          timestamp: new Date().toISOString(),\n          metadata: safeMetadata\n        }\n      });\n    } catch (error) {\n      console.error('Failed to log security event:', error);\n      // Fail silently in production - don't block user operations\n    }\n  }\n  \n  private redactSensitiveData(data: any) {\n    // Create a deep copy\n    const safe = JSON.parse(JSON.stringify(data));\n    \n    // Redact sensitive fields\n    const sensitiveFields = ['password', 'token', 'secret', 'code'];\n    \n    const redact = (obj: any) => {\n      if (!obj || typeof obj !== 'object') return;\n      \n      Object.keys(obj).forEach(key => {\n        if (sensitiveFields.some(field => key.toLowerCase().includes(field))) {\n          obj[key] = '[REDACTED]';\n        } else if (typeof obj[key] === 'object') {\n          redact(obj[key]);\n        }\n      });\n    };\n    \n    redact(safe);\n    return safe;\n  }\n}\n\nexport const securityAuditService = new SecurityAuditService();\n```\n\n4. Update API configuration to include rate limiting:\n```tsx\n// src/api/rateLimit.ts\nclass RateLimiter {\n  private attempts = new Map<string, number[]>();\n  private maxAttempts = 5;\n  private timeWindow = 60 * 1000; // 1 minute\n  \n  isRateLimited(key: string): boolean {\n    const now = Date.now();\n    const attempts = this.attempts.get(key) || [];\n    \n    // Filter out attempts outside the time window\n    const recentAttempts = attempts.filter(time => now - time < this.timeWindow);\n    \n    // Update attempts\n    this.attempts.set(key, [...recentAttempts, now]);\n    \n    return recentAttempts.length >= this.maxAttempts;\n  }\n  \n  clearAttempts(key: string): void {\n    this.attempts.delete(key);\n  }\n}\n\nexport const rateLimiter = new RateLimiter();\n```",
+        "testStrategy": "1. Unit tests for AuthErrorHandler:\n   - Test error message mapping\n   - Test error logging\n   - Test with various Cognito error types\n\n2. Unit tests for CSRFService:\n   - Test token generation\n   - Test token validation\n   - Test token storage\n\n3. Unit tests for SecurityAuditService:\n   - Test event logging\n   - Test sensitive data redaction\n   - Mock API calls\n\n4. Unit tests for RateLimiter:\n   - Test rate limiting logic\n   - Test time window functionality\n\n5. Integration tests:\n   - Test CSRF protection in forms\n   - Test rate limiting behavior\n   - Test security audit logging with backend\n\n6. Security testing:\n   - Penetration testing for authentication flows\n   - CSRF vulnerability testing\n   - Rate limiting effectiveness testing",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement AuthErrorHandler Service",
+            "description": "Create a service to handle authentication errors, map Cognito error codes to user-friendly messages, and implement consistent error logging.",
+            "dependencies": [],
+            "details": "Develop the AuthErrorHandler service with the following features: 1) Create a mapping of Cognito error codes to user-friendly messages, 2) Implement a getErrorMessage method to extract and translate error codes, 3) Add a logAuthError method that logs errors with context while redacting sensitive information, 4) Integrate with monitoring services for production environments.",
+            "status": "pending",
+            "testStrategy": "Write unit tests to verify error message mapping accuracy, test the error logging functionality with various error types, and ensure sensitive information is properly redacted. Mock the monitoring service integration for testing."
+          },
+          {
+            "id": 2,
+            "title": "Implement CSRF Protection System",
+            "description": "Create a CSRF protection service that generates and validates tokens for sensitive operations and integrates with forms and API requests.",
+            "dependencies": [],
+            "details": "Build the CSRFService with methods to: 1) Generate secure random tokens, 2) Store tokens in sessionStorage, 3) Retrieve existing tokens, 4) Validate submitted tokens against stored values. Then integrate CSRF protection into all sensitive forms and API requests by adding the token as a header or hidden form field.",
+            "status": "pending",
+            "testStrategy": "Create unit tests for token generation, validation, and storage mechanisms. Test token entropy and randomness. Implement integration tests to verify CSRF tokens are properly included in forms and API requests."
+          },
+          {
+            "id": 3,
+            "title": "Implement Rate Limiting for Authentication",
+            "description": "Create a rate limiting system to prevent brute force attacks on authentication endpoints with both client and server-side protection.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Develop a RateLimiter class that: 1) Tracks authentication attempts by IP/user, 2) Implements a sliding window algorithm for attempt counting, 3) Provides methods to check if a request is rate-limited, 4) Adds client-side throttling to prevent excessive requests, 5) Configures server-side rate limiting through API Gateway or Lambda authorizers.",
+            "status": "pending",
+            "testStrategy": "Write unit tests to verify rate limiting logic works correctly with different time windows and attempt counts. Test the sliding window algorithm and ensure rate limiting is properly reset after the time window expires."
+          },
+          {
+            "id": 4,
+            "title": "Create Security Audit Logging System",
+            "description": "Implement a comprehensive security audit logging system that records authentication events and security-related actions with sensitive data redaction.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Build the SecurityAuditService with: 1) An enum of security event types (login, logout, password changes, etc.), 2) A method to log security events to the backend with timestamps, 3) A redaction system to remove sensitive data before logging, 4) Integration with the backend API for storing audit logs securely.",
+            "status": "pending",
+            "testStrategy": "Create unit tests for the logging functionality, verify sensitive data redaction works correctly, and test error handling when the logging API is unavailable. Mock the API calls to test the service in isolation."
+          },
+          {
+            "id": 5,
+            "title": "Integrate Security Components with Authentication Flow",
+            "description": "Connect all security components with the authentication flow and implement consistent error handling across authentication components.",
+            "dependencies": [
+              "8.1",
+              "8.2",
+              "8.3",
+              "8.4"
+            ],
+            "details": "Integrate all security services into the authentication flow: 1) Add AuthErrorHandler to all authentication components for consistent error display, 2) Implement CSRF protection in login, registration, and password reset forms, 3) Apply rate limiting to all authentication endpoints, 4) Add security audit logging for all authentication events, 5) Create a unified security configuration for easy management.",
+            "status": "pending",
+            "testStrategy": "Perform integration testing of the complete authentication flow with all security components. Test error scenarios, CSRF protection, rate limiting behavior, and verify audit logs are created for all security events. Create end-to-end tests for critical authentication paths."
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-12T01:45:01.303Z",
+      "updated": "2025-08-12T02:44:32.404Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

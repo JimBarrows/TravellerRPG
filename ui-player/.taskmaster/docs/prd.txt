@@ -1,0 +1,196 @@
+# Traveller RPG Player UI - Authentication System Completion
+
+## Project Overview
+Complete the User Authentication System for the Traveller RPG Player UI application. The system currently has basic authentication components (LoginForm, RegistrationForm, AuthContext) with AWS Amplify/Cognito integration. We need to complete the remaining authentication features to provide a full-featured user management system.
+
+## Background & Context
+- Frontend: React with Vite
+- Authentication: AWS Amplify with Cognito
+- Testing: Vitest for unit tests, Cucumber for BDD
+- Current Implementation: Basic login/registration forms and auth context exist
+- Infrastructure: AWS CDK for backend infrastructure
+
+## Product Requirements
+
+### Task 2.4: Complete User Registration and Login Flows with Backend Integration
+**Priority: High**
+**Complexity: Medium**
+
+**User Stories:**
+- As a new user, I want to register with email verification so that my account is secure
+- As a returning user, I want to sign in quickly and stay logged in across sessions
+- As a user, I want clear feedback on authentication status and errors
+
+**Acceptance Criteria:**
+- Email verification flow works end-to-end
+- Password strength validation during registration
+- User can choose to stay logged in (remember me)
+- Clear error messages for all authentication failures
+- Loading states for all async operations
+- Automatic redirect after successful authentication
+- Session persistence across browser refreshes
+
+**Technical Requirements:**
+- Integrate with existing AWS Cognito user pool
+- Handle all Cognito authentication states
+- Implement proper error handling and user feedback
+- Add comprehensive BDD tests for authentication flows
+
+### Task 2.5: Implement Profile Management UI with Avatar Upload to S3
+**Priority: High**
+**Complexity: High**
+
+**User Stories:**
+- As a user, I want to view and edit my profile information
+- As a user, I want to upload and change my profile avatar
+- As a user, I want to see my account activity and settings
+
+**Acceptance Criteria:**
+- Profile page displays current user information
+- Users can edit name, email, and other profile attributes
+- Avatar upload with image preview and crop functionality
+- Images uploaded to S3 with proper CDN access
+- Profile picture displayed throughout the application
+- Form validation for profile updates
+- Success/error feedback for all operations
+
+**Technical Requirements:**
+- Create ProfilePage component with edit capabilities
+- Implement S3 file upload service
+- Add image processing (resize, crop, format validation)
+- Integrate with AWS Amplify Storage
+- Add profile photo to user context
+- Create reusable avatar display component
+
+### Task 2.6: Complete JWT Token Management with Refresh Mechanisms
+**Priority: High**
+**Complexity: Medium**
+
+**User Stories:**
+- As a user, I want my session to automatically refresh so I don't get logged out unexpectedly
+- As a developer, I want secure token handling to protect user data
+- As a user, I want to be notified before my session expires
+
+**Acceptance Criteria:**
+- Automatic token refresh before expiration
+- Graceful handling of expired tokens
+- Session timeout warnings
+- Secure token storage (HttpOnly cookies where possible)
+- Logout on token refresh failure
+- Background token refresh without UI interruption
+
+**Technical Requirements:**
+- Implement token refresh interceptor
+- Add session timeout detection
+- Create token expiration warning system
+- Handle network failures during token refresh
+- Add token validation middleware
+- Implement secure token storage strategy
+
+### Task 2.7: Implement Account Management with Deletion, Data Export, and Subscription Tiers
+**Priority: Medium**
+**Complexity: High**
+
+**User Stories:**
+- As a user, I want to delete my account and all associated data
+- As a user, I want to export my data before account deletion
+- As a user, I want to upgrade/downgrade my subscription tier
+- As a user, I want to see what features are available in each tier
+
+**Acceptance Criteria:**
+- Account deletion with confirmation workflow
+- Data export functionality (JSON format)
+- Subscription tier management (Free, Standard, Premium)
+- Feature access controls based on subscription tier
+- Clear communication of tier benefits and limitations
+- Billing integration for paid tiers
+- Data retention policy compliance
+
+**Technical Requirements:**
+- Create AccountSettings component
+- Implement data export service
+- Add subscription tier management
+- Create feature flag system based on user tier
+- Implement account deletion workflow
+- Add GDPR compliance features
+- Integrate with payment processing
+
+### Task 2.8: Implement Social Login (Google, Apple) and MFA Support
+**Priority: Medium**
+**Complexity: High**
+
+**User Stories:**
+- As a user, I want to sign in with my Google account for convenience
+- As a user, I want to sign in with my Apple account for privacy
+- As a user, I want to enable two-factor authentication for security
+- As a user, I want to manage my MFA settings
+
+**Acceptance Criteria:**
+- Google OAuth integration working end-to-end
+- Apple Sign In integration working end-to-end
+- TOTP-based MFA with QR code setup
+- MFA backup codes generation and management
+- MFA required for sensitive operations
+- Social account linking with existing accounts
+- Clear onboarding flow for MFA setup
+
+**Technical Requirements:**
+- Configure OAuth providers in Cognito
+- Implement social login buttons and flows
+- Add MFA setup and verification components
+- Create backup codes management system
+- Implement conditional MFA requirements
+- Add social account management in profile
+
+## Implementation Approach
+
+### Development Methodology
+- **Behavior-Driven Development (BDD)**: Write Cucumber scenarios first for all user-facing features
+- **Test-Driven Development (TDD)**: Write unit tests before implementation code
+- **Domain-Driven Design**: Use ubiquitous language in auth domain (User, Session, Credentials, etc.)
+
+### Testing Strategy
+1. **BDD Scenarios**: Complete user authentication journeys
+2. **Unit Tests**: Individual component and service testing
+3. **Integration Tests**: AWS service integration testing
+4. **E2E Tests**: Full authentication flows with real backend
+
+### Technical Constraints
+- Must work with existing AWS Cognito setup
+- Compatible with React 19 and Vite
+- Follow existing code patterns and architecture
+- Maintain backward compatibility with current auth system
+
+### Security Requirements
+- No sensitive data in localStorage
+- Proper CSRF protection
+- Secure token handling
+- Input validation and sanitization
+- Rate limiting for auth endpoints
+- Audit logging for security events
+
+## Definition of Done
+- All BDD scenarios pass
+- Unit test coverage > 90%
+- No security vulnerabilities in dependencies
+- Manual testing completed for all flows
+- Documentation updated
+- Code review completed
+- Performance benchmarks met
+- Accessibility requirements satisfied
+
+## Success Metrics
+- User registration completion rate > 90%
+- Login success rate > 98%
+- Session timeout incidents < 1%
+- Support tickets related to auth < 5% of total
+- MFA adoption rate > 30%
+- Social login usage > 25%
+
+## Technical Dependencies
+- AWS Cognito User Pool configured
+- S3 bucket for avatar storage
+- CDK infrastructure deployed
+- Domain and SSL certificates
+- Email delivery service (SES)
+- Payment processing integration (for subscriptions)
