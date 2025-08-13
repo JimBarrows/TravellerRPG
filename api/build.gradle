@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.5'
+	id 'org.springframework.boot' version '3.5.4'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -32,8 +32,8 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-database-postgresql'
 	implementation 'org.springframework.kafka:spring-kafka'
-	implementation 'com.graphql-java:graphql-java-extended-scalars:20.0'
-	implementation 'com.graphql-java:graphql-java-extended-validation:20.0'
+	implementation 'com.graphql-java:graphql-java-extended-scalars:24.0'
+	implementation 'com.graphql-java:graphql-java-extended-validation:24.0'
 	implementation 'com.graphql-java-kickstart:graphiql-spring-boot-starter:11.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
@@ -50,10 +50,10 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// Cucumber dependencies
-	testImplementation 'io.cucumber:cucumber-java:7.15.0'
-	testImplementation 'io.cucumber:cucumber-spring:7.15.0'
-	testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.15.0'
-	testImplementation 'org.junit.platform:junit-platform-suite-api:1.10.2'
+	testImplementation 'io.cucumber:cucumber-java:7.27.0'
+	testImplementation 'io.cucumber:cucumber-spring:7.27.0'
+	testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.27.0'
+	testImplementation 'org.junit.platform:junit-platform-suite-api:1.13.4'
 }
 
 // Create a custom task for running Cucumber tests
