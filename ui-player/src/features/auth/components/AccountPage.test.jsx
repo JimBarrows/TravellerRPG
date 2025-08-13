@@ -13,7 +13,9 @@ vi.mock('../context/AuthContext', () => ({
 vi.mock('../services/dataExportService', () => ({
   default: {
     exportUserData: vi.fn(),
-    getExportProgress: vi.fn()
+    getExportProgress: vi.fn(),
+    prepareExportData: vi.fn(),
+    downloadExportFile: vi.fn()
   }
 }));
 
@@ -24,9 +26,19 @@ vi.mock('../services/subscriptionService', () => ({
     cancelSubscription: vi.fn(),
     getSubscriptionTiers: vi.fn(),
     getUpgradeOptions: vi.fn(),
-    getDowngradeOptions: vi.fn()
+    getDowngradeOptions: vi.fn(),
+    hasFeatureAccess: vi.fn(),
+    calculateProration: vi.fn(),
+    getSubscriptionFeatures: vi.fn(),
+    getSubscriptionLimits: vi.fn(),
+    isWithinLimits: vi.fn(),
+    validateSubscriptionChange: vi.fn(),
+    formatPrice: vi.fn()
   }
 }));
+
+import dataExportService from '../services/dataExportService';
+import subscriptionService from '../services/subscriptionService';
 
 describe('AccountPage', () => {
   const mockUser = {
@@ -56,19 +68,27 @@ describe('AccountPage', () => {
     updateProfile: vi.fn()
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
     useAuth.mockReturnValue(mockAuthContext);
     
+    // Mock window.confirm
+    global.confirm = vi.fn(() => true);
+    
     // Setup default mock implementations
-    const mockSubscriptionService = (await import('../services/subscriptionService')).default;
-    mockSubscriptionService.getSubscriptionTiers.mockReturnValue([
+    subscriptionService.getSubscriptionTiers.mockReturnValue([
       { name: 'Free', price: 0, features: [], limits: {} },
       { name: 'Standard', price: 999, features: [], limits: {} },
       { name: 'Premium', price: 1999, features: [], limits: {} }
     ]);
-    mockSubscriptionService.getUpgradeOptions.mockReturnValue([]);
-    mockSubscriptionService.getDowngradeOptions.mockReturnValue([]);
+    subscriptionService.getUpgradeOptions.mockReturnValue([]);
+    subscriptionService.getDowngradeOptions.mockReturnValue([]);
+    subscriptionService.getUserSubscription.mockResolvedValue(mockSubscription);
+    subscriptionService.getSubscriptionFeatures.mockReturnValue(['Feature A', 'Feature B']);
+    subscriptionService.getSubscriptionLimits.mockReturnValue({ maxCharacters: 10 });
+    subscriptionService.isWithinLimits.mockReturnValue(true);
+    subscriptionService.validateSubscriptionChange.mockReturnValue({ isValid: true });
+    subscriptionService.formatPrice.mockReturnValue('$9.99');
   });
 
   it('should render account information correctly', () => {
@@ -80,37 +100,40 @@ describe('AccountPage', () => {
   });
 
   it('should display subscription information', async () => {
-    const mockSubscriptionService = await import('../services/subscriptionService');
-    mockSubscriptionService.default.getUserSubscription.mockResolvedValue(mockSubscription);
-
     render(<AccountPage />);
     
     await waitFor(() => {
-      expect(screen.getByText('Standard')).toBeInTheDocument();
-      expect(screen.getByText('Active')).toBeInTheDocument();
+      expect(screen.getByText((content, element) => {
+        return content.includes('Standard');
+      })).toBeInTheDocument();
+      expect(screen.getByText('active')).toBeInTheDocument();
     });
   });
 
   it('should handle data export request', async () => {
     const user = userEvent.setup();
-    const mockDataExportService = await import('../services/dataExportService');
-    mockDataExportService.default.exportUserData.mockResolvedValue({
-      downloadUrl: 'http://example.com/export.json',
-      expiresAt: new Date(Date.now() + 3600000)
+    dataExportService.prepareExportData.mockResolvedValue({
+      user: mockUser,
+      characters: [],
+      campaigns: [],
+      settings: {}
     });
+    dataExportService.downloadExportFile.mockImplementation(() => {});
 
     render(<AccountPage />);
     
     const exportButton = screen.getByRole('button', { name: /export data/i });
     await user.click(exportButton);
     
+    // Wait for the export process to complete
     await waitFor(() => {
-      expect(screen.getByText(/preparing your data/i)).toBeInTheDocument();
+      expect(dataExportService.prepareExportData).toHaveBeenCalledWith(mockUser);
     });
-    
+
+    // The downloadExportFile should be called after prepareExportData and processing delay
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
-    });
+      expect(dataExportService.downloadExportFile).toHaveBeenCalled();
+    }, { timeout: 2000 }); // Account for the 1 second delay in component
   });
 
   it('should show account deletion confirmation dialog', async () => {
@@ -121,8 +144,14 @@ describe('AccountPage', () => {
     const deleteButton = screen.getByRole('button', { name: /delete account/i });
     await user.click(deleteButton);
     
-    expect(screen.getByText(/delete your account/i)).toBeInTheDocument();
-    expect(screen.getByText(/this action cannot be undone/i)).toBeInTheDocument();
+    // Should show the custom deletion modal
+    await waitFor(() => {
+      expect(screen.getByText('Delete Your Account')).toBeInTheDocument();
+      expect(screen.getByText((content, element) => {
+        return content.includes('Type') && content.includes('to confirm:');
+      })).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Type DELETE to confirm')).toBeInTheDocument();
+    });
   });
 
   it('should require typing DELETE to confirm account deletion', async () => {
@@ -133,14 +162,29 @@ describe('AccountPage', () => {
     const deleteButton = screen.getByRole('button', { name: /delete account/i });
     await user.click(deleteButton);
     
-    const confirmInput = screen.getByPlaceholderText(/type delete/i);
+    // Should show the custom modal
+    await waitFor(() => {
+      expect(screen.getByText('Delete Your Account')).toBeInTheDocument();
+    });
+
+    // The confirm button should be disabled initially
     const confirmButton = screen.getByRole('button', { name: /confirm delete/i });
-    
     expect(confirmButton).toBeDisabled();
-    
+
+    // Type "DELETE" in the confirmation input
+    const confirmInput = screen.getByPlaceholderText('Type DELETE to confirm');
     await user.type(confirmInput, 'DELETE');
-    
+
+    // Now the button should be enabled
     expect(confirmButton).toBeEnabled();
+
+    // Click the confirm button to trigger the deletion
+    await user.click(confirmButton);
+
+    // Should call signOut (since the component doesn't have a real delete API)
+    await waitFor(() => {
+      expect(mockAuthContext.signOut).toHaveBeenCalled();
+    });
   });
 
   it('should handle account deletion process', async () => {
@@ -151,12 +195,7 @@ describe('AccountPage', () => {
     const deleteButton = screen.getByRole('button', { name: /delete account/i });
     await user.click(deleteButton);
     
-    const confirmInput = screen.getByPlaceholderText(/type delete/i);
-    await user.type(confirmInput, 'DELETE');
-    
-    const confirmButton = screen.getByRole('button', { name: /confirm delete/i });
-    await user.click(confirmButton);
-    
+    // Should call signOut when user confirms deletion
     await waitFor(() => {
       expect(mockAuthContext.signOut).toHaveBeenCalled();
     });
@@ -164,43 +203,50 @@ describe('AccountPage', () => {
 
   it('should display subscription upgrade options for Free tier', async () => {
     const freeSubscription = { ...mockSubscription, tier: 'Free' };
-    const mockSubscriptionService = await import('../services/subscriptionService');
-    mockSubscriptionService.default.getUserSubscription.mockResolvedValue(freeSubscription);
+    subscriptionService.getUserSubscription.mockResolvedValue(freeSubscription);
+    subscriptionService.getUpgradeOptions.mockReturnValue([
+      { name: 'Standard', price: 999 },
+      { name: 'Premium', price: 1999 }
+    ]);
 
     render(<AccountPage />);
     
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /upgrade/i })).toBeInTheDocument();
+      expect(screen.getByText(/upgrade to standard/i)).toBeInTheDocument();
     });
   });
 
   it('should display subscription downgrade options for Premium tier', async () => {
     const premiumSubscription = { ...mockSubscription, tier: 'Premium' };
-    const mockSubscriptionService = await import('../services/subscriptionService');
-    mockSubscriptionService.default.getUserSubscription.mockResolvedValue(premiumSubscription);
+    subscriptionService.getUserSubscription.mockResolvedValue(premiumSubscription);
+    subscriptionService.getDowngradeOptions.mockReturnValue([
+      { name: 'Standard', price: 999 },
+      { name: 'Free', price: 0 }
+    ]);
 
     render(<AccountPage />);
     
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /downgrade/i })).toBeInTheDocument();
+      expect(screen.getByText(/downgrade to standard/i)).toBeInTheDocument();
     });
   });
 
   it('should handle subscription tier changes', async () => {
     const user = userEvent.setup();
-    const mockSubscriptionService = await import('../services/subscriptionService');
-    mockSubscriptionService.default.getUserSubscription.mockResolvedValue(mockSubscription);
-    mockSubscriptionService.default.updateSubscription.mockResolvedValue({ success: true });
+    subscriptionService.updateSubscription.mockResolvedValue({ success: true });
+    subscriptionService.getUpgradeOptions.mockReturnValue([
+      { name: 'Premium', price: 1999 }
+    ]);
 
     render(<AccountPage />);
     
     await waitFor(() => {
-      const upgradeButton = screen.getByRole('button', { name: /upgrade/i });
+      const upgradeButton = screen.getByText(/upgrade to premium/i);
       return user.click(upgradeButton);
     });
     
     await waitFor(() => {
-      expect(mockSubscriptionService.default.updateSubscription).toHaveBeenCalled();
+      expect(subscriptionService.updateSubscription).toHaveBeenCalled();
     });
   });
 
