@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useApolloClient } from '@apollo/client';
 import * as z from 'zod';
 import type { CharacterCreationData } from '../../types/characterCreation';
 import { 
@@ -9,6 +10,8 @@ import {
   CREATION_STEPS 
 } from '../../types/characterCreation';
 import { useAppContext } from '../../../../shared/contexts/AppContext';
+import { getCharacterStorageService } from '../../services/characterStorageService';
+import { handleAsyncError, validateStep, formatValidationErrors } from '../../utils/errorHandling';
 import WizardProgress from './WizardProgress';
 import BasicInfoStep from './steps/BasicInfoStep';
 import CharacteristicsStep from './steps/CharacteristicsStep';
@@ -177,10 +180,23 @@ const initialCharacterData: CharacterCreationData = {
 
 const CharacterCreationWizard = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const apolloClient = useApolloClient();
   const { addNotification, setLoading } = useAppContext();
   const [currentStep, setCurrentStep] = useState<CreationStep>(CreationStep.BASIC_INFO);
   const [characterData, setCharacterData] = useState<CharacterCreationData>(initialCharacterData);
   const [isSaving, setIsSaving] = useState(false);
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
+  const [lastAutoSave, setLastAutoSave] = useState<Date | null>(null);
+  
+  // Get campaign ID from URL params or use a default
+  const campaignId = searchParams.get('campaignId') || 'default-campaign';
+  
+  // Storage service
+  const storageService = getCharacterStorageService(apolloClient);
+  
+  // Auto-save timer ref
+  const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
 
   const methods = useForm<CharacterFormData>({
     resolver: zodResolver(characterSchema),
@@ -190,65 +206,169 @@ const CharacterCreationWizard = () => {
 
   const { handleSubmit, trigger } = methods;
 
-  // Auto-save draft every 30 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (characterData.name) {
-        saveDraft();
-      }
-    }, 30000);
-
-    return () => clearInterval(interval);
-  }, [characterData]);
-
-  const saveDraft = async () => {
-    try {
-      setIsSaving(true);
-      // TODO: Save to backend/localStorage
-      localStorage.setItem('character-draft', JSON.stringify(characterData));
-      addNotification({
-        type: 'info',
-        title: 'Draft saved',
-        message: 'Your character has been saved as a draft',
-      });
-    } catch (error) {
-      console.error('Failed to save draft:', error);
-    } finally {
-      setIsSaving(false);
+  // Auto-save functionality
+  const scheduleAutoSave = useCallback(() => {
+    if (autoSaveTimer.current) {
+      clearTimeout(autoSaveTimer.current);
     }
-  };
+    
+    autoSaveTimer.current = setTimeout(() => {
+      performAutoSave();
+    }, 30000); // Auto-save every 30 seconds
+  }, [characterData, currentStep]);
 
-  const loadDraft = () => {
-    const draft = localStorage.getItem('character-draft');
-    if (draft) {
-      try {
-        const parsedDraft = JSON.parse(draft);
-        setCharacterData(parsedDraft);
-        methods.reset(parsedDraft);
+  const performAutoSave = useCallback(async () => {
+    if (!characterData.name?.trim()) {
+      return; // Don't auto-save if no name
+    }
+
+    try {
+      await storageService.autoSave(characterData, campaignId, currentStep);
+      setLastAutoSave(new Date());
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+      // Silent failure for auto-save
+    }
+  }, [characterData, currentStep, campaignId, storageService]);
+
+  // Manual save draft
+  const saveDraft = async (showNotification = true) => {
+    if (!characterData.name?.trim()) {
+      addNotification({
+        type: 'warning',
+        title: 'Cannot save',
+        message: 'Please enter a character name before saving',
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    
+    const result = await handleAsyncError(
+      () => storageService.saveDraft({
+        campaignId,
+        step: currentStep,
+        characterData,
+        isAutoSave: false,
+        characterId: currentDraftId || undefined
+      }),
+      {
+        operationName: 'save character draft',
+        showNotification: showNotification ? addNotification : undefined,
+        fallbackMessage: 'Failed to save character draft. Please try again.'
+      }
+    );
+
+    if (result) {
+      setCurrentDraftId(result.id);
+      
+      if (showNotification) {
         addNotification({
           type: 'success',
-          title: 'Draft loaded',
-          message: 'Your previous character draft has been loaded',
+          title: 'Draft saved',
+          message: 'Your character has been saved as a draft',
         });
-      } catch (error) {
-        console.error('Failed to load draft:', error);
       }
     }
+    
+    setIsSaving(false);
   };
 
+  // Load draft functionality
+  const loadDraft = useCallback(async () => {
+    const draftId = searchParams.get('draftId');
+    
+    if (draftId) {
+      try {
+        const draft = await storageService.loadDraft(draftId);
+        if (draft) {
+          setCharacterData(draft.characterData);
+          setCurrentStep(draft.step as CreationStep);
+          setCurrentDraftId(draft.id);
+          methods.reset(draft.characterData);
+          
+          addNotification({
+            type: 'success',
+            title: 'Draft loaded',
+            message: 'Your character draft has been loaded',
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load draft:', error);
+        addNotification({
+          type: 'error',
+          title: 'Load failed',
+          message: 'Failed to load character draft',
+        });
+      }
+    } else {
+      // Try to load the most recent auto-save for this campaign
+      try {
+        const drafts = await storageService.loadDrafts(campaignId);
+        const autoSaveDrafts = drafts.filter(d => d.isAutoSave);
+        
+        if (autoSaveDrafts.length > 0) {
+          // Get the most recent auto-save
+          const latestDraft = autoSaveDrafts.sort((a, b) => 
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          )[0];
+          
+          setCharacterData(latestDraft.characterData);
+          setCurrentStep(latestDraft.step as CreationStep);
+          setCurrentDraftId(latestDraft.id);
+          methods.reset(latestDraft.characterData);
+          
+          addNotification({
+            type: 'info',
+            title: 'Previous session restored',
+            message: 'Your previous character creation session has been restored',
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load auto-save:', error);
+      }
+    }
+  }, [searchParams, campaignId, storageService, methods, addNotification]);
+
+  // Load draft on component mount
   useEffect(() => {
     loadDraft();
-  }, []);
+  }, [loadDraft]);
+
+  // Schedule auto-save when character data changes
+  useEffect(() => {
+    scheduleAutoSave();
+    
+    return () => {
+      if (autoSaveTimer.current) {
+        clearTimeout(autoSaveTimer.current);
+      }
+    };
+  }, [scheduleAutoSave]);
 
   const updateCharacterData = (updates: Partial<CharacterCreationData>) => {
     setCharacterData(prev => ({ ...prev, ...updates }));
   };
 
   const canProceedToNextStep = async () => {
-    // Validate current step fields
+    // Validate current step using both form validation and custom validation
     const stepFields = getStepFields(currentStep);
-    const isValid = await trigger(stepFields);
-    return isValid;
+    const isFormValid = await trigger(stepFields);
+    
+    // Additional custom validation
+    const validationErrors = validateStep(characterData, currentStep);
+    
+    if (validationErrors.length > 0) {
+      const errorMessage = formatValidationErrors(validationErrors);
+      addNotification({
+        type: 'warning',
+        title: 'Validation Error',
+        message: errorMessage,
+      });
+      return false;
+    }
+    
+    return isFormValid;
   };
 
   const getStepFields = (step: CreationStep): (keyof CharacterFormData)[] => {
@@ -298,11 +418,33 @@ const CharacterCreationWizard = () => {
   const handleComplete = async (data: CharacterFormData) => {
     try {
       setLoading(true);
-      // TODO: Submit to backend
-      console.log('Submitting character:', data);
       
-      // Clear draft
-      localStorage.removeItem('character-draft');
+      // Mark character as complete
+      const completedCharacterData = { ...characterData, status: 'complete' as const };
+      
+      if (currentDraftId) {
+        // Create character from existing draft
+        await storageService.createCharacterFromDraft({
+          draftId: currentDraftId,
+          campaignId
+        });
+        
+        // Clean up the draft
+        await storageService.deleteDraft(currentDraftId);
+      } else {
+        // Save as a new character
+        await storageService.saveDraft({
+          campaignId,
+          step: CreationStep.REVIEW,
+          characterData: completedCharacterData,
+          isAutoSave: false
+        });
+      }
+      
+      // Clear any auto-save timers
+      if (autoSaveTimer.current) {
+        clearTimeout(autoSaveTimer.current);
+      }
       
       addNotification({
         type: 'success',
@@ -310,7 +452,7 @@ const CharacterCreationWizard = () => {
         message: 'Your character has been successfully created',
       });
       
-      navigate('/dashboard/characters');
+      navigate(`/dashboard/characters?campaignId=${campaignId}`);
     } catch (error) {
       console.error('Failed to create character:', error);
       addNotification({
@@ -377,12 +519,28 @@ const CharacterCreationWizard = () => {
         </Card>
 
         <div className="flex justify-between items-center mt-6">
-          <div>
+          <div className="flex items-center gap-4">
             {isSaving && (
               <span className="text-sm text-muted-foreground">
                 Saving draft...
               </span>
             )}
+            
+            {lastAutoSave && (
+              <span className="text-xs text-muted-foreground">
+                Last auto-saved: {lastAutoSave.toLocaleTimeString()}
+              </span>
+            )}
+            
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => saveDraft()}
+              disabled={isSaving || !characterData.name?.trim()}
+            >
+              Save Draft
+            </Button>
           </div>
           
           <div className="flex gap-3">

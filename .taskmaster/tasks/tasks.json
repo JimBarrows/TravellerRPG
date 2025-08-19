@@ -585,7 +585,7 @@
           4,
           5
         ],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -615,7 +615,7 @@
               "7.2"
             ],
             "details": "Implement all core careers from the Traveller rulebook (Scout, Marine, Army, Merchant, etc.). Create UI for career qualification checks and entry requirements. Implement term-based progression with skill acquisition, rank advancement, and benefits. Add career events and mishap tables with random generation. Create mustering-out benefits calculation based on terms served and rank.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test career qualification logic against rulebook specifications. Verify skill acquisition and advancement calculations. Test random event generation for proper distribution. Ensure all career paths function correctly with different character profiles."
           },
           {
@@ -626,7 +626,7 @@
               "7.3"
             ],
             "details": "Create data structures for background event tables from the Traveller rulebook. Implement random event generation with appropriate weighting. Design UI for displaying and selecting background events. Add support for event consequences that affect skills, characteristics, or equipment. Implement connections between events to create coherent character backgrounds.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test random event generation for proper distribution and weighting. Verify event consequences are correctly applied to character data. Test edge cases with multiple interconnected events. Ensure UI properly displays all event details and options."
           },
           {
@@ -639,7 +639,7 @@
               "7.4"
             ],
             "details": "Implement the complete Traveller skill list with categories and specializations. Create UI for skill point allocation with validation for maximum levels. Add skill prerequisites and dependencies based on rulebook. Implement skill bonuses from characteristics. Create search and filter functionality for finding skills. Add tooltips with skill descriptions and usage examples.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test skill point allocation logic and validation. Verify skill prerequisites and dependencies function correctly. Test search and filter functionality with various queries. Ensure skill bonuses are correctly calculated from characteristics."
           },
           {
@@ -650,7 +650,7 @@
               "7.5"
             ],
             "details": "Create database of equipment items from Traveller rulebook with prices, weights, and descriptions. Implement starting credits calculation based on career and benefits. Create UI for browsing, searching, and selecting equipment. Add encumbrance calculation and carrying capacity limits. Implement equipment dependencies and prerequisites (e.g., weapon accessories requiring specific weapons).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test equipment selection and purchase logic with credit limits. Verify encumbrance calculations against rulebook specifications. Test equipment dependencies and prerequisites. Ensure all equipment data is accurately represented from the rulebook."
           },
           {
@@ -676,7 +676,7 @@
               "7.7"
             ],
             "details": "Create database schema for storing complete character data with proper validation. Implement save/load functionality for characters in progress. Add autosave feature to prevent data loss. Create final review step before character completion. Implement PDF character sheet generation using jsPDF or react-pdf with proper formatting and styling. Add options for different PDF layouts (compact, detailed).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test database storage and retrieval with various character configurations. Verify save/load functionality preserves all character data. Test autosave feature under different network conditions. Ensure PDF generation produces correctly formatted documents across different browsers."
           }
         ]
@@ -691,7 +691,7 @@
         "dependencies": [
           7
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -699,7 +699,7 @@
             "description": "Create a responsive layout with all required sections for the character sheet",
             "dependencies": [],
             "details": "Design and implement a responsive grid layout for the character sheet with sections for characteristics, skills, equipment, finances, conditions, notes, and advancement. Use CSS Grid or Flexbox for responsive behavior across desktop and mobile devices. Implement collapsible sections for better mobile experience. Create navigation between sections for easy access.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test responsive behavior across different screen sizes. Verify all sections render correctly on desktop, tablet, and mobile. Test collapsible functionality and navigation between sections."
           },
           {
@@ -710,7 +710,7 @@
               "8.1"
             ],
             "details": "Create reusable form components for different data types (text, number, select, etc.). Implement real-time validation for all editable fields with appropriate error messages. Set up debounced auto-save functionality to update the database. Add visual indicators for saving status (saving, saved, error). Implement optimistic UI updates with rollback on error.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test validation rules for all field types. Verify error messages display correctly. Test auto-save functionality with network delays and failures. Verify database updates occur correctly."
           },
           {
@@ -722,7 +722,7 @@
               "8.2"
             ],
             "details": "Implement the display for the six main characteristics (STR, DEX, END, INT, EDU, SOC) with current values and modifiers. Create visual representation of characteristic levels with color coding or indicators. Add tooltips explaining each characteristic and how modifiers are calculated. Implement editing functionality with validation for characteristic ranges.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test display of characteristics and modifiers. Verify modifier calculations are correct. Test editing functionality with valid and invalid inputs. Verify tooltips display correctly."
           },
           {
@@ -734,7 +734,7 @@
               "8.2"
             ],
             "details": "Create a skills management interface with categorized skill lists. Implement skill level tracking with visual indicators. Add specialization support with additional bonuses. Create skill usage tracking to record when skills are used. Implement skill filtering and searching functionality. Add skill description tooltips with rules references.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test adding, editing, and removing skills. Verify specialization bonuses apply correctly. Test skill usage tracking records properly. Verify filtering and searching works as expected."
           },
           {
@@ -746,7 +746,7 @@
               "8.2"
             ],
             "details": "Create an equipment management interface with categorized inventory. Implement equipped/stored status toggling for items. Add encumbrance calculation based on item weight and character strength. Create detailed item view with all properties and descriptions. Implement item transfer between characters. Add custom item creation functionality.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test adding, editing, and removing equipment. Verify encumbrance calculations update correctly. Test equipped/stored status changes. Verify item transfers work properly between characters."
           },
           {
@@ -758,7 +758,7 @@
               "8.2"
             ],
             "details": "Implement credits tracking with current balance display. Create transaction history log with date, amount, description, and categories. Add income and expense tracking with summaries. Implement financial reports with filtering by date and category. Create debt tracking functionality with payment schedules.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test adding credits and expenses. Verify transaction history records correctly. Test financial reports with different filters. Verify balance calculations are accurate after multiple transactions."
           },
           {
@@ -770,7 +770,7 @@
               "8.2"
             ],
             "details": "Create a conditions management system with standard Traveller conditions. Implement visual indicators for active conditions on the character sheet. Add duration tracking for temporary conditions with automatic expiration. Create condition application interface with custom duration and effects. Implement condition effects on character statistics and skills.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test applying and removing conditions. Verify visual indicators display correctly. Test duration tracking and automatic expiration. Verify condition effects apply correctly to character statistics."
           },
           {
@@ -782,7 +782,7 @@
               "8.2"
             ],
             "details": "Integrate a rich text editor library (Slate.js or TipTap) for character notes. Implement formatting options including headings, lists, tables, and text styling. Add image upload and embedding functionality. Create multiple note categories (background, session notes, etc.). Implement auto-save functionality with version history.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test all formatting options in the rich text editor. Verify image uploads and embedding works correctly. Test auto-save functionality with network interruptions. Verify note categories save and load properly."
           },
           {
@@ -796,7 +796,7 @@
               "8.4"
             ],
             "details": "Implement experience point tracking with milestone markers. Create skill and characteristic advancement interface with point allocation. Develop character version history with dated snapshots. Implement character backup and restore functionality. Add character sharing via link or QR code generation with permission settings.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test experience point tracking and milestone recording. Verify advancement mechanics work correctly. Test version history creation and restoration. Verify character sharing works with different permission levels."
           }
         ]
@@ -1415,7 +1415,7 @@
     ],
     "metadata": {
       "created": "2025-08-09T19:12:13.004Z",
-      "updated": "2025-08-19T01:32:48.311Z",
+      "updated": "2025-08-19T11:20:16.948Z",
       "description": "Tasks for master context"
     }
   }

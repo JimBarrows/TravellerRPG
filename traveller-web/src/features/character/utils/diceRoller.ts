@@ -64,16 +64,14 @@ export const rollAllCharacteristics = () => {
 };
 
 /**
- * Get characteristic modifier
+ * Get characteristic modifier following Traveller RPG rules
+ * DM = floor((characteristic - 6) / 3)
  */
 export const getCharacteristicModifier = (value: number): number => {
-  if (value <= 0) return -3;
-  if (value <= 2) return -2;
-  if (value <= 5) return -1;
-  if (value <= 8) return 0;
-  if (value <= 11) return 1;
-  if (value <= 14) return 2;
-  return 3;
+  if (value <= 0) return -3; // Dead
+  if (value === 1) return -2; // Unconscious/disabled
+  
+  return Math.floor((value - 6) / 3);
 };
 
 /**
