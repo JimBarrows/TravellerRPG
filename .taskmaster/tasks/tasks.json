@@ -659,7 +659,7 @@
             "description": "Implement character portrait upload to S3 or avatar generation using DiceBear Avatars",
             "dependencies": [],
             "details": "Set up S3 bucket configuration for portrait storage with proper security settings. Implement image upload with preview, cropping, and resizing. Add integration with DiceBear Avatars API for procedural avatar generation. Create UI for selecting between upload and generated avatars. Implement image optimization for different display contexts (thumbnail, full view).",
-            "status": "pending",
+            "status": "in-progress",
             "testStrategy": "Test image upload, cropping, and storage functionality. Verify S3 security configurations prevent unauthorized access. Test avatar generation with different parameters. Ensure proper error handling for failed uploads or generation."
           },
           {
@@ -1415,7 +1415,7 @@
     ],
     "metadata": {
       "created": "2025-08-09T19:12:13.004Z",
-      "updated": "2025-08-12T13:02:45.700Z",
+      "updated": "2025-08-19T01:03:56.128Z",
       "description": "Tasks for master context"
     }
   }
