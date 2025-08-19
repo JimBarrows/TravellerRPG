@@ -615,7 +615,7 @@
               "7.2"
             ],
             "details": "Implement all core careers from the Traveller rulebook (Scout, Marine, Army, Merchant, etc.). Create UI for career qualification checks and entry requirements. Implement term-based progression with skill acquisition, rank advancement, and benefits. Add career events and mishap tables with random generation. Create mustering-out benefits calculation based on terms served and rank.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test career qualification logic against rulebook specifications. Verify skill acquisition and advancement calculations. Test random event generation for proper distribution. Ensure all career paths function correctly with different character profiles."
           },
           {
@@ -626,7 +626,7 @@
               "7.3"
             ],
             "details": "Create data structures for background event tables from the Traveller rulebook. Implement random event generation with appropriate weighting. Design UI for displaying and selecting background events. Add support for event consequences that affect skills, characteristics, or equipment. Implement connections between events to create coherent character backgrounds.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test random event generation for proper distribution and weighting. Verify event consequences are correctly applied to character data. Test edge cases with multiple interconnected events. Ensure UI properly displays all event details and options."
           },
           {
@@ -639,7 +639,7 @@
               "7.4"
             ],
             "details": "Implement the complete Traveller skill list with categories and specializations. Create UI for skill point allocation with validation for maximum levels. Add skill prerequisites and dependencies based on rulebook. Implement skill bonuses from characteristics. Create search and filter functionality for finding skills. Add tooltips with skill descriptions and usage examples.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test skill point allocation logic and validation. Verify skill prerequisites and dependencies function correctly. Test search and filter functionality with various queries. Ensure skill bonuses are correctly calculated from characteristics."
           },
           {
@@ -650,7 +650,7 @@
               "7.5"
             ],
             "details": "Create database of equipment items from Traveller rulebook with prices, weights, and descriptions. Implement starting credits calculation based on career and benefits. Create UI for browsing, searching, and selecting equipment. Add encumbrance calculation and carrying capacity limits. Implement equipment dependencies and prerequisites (e.g., weapon accessories requiring specific weapons).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test equipment selection and purchase logic with credit limits. Verify encumbrance calculations against rulebook specifications. Test equipment dependencies and prerequisites. Ensure all equipment data is accurately represented from the rulebook."
           },
           {
@@ -659,7 +659,7 @@
             "description": "Implement character portrait upload to S3 or avatar generation using DiceBear Avatars",
             "dependencies": [],
             "details": "Set up S3 bucket configuration for portrait storage with proper security settings. Implement image upload with preview, cropping, and resizing. Add integration with DiceBear Avatars API for procedural avatar generation. Create UI for selecting between upload and generated avatars. Implement image optimization for different display contexts (thumbnail, full view).",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test image upload, cropping, and storage functionality. Verify S3 security configurations prevent unauthorized access. Test avatar generation with different parameters. Ensure proper error handling for failed uploads or generation."
           },
           {
@@ -1415,7 +1415,7 @@
     ],
     "metadata": {
       "created": "2025-08-09T19:12:13.004Z",
-      "updated": "2025-08-19T01:32:48.311Z",
+      "updated": "2025-08-19T02:00:32.584Z",
       "description": "Tasks for master context"
     }
   }
