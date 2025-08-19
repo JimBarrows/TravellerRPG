@@ -1,6 +1,16 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import subscriptionService from './subscriptionService';
 
+// Mock authService
+vi.mock('./authService', () => ({
+  default: {
+    isAuthenticated: vi.fn(),
+    getAccessToken: vi.fn()
+  }
+}));
+
+import authService from './authService';
+
 // Mock fetch
 global.fetch = vi.fn();
 
@@ -21,6 +31,10 @@ describe('SubscriptionService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     fetch.mockClear();
+    
+    // Setup default auth mock responses
+    authService.isAuthenticated.mockReturnValue(true);
+    authService.getAccessToken.mockReturnValue('mock-access-token');
   });
 
   describe('getUserSubscription', () => {
@@ -159,7 +173,7 @@ describe('SubscriptionService', () => {
   describe('hasFeatureAccess', () => {
     it('should return true for features included in subscription', () => {
       const subscription = { tier: 'Standard' };
-      const hasAccess = subscriptionService.hasFeatureAccess(subscription, 'character_sheets');
+      const hasAccess = subscriptionService.hasFeatureAccess(subscription, 'advanced_character_sheet');
       expect(hasAccess).toBe(true);
     });
 
@@ -171,7 +185,7 @@ describe('SubscriptionService', () => {
 
     it('should handle Premium tier with all features', () => {
       const subscription = { tier: 'Premium' };
-      const hasAccess = subscriptionService.hasFeatureAccess(subscription, 'ai_assistant');
+      const hasAccess = subscriptionService.hasFeatureAccess(subscription, 'ai_story_assistant');
       expect(hasAccess).toBe(true);
     });
   });

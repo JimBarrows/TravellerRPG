@@ -94,7 +94,7 @@ export const getCharacteristicAbbreviation = (characteristic: string): string =>
 /**
  * Convert characteristics to UPP (Universal Personality Profile) string
  */
-export const toUPP = (characteristics: Record<string, number>): string => {
+export const toUPP = (characteristics: Record<string, number> | { strength: number; dexterity: number; endurance: number; intelligence: number; education: number; social: number }): string => {
   const hexDigits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   
   const values = [

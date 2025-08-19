@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { uploadData, remove, getUrl } from '@aws-amplify/storage';
+import { uploadData, remove, getUrl } from '../services/storageService';
 import { evaluatePasswordStrength } from '../utils/passwordStrength';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 
@@ -38,6 +38,7 @@ const ProfilePage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const autoSaveTimeoutRef = useRef(null);
+  const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
 
   // Avatar upload state
   const [avatarFile, setAvatarFile] = useState(null);
@@ -85,37 +86,54 @@ const ProfilePage = () => {
     }
   }, [user]);
 
-  // Auto-save functionality
+  // Trigger auto-save after delay when changes are made
   useEffect(() => {
-    if (hasUnsavedChanges && isEditing) {
-      if (autoSaveTimeoutRef.current) {
-        clearTimeout(autoSaveTimeoutRef.current);
-      }
-      
-      autoSaveTimeoutRef.current = setTimeout(() => {
-        handleSaveChanges(true); // Auto-save
-      }, 3000);
+    // Skip if auto-save is disabled or no unsaved changes
+    if (!autoSaveEnabled || !hasUnsavedChanges || !isEditing) {
+      return;
     }
 
-    return () => {
-      if (autoSaveTimeoutRef.current) {
-        clearTimeout(autoSaveTimeoutRef.current);
+    // Clear any existing timeout
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+    
+    // Set auto-save timeout
+    const timeoutId = setTimeout(() => {
+      // Only save if no validation errors
+      if (Object.keys(validationErrors).length === 0) {
+        handleSaveChanges(true);
       }
-    };
-  }, [hasUnsavedChanges, isEditing, formData]);
+    }, 3000);
+    
+    autoSaveTimeoutRef.current = timeoutId;
 
-  // Prevent navigation with unsaved changes
+    // Cleanup
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [hasUnsavedChanges, isEditing, formData.displayName, formData.email, formData.timezone, autoSaveEnabled]);
+
+  // Prevent navigation with unsaved changes - simplified
   useEffect(() => {
+    // Only add listener if there are unsaved changes
+    if (!hasUnsavedChanges) {
+      return;
+    }
+
     const handleBeforeUnload = (e) => {
-      if (hasUnsavedChanges) {
-        e.preventDefault();
-        e.returnValue = '';
-        return '';
-      }
+      // Standard way to trigger browser's unsaved changes warning
+      e.preventDefault();
+      e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+      return 'You have unsaved changes. Are you sure you want to leave?';
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [hasUnsavedChanges]);
 
   const handleInputChange = (field, value) => {
@@ -222,6 +240,9 @@ const ProfilePage = () => {
       return;
     }
 
+    // Clear any previous error messages since file passed validation
+    clearMessages();
+    
     setAvatarFile(file);
     
     // Create preview
@@ -230,7 +251,6 @@ const ProfilePage = () => {
     reader.readAsDataURL(file);
     
     setShowAvatarUpload(true);
-    clearMessages();
   };
 
   const confirmAvatarUpload = async () => {
@@ -355,6 +375,7 @@ const ProfilePage = () => {
   if (!user) {
     return <div className="profile-error">Please log in to view your profile.</div>;
   }
+
 
   return (
     <div className="profile-page" data-testid="profile-page">
