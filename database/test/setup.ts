@@ -4,8 +4,12 @@
  * Global setup for Jest tests, including database connection and cleanup.
  */
 
-// Set up test environment variables
-process.env.DATABASE_URL = process.env.DATABASE_URL || "postgresql://test:test@localhost:5432/travellerrpg_test?schema=public";
+// Load test environment variables
+import { config } from 'dotenv';
+config({ path: '.env.test' });
+
+// Set up test environment variables with fallbacks
+process.env.DATABASE_URL = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/traveller?schema=public";
 process.env.NODE_ENV = "test";
 
 import { db, disconnect } from '../src/client';

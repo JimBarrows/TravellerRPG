@@ -74,7 +74,7 @@ const retryLink = new ApolloLink((operation, forward) => {
     let retryCount = 0;
     const maxRetries = 3;
     
-    const retry = (error?: any) => {
+    const retry = (error?: Error) => {
       if (retryCount >= maxRetries) {
         if (error) {
           observer.error(error);

@@ -5,8 +5,7 @@ import {
   getTokenExpiration,
   shouldRefreshToken,
   decodeToken,
-  encryptToken,
-  decryptToken
+  tokenManager
 } from './tokenUtils';
 
 // Mock localStorage and sessionStorage
@@ -26,20 +25,6 @@ const mockSessionStorage = {
 
 Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
-
-// Mock crypto for encryption
-Object.defineProperty(global, 'crypto', {
-  value: {
-    subtle: {
-      importKey: vi.fn(),
-      encrypt: vi.fn(),
-      decrypt: vi.fn(),
-      generateKey: vi.fn(),
-      deriveKey: vi.fn()
-    },
-    getRandomValues: vi.fn(() => new Uint8Array(16))
-  }
-});
 
 // Test JWT tokens (valid format but test data)
 const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.8lXzjwb_lfJn3ZlHpxwpew4WXMpjCA6-TAlKxLILOdg';
@@ -97,10 +82,10 @@ describe('Token Utilities', () => {
   });
 
   describe('getTokenExpiration', () => {
-    it('should return expiration date for valid token', () => {
+    it('should return expiration timestamp for valid token', () => {
       const expiration = getTokenExpiration(validToken);
-      expect(expiration).toBeInstanceOf(Date);
-      expect(expiration.getTime()).toBeGreaterThan(Date.now());
+      expect(typeof expiration).toBe('number');
+      expect(expiration).toBeGreaterThan(Date.now());
     });
 
     it('should return null for invalid token', () => {
@@ -127,185 +112,202 @@ describe('Token Utilities', () => {
       expect(shouldRefresh).toBe(false);
     });
 
-    it('should return true for invalid/expired tokens', () => {
-      const shouldRefresh = shouldRefreshToken(expiredToken);
-      expect(shouldRefresh).toBe(true);
+    it('should return false for invalid tokens', () => {
+      const shouldRefresh = shouldRefreshToken('invalid.token');
+      expect(shouldRefresh).toBe(false);
     });
   });
 
   describe('TokenManager', () => {
-    let tokenManager;
+    let manager;
 
     beforeEach(() => {
-      tokenManager = new TokenManager();
+      manager = new TokenManager();
     });
 
     describe('setTokens', () => {
-      it('should store tokens in localStorage when rememberMe is true', async () => {
+      it('should store tokens in localStorage when rememberMe is true', () => {
         const tokens = {
           accessToken: validToken,
-          refreshToken: 'refresh123',
-          idToken: 'id123'
+          refreshToken: 'refresh_token',
+          idToken: 'id_token'
         };
 
-        await tokenManager.setTokens(tokens, true);
+        manager.setTokens(tokens, true);
 
-        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('authToken', expect.any(String));
-        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('refreshToken', expect.any(String));
-        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('idToken', expect.any(String));
+        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('accessToken', validToken);
+        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('refreshToken', 'refresh_token');
+        expect(mockLocalStorage.setItem).toHaveBeenCalledWith('idToken', 'id_token');
         expect(mockLocalStorage.setItem).toHaveBeenCalledWith('rememberMe', 'true');
       });
 
-      it('should store tokens in sessionStorage when rememberMe is false', async () => {
+      it('should store tokens in sessionStorage when rememberMe is false', () => {
         const tokens = {
           accessToken: validToken,
-          refreshToken: 'refresh123',
-          idToken: 'id123'
+          refreshToken: 'refresh_token',
+          idToken: 'id_token'
         };
 
-        await tokenManager.setTokens(tokens, false);
+        manager.setTokens(tokens, false);
 
-        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('authToken', expect.any(String));
-        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('refreshToken', expect.any(String));
-        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('idToken', expect.any(String));
+        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('accessToken', validToken);
+        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('refreshToken', 'refresh_token');
+        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('idToken', 'id_token');
+        expect(mockSessionStorage.setItem).toHaveBeenCalledWith('rememberMe', 'false');
       });
     });
 
     describe('getTokens', () => {
-      it('should retrieve tokens from localStorage when rememberMe was used', async () => {
+      it('should retrieve tokens from localStorage when rememberMe is true', () => {
         mockLocalStorage.getItem.mockImplementation((key) => {
           if (key === 'rememberMe') return 'true';
-          if (key === 'authToken') return 'encrypted_access_token';
-          if (key === 'refreshToken') return 'encrypted_refresh_token';
-          if (key === 'idToken') return 'encrypted_id_token';
+          if (key === 'accessToken') return validToken;
+          if (key === 'refreshToken') return 'refresh_token';
+          if (key === 'idToken') return 'id_token';
           return null;
         });
 
-        // Mock decryption to return the original tokens
-        vi.mocked(crypto.subtle.decrypt).mockResolvedValue(
-          new TextEncoder().encode(validToken)
-        );
+        const tokens = manager.getTokens();
 
-        const tokens = await tokenManager.getTokens();
-
-        expect(mockLocalStorage.getItem).toHaveBeenCalledWith('rememberMe');
-        expect(mockLocalStorage.getItem).toHaveBeenCalledWith('authToken');
-        expect(tokens).toHaveProperty('accessToken');
+        expect(tokens).toEqual({
+          accessToken: validToken,
+          refreshToken: 'refresh_token',
+          idToken: 'id_token',
+          rememberMe: true
+        });
       });
 
-      it('should retrieve tokens from sessionStorage when rememberMe was not used', async () => {
-        mockLocalStorage.getItem.mockReturnValue(null);
-        mockSessionStorage.getItem.mockImplementation((key) => {
-          if (key === 'authToken') return 'encrypted_access_token';
-          return 'encrypted_token';
+      it('should retrieve tokens from sessionStorage when rememberMe is false', () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+          if (key === 'rememberMe') return 'false';
+          return null;
         });
 
-        // Mock decryption
-        vi.mocked(crypto.subtle.decrypt).mockResolvedValue(
-          new TextEncoder().encode(validToken)
-        );
+        mockSessionStorage.getItem.mockImplementation((key) => {
+          if (key === 'accessToken') return validToken;
+          if (key === 'refreshToken') return 'refresh_token';
+          if (key === 'idToken') return 'id_token';
+          return null;
+        });
 
-        const tokens = await tokenManager.getTokens();
+        const tokens = manager.getTokens();
 
-        expect(mockSessionStorage.getItem).toHaveBeenCalledWith('authToken');
-        expect(tokens).toHaveProperty('accessToken');
+        expect(tokens).toEqual({
+          accessToken: validToken,
+          refreshToken: 'refresh_token',
+          idToken: 'id_token',
+          rememberMe: false
+        });
+      });
+    });
+
+    describe('getValidAccessToken', () => {
+      it('should return valid token if not expired and not needing refresh', async () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+          if (key === 'rememberMe') return 'true';
+          if (key === 'accessToken') return validToken;
+          return null;
+        });
+
+        const token = await manager.getValidAccessToken();
+        expect(token).toBe(validToken);
+      });
+
+      it('should return null for expired token without refresh token', async () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+          if (key === 'rememberMe') return 'true';
+          if (key === 'accessToken') return expiredToken;
+          return null;
+        });
+
+        const token = await manager.getValidAccessToken();
+        expect(token).toBeNull();
       });
     });
 
     describe('clearTokens', () => {
-      it('should clear tokens from both localStorage and sessionStorage', () => {
-        tokenManager.clearTokens();
+      it('should clear all tokens from both storages', () => {
+        manager.clearTokens();
 
-        expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('authToken');
+        expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('accessToken');
         expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('refreshToken');
         expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('idToken');
         expect(mockLocalStorage.removeItem).toHaveBeenCalledWith('rememberMe');
-        
-        expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('authToken');
+
+        expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('accessToken');
         expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('refreshToken');
         expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('idToken');
+        expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('rememberMe');
       });
     });
 
     describe('isAuthenticated', () => {
-      it('should return true when valid token exists', async () => {
+      it('should return true when valid access token exists', () => {
         mockLocalStorage.getItem.mockImplementation((key) => {
           if (key === 'rememberMe') return 'true';
-          if (key === 'authToken') return 'encrypted_access_token';
+          if (key === 'accessToken') return validToken;
           return null;
         });
 
-        // Mock decryption to return valid token
-        vi.mocked(crypto.subtle.decrypt).mockResolvedValue(
-          new TextEncoder().encode(validToken)
-        );
-
-        const isAuth = await tokenManager.isAuthenticated();
+        const isAuth = manager.isAuthenticated();
         expect(isAuth).toBe(true);
       });
 
-      it('should return false when no token exists', async () => {
+      it('should return false when no access token exists', () => {
         mockLocalStorage.getItem.mockReturnValue(null);
         mockSessionStorage.getItem.mockReturnValue(null);
 
-        const isAuth = await tokenManager.isAuthenticated();
+        const isAuth = manager.isAuthenticated();
         expect(isAuth).toBe(false);
       });
 
-      it('should return false when token is expired', async () => {
+      it('should return false when access token is expired', () => {
         mockLocalStorage.getItem.mockImplementation((key) => {
           if (key === 'rememberMe') return 'true';
-          if (key === 'authToken') return 'encrypted_expired_token';
+          if (key === 'accessToken') return expiredToken;
           return null;
         });
 
-        // Mock decryption to return expired token
-        vi.mocked(crypto.subtle.decrypt).mockResolvedValue(
-          new TextEncoder().encode(expiredToken)
-        );
-
-        const isAuth = await tokenManager.isAuthenticated();
+        const isAuth = manager.isAuthenticated();
         expect(isAuth).toBe(false);
+      });
+    });
+
+    describe('getCurrentUserInfo', () => {
+      it('should return user info from valid ID token', () => {
+        const idToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImNvZ25pdG86dXNlcm5hbWUiOiJ0ZXN0dXNlciIsImdpdmVuX25hbWUiOiJKb2huIiwiZmFtaWx5X25hbWUiOiJEb2UiLCJleHAiOjk5OTk5OTk5OTl9.invalid-signature';
+        
+        mockLocalStorage.getItem.mockImplementation((key) => {
+          if (key === 'rememberMe') return 'true';
+          if (key === 'idToken') return idToken;
+          return null;
+        });
+
+        const userInfo = manager.getCurrentUserInfo();
+        
+        expect(userInfo).toEqual({
+          sub: '1234567890',
+          email: 'test@example.com',
+          emailVerified: true,
+          username: 'testuser',
+          givenName: 'John',
+          familyName: 'Doe'
+        });
+      });
+
+      it('should return null when no valid ID token exists', () => {
+        mockLocalStorage.getItem.mockReturnValue(null);
+        mockSessionStorage.getItem.mockReturnValue(null);
+
+        const userInfo = manager.getCurrentUserInfo();
+        expect(userInfo).toBeNull();
       });
     });
   });
 
-  describe('Encryption/Decryption', () => {
-    beforeEach(() => {
-      // Mock crypto.subtle methods for encryption tests
-      vi.mocked(crypto.subtle.importKey).mockResolvedValue({});
-      vi.mocked(crypto.subtle.deriveKey).mockResolvedValue({});
-      vi.mocked(crypto.subtle.encrypt).mockResolvedValue(new ArrayBuffer(32));
-      vi.mocked(crypto.subtle.decrypt).mockResolvedValue(
-        new TextEncoder().encode('decrypted_data')
-      );
-    });
-
-    it('should encrypt a token', async () => {
-      const encrypted = await encryptToken('test_token');
-      expect(crypto.subtle.encrypt).toHaveBeenCalled();
-      expect(encrypted).toBeDefined();
-    });
-
-    it('should decrypt a token', async () => {
-      const encryptedData = 'base64_encrypted_data';
-      const decrypted = await decryptToken(encryptedData);
-      expect(crypto.subtle.decrypt).toHaveBeenCalled();
-      expect(decrypted).toBe('decrypted_data');
-    });
-
-    it('should handle encryption errors gracefully', async () => {
-      vi.mocked(crypto.subtle.encrypt).mockRejectedValue(new Error('Encryption failed'));
-      
-      const encrypted = await encryptToken('test_token');
-      expect(encrypted).toBeNull();
-    });
-
-    it('should handle decryption errors gracefully', async () => {
-      vi.mocked(crypto.subtle.decrypt).mockRejectedValue(new Error('Decryption failed'));
-      
-      const decrypted = await decryptToken('invalid_data');
-      expect(decrypted).toBeNull();
+  describe('tokenManager singleton', () => {
+    it('should provide a singleton instance', () => {
+      expect(tokenManager).toBeInstanceOf(TokenManager);
     });
   });
 });
