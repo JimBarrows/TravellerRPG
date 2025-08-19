@@ -27,6 +27,7 @@ export class ComputeStack extends cdk.Stack {
   public readonly authTriggersFunction: lambda.Function;
   public readonly backupFunction: lambda.Function;
   public readonly imageProcessingFunction: lambda.Function;
+  public readonly uploadsFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, props: ComputeStackProps) {
     super(scope, id, props);
@@ -135,6 +136,32 @@ export class ComputeStack extends cdk.Stack {
     //   principal: new iam.ServicePrincipal('s3.amazonaws.com'),
     //   sourceArn: userUploadsBucket.bucketArn,
     // });
+
+    // Uploads Lambda function for generating presigned URLs
+    this.uploadsFunction = new lambda.Function(this, 'UploadsFunction', {
+      functionName: `${appName}-${environment}-uploads`,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'uploads')),
+      layers: [commonLayer],
+      environment: {
+        NODE_ENV: environment,
+        // UPLOADS_BUCKET_NAME will be set in main stack after bucket creation
+        ALLOWED_ORIGINS: environment === 'prod' 
+          ? 'https://app.traveller-rpg.com' 
+          : 'http://localhost:5173',
+      },
+      timeout: cdk.Duration.seconds(30),
+      memorySize: 256,
+      tracing: lambda.Tracing.ACTIVE,
+      logRetention: environment === 'prod'
+        ? logs.RetentionDays.ONE_MONTH
+        : logs.RetentionDays.ONE_WEEK,
+    });
+
+    // Grant uploads function S3 permissions (TODO: Add after deployment)
+    // userUploadsBucket.grantPut(this.uploadsFunction);
+    // userUploadsBucket.grantRead(this.uploadsFunction);
 
     // Backup Lambda function
     this.backupFunction = new lambda.Function(this, 'BackupFunction', {
@@ -259,6 +286,12 @@ export class ComputeStack extends cdk.Stack {
       value: this.backupFunction.functionArn,
       description: 'Backup Lambda Function ARN',
       exportName: `${appName}-${environment}-backup-arn`,
+    });
+
+    new cdk.CfnOutput(this, 'UploadsFunctionArn', {
+      value: this.uploadsFunction.functionArn,
+      description: 'Uploads Lambda Function ARN',
+      exportName: `${appName}-${environment}-uploads-arn`,
     });
   }
 }
