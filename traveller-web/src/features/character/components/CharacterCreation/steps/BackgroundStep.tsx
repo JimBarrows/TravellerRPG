@@ -11,6 +11,7 @@ import {
   type Homeworld 
 } from '../../../data/homeworlds';
 import { rollDice } from '../../../utils/diceRoller';
+import { uwpToHex } from '../../../utils/lifepathEngine';
 
 const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
   const { setValue, watch, register } = useFormContext();
@@ -35,6 +36,8 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
       background: {
         ...background,
         homeworld: homeworld.name,
+        uwp: homeworld.uwp,
+        startingSkills: homeworld.backgroundSkills,
       },
     });
   };
@@ -88,10 +91,12 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
     updateData({
       background: {
         homeworld: randomHomeworld.name,
+        uwp: randomHomeworld.uwp,
         socialClass: randomSocialClass,
         upbringing: randomUpbringing,
         family: `Generated from ${randomUpbringing}`,
         earlyLife: randomEarlyLife,
+        startingSkills: randomHomeworld.backgroundSkills,
       },
     });
   };
@@ -165,7 +170,7 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
                   <div className="font-medium">{homeworld.name}</div>
                   <div className="text-xs text-muted-foreground">{homeworld.type}</div>
                   <div className="text-xs text-muted-foreground mt-1">
-                    TL{homeworld.techLevel} • Pop: {(homeworld.population / 1000000).toFixed(0)}M
+                    TL{homeworld.techLevel} • UWP: {uwpToHex(homeworld.uwp)}
                   </div>
                 </button>
               );
@@ -179,7 +184,18 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
                 {selectedHomeworld.description}
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <div className="text-xs font-medium mb-1">UWP Details</div>
+                  <div className="text-xs space-y-1">
+                    <div>Starport: {selectedHomeworld.uwp.starport}</div>
+                    <div>Size: {selectedHomeworld.uwp.size}</div>
+                    <div>Atmosphere: {selectedHomeworld.uwp.atmosphere}</div>
+                    <div>Population: {selectedHomeworld.uwp.population}</div>
+                    <div>Tech Level: {selectedHomeworld.uwp.techLevel}</div>
+                  </div>
+                </div>
+                
                 <div>
                   <div className="text-xs font-medium mb-1">Traits</div>
                   <div className="flex flex-wrap gap-1">
@@ -194,18 +210,32 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
                   </div>
                 </div>
                 
-                {selectedHomeworld.skillBonuses && (
-                  <div>
-                    <div className="text-xs font-medium mb-1">Skill Bonuses</div>
-                    <div className="space-y-1">
-                      {selectedHomeworld.skillBonuses.map((bonus) => (
-                        <div key={bonus.skill} className="text-xs">
-                          {bonus.skill} +{bonus.bonus}
-                        </div>
-                      ))}
-                    </div>
+                <div>
+                  <div className="text-xs font-medium mb-1">Background Skills</div>
+                  <div className="flex flex-wrap gap-1">
+                    {selectedHomeworld.backgroundSkills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-1 bg-primary/10 rounded text-xs"
+                      >
+                        {skill}
+                      </span>
+                    ))}
                   </div>
-                )}
+                  
+                  {selectedHomeworld.skillBonuses && selectedHomeworld.skillBonuses.length > 0 && (
+                    <div className="mt-2">
+                      <div className="text-xs font-medium mb-1">Skill Bonuses</div>
+                      <div className="space-y-1">
+                        {selectedHomeworld.skillBonuses.map((bonus) => (
+                          <div key={bonus.skill} className="text-xs">
+                            {bonus.skill} +{bonus.bonus}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -367,25 +397,51 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
         <Card className="bg-muted/50">
           <div className="p-4">
             <h3 className="font-semibold mb-3">Background Summary</h3>
-            <div className="space-y-2 text-sm">
-              <div>
-                <span className="text-muted-foreground">Homeworld:</span>{' '}
-                <span className="font-medium">{background.homeworld}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Social Class:</span>{' '}
-                <span className="font-medium">{background.socialClass}</span>
-              </div>
-              {background.upbringing && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2 text-sm">
                 <div>
-                  <span className="text-muted-foreground">Upbringing:</span>{' '}
-                  <span className="font-medium">{background.upbringing}</span>
+                  <span className="text-muted-foreground">Homeworld:</span>{' '}
+                  <span className="font-medium">{background.homeworld}</span>
+                  {background.uwp && (
+                    <span className="text-xs text-muted-foreground ml-2">
+                      ({uwpToHex(background.uwp)})
+                    </span>
+                  )}
                 </div>
-              )}
-              {background.earlyLife && (
                 <div>
-                  <span className="text-muted-foreground">Early Life:</span>{' '}
-                  <span className="font-medium">{background.earlyLife}</span>
+                  <span className="text-muted-foreground">Social Class:</span>{' '}
+                  <span className="font-medium">{background.socialClass}</span>
+                </div>
+                {background.upbringing && (
+                  <div>
+                    <span className="text-muted-foreground">Upbringing:</span>{' '}
+                    <span className="font-medium">{background.upbringing}</span>
+                  </div>
+                )}
+                {background.earlyLife && (
+                  <div>
+                    <span className="text-muted-foreground">Early Life:</span>{' '}
+                    <span className="font-medium">{background.earlyLife}</span>
+                  </div>
+                )}
+              </div>
+              
+              {background.startingSkills && background.startingSkills.length > 0 && (
+                <div>
+                  <div className="text-sm font-medium mb-2">Background Skills Available</div>
+                  <div className="flex flex-wrap gap-1">
+                    {background.startingSkills.map((skill: string) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-1 bg-primary/10 rounded text-xs"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-2">
+                    You can choose one of these skills during character creation
+                  </div>
                 </div>
               )}
             </div>

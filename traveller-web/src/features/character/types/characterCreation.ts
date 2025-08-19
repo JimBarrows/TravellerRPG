@@ -9,22 +9,69 @@ export interface CharacterCharacteristics {
   social: number;
 }
 
+// Universal World Profile (UWP) data structure
+export interface UWP {
+  starport: string;
+  size: number;
+  atmosphere: number;
+  hydrosphere: number;
+  population: number;
+  government: number;
+  lawLevel: number;
+  techLevel: number;
+}
+
 export interface CharacterBackground {
   homeworld: string;
+  uwp?: UWP;
   socialClass: 'Lower' | 'Middle' | 'Upper';
   upbringing: string;
   family: string;
   earlyLife: string;
+  startingSkills: string[];
+}
+
+export interface LifeEvent {
+  id: string;
+  description: string;
+  type: 'event' | 'mishap' | 'connection' | 'rival';
+  skillGains?: string[];
+  characteristicModifiers?: Partial<CharacterCharacteristics>;
+  connections?: string[];
+  rivals?: string[];
+  details?: string;
 }
 
 export interface CareerTerm {
+  termNumber: number;
   career: string;
+  branch?: string;
   rank: number;
+  rankTitle: string;
   survived: boolean;
-  skills: string[];
-  events: string[];
-  mishaps?: string;
-  benefits?: string[];
+  commissioned: boolean;
+  advanced: boolean;
+  qualificationRoll?: number;
+  survivalRoll?: number;
+  commissionRoll?: number;
+  advancementRoll?: number;
+  skillsGained: string[];
+  events: LifeEvent[];
+  mishap?: LifeEvent;
+  reenlistRoll?: number;
+  mustered: boolean;
+  benefits: string[];
+  cashReceived: number;
+}
+
+export interface CareerProgression {
+  totalTerms: number;
+  currentAge: number;
+  retiredInvoluntarily: boolean;
+  retiredVoluntarily: boolean;
+  canReenlist: boolean;
+  mustLeave: boolean;
+  mustLeaveReason?: string;
 }
 
 export interface CharacterSkill {
@@ -57,10 +104,16 @@ export interface CharacterCreationData {
   
   // Career History
   careers: CareerTerm[];
+  careerProgression: CareerProgression;
   totalTerms: number;
   
   // Skills
   skills: CharacterSkill[];
+  
+  // Life Events and Connections
+  lifeEvents: LifeEvent[];
+  connections: string[];
+  rivals: string[];
   
   // Equipment
   startingCredits: number;

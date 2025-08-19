@@ -37,26 +37,88 @@ const characterSchema = z.object({
   }),
   background: z.object({
     homeworld: z.string().min(1),
+    uwp: z.object({
+      starport: z.string(),
+      size: z.number(),
+      atmosphere: z.number(),
+      hydrosphere: z.number(),
+      population: z.number(),
+      government: z.number(),
+      lawLevel: z.number(),
+      techLevel: z.number(),
+    }).optional(),
     socialClass: z.enum(['Lower', 'Middle', 'Upper']),
     upbringing: z.string(),
     family: z.string(),
     earlyLife: z.string(),
+    startingSkills: z.array(z.string()),
   }),
   careers: z.array(z.object({
+    termNumber: z.number(),
     career: z.string(),
+    branch: z.string().optional(),
     rank: z.number(),
+    rankTitle: z.string(),
     survived: z.boolean(),
-    skills: z.array(z.string()),
-    events: z.array(z.string()),
-    mishaps: z.string().optional(),
-    benefits: z.array(z.string()).optional(),
+    commissioned: z.boolean(),
+    advanced: z.boolean(),
+    qualificationRoll: z.number().optional(),
+    survivalRoll: z.number().optional(),
+    commissionRoll: z.number().optional(),
+    advancementRoll: z.number().optional(),
+    skillsGained: z.array(z.string()),
+    events: z.array(z.object({
+      id: z.string(),
+      description: z.string(),
+      type: z.enum(['event', 'mishap', 'connection', 'rival']),
+      skillGains: z.array(z.string()).optional(),
+      characteristicModifiers: z.any().optional(),
+      connections: z.array(z.string()).optional(),
+      rivals: z.array(z.string()).optional(),
+      details: z.string().optional(),
+    })),
+    mishap: z.object({
+      id: z.string(),
+      description: z.string(),
+      type: z.enum(['event', 'mishap', 'connection', 'rival']),
+      skillGains: z.array(z.string()).optional(),
+      characteristicModifiers: z.any().optional(),
+      connections: z.array(z.string()).optional(),
+      rivals: z.array(z.string()).optional(),
+      details: z.string().optional(),
+    }).optional(),
+    reenlistRoll: z.number().optional(),
+    mustered: z.boolean(),
+    benefits: z.array(z.string()),
+    cashReceived: z.number(),
   })),
+  careerProgression: z.object({
+    totalTerms: z.number(),
+    currentAge: z.number(),
+    retiredInvoluntarily: z.boolean(),
+    retiredVoluntarily: z.boolean(),
+    canReenlist: z.boolean(),
+    mustLeave: z.boolean(),
+    mustLeaveReason: z.string().optional(),
+  }),
   totalTerms: z.number(),
   skills: z.array(z.object({
     name: z.string(),
     level: z.number(),
     specialty: z.string().optional(),
   })),
+  lifeEvents: z.array(z.object({
+    id: z.string(),
+    description: z.string(),
+    type: z.enum(['event', 'mishap', 'connection', 'rival']),
+    skillGains: z.array(z.string()).optional(),
+    characteristicModifiers: z.any().optional(),
+    connections: z.array(z.string()).optional(),
+    rivals: z.array(z.string()).optional(),
+    details: z.string().optional(),
+  })),
+  connections: z.array(z.string()),
+  rivals: z.array(z.string()),
   startingCredits: z.number(),
   equipment: z.array(z.object({
     id: z.string(),
@@ -92,10 +154,22 @@ const initialCharacterData: CharacterCreationData = {
     upbringing: '',
     family: '',
     earlyLife: '',
+    startingSkills: [],
   },
   careers: [],
+  careerProgression: {
+    totalTerms: 0,
+    currentAge: 18,
+    retiredInvoluntarily: false,
+    retiredVoluntarily: false,
+    canReenlist: true,
+    mustLeave: false,
+  },
   totalTerms: 0,
   skills: [],
+  lifeEvents: [],
+  connections: [],
+  rivals: [],
   startingCredits: 1000,
   equipment: [],
   status: 'draft',
@@ -173,11 +247,11 @@ const CharacterCreationWizard = () => {
   const canProceedToNextStep = async () => {
     // Validate current step fields
     const stepFields = getStepFields(currentStep);
-    const isValid = await trigger(stepFields as string[]);
+    const isValid = await trigger(stepFields);
     return isValid;
   };
 
-  const getStepFields = (step: CreationStep) => {
+  const getStepFields = (step: CreationStep): (keyof CharacterFormData)[] => {
     switch (step) {
       case CreationStep.BASIC_INFO:
         return ['name', 'species', 'gender', 'age'];
@@ -186,7 +260,7 @@ const CharacterCreationWizard = () => {
       case CreationStep.BACKGROUND:
         return ['background'];
       case CreationStep.CAREER:
-        return ['careers', 'totalTerms'];
+        return ['careers', 'careerProgression'];
       case CreationStep.SKILLS:
         return ['skills'];
       case CreationStep.EQUIPMENT:

@@ -37,7 +37,7 @@ const BasicInfoStep = ({ data, updateData }: WizardStepProps) => {
           <select
             {...register('species')}
             className="input w-full"
-            onChange={(e) => updateData({ species: e.target.value })}
+            onChange={(e) => updateData({ species: e.target.value as 'Human' | 'Vargr' | 'Aslan' | 'Other' })}
           >
             {species.map(s => (
               <option key={s} value={s}>{s}</option>
