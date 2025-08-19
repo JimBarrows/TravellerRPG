@@ -9,7 +9,34 @@ export interface Skill {
   description: string;
   specializations?: string[];
   difficulty?: 'Easy' | 'Average' | 'Difficult' | 'Formidable';
+  category?: SkillCategory;
+  usage?: string;
+  maxLevel?: number;
+  hasSpecializations?: boolean;
+  prerequisites?: string[];
+  cascade?: boolean;
 }
+
+export type SkillCategory = 
+  | 'combat'
+  | 'personal'
+  | 'professional'
+  | 'sciences'
+  | 'technical'
+  | 'vehicle'
+  | 'social'
+  | 'knowledge';
+
+export const SKILL_CATEGORIES: Record<SkillCategory, { name: string; description: string }> = {
+  combat: { name: 'Combat', description: 'Fighting skills and weapons training' },
+  personal: { name: 'Personal', description: 'Basic survival and physical skills' },
+  professional: { name: 'Professional', description: 'Career and trade skills' },
+  sciences: { name: 'Sciences', description: 'Scientific knowledge and research' },
+  technical: { name: 'Technical', description: 'Engineering and computer skills' },
+  vehicle: { name: 'Vehicle', description: 'Operation of vehicles and craft' },
+  social: { name: 'Social', description: 'Interaction and communication skills' },
+  knowledge: { name: 'Knowledge', description: 'Academic and cultural knowledge' },
+};
 
 export const SKILLS: Skill[] = [
   // Basic Skills
@@ -42,6 +69,10 @@ export const SKILLS: Skill[] = [
     description: 'Physical fitness and sports',
     specializations: ['Coordination', 'Endurance', 'Strength', 'Flying'],
     difficulty: 'Average',
+    category: 'personal',
+    usage: 'Used for physical challenges, climbing, swimming, and endurance tasks.',
+    maxLevel: 5,
+    hasSpecializations: true,
   },
   {
     id: 'art',
@@ -57,6 +88,10 @@ export const SKILLS: Skill[] = [
     characteristic: 'education',
     description: 'Plotting jumps and interstellar navigation',
     difficulty: 'Difficult',
+    category: 'professional',
+    usage: 'Used to plot courses through space and calculate faster-than-light jumps.',
+    maxLevel: 5,
+    hasSpecializations: false,
   },
   {
     id: 'battle-dress',
@@ -92,6 +127,10 @@ export const SKILLS: Skill[] = [
     characteristic: 'education',
     description: 'Programming and computer operations',
     difficulty: 'Average',
+    category: 'technical',
+    usage: 'Used to program, hack, repair, and operate computer systems.',
+    maxLevel: 5,
+    hasSpecializations: false,
   },
   {
     id: 'deception',
@@ -167,6 +206,10 @@ export const SKILLS: Skill[] = [
     description: 'Ranged weapon combat',
     specializations: ['Archaic', 'Energy', 'Slug'],
     difficulty: 'Average',
+    category: 'combat',
+    usage: 'Used for attacks with firearms, determining accuracy and effectiveness in combat.',
+    maxLevel: 5,
+    hasSpecializations: true,
   },
   {
     id: 'gunner',
@@ -256,6 +299,10 @@ export const SKILLS: Skill[] = [
     description: 'Spacecraft operation',
     specializations: ['Small Craft', 'Spacecraft', 'Capital Ships'],
     difficulty: 'Average',
+    category: 'vehicle',
+    usage: 'Used to fly spacecraft, aircraft, and navigate through space.',
+    maxLevel: 5,
+    hasSpecializations: true,
   },
   {
     id: 'recon',
@@ -367,4 +414,72 @@ export const getSkillDifficultyModifier = (difficulty?: string): number => {
     case 'Formidable': return -4;
     default: return 0;
   }
+};
+
+/**
+ * Get skills by category
+ */
+export const getSkillsByCategory = (category: SkillCategory): Skill[] => {
+  return SKILLS.filter(skill => skill.category === category);
+};
+
+/**
+ * Parse a skill name that might include specialization
+ * Returns { skillId, specialization } or null if not found
+ */
+export const parseSkillName = (skillName: string): { skillId: string; specialization?: string } | null => {
+  // Handle specialization format: "Skill Name (Specialization)"
+  const match = skillName.match(/^(.+?)\s*\((.+)\)$/);
+  
+  if (match) {
+    const [, baseName, specName] = match;
+    const skill = SKILLS.find(s => s.name === baseName.trim());
+    if (skill && skill.specializations?.includes(specName.trim())) {
+      return { skillId: skill.id, specialization: specName.trim() };
+    }
+  }
+  
+  // Handle basic skill name
+  const skill = SKILLS.find(s => s.name === skillName);
+  if (skill) {
+    return { skillId: skill.id };
+  }
+  
+  return null;
+};
+
+/**
+ * Format a skill for display
+ */
+export const formatSkillDisplay = (skillId: string, specialization?: string, level?: number): string => {
+  const skill = getSkillById(skillId);
+  if (!skill) return skillId;
+  
+  let display = skill.name;
+  if (specialization) {
+    display += ` (${specialization})`;
+  }
+  if (level !== undefined) {
+    display += ` ${level}`;
+  }
+  
+  return display;
+};
+
+/**
+ * Get all unique skill names from careers (for integration)
+ */
+export const getAllCareerSkillNames = (): string[] => {
+  const skillNames = new Set<string>();
+  
+  SKILLS.forEach(skill => {
+    skillNames.add(skill.name);
+    if (skill.specializations) {
+      skill.specializations.forEach(spec => {
+        skillNames.add(`${skill.name} (${spec})`);
+      });
+    }
+  });
+  
+  return Array.from(skillNames).sort();
 };
