@@ -1,11 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import dataExportService from './dataExportService';
-import { useAuth } from '../context/AuthContext';
 
-// Mock the auth context
-vi.mock('../context/AuthContext', () => ({
-  useAuth: vi.fn()
+// Mock authService
+vi.mock('./authService', () => ({
+  default: {
+    isAuthenticated: vi.fn(),
+    getAccessToken: vi.fn()
+  }
 }));
+
+import authService from './authService';
 
 // Mock fetch
 global.fetch = vi.fn();
@@ -24,6 +28,10 @@ describe('DataExportService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     fetch.mockClear();
+    
+    // Setup default auth mock responses
+    authService.isAuthenticated.mockReturnValue(true);
+    authService.getAccessToken.mockReturnValue('mock-access-token');
   });
 
   describe('exportUserData', () => {
@@ -251,7 +259,9 @@ describe('DataExportService', () => {
       const emptyData = {};
       const size = dataExportService.getExportFileSize(emptyData);
       
-      expect(size).toBe(0);
+      // Empty object {} stringified is "{}" which has size 2
+      expect(size).toBeGreaterThan(0);
+      expect(size).toBe(2); // "{}" has 2 characters
     });
   });
 

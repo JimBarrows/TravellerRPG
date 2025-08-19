@@ -173,7 +173,7 @@ const CharacterCreationWizard = () => {
   const canProceedToNextStep = async () => {
     // Validate current step fields
     const stepFields = getStepFields(currentStep);
-    const isValid = await trigger(stepFields as any);
+    const isValid = await trigger(stepFields as string[]);
     return isValid;
   };
 

@@ -3,7 +3,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { VerificationForm } from './VerificationForm';
-import { evaluatePasswordStrength } from '../utils/passwordStrength';
+import { 
+  validateRegistrationForm,
+  clearFieldError,
+  hasFieldError,
+  getFieldError 
+} from '../utils/formValidation';
 
 export const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -22,75 +27,10 @@ export const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState('');
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password) => {
-    const userInputs = [formData.email, formData.displayName].filter(Boolean);
-    const analysis = evaluatePasswordStrength(password, userInputs);
-    
-    return {
-      isValid: analysis.isValid,
-      hasUpperCase: analysis.requirements.hasUpperCase,
-      hasLowerCase: analysis.requirements.hasLowerCase,
-      hasNumbers: analysis.requirements.hasNumbers,
-      hasSpecialChar: analysis.requirements.hasSpecialChar,
-      isLongEnough: analysis.requirements.hasMinLength,
-      analysis
-    };
-  };
-
   const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    
-    if (!formData.displayName) {
-      newErrors.displayName = 'Display name is required';
-    }
-    
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else {
-      const passwordValidation = validatePassword(formData.password);
-      if (!passwordValidation.isValid) {
-        // Use enhanced feedback from zxcvbn analysis
-        const { analysis } = passwordValidation;
-        if (analysis.feedback.warning) {
-          newErrors.password = analysis.feedback.warning;
-        } else if (analysis.feedback.suggestions.length > 0) {
-          newErrors.password = analysis.feedback.suggestions[0];
-        } else {
-          // Fallback to basic requirements
-          const requirements = [];
-          if (!passwordValidation.isLongEnough) requirements.push('at least 8 characters');
-          if (!passwordValidation.hasUpperCase) requirements.push('one uppercase letter');
-          if (!passwordValidation.hasLowerCase) requirements.push('one lowercase letter');
-          if (!passwordValidation.hasNumbers) requirements.push('one number');
-          if (!passwordValidation.hasSpecialChar) requirements.push('one special character');
-          newErrors.password = `Password must contain ${requirements.join(', ')}`;
-        }
-      }
-    }
-    
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-    
-    if (!formData.acceptTerms) {
-      newErrors.acceptTerms = 'You must accept the terms and conditions';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const validation = validateRegistrationForm(formData);
+    setErrors(validation.errors);
+    return validation.isValid;
   };
 
   const handleChange = (e) => {
@@ -102,7 +42,7 @@ export const RegistrationForm = () => {
     
     // Clear field error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors(prev => clearFieldError(prev, name));
     }
     setGeneralError('');
   };

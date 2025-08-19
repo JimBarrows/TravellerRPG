@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import type { WizardStepProps } from '../../../types/characterCreation';
 import Button from '../../../../../shared/components/atoms/Button';
 import Card from '../../../../../shared/components/molecules/Card';
 import { getCharacteristicModifier, toUPP } from '../../../utils/diceRoller';
 
 const ReviewStep = ({ data }: WizardStepProps) => {
-  const { handleSubmit } = useFormContext();
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
@@ -72,16 +70,16 @@ Early Life: ${data.background.earlyLife}
 
 CAREER HISTORY
 --------------
-${data.careers.map((career: any) => `${career.career} - Rank ${career.rank}`).join('\n')}
+${data.careers.map((career: { career: string; rank: number }) => `${career.career} - Rank ${career.rank}`).join('\n')}
 Total Terms: ${data.totalTerms}
 
 SKILLS
 ------
-${data.skills.map((skill: any) => `${skill.name}-${skill.level}`).join('\n')}
+${data.skills.map((skill: { name: string; level: number }) => `${skill.name}-${skill.level}`).join('\n')}
 
 EQUIPMENT
 ---------
-${data.equipment.map((item: any) => `${item.name} x${item.quantity}`).join('\n')}
+${data.equipment.map((item: { name: string; quantity: number }) => `${item.name} x${item.quantity}`).join('\n')}
 
 Credits: ${data.startingCredits} Cr
 `;
@@ -108,7 +106,7 @@ Credits: ${data.startingCredits} Cr
   const upp = toUPP(data.characteristics);
   const totalSkills = data.skills?.length || 0;
   const totalEquipment = data.equipment?.length || 0;
-  const totalWeight = data.equipment?.reduce((sum: number, item: any) => sum + (item.weight * item.quantity), 0) || 0;
+  const totalWeight = data.equipment?.reduce((sum: number, item: { weight: number; quantity: number }) => sum + (item.weight * item.quantity), 0) || 0;
 
   return (
     <div className="space-y-6">
@@ -189,7 +187,7 @@ Credits: ${data.startingCredits} Cr
           <div className="p-4">
             <h3 className="font-semibold mb-4">Career History</h3>
             <div className="space-y-2">
-              {data.careers.map((career: any, index: number) => (
+              {data.careers.map((career: { career: string; rank: number; terms: number }, index: number) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <div>
                     <span className="font-medium">{career.career}</span>
@@ -217,7 +215,7 @@ Credits: ${data.startingCredits} Cr
           <div className="p-4">
             <h3 className="font-semibold mb-4">Skills ({totalSkills})</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              {data.skills.map((skill: any, index: number) => (
+              {data.skills.map((skill: { name: string; level: number }, index: number) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <span className="text-sm font-medium">{skill.name}</span>
                   <span className="font-mono font-bold">{skill.level}</span>
@@ -234,7 +232,7 @@ Credits: ${data.startingCredits} Cr
           <div className="p-4">
             <h3 className="font-semibold mb-4">Equipment ({totalEquipment} items, {totalWeight.toFixed(1)}kg)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {data.equipment.map((item: any, index: number) => (
+              {data.equipment.map((item: { name: string; quantity: number; weight: number }, index: number) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <span className="text-sm">
                     {item.name} {item.quantity > 1 && `x${item.quantity}`}
@@ -280,7 +278,7 @@ Credits: ${data.startingCredits} Cr
                 <span>{data.background.earlyLife}</span>
               </div>
             )}
-            {data.careers.map((career: any) => 
+            {data.careers.map((career: { career: string; rank: number }) => 
               career.events?.map((event: string, idx: number) => (
                 <div key={`${career.career}-${idx}`}>
                   <span className="text-muted-foreground">{career.career} Event:</span>{' '}

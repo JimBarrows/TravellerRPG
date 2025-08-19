@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { 
+  validateLoginForm,
+  validatePasswordResetForm,
+  clearFieldError,
+  hasFieldError,
+  getFieldError 
+} from '../utils/formValidation';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -19,26 +26,10 @@ export const LoginForm = () => {
   const [resetMessage, setResetMessage] = useState('');
   const [generalError, setGeneralError] = useState('');
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const validation = validateLoginForm(formData);
+    setErrors(validation.errors);
+    return validation.isValid;
   };
 
   const handleChange = (e) => {
@@ -50,7 +41,7 @@ export const LoginForm = () => {
     
     // Clear field error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors(prev => clearFieldError(prev, name));
     }
     setGeneralError('');
   };
@@ -89,8 +80,9 @@ export const LoginForm = () => {
   const handlePasswordReset = async (e) => {
     e.preventDefault();
     
-    if (!validateEmail(resetEmail)) {
-      setResetMessage('Please enter a valid email address');
+    const validation = validatePasswordResetForm(resetEmail);
+    if (!validation.isValid) {
+      setResetMessage(validation.errors.email || 'Please enter a valid email address');
       return;
     }
     

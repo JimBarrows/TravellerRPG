@@ -1,6 +1,6 @@
 export default {
-  paths: ['../features/**/*.feature'],
-  import: ['../features/**/*.js'],
+  paths: ['features/**/*.feature'],
+  import: ['src/test/steps/**/*.js'],
   format: [
     'progress',
     'json:test-results/cucumber-report.json',

@@ -1,0 +1,10 @@
+{
+  "name": "shared-deps-layer",
+  "version": "1.0.0",
+  "description": "Shared dependencies for Lambda functions",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.0.0"
+  }
+}

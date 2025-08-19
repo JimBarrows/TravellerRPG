@@ -249,9 +249,9 @@ const BackgroundStep = ({ data, updateData }: WizardStepProps) => {
             })}
           </div>
           
-          {background.socialClass && (
+          {background.socialClass && background.socialClass in SOCIAL_CLASSES && (
             <div className="mt-4 flex flex-wrap gap-1">
-              {SOCIAL_CLASSES[background.socialClass].traits.map((trait) => (
+              {SOCIAL_CLASSES[background.socialClass as keyof typeof SOCIAL_CLASSES].traits.map((trait: string) => (
                 <span
                   key={trait}
                   className="px-2 py-1 bg-muted rounded text-xs"

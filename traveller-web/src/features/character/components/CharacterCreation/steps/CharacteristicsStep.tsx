@@ -155,7 +155,8 @@ const CharacteristicsStep = ({ data, updateData }: WizardStepProps) => {
     updateData({ characteristics: newCharacteristics });
   };
 
-  const totalCharacteristicPoints = Object.values(characteristics).reduce((sum, val) => sum + val, 0);
+  const characteristicValues = Object.values(characteristics) as number[];
+  const totalCharacteristicPoints = characteristicValues.reduce((sum, val) => sum + val, 0);
   const averageCharacteristic = (totalCharacteristicPoints / 6).toFixed(1);
   const upp = toUPP(characteristics);
 
@@ -283,7 +284,8 @@ const CharacteristicsStep = ({ data, updateData }: WizardStepProps) => {
             <h3 className="font-semibold mb-3">Roll History</h3>
             <div className="space-y-2">
               {rollHistory.map((roll, index) => {
-                const total = Object.values(roll).reduce((sum, val) => sum + val, 0);
+                const rollValues = Object.values(roll) as number[];
+                const total = rollValues.reduce((sum, val) => sum + val, 0);
                 const isCurrentRoll = index === currentRollSet;
                 
                 return (
@@ -328,14 +330,14 @@ const CharacteristicsStep = ({ data, updateData }: WizardStepProps) => {
           </div>
           
           <div>
-            {Object.entries(characteristics).map(([name, value]) => (
+            {(Object.entries(characteristics) as [keyof CharacterCharacteristics, number][]).map(([name, value]) => (
               <CharacteristicRow
                 key={name}
                 name={name}
                 value={value}
-                onChange={(newValue) => handleCharacteristicChange(name as keyof CharacterCharacteristics, newValue)}
-                onRoll={() => handleRollSingle(name as keyof CharacterCharacteristics)}
-                description={characteristicDescriptions[name as keyof CharacterCharacteristics]}
+                onChange={(newValue) => handleCharacteristicChange(name, newValue)}
+                onRoll={() => handleRollSingle(name)}
+                description={characteristicDescriptions[name]}
                 manualMode={generationMode === 'manual' || generationMode === 'point-buy'}
               />
             ))}
@@ -363,8 +365,8 @@ const CharacteristicsStep = ({ data, updateData }: WizardStepProps) => {
             <div>
               <div className="text-sm text-muted-foreground">Total Modifier</div>
               <div className="text-xl font-bold">
-                {Object.values(characteristics).reduce((sum, val) => sum + getCharacteristicModifier(val), 0) >= 0 ? '+' : ''}
-                {Object.values(characteristics).reduce((sum, val) => sum + getCharacteristicModifier(val), 0)}
+                {characteristicValues.reduce((sum, val) => sum + getCharacteristicModifier(val), 0) >= 0 ? '+' : ''}
+                {characteristicValues.reduce((sum, val) => sum + getCharacteristicModifier(val), 0)}
               </div>
             </div>
           </div>
