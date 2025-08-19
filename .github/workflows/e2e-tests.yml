@@ -1,0 +1,458 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_tags:
+        description: 'Cucumber tags to run (e.g., @smoke, @regression)'
+        required: false
+        default: '@smoke'
+      browsers:
+        description: 'Browsers to test (chromium,firefox,webkit)'
+        required: false
+        default: 'chromium'
+
+env:
+  NODE_VERSION: '20'
+  JAVA_VERSION: '21'
+  API_URL: http://localhost:8080
+  BASE_URL: http://localhost:5173
+  HEADLESS: true
+  CI: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set test matrix
+        id: set-matrix
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            # Nightly runs - full matrix
+            echo "matrix={\"browser\":[\"chromium\",\"firefox\",\"webkit\"],\"tags\":[\"@smoke\",\"@regression\"]}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            # PR runs - smoke tests only
+            echo "matrix={\"browser\":[\"chromium\"],\"tags\":[\"@smoke\"]}" >> $GITHUB_OUTPUT
+          else
+            # Push to main/develop - broader coverage
+            echo "matrix={\"browser\":[\"chromium\",\"firefox\"],\"tags\":[\"@smoke\",\"@regression\"]}" >> $GITHUB_OUTPUT
+          fi
+
+  api-service:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_USER: testuser
+          POSTGRES_DB: traveller_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Build API service
+        working-directory: ./api
+        run: |
+          ./gradlew build -x test
+          echo "API_JAR_PATH=$(find build/libs -name '*.jar' | head -n 1)" >> $GITHUB_ENV
+
+      - name: Start API service
+        working-directory: ./api
+        env:
+          SPRING_PROFILES_ACTIVE: test
+          DATABASE_URL: postgresql://testuser:testpass@localhost:5432/traveller_test
+        run: |
+          java -jar ${{ env.API_JAR_PATH }} &
+          echo $! > api.pid
+          
+      - name: Wait for API to be ready
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done'
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-service
+          path: |
+            api/build/libs/*.jar
+            api/api.pid
+          retention-days: 1
+
+  web-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ui-player/package-lock.json
+
+      - name: Install web dependencies
+        working-directory: ./ui-player
+        run: npm ci
+
+      - name: Build web application
+        working-directory: ./ui-player
+        run: npm run build
+
+      - name: Upload web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: ui-player/dist
+          retention-days: 1
+
+  e2e-tests:
+    needs: [setup, api-service, web-service]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_USER: testuser
+          POSTGRES_DB: traveller_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Download API artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: api-service
+          path: ./api
+
+      - name: Download web build
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: ./ui-player/dist
+
+      - name: Install E2E dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Start API service
+        working-directory: ./api
+        env:
+          SPRING_PROFILES_ACTIVE: test
+          DATABASE_URL: postgresql://testuser:testpass@localhost:5432/traveller_test
+        run: |
+          java -jar build/libs/*.jar &
+          echo $! > api.pid
+
+      - name: Start web service
+        working-directory: ./ui-player
+        run: |
+          npm install -g serve
+          serve -s dist -l 5173 &
+          echo $! > web.pid
+
+      - name: Wait for services to be ready
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:5173; do sleep 2; done'
+
+      - name: Set up test data
+        run: |
+          node e2e/support/setup-test-data.js
+        env:
+          API_URL: ${{ env.API_URL }}
+
+      - name: Run E2E tests
+        run: |
+          npm run e2e:test
+        env:
+          TAGS: ${{ matrix.tags }}
+          BROWSER: ${{ matrix.browser }}
+          API_URL: ${{ env.API_URL }}
+          BASE_URL: ${{ env.BASE_URL }}
+          HEADLESS: ${{ env.HEADLESS }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-results-${{ matrix.browser }}-${{ matrix.tags }}
+          path: |
+            e2e-results/
+            !e2e-results/node_modules
+          retention-days: 7
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-${{ matrix.browser }}-${{ matrix.tags }}
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Clean up test data
+        if: always()
+        run: |
+          node e2e/support/cleanup-test-data.js --force
+        env:
+          API_URL: ${{ env.API_URL }}
+
+      - name: Stop services
+        if: always()
+        run: |
+          if [ -f ./api/api.pid ]; then
+            kill $(cat ./api/api.pid) || true
+          fi
+          if [ -f ./ui-player/web.pid ]; then
+            kill $(cat ./ui-player/web.pid) || true
+          fi
+
+  mobile-e2e-tests:
+    needs: [setup, api-service, web-service]
+    runs-on: ubuntu-latest
+    if: contains(github.event_name, 'schedule') || contains(github.event.inputs.test_tags, 'mobile')
+    
+    strategy:
+      matrix:
+        device: ['iPhone 12', 'Pixel 5', 'iPad Pro']
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_USER: testuser
+          POSTGRES_DB: traveller_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Setup services
+        run: |
+          # Start API
+          cd api && java -jar ../artifacts/api-service/build/libs/*.jar &
+          # Start web with mobile-optimized build
+          cd ui-player && serve -s ../artifacts/web-build -l 5173 &
+
+      - name: Install dependencies and browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run mobile E2E tests
+        run: |
+          TAGS="@mobile" DEVICE="${{ matrix.device }}" npm run e2e:test
+        env:
+          API_URL: ${{ env.API_URL }}
+          BASE_URL: ${{ env.BASE_URL }}
+
+      - name: Upload mobile test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-e2e-results-${{ matrix.device }}
+          path: e2e-results/
+          retention-days: 7
+
+  performance-tests:
+    needs: [setup, api-service, web-service]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || contains(github.event.inputs.test_tags, 'performance')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup services
+        run: |
+          # Download and start services
+          # Setup performance monitoring
+          echo "Setting up performance tests..."
+
+      - name: Run performance E2E tests
+        run: |
+          TAGS="@performance" npm run e2e:test
+        env:
+          API_URL: ${{ env.API_URL }}
+          BASE_URL: ${{ env.BASE_URL }}
+          PERFORMANCE_MONITORING: true
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-test-results
+          path: e2e-results/performance/
+          retention-days: 14
+
+  report:
+    needs: [e2e-tests, mobile-e2e-tests, performance-tests]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download all test results
+        uses: actions/download-artifact@v4
+        with:
+          path: all-results
+
+      - name: Combine test reports
+        run: |
+          mkdir -p combined-results
+          
+          # Combine Cucumber JSON reports
+          find all-results -name "cucumber-report.json" -exec cat {} \; | \
+            jq -s 'add' > combined-results/combined-cucumber-report.json
+          
+          # Generate combined HTML report
+          npx cucumber-html-reporter \
+            --input combined-results/combined-cucumber-report.json \
+            --output combined-results/combined-report.html \
+            --theme bootstrap
+
+      - name: Upload combined results
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-e2e-results
+          path: combined-results/
+          retention-days: 30
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const report = JSON.parse(fs.readFileSync('combined-results/combined-cucumber-report.json', 'utf8'));
+              
+              let totalScenarios = 0;
+              let passedScenarios = 0;
+              let failedScenarios = 0;
+              
+              report.forEach(feature => {
+                feature.elements.forEach(scenario => {
+                  totalScenarios++;
+                  if (scenario.steps.every(step => step.result.status === 'passed')) {
+                    passedScenarios++;
+                  } else {
+                    failedScenarios++;
+                  }
+                });
+              });
+              
+              const body = `## E2E Test Results 🧪
+              
+              | Status | Count |
+              |--------|-------|
+              | ✅ Passed | ${passedScenarios} |
+              | ❌ Failed | ${failedScenarios} |
+              | 📊 Total | ${totalScenarios} |
+              
+              **Success Rate: ${Math.round((passedScenarios / totalScenarios) * 100)}%**
+              
+              [View detailed results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            } catch (error) {
+              console.log('Could not create PR comment:', error.message);
+            }

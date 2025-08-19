@@ -1,5 +1,4 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from 'vitest';
 
 // Mock data
 let mockUser = {

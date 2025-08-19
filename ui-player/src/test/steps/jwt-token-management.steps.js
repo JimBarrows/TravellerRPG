@@ -1,5 +1,4 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from 'vitest';
 import { simpleTokenManager, isTokenValid, shouldRefreshToken } from '../../features/auth/utils/tokenUtils.simple.js';
 
 // Test tokens

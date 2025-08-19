@@ -1,13 +1,12 @@
 import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { expect } from '@jest/globals';
 import { AuthProvider } from '../../features/auth/context/AuthContext';
 import { RegistrationForm } from '../../features/auth/components/RegistrationForm';
 import { LoginForm } from '../../features/auth/components/LoginForm';
-import { ProfilePage } from '../../features/profile/pages/ProfilePage';
 import { mockCognitoService } from '../mocks/cognitoService';
 import { TestRouter } from '../support/TestRouter';
+import { createMockFn } from '../cucumber-mocks.js';
 
 let container;
 let user;
@@ -18,7 +17,7 @@ Before(function() {
   // Set up test environment
   user = userEvent.setup();
   authService = mockCognitoService();
-  emailService = { sendEmail: jest.fn() };
+  emailService = { sendEmail: createMockFn() };
   this.testData = {};
 });
 
@@ -27,7 +26,10 @@ After(function() {
   if (container) {
     container.unmount();
   }
-  jest.clearAllMocks();
+  // Clear mocks if needed
+  if (emailService.sendEmail.mockClear) {
+    emailService.sendEmail.mockClear();
+  }
 });
 
 // Background steps

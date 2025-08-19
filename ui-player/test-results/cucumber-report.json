@@ -1,0 +1,5057 @@
+[
+  {
+    "description": "  As a user of the Traveller RPG application\n  I want to manage my account and subscription tier\n  So that I can control my data and access appropriate features",
+    "elements": [
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;view-account-information",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "View account information",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 482874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 37374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I have an active account",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:240"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 31874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I view my account page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:244"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 29457
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "I should see my user information",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:229"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 120041
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I should see my subscription tier status",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:280"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 45707,
+              "error_message": "Error: Expected undefined to be truthy\n    at Object.toBeTruthy (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:18:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:281:29)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "I should see my account creation date",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:284"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "I should see my last login date",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:288"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;export-user-data",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Export user data",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 23750
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "I want to export my account data",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:248"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 74332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "I click the \"Export Data\" button",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:252"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 82791
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "I should see a confirmation dialog",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:293"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 33459
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "I confirm the data export",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:256"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "the system should prepare my data for download",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:297"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 45708
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "I should receive a download link for my data",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:301"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 26250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "the exported file should contain all my user data in JSON format",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:305"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22167
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;account-deletion-with-confirmation",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "Account deletion with confirmation",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14707
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 51916
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "I want to delete my account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "I click the \"Delete Account\" button",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:252"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "I should see a detailed confirmation dialog",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:309"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 31,
+            "name": "I should be warned about data loss",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:313"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 32,
+            "name": "I type \"DELETE\" to confirm",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:260"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "I click the final delete button",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:264"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 34,
+            "name": "my account should be scheduled for deletion",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:317"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "I should be logged out immediately",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:321"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "I should receive a confirmation email",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:325"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;subscription-tier-display-for-free-tier",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Subscription tier display for Free tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 39,
+            "name": "I have a Free tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 40,
+            "name": "I view my subscription status",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:268"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 41,
+            "name": "I should see \"Free\" as my current tier",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:234"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 42,
+            "name": "I should see the limitations of the Free tier",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "I should see an option to upgrade",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;subscription-tier-display-for-standard-tier",
+        "keyword": "Scenario",
+        "line": 45,
+        "name": "Subscription tier display for Standard tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14165
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13792
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 46,
+            "name": "I have a Standard tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 47,
+            "name": "I view my subscription status",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:268"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "I should see \"Standard\" as my current tier",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:234"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 49,
+            "name": "I should see the benefits of the Standard tier",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "I should see options to upgrade or downgrade",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;subscription-tier-display-for-premium-tier",
+        "keyword": "Scenario",
+        "line": 52,
+        "name": "Subscription tier display for Premium tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13417
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 53,
+            "name": "I have a Premium tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 54,
+            "name": "I view my subscription status",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:268"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 55,
+            "name": "I should see \"Premium\" as my current tier",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:234"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 56,
+            "name": "I should see all Premium benefits",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "I should see an option to downgrade",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;upgrade-subscription-tier",
+        "keyword": "Scenario",
+        "line": 59,
+        "name": "Upgrade subscription tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "I have a Free tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "I click \"Upgrade to Standard\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "I should see the pricing information",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "I should see payment options",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "I complete the payment process",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "my subscription should be upgraded to Standard",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 66,
+            "name": "I should see the updated tier status",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;downgrade-subscription-tier",
+        "keyword": "Scenario",
+        "line": 68,
+        "name": "Downgrade subscription tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13958
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14041
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 69,
+            "name": "I have a Premium tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 70,
+            "name": "I click \"Downgrade to Standard\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 71,
+            "name": "I should see a confirmation dialog about losing features",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 72,
+            "name": "I confirm the downgrade",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 73,
+            "name": "my subscription should be downgraded to Standard",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 74,
+            "name": "I should see the updated tier status",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 75,
+            "name": "the downgrade should take effect at the next billing cycle",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;access-control-based-on-subscription-tier",
+        "keyword": "Scenario",
+        "line": 77,
+        "name": "Access control based on subscription tier",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 35665
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17249
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 78,
+            "name": "I have a Free tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 79,
+            "name": "I try to access a Premium feature",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:272"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 80,
+            "name": "I should see an upgrade prompt",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 81,
+            "name": "the feature should not be available",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "But ",
+            "line": 82,
+            "name": "when I have a Premium tier subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 83,
+            "name": "I try to access the same feature",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 84,
+            "name": "the feature should be fully available",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-management-and-subscription-tiers;payment-method-management",
+        "keyword": "Scenario",
+        "line": 86,
+        "name": "Payment method management",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged into the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:182"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16915
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I am on the account management page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:187"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14415
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 87,
+            "name": "I have a paid subscription",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 88,
+            "name": "I view my payment methods",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:276"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 89,
+            "name": "I should see my current payment method",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 90,
+            "name": "I should be able to update my payment method",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 91,
+            "name": "I add a new payment method",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 92,
+            "name": "it should be saved securely",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 93,
+            "name": "I should be able to set it as the default method",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "account-management-and-subscription-tiers",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Account Management and Subscription Tiers",
+    "tags": [],
+    "uri": "features/auth/account-management.feature"
+  },
+  {
+    "description": "  As a user of the Traveller RPG application\n  I want secure JWT token management with automatic refresh\n  So that my authentication state persists safely and seamlessly",
+    "elements": [
+      {
+        "description": "",
+        "id": "jwt-token-management;secure-token-storage",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Secure token storage",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 38165
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20957
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I have valid JWT tokens",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:174"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 26541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I enable \"remember me\" functionality",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:427"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19958
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "my tokens should be stored securely in encrypted local storage",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:460"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 27374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "when I disable \"remember me\" functionality",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "my tokens should be stored only in session storage",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:464"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;token-validation-and-expiration-checking",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Token validation and expiration checking",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 26124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13082
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "I have a JWT token with known expiration",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:407"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 21124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 19,
+            "name": "I check if the token is valid",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:435"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 20,
+            "name": "the system should correctly identify valid tokens",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:468"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 34874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "the system should correctly identify expired tokens",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:472"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 44249,
+              "error_message": "Error: Expected undefined to be truthy\n    at Object.toBeTruthy (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:18:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:473:36)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "the system should calculate time until expiration",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:476"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;automatic-token-refresh",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "Automatic token refresh",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14542
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20916
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "I have a token that is about to expire",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:411"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20292
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "the token reaches the refresh threshold",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:439"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "the system should automatically refresh the token",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:480"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "the new token should be stored securely",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:484"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 27957,
+              "error_message": "Error: Expected undefined to be truthy\n    at Object.toBeTruthy (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:18:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:485:38)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "my session should continue without interruption",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:488"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;session-timeout-warning",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Session timeout warning",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13582
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12416
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 32,
+            "name": "I have an active session",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:415"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 33,
+            "name": "my token is about to expire in 5 minutes",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:419"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19292
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 34,
+            "name": "I should see a session timeout warning notification",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:492"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19749
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "I should have options to extend my session or logout",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:496"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18582
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;failed-token-refresh-handling",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "Failed token refresh handling",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12666
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12292
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "I have an expired refresh token",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:423"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18208
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "the system attempts to refresh the access token",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:443"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "the refresh should fail gracefully",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:500"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "I should be redirected to the login page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:504"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 42,
+            "name": "all stored tokens should be cleared",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:508"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18792
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;authentication-state-persistence-across-page-reloads",
+        "keyword": "Scenario",
+        "line": 44,
+        "name": "Authentication state persistence across page reloads",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12583
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12333
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "I am authenticated with a valid token",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "I reload the page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:447"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "my authentication state should be restored",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:512"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 48,
+            "name": "my user information should be available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:516"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 49,
+            "name": "I should not need to login again",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:520"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "jwt-token-management;api-request-authentication-headers",
+        "keyword": "Scenario",
+        "line": 51,
+        "name": "API request authentication headers",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am using the Traveller RPG application",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 11333
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the token management system is initialized",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:170"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 11000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 52,
+            "name": "I am authenticated",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 53,
+            "name": "I make an API request",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:451"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 54,
+            "name": "the request should include the proper Authorization header",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:524"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 55,
+            "name": "when I receive a 401 response",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "the system should attempt token refresh",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:528"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "retry the original request with the new token",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:532"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "jwt-token-management",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "JWT Token Management",
+    "tags": [],
+    "uri": "features/auth/jwt-token-management.feature"
+  },
+  {
+    "description": "  As a logged-in user\n  I want to manage my profile through a user-friendly interface\n  So that I can keep my information up to date and customize my account",
+    "elements": [
+      {
+        "description": "",
+        "id": "profile-management-ui;display-current-profile-information",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Display current profile information",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 50583
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "I should see my email \"john.doe@example.com\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "I should see my display name \"John Doe\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "I should see my current timezone \"America/New_York\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I should see my account creation date",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:284"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "I should see my subscription tier \"Free\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "I should see my current avatar or a default avatar placeholder",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;update-display-name-successfully",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Update display name successfully",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19542
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 19,
+            "name": "I click on the display name edit button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "I change my display name to \"Captain John\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "I click save changes",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "I should see a success message \"Profile updated successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "my display name should be updated to \"Captain John\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "the page should reload with the updated information",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;upload-new-avatar-image",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "Upload new avatar image",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18082
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "I click on the avatar upload button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "I select an image file \"avatar.jpg\" that is less than 5MB",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "the image is in a valid format (JPG, PNG, GIF)",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "I should see a preview of the cropped image",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 31,
+            "name": "I confirm the avatar upload",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 32,
+            "name": "I should see a loading indicator",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "the avatar should be uploaded to S3",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "my profile should display the new avatar",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "I should see a success message \"Avatar updated successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;upload-avatar-with-invalid-file-size",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "Upload avatar with invalid file size",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 38,
+            "name": "I click on the avatar upload button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 39,
+            "name": "I select an image file that is larger than 5MB",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "I should see an error message \"File size must be less than 5MB\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "the upload should be rejected",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;upload-avatar-with-invalid-format",
+        "keyword": "Scenario",
+        "line": 43,
+        "name": "Upload avatar with invalid format",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 44,
+            "name": "I click on the avatar upload button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 45,
+            "name": "I select a file \"document.pdf\" with an invalid format",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 46,
+            "name": "I should see an error message \"Please select a valid image file (JPG, PNG, GIF)\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 47,
+            "name": "the upload should be rejected",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;change-timezone-setting",
+        "keyword": "Scenario",
+        "line": 49,
+        "name": "Change timezone setting",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 50,
+            "name": "I click on the timezone dropdown",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "I select \"America/Los_Angeles\" from the timezone list",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 52,
+            "name": "I click save changes",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 53,
+            "name": "I should see a success message \"Timezone updated successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 54,
+            "name": "my timezone should be updated to \"America/Los_Angeles\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 55,
+            "name": "all timestamps should display in the new timezone",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;update-email-address-with-verification",
+        "keyword": "Scenario",
+        "line": 57,
+        "name": "Update email address with verification",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 36042
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 58,
+            "name": "I click on the email edit button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 59,
+            "name": "I change my email to \"john.doe.updated@example.com\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 60,
+            "name": "I click save changes",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 61,
+            "name": "I should see a message \"Verification code sent to john.doe.updated@example.com\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 62,
+            "name": "I should see a verification code input field",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 63,
+            "name": "I enter the correct verification code \"123456\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "I click verify",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "I should see a success message \"Email updated successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 66,
+            "name": "my email should be updated to \"john.doe.updated@example.com\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;change-password-with-validation",
+        "keyword": "Scenario",
+        "line": 68,
+        "name": "Change password with validation",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 69,
+            "name": "I click on the \"Change Password\" button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 70,
+            "name": "I should see a password change form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 71,
+            "name": "I enter \"SecurePass123!\" as my current password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 72,
+            "name": "I enter \"NewSecurePass456!\" as my new password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 73,
+            "name": "I enter \"NewSecurePass456!\" as my password confirmation",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 74,
+            "name": "I should see a password strength indicator showing \"Strong\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:218"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 75,
+            "name": "I submit the password change form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 76,
+            "name": "I should see a success message \"Password changed successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 77,
+            "name": "I should receive an email notification about the password change",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;change-password-with-weak-new-password",
+        "keyword": "Scenario",
+        "line": 79,
+        "name": "Change password with weak new password",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 99209
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 80,
+            "name": "I click on the \"Change Password\" button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 81,
+            "name": "I enter \"SecurePass123!\" as my current password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 82,
+            "name": "I enter \"weak\" as my new password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 83,
+            "name": "I should see a password strength indicator showing \"Weak\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:218"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "I should see validation errors about password requirements",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 85,
+            "name": "the submit button should be disabled",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;change-password-with-mismatched-confirmation",
+        "keyword": "Scenario",
+        "line": 87,
+        "name": "Change password with mismatched confirmation",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22542
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 88,
+            "name": "I click on the \"Change Password\" button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 89,
+            "name": "I enter \"SecurePass123!\" as my current password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 90,
+            "name": "I enter \"NewSecurePass456!\" as my new password",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 91,
+            "name": "I enter \"DifferentPassword!\" as my password confirmation",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 92,
+            "name": "I should see an error message \"Passwords do not match\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 93,
+            "name": "the submit button should be disabled",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;view-connected-social-accounts",
+        "keyword": "Scenario",
+        "line": 95,
+        "name": "View connected social accounts",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15416
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 96,
+            "name": "I have connected social accounts \"Google, Apple\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 97,
+            "name": "I scroll to the social accounts section",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 98,
+            "name": "I should see my connected Google account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 99,
+            "name": "I should see my connected Apple account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 100,
+            "name": "I should see options to disconnect each account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 101,
+            "name": "I should see options to connect additional social providers",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;disconnect-social-account",
+        "keyword": "Scenario",
+        "line": 103,
+        "name": "Disconnect social account",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13666
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 104,
+            "name": "I have a connected Google account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 105,
+            "name": "I click on \"Disconnect\" next to my Google account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 106,
+            "name": "I should see a confirmation dialog \"Are you sure you want to disconnect your Google account?\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 107,
+            "name": "I confirm the disconnection",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 108,
+            "name": "I should see a success message \"Google account disconnected successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 109,
+            "name": "the Google account should no longer appear in my connected accounts",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;connect-new-social-account",
+        "keyword": "Scenario",
+        "line": 111,
+        "name": "Connect new social account",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 112,
+            "name": "I have no connected Facebook account",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 113,
+            "name": "I click on \"Connect Facebook\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:362"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 114,
+            "name": "I should be redirected to Facebook's authorization page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 115,
+            "name": "I authorize the connection",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 116,
+            "name": "I should be redirected back to my profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 117,
+            "name": "I should see Facebook in my connected accounts",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 118,
+            "name": "I should see a success message \"Facebook account connected successfully\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;edit-profile-with-network-error",
+        "keyword": "Scenario",
+        "line": 120,
+        "name": "Edit profile with network error",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 121,
+            "name": "I change my display name to \"Network Test\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 122,
+            "name": "I click save changes",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 123,
+            "name": "a network error occurs",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 124,
+            "name": "I should see an error message \"Unable to save changes. Please check your connection and try again.\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 125,
+            "name": "my changes should not be saved",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 126,
+            "name": "the form should remain in edit mode",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;avatar-upload-with-network-error",
+        "keyword": "Scenario",
+        "line": 128,
+        "name": "Avatar upload with network error",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13040
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 129,
+            "name": "I click on the avatar upload button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 130,
+            "name": "I select a valid image file \"avatar.jpg\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 131,
+            "name": "I confirm the avatar upload",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 132,
+            "name": "a network error occurs during upload",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 133,
+            "name": "I should see an error message \"Upload failed. Please try again.\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 134,
+            "name": "the upload should be cancelled",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 135,
+            "name": "my avatar should remain unchanged",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;navigate-away-with-unsaved-changes",
+        "keyword": "Scenario",
+        "line": 137,
+        "name": "Navigate away with unsaved changes",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13165
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 138,
+            "name": "I change my display name to \"Unsaved Changes\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 139,
+            "name": "I attempt to navigate away from the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 140,
+            "name": "I should see a confirmation dialog \"You have unsaved changes. Are you sure you want to leave?\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 141,
+            "name": "I click \"Stay on page\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 142,
+            "name": "I should remain on the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 143,
+            "name": "my changes should still be in the form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;auto-save-profile-changes",
+        "keyword": "Scenario",
+        "line": 145,
+        "name": "Auto-save profile changes",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 146,
+            "name": "I change my display name to \"Auto Save Test\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 147,
+            "name": "I wait for 3 seconds",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 148,
+            "name": "I should see a small indicator showing \"Changes saved\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 149,
+            "name": "my display name should be automatically saved",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "profile-management-ui;profile-accessibility-features",
+        "keyword": "Scenario",
+        "line": 151,
+        "name": "Profile accessibility features",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am logged in as \"john.doe@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:146"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I navigate to the profile page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 152,
+            "name": "I navigate using only keyboard controls",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 153,
+            "name": "all form fields should be reachable with Tab key",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 154,
+            "name": "all buttons should be activatable with Enter or Space",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 155,
+            "name": "screen reader announcements should provide context for changes",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 156,
+            "name": "error messages should be announced by screen readers",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "profile-management-ui",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Profile Management UI",
+    "tags": [],
+    "uri": "features/auth/profile-management.feature"
+  },
+  {
+    "description": "  As a new user\n  I want to register for an account with email verification\n  So that I can securely access the Traveller RPG platform",
+    "elements": [
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;successful-user-registration-with-valid-information",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Successful user registration with valid information",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 36167
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 29042
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "I enter a valid email \"player@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 28375
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 28374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "I enter a strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 24292
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I confirm the password correctly",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22582
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "I accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 271584
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "I should see a verification code entry form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:196"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 27959
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "I should see a message indicating verification code was sent to my email",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:201"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15541
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-enters-invalid-email-format",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "User enters invalid email format",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "I enter an invalid email \"invalid-email\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:43"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20791
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "I enter a strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12583
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "I confirm the password correctly",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9292
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "I accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8915
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 26,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 37541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "I should see an error message \"Please enter a valid email\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 35665
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "the form should not be submitted",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:213"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16875
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-enters-weak-password",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "User enters weak password",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8582
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 31,
+            "name": "I enter a valid email \"player@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12749
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12458
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "I enter a weak password \"123\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 21333
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "I confirm the password correctly",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9082
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "I accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9167
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 30124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "I should see a password strength indicator showing \"weak\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:218"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22707
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 38,
+            "name": "I should see an error message about password requirements",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 39,
+            "name": "the form should not be submitted",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:213"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-enters-mismatched-passwords",
+        "keyword": "Scenario",
+        "line": 41,
+        "name": "User enters mismatched passwords",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8708
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9166
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 42,
+            "name": "I enter a valid email \"player@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12707
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "I enter a strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12375
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 45,
+            "name": "I enter a different confirm password \"DifferentPass456!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:63"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20916
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 46,
+            "name": "I accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8832
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 47,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22125
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "I should see an error message \"Passwords do not match\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14457
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 49,
+            "name": "the form should not be submitted",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:213"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 20833,
+              "error_message": "Error: Expected 2 to be 1\n    at Object.toBe (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:8:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:215:40)"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-does-not-accept-terms-and-conditions",
+        "keyword": "Scenario",
+        "line": 51,
+        "name": "User does not accept terms and conditions",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10208
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 52,
+            "name": "I enter a valid email \"player@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12957
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 53,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 33374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 54,
+            "name": "I enter a strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17291
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 55,
+            "name": "I confirm the password correctly",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10750
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 56,
+            "name": "I do not accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:71"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 24833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 48625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 58,
+            "name": "I should see an error message \"You must accept the terms and conditions\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 40041
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 59,
+            "name": "the form should not be submitted",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:213"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 20666,
+              "error_message": "Error: Expected 2 to be 1\n    at Object.toBe (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:8:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:215:40)"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-successfully-verifies-email-with-correct-code",
+        "keyword": "Scenario",
+        "line": 61,
+        "name": "User successfully verifies email with correct code",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12083
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 62,
+            "name": "I have completed the registration form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "I am on the verification page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "I enter the correct verification code \"123456\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 65,
+            "name": "I submit the verification form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:358"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 66,
+            "name": "I should be automatically signed in",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:370"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 67,
+            "name": "I should be redirected to the dashboard",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:374"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-enters-invalid-verification-code",
+        "keyword": "Scenario",
+        "line": 69,
+        "name": "User enters invalid verification code",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9416
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10416
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 70,
+            "name": "I have completed the registration form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 71,
+            "name": "I am on the verification page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 72,
+            "name": "I enter an invalid verification code \"000000\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 73,
+            "name": "I submit the verification form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:358"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 74,
+            "name": "I should see an error message about invalid verification code",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 75,
+            "name": "I should remain on the verification page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;user-requests-new-verification-code",
+        "keyword": "Scenario",
+        "line": 77,
+        "name": "User requests new verification code",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6750
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8541
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 78,
+            "name": "I have completed the registration form",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 79,
+            "name": "I am on the verification page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 80,
+            "name": "I click \"Resend Code\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 81,
+            "name": "I should see a message that a new code has been sent",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 82,
+            "name": "the resend button should be temporarily disabled",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;registration-fails-when-email-already-exists",
+        "keyword": "Scenario",
+        "line": 84,
+        "name": "Registration fails when email already exists",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7208
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 85,
+            "name": "an account with email \"existing@example.com\" already exists",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 44499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 86,
+            "name": "I enter the email \"existing@example.com\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 87,
+            "name": "I enter a display name \"Test Player\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:47"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 88,
+            "name": "I enter a strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:51"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 89,
+            "name": "I confirm the password correctly",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:59"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 90,
+            "name": "I accept the terms and conditions",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:67"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 91,
+            "name": "I submit the registration form",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:75"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 92,
+            "name": "I should see an error message \"An account with this email already exists\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 93,
+            "name": "I should remain on the registration page",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;password-strength-indicator-updates-in-real-time",
+        "keyword": "Scenario",
+        "line": 95,
+        "name": "Password strength indicator updates in real-time",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7583
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 96,
+            "name": "I start typing a password \"a\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:394"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 28540
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 97,
+            "name": "I should see the password strength indicator show \"weak\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 98,
+            "name": "I continue typing the password \"aB\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:398"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 99,
+            "name": "the password strength should still show \"weak\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:386"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 100,
+            "name": "I type a complete strong password \"StrongPass123!\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:402"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 101,
+            "name": "I should see the password strength indicator show \"strong\"",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 102,
+            "name": "all password requirements should be marked as met",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:390"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;form-validation-clears-errors-as-user-corrects-input",
+        "keyword": "Scenario",
+        "line": 104,
+        "name": "Form validation clears errors as user corrects input",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6250
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7457
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 105,
+            "name": "I submit the form with an empty email field",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:336"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 106,
+            "name": "I should see an error message \"Email is required\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:205"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 19708,
+              "error_message": "Error: Expected undefined to be truthy\n    at Object.toBeTruthy (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/enhanced-setup.js:18:15)\n    at World.<anonymous> (file:///Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:206:33)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 107,
+            "name": "I enter a valid email \"player@example.com\"",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:39"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 108,
+            "name": "the email error message should disappear",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:341"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "user-registration-and-email-verification;social-registration-options-are-available",
+        "keyword": "Scenario",
+        "line": 110,
+        "name": "Social registration options are available",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I am on the registration page",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the authentication service is available",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5832
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 111,
+            "name": "I should see a \"Sign up with Google\" button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 112,
+            "name": "I should see a \"Sign up with Apple\" button",
+            "result": {
+              "status": "undefined",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 113,
+            "name": "both social registration buttons should be enabled",
+            "match": {
+              "location": "file:/Users/JimBarrows/projects.nosync/TravellerRPG/ui-player/src/test/steps/auth-business-logic.steps.js:331"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-registration-and-email-verification",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "User Registration and Email Verification",
+    "tags": [],
+    "uri": "features/auth/registration.feature"
+  }
+]

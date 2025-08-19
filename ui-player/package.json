@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:bdd": "cucumber-js"
+    "test:bdd": "NODE_ENV=test node -r @babel/register ./node_modules/.bin/cucumber-js"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.699.0",
@@ -21,6 +21,10 @@
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/register": "^7.28.3",
     "@cucumber/cucumber": "^12.1.0",
     "@cucumber/pretty-formatter": "^2.1.0",
     "@eslint/js": "^9.33.0",

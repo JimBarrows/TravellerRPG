@@ -4,14 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '../../features/auth/context/AuthContext';
 import { RegistrationForm } from '../../features/auth/components/RegistrationForm';
 import userEvent from '@testing-library/user-event';
+import { createMockFn } from '../cucumber-mocks.js';
 
 // Mock the auth service
 const mockAuthService = {
-  signUp: jest.fn(),
-  confirmSignUp: jest.fn(),
-  resendSignUp: jest.fn(),
-  getCurrentUser: jest.fn(),
-  signOut: jest.fn()
+  signUp: createMockFn(),
+  confirmSignUp: createMockFn(),
+  resendSignUp: createMockFn(),
+  getCurrentUser: createMockFn(),
+  signOut: createMockFn()
 };
 
 // Helper to render the component with all necessary providers

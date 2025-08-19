@@ -2,587 +2,623 @@
 
 # An object with an ID
 interface Node {
-    # The ID of the object.
-    id: ID!
+  # The ID of the object.
+  id: ID!
 }
 
 # Information about pagination in a connection.
 type PageInfo {
-    # When paginating forwards, are there more items?
-    hasNextPage: Boolean!
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
 
-    # When paginating backwards, are there more items?
-    hasPreviousPage: Boolean!
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
 
-    # When paginating backwards, the cursor to continue.
-    startCursor: String
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
 
-    # When paginating forwards, the cursor to continue.
-    endCursor: String
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
 }
 
 type Query {
-    # Fetches an object given its ID
-    node(id: ID!): Node
+  # Fetches an object given its ID
+  node(id: ID!): Node
 
-    # Fetches objects given their IDs
-    nodes(ids: [ID!]!): [Node]!
+  # Fetches objects given their IDs
+  nodes(ids: [ID!]!): [Node]!
 
-    # Tenant queries
-    tenant(id: ID!): Tenant
-    tenants(first: Int, after: String, last: Int, before: String): TenantConnection
-    currentTenant: Tenant
+  # Tenant queries
+  tenant(id: ID!): Tenant
+  tenants(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): TenantConnection
+  currentTenant: Tenant
 
-    # Character queries
-    character(id: ID!): Character
-    characters(first: Int, after: String, last: Int, before: String): CharacterConnection
+  # Character queries
+  character(id: ID!): Character
+  characters(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): CharacterConnection
 
-    # Career queries
-    career(id: ID!): Career
-    careers(first: Int, after: String, last: Int, before: String): CareerConnection
+  # Career queries
+  career(id: ID!): Career
+  careers(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): CareerConnection
 
-    # Skill queries
-    skill(id: ID!): Skill
-    skills(first: Int, after: String, last: Int, before: String): SkillConnection
-    skillsByCategory(category: SkillCategory!, first: Int, after: String, last: Int, before: String): SkillConnection
+  # Skill queries
+  skill(id: ID!): Skill
+  skills(first: Int, after: String, last: Int, before: String): SkillConnection
+  skillsByCategory(
+    category: SkillCategory!
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): SkillConnection
 
-    # World queries
-    world(id: ID!): World
-    worlds(first: Int, after: String, last: Int, before: String): WorldConnection
+  # World queries
+  world(id: ID!): World
+  worlds(first: Int, after: String, last: Int, before: String): WorldConnection
 
-    # Equipment queries
-    weapon(id: ID!): Weapon
-    weapons(first: Int, after: String, last: Int, before: String): WeaponConnection
-    armor(id: ID!): Armor
-    armors(first: Int, after: String, last: Int, before: String): ArmorConnection
-    vehicle(id: ID!): Vehicle
-    vehicles(first: Int, after: String, last: Int, before: String): VehicleConnection
-    spaceship(id: ID!): Spaceship
-    spaceships(first: Int, after: String, last: Int, before: String): SpaceshipConnection
+  # Equipment queries
+  weapon(id: ID!): Weapon
+  weapons(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): WeaponConnection
+  armor(id: ID!): Armor
+  armors(first: Int, after: String, last: Int, before: String): ArmorConnection
+  vehicle(id: ID!): Vehicle
+  vehicles(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): VehicleConnection
+  spaceship(id: ID!): Spaceship
+  spaceships(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): SpaceshipConnection
 }
 
 type Mutation {
-    # Tenant mutations
-    createTenant(input: TenantInput!): Tenant
-    updateTenant(id: ID!, input: TenantInput!): Tenant
+  # Tenant mutations
+  createTenant(input: TenantInput!): Tenant
+  updateTenant(id: ID!, input: TenantInput!): Tenant
 
-    # Character mutations
-    createCharacter(input: CharacterInput!): Character
-    updateCharacter(id: ID!, input: CharacterInput!): Character
-    deleteCharacter(id: ID!): Boolean
+  # Character mutations
+  createCharacter(input: CharacterInput!): Character
+  updateCharacter(id: ID!, input: CharacterInput!): Character
+  deleteCharacter(id: ID!): Boolean
 
-    # Character creation mutations
-    generateCharacteristics(characterId: ID!): Character
-    selectHomeworld(characterId: ID!, homeworldId: ID!): Character
-    selectCareer(characterId: ID!, careerId: ID!): Character
-    attemptCareerQualification(characterId: ID!): CareerQualificationResult
-    completeCareerTerm(characterId: ID!): CareerTermResult
-    musterOut(characterId: ID!): Character
+  # Character creation mutations
+  generateCharacteristics(characterId: ID!): Character
+  selectHomeworld(characterId: ID!, homeworldId: ID!): Character
+  selectCareer(characterId: ID!, careerId: ID!): Character
+  attemptCareerQualification(characterId: ID!): CareerQualificationResult
+  completeCareerTerm(characterId: ID!): CareerTermResult
+  musterOut(characterId: ID!): Character
 
-    # Equipment mutations
-    addWeaponToCharacter(characterId: ID!, weaponId: ID!): Character
-    addArmorToCharacter(characterId: ID!, armorId: ID!): Character
-    equipWeapon(characterId: ID!, weaponId: ID!): Character
-    equipArmor(characterId: ID!, armorId: ID!): Character
+  # Equipment mutations
+  addWeaponToCharacter(characterId: ID!, weaponId: ID!): Character
+  addArmorToCharacter(characterId: ID!, armorId: ID!): Character
+  equipWeapon(characterId: ID!, weaponId: ID!): Character
+  equipArmor(characterId: ID!, armorId: ID!): Character
 }
 
 # Import other schema files
 # Tenant types
 type TenantEdge {
-    # The item at the end of the edge
-    node: Tenant!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Tenant!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type TenantConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [TenantEdge]
-    # A list of nodes
-    nodes: [Tenant]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [TenantEdge]
+  # A list of nodes
+  nodes: [Tenant]
+  # Total count of items
+  totalCount: Int
 }
 
 type Tenant implements Node {
-    id: ID!
-    name: String!
-    description: String
+  id: ID!
+  name: String!
+  description: String
 }
 
 input TenantInput {
-    name: String!
-    description: String
+  name: String!
+  description: String
 }
 
 # Character types
 scalar Date
 
 enum CharacterStatus {
-    ALIVE
-    DEAD
-    RETIRED
+  ALIVE
+  DEAD
+  RETIRED
 }
 
 enum CharacteristicType {
-    STRENGTH
-    DEXTERITY
-    ENDURANCE
-    INTELLIGENCE
-    EDUCATION
-    SOCIAL_STANDING
+  STRENGTH
+  DEXTERITY
+  ENDURANCE
+  INTELLIGENCE
+  EDUCATION
+  SOCIAL_STANDING
 }
 
 enum SkillCategory {
-    PERSONAL_DEVELOPMENT
-    SERVICE_SKILLS
-    ADVANCED_EDUCATION
-    ADVANCED_EDUCATION_NAVAL
-    ADVANCED_EDUCATION_MARINES
+  PERSONAL_DEVELOPMENT
+  SERVICE_SKILLS
+  ADVANCED_EDUCATION
+  ADVANCED_EDUCATION_NAVAL
+  ADVANCED_EDUCATION_MARINES
 }
 
 # Connection types for Relay pagination
 type CharacterEdge {
-    # The item at the end of the edge
-    node: Character!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Character!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type CharacterConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [CharacterEdge]
-    # A list of nodes
-    nodes: [Character]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [CharacterEdge]
+  # A list of nodes
+  nodes: [Character]
+  # Total count of items
+  totalCount: Int
 }
 
 type Character implements Node {
-    id: ID!
-    name: String!
-    age: Int!
-    gender: String
-    race: Race!
-    characteristics: [Characteristic!]!
-    skills: [Skill!]!
-    homeworld: Homeworld
-    careerHistory: [CareerTerm!]!
-    weapons: [Weapon!]!
-    armor: [Armor!]!
-    equippedWeapon: Weapon
-    equippedArmor: Armor
-    credits: Int!
-    background: String
-    status: CharacterStatus!
+  id: ID!
+  name: String!
+  age: Int!
+  gender: String
+  race: Race!
+  characteristics: [Characteristic!]!
+  skills: [Skill!]!
+  homeworld: Homeworld
+  careerHistory: [CareerTerm!]!
+  weapons: [Weapon!]!
+  armor: [Armor!]!
+  equippedWeapon: Weapon
+  equippedArmor: Armor
+  credits: Int!
+  background: String
+  status: CharacterStatus!
 }
 
 input CharacterInput {
-    name: String!
-    gender: String
-    raceId: ID!
-    homeworldId: ID
-    background: String
+  name: String!
+  gender: String
+  raceId: ID!
+  homeworldId: ID
+  background: String
 }
 
 type Characteristic {
-    id: ID!
-    type: CharacteristicType!
-    value: Int!
-    originalValue: Int!
+  id: ID!
+  type: CharacteristicType!
+  value: Int!
+  originalValue: Int!
 }
 
 type Race {
-    id: ID!
-    type: RaceType!
-    description: String
-    characteristicModifiers: [CharacteristicModifier!]!
+  id: ID!
+  type: RaceType!
+  description: String
+  characteristicModifiers: [CharacteristicModifier!]!
 }
 
 enum RaceType {
-    HUMAN
-    ASLAN
-    VARGR
-    ZHODANI
-    DROYNE
+  HUMAN
+  ASLAN
+  VARGR
+  ZHODANI
+  DROYNE
 }
 
 type CharacteristicModifier {
-    characteristicType: CharacteristicType!
-    modifier: Int!
+  characteristicType: CharacteristicType!
+  modifier: Int!
 }
 
 type Homeworld {
-    id: ID!
-    world: World!
-    skills: [Skill!]!
+  id: ID!
+  world: World!
+  skills: [Skill!]!
 }
 
 type CareerEdge {
-    # The item at the end of the edge
-    node: Career!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Career!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type CareerConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [CareerEdge]
-    # A list of nodes
-    nodes: [Career]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [CareerEdge]
+  # A list of nodes
+  nodes: [Career]
+  # Total count of items
+  totalCount: Int
 }
 
 type Career implements Node {
-    id: ID!
-    name: String!
-    description: String
-    qualificationCharacteristic: CharacteristicType!
-    qualificationDifficulty: Int!
-    skillTables: [SkillTable!]!
-    benefitTables: [BenefitTable!]!
-    ranks: [Rank!]!
+  id: ID!
+  name: String!
+  description: String
+  qualificationCharacteristic: CharacteristicType!
+  qualificationDifficulty: Int!
+  skillTables: [SkillTable!]!
+  benefitTables: [BenefitTable!]!
+  ranks: [Rank!]!
 }
 
 type CareerTerm {
-    id: ID!
-    career: Career!
-    rank: Int!
-    skills: [Skill!]!
-    benefits: [String!]!
-    events: [String!]!
-    survived: Boolean!
+  id: ID!
+  career: Career!
+  rank: Int!
+  skills: [Skill!]!
+  benefits: [String!]!
+  events: [String!]!
+  survived: Boolean!
 }
 
 type SkillEdge {
-    # The item at the end of the edge
-    node: Skill!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Skill!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type SkillConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [SkillEdge]
-    # A list of nodes
-    nodes: [Skill]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [SkillEdge]
+  # A list of nodes
+  nodes: [Skill]
+  # Total count of items
+  totalCount: Int
 }
 
 type Skill implements Node {
-    id: ID!
-    name: String!
-    category: SkillCategory!
-    level: Int!
-    description: String
+  id: ID!
+  name: String!
+  category: SkillCategory!
+  level: Int!
+  description: String
 }
 
 type SkillTable {
-    id: ID!
-    name: String!
-    skills: [Skill!]!
+  id: ID!
+  name: String!
+  skills: [Skill!]!
 }
 
 type BenefitTable {
-    id: ID!
-    name: String!
-    benefits: [String!]!
+  id: ID!
+  name: String!
+  benefits: [String!]!
 }
 
 type Rank {
-    id: ID!
-    title: String!
-    skills: [Skill!]!
+  id: ID!
+  title: String!
+  skills: [Skill!]!
 }
 
 type CareerQualificationResult {
-    character: Character!
-    qualified: Boolean!
-    drafted: Boolean!
-    career: Career
+  character: Character!
+  qualified: Boolean!
+  drafted: Boolean!
+  career: Career
 }
 
 type CareerTermResult {
-    character: Character!
-    survived: Boolean!
-    skills: [Skill!]!
-    benefits: [String!]!
-    events: [String!]!
+  character: Character!
+  survived: Boolean!
+  skills: [Skill!]!
+  benefits: [String!]!
+  events: [String!]!
 }
 
 # World types
 type WorldEdge {
-    # The item at the end of the edge
-    node: World!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: World!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type WorldConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [WorldEdge]
-    # A list of nodes
-    nodes: [World]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [WorldEdge]
+  # A list of nodes
+  nodes: [World]
+  # Total count of items
+  totalCount: Int
 }
 
 type World implements Node {
-    id: ID!
-    name: String!
-    type: WorldType!
-    size: Int!
-    atmosphere: AtmosphereType!
-    hydrographics: Int!
-    population: Int!
-    government: Int!
-    lawLevel: Int!
-    techLevel: Int!
-    starport: String!
-    bases: String
-    travelZone: TravelZone!
-    description: String
+  id: ID!
+  name: String!
+  type: WorldType!
+  size: Int!
+  atmosphere: AtmosphereType!
+  hydrographics: Int!
+  population: Int!
+  government: Int!
+  lawLevel: Int!
+  techLevel: Int!
+  starport: String!
+  bases: String
+  travelZone: TravelZone!
+  description: String
 }
 
 enum WorldType {
-    TERRESTRIAL
-    GAS_GIANT
-    ASTEROID_BELT
+  TERRESTRIAL
+  GAS_GIANT
+  ASTEROID_BELT
 }
 
 enum AtmosphereType {
-    NONE
-    TRACE
-    VERY_THIN_TAINTED
-    VERY_THIN
-    THIN_TAINTED
-    THIN
-    STANDARD
-    STANDARD_TAINTED
-    DENSE
-    DENSE_TAINTED
-    EXOTIC
-    CORROSIVE
-    INSIDIOUS
+  NONE
+  TRACE
+  VERY_THIN_TAINTED
+  VERY_THIN
+  THIN_TAINTED
+  THIN
+  STANDARD
+  STANDARD_TAINTED
+  DENSE
+  DENSE_TAINTED
+  EXOTIC
+  CORROSIVE
+  INSIDIOUS
 }
 
 enum TravelZone {
-    GREEN
-    AMBER
-    RED
+  GREEN
+  AMBER
+  RED
 }
 
 type Sector {
-    id: ID!
-    name: String!
-    subsectors: [Subsector!]!
-    description: String
+  id: ID!
+  name: String!
+  subsectors: [Subsector!]!
+  description: String
 }
 
 type Subsector {
-    id: ID!
-    name: String!
-    worlds: [World!]!
-    description: String
+  id: ID!
+  name: String!
+  worlds: [World!]!
+  description: String
 }
 
 # Equipment types
 type Equipment {
-    id: ID!
-    name: String!
-    type: EquipmentType!
-    techLevel: Int!
-    cost: Int!
-    weight: Float!
-    description: String
+  id: ID!
+  name: String!
+  type: EquipmentType!
+  techLevel: Int!
+  cost: Int!
+  weight: Float!
+  description: String
 }
 
 enum EquipmentType {
-    GENERAL
-    WEAPON
-    ARMOR
-    VEHICLE
-    SPACESHIP
-    MEDICAL
-    ELECTRONIC
-    SURVIVAL
+  GENERAL
+  WEAPON
+  ARMOR
+  VEHICLE
+  SPACESHIP
+  MEDICAL
+  ELECTRONIC
+  SURVIVAL
 }
 
 type WeaponEdge {
-    # The item at the end of the edge
-    node: Weapon!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Weapon!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type WeaponConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [WeaponEdge]
-    # A list of nodes
-    nodes: [Weapon]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [WeaponEdge]
+  # A list of nodes
+  nodes: [Weapon]
+  # Total count of items
+  totalCount: Int
 }
 
 type Weapon implements Node {
-    id: ID!
-    name: String!
-    type: WeaponType!
-    techLevel: Int!
-    cost: Int!
-    weight: Float!
-    damage: String!
-    range: Int!
-    magazine: Int
-    rateOfFire: Int
-    description: String
+  id: ID!
+  name: String!
+  type: WeaponType!
+  techLevel: Int!
+  cost: Int!
+  weight: Float!
+  damage: String!
+  range: Int!
+  magazine: Int
+  rateOfFire: Int
+  description: String
 }
 
 enum WeaponType {
-    MELEE
-    PISTOL
-    RIFLE
-    SHOTGUN
-    HEAVY_WEAPON
-    EXPLOSIVE
-    NATURAL
+  MELEE
+  PISTOL
+  RIFLE
+  SHOTGUN
+  HEAVY_WEAPON
+  EXPLOSIVE
+  NATURAL
 }
 
 type ArmorEdge {
-    # The item at the end of the edge
-    node: Armor!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Armor!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type ArmorConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [ArmorEdge]
-    # A list of nodes
-    nodes: [Armor]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [ArmorEdge]
+  # A list of nodes
+  nodes: [Armor]
+  # Total count of items
+  totalCount: Int
 }
 
 type Armor implements Node {
-    id: ID!
-    name: String!
-    type: ArmorType!
-    techLevel: Int!
-    cost: Int!
-    weight: Float!
-    protection: Int!
-    radiationProtection: Int!
-    description: String
+  id: ID!
+  name: String!
+  type: ArmorType!
+  techLevel: Int!
+  cost: Int!
+  weight: Float!
+  protection: Int!
+  radiationProtection: Int!
+  description: String
 }
 
 enum ArmorType {
-    LIGHT
-    MEDIUM
-    HEAVY
-    POWERED
-    NATURAL
+  LIGHT
+  MEDIUM
+  HEAVY
+  POWERED
+  NATURAL
 }
 
 type VehicleEdge {
-    # The item at the end of the edge
-    node: Vehicle!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Vehicle!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type VehicleConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [VehicleEdge]
-    # A list of nodes
-    nodes: [Vehicle]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [VehicleEdge]
+  # A list of nodes
+  nodes: [Vehicle]
+  # Total count of items
+  totalCount: Int
 }
 
 type Vehicle implements Node {
-    id: ID!
-    name: String!
-    type: VehicleType!
-    techLevel: Int!
-    cost: Int!
-    weight: Float!
-    speed: Int!
-    range: Int!
-    capacity: Int!
-    armor: Int!
-    weapons: [Weapon!]!
-    description: String
+  id: ID!
+  name: String!
+  type: VehicleType!
+  techLevel: Int!
+  cost: Int!
+  weight: Float!
+  speed: Int!
+  range: Int!
+  capacity: Int!
+  armor: Int!
+  weapons: [Weapon!]!
+  description: String
 }
 
 enum VehicleType {
-    GROUND
-    WATER
-    AIR
-    GRAV
+  GROUND
+  WATER
+  AIR
+  GRAV
 }
 
 type SpaceshipEdge {
-    # The item at the end of the edge
-    node: Spaceship!
-    # A cursor for use in pagination
-    cursor: String!
+  # The item at the end of the edge
+  node: Spaceship!
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type SpaceshipConnection {
-    # Information to aid in pagination
-    pageInfo: PageInfo!
-    # A list of edges
-    edges: [SpaceshipEdge]
-    # A list of nodes
-    nodes: [Spaceship]
-    # Total count of items
-    totalCount: Int
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+  # A list of edges
+  edges: [SpaceshipEdge]
+  # A list of nodes
+  nodes: [Spaceship]
+  # Total count of items
+  totalCount: Int
 }
 
 type Spaceship implements Node {
-    id: ID!
-    name: String!
-    type: SpaceshipType!
-    techLevel: Int!
-    cost: Int!
-    tonnage: Int!
-    jumpRating: Int!
-    maneuverRating: Int!
-    powerPlant: Int!
-    fuelCapacity: Int!
-    cargoCapacity: Int!
-    staterooms: Int!
-    lowBerths: Int!
-    weapons: [Weapon!]!
-    description: String
+  id: ID!
+  name: String!
+  type: SpaceshipType!
+  techLevel: Int!
+  cost: Int!
+  tonnage: Int!
+  jumpRating: Int!
+  maneuverRating: Int!
+  powerPlant: Int!
+  fuelCapacity: Int!
+  cargoCapacity: Int!
+  staterooms: Int!
+  lowBerths: Int!
+  weapons: [Weapon!]!
+  description: String
 }
 
 enum SpaceshipType {
-    SCOUT
-    COURIER
-    MERCHANT
-    YACHT
-    PATROL
-    WARSHIP
-    CAPITAL_SHIP
-    STATION
+  SCOUT
+  COURIER
+  MERCHANT
+  YACHT
+  PATROL
+  WARSHIP
+  CAPITAL_SHIP
+  STATION
 }
