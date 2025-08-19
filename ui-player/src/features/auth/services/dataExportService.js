@@ -3,7 +3,7 @@
  * Handles exporting user data for GDPR compliance and data portability
  */
 
-import { tokenManager } from '../utils/tokenUtils';
+import authService from './authService';
 
 class DataExportService {
   /**
@@ -13,16 +13,17 @@ class DataExportService {
    */
   async exportUserData(userId) {
     try {
-      const tokens = await tokenManager.getTokens();
-      if (!tokens || !tokens.accessToken) {
+      if (!authService.isAuthenticated()) {
         throw new Error('Authentication required');
       }
+      
+      const accessToken = authService.getAccessToken();
 
       const response = await fetch('/api/user/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ userId })
       });
@@ -52,14 +53,15 @@ class DataExportService {
    */
   async getExportProgress(exportId) {
     try {
-      const tokens = await tokenManager.getTokens();
-      if (!tokens || !tokens.accessToken) {
+      if (!authService.isAuthenticated()) {
         throw new Error('Authentication required');
       }
+      
+      const accessToken = authService.getAccessToken();
 
       const response = await fetch(`/api/user/export/${exportId}/progress`, {
         headers: {
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         }
       });
 

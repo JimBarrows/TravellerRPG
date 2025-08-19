@@ -48,7 +48,7 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     const checkAuth = async () => {
       setLoading(true);
       try {
-        const isAuthenticated = await tokenManager.isAuthenticated();
+        const isAuthenticated = service.isAuthenticated();
         if (isAuthenticated) {
           const currentUser = await service.getCurrentUser();
           setUser(currentUser);
@@ -70,18 +70,10 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     clearError();
     try {
-      const result = await service.signIn({ 
-        username: email, 
-        password,
-        rememberMe 
-      });
+      const result = await service.signIn(email, password, rememberMe);
       
       if (result.isSignedIn) {
         setUser(result.user);
-        
-        if (result.tokens) {
-          await tokenManager.setTokens(result.tokens, rememberMe);
-        }
       }
       
       return result;
@@ -97,14 +89,9 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     clearError();
     try {
-      const result = await service.signUp({
-        username: email,
-        password,
-        attributes: {
-          email,
-          name: displayName,
-          ...otherAttributes
-        }
+      const result = await service.signUp(email, password, email, {
+        name: displayName,
+        ...otherAttributes
       });
       return result;
     } catch (err) {
@@ -119,17 +106,11 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     clearError();
     try {
-      const result = await service.confirmSignUp({
-        username: email,
-        confirmationCode: code
-      });
+      const result = await service.confirmSignUp(email, code);
       
       // Auto sign in after confirmation
       if (result.isSignUpComplete && password) {
-        await service.signIn({
-          username: email,
-          password
-        });
+        await service.signIn(email, password);
         const currentUser = await service.getCurrentUser();
         setUser(currentUser);
       }
@@ -179,7 +160,7 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await service.changePassword(oldPassword, newPassword);
+      const result = await service.updatePassword(oldPassword, newPassword);
       return result;
     } catch (err) {
       setError(err.message);
@@ -193,7 +174,7 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await service.sendPasswordResetEmail(email);
+      const result = await service.resetPassword(email);
       return result;
     } catch (err) {
       setError(err.message);
@@ -207,11 +188,7 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await service.confirmPasswordReset({
-        username: email,
-        confirmationCode: code,
-        newPassword
-      });
+      const result = await service.confirmResetPassword(email, newPassword, code);
       return result;
     } catch (err) {
       setError(err.message);
@@ -225,13 +202,13 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const tokens = await service.refreshToken();
-      const currentTokens = await tokenManager.getTokens();
-      const rememberMe = currentTokens && localStorage.getItem('rememberMe') === 'true';
+      // Token refresh is handled internally by cognitoAuth service
+      const isAuthenticated = service.isAuthenticated();
+      if (!isAuthenticated) {
+        throw new Error('Not authenticated');
+      }
       
-      await tokenManager.setTokens(tokens, rememberMe);
-      
-      return tokens;
+      return { success: true };
     } catch (err) {
       setError(err.message);
       // Clear invalid tokens on refresh failure
@@ -247,8 +224,9 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await service.enableMFA(method);
-      return result;
+      // MFA functionality not yet implemented in cognitoAuth service
+      console.warn('MFA functionality not yet implemented');
+      return { isEnabled: false };
     } catch (err) {
       setError(err.message);
       throw err;
@@ -261,8 +239,9 @@ export const AuthProvider = ({ children, authService: customAuthService }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await service.verifyMFA(code);
-      return result.isVerified;
+      // MFA functionality not yet implemented in cognitoAuth service
+      console.warn('MFA functionality not yet implemented');
+      return false;
     } catch (err) {
       setError(err.message);
       throw err;

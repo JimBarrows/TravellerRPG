@@ -5,14 +5,12 @@ import Button from '../../../../../shared/components/atoms/Button';
 import Card from '../../../../../shared/components/molecules/Card';
 
 const PortraitStep = ({ data, updateData }: WizardStepProps) => {
-  const { setValue, watch } = useFormContext();
+  const { setValue } = useFormContext();
   const [portraitUrl, setPortraitUrl] = useState<string>('');
   const [avatarSeed, setAvatarSeed] = useState<string>('');
   const [selectedStyle, setSelectedStyle] = useState<string>('adventurer');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  const portrait = watch('portrait') || data.portrait;
-  const currentAvatarSeed = watch('avatarSeed') || data.avatarSeed;
 
   useEffect(() => {
     // Generate initial avatar seed from character name

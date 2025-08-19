@@ -50,9 +50,10 @@ export const useAuth = () => {
       }
       
       return { success: false, error: 'Login failed' };
-    } catch (error: any) {
+    } catch (error) {
       console.error('Login error:', error);
-      return { success: false, error: error.message || 'Login failed' };
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      return { success: false, error: errorMessage };
     }
   }, [loginMutation, refetchUser, navigate]);
   
@@ -77,9 +78,10 @@ export const useAuth = () => {
       }
       
       return { success: false, error: 'Registration failed' };
-    } catch (error: any) {
+    } catch (error) {
       console.error('Registration error:', error);
-      return { success: false, error: error.message || 'Registration failed' };
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      return { success: false, error: errorMessage };
     }
   }, [registerMutation, refetchUser, navigate]);
   

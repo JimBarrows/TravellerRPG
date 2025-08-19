@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { createErrorDisplay } from '../utils/errorHandling';
+import { validateVerificationCode } from '../utils/formValidation';
 
 export const VerificationForm = ({ 
   email, 
@@ -30,18 +31,14 @@ export const VerificationForm = ({
     }
   }, [resendCooldown]);
 
-  const validateVerificationCode = (code) => {
-    const errors = {};
-    
-    if (!code) {
-      errors.code = 'Verification code is required';
-    } else if (code.length !== 6) {
-      errors.code = 'Please enter a valid 6-digit code';
-    } else if (!/^\d{6}$/.test(code)) {
-      errors.code = 'Verification code must contain only numbers';
+  const validateCode = () => {
+    const validation = validateVerificationCode(verificationCode);
+    if (!validation.isValid) {
+      setLocalError(validation.error);
+      return false;
     }
-    
-    return errors;
+    setLocalError(null);
+    return true;
   };
 
   const handleCodeChange = useCallback((e) => {
@@ -60,9 +57,7 @@ export const VerificationForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const validationErrors = validateVerificationCode(verificationCode);
-    if (Object.keys(validationErrors).length > 0) {
-      setLocalError(validationErrors.code);
+    if (!validateCode()) {
       return;
     }
     

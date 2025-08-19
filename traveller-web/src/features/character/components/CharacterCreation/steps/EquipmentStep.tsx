@@ -16,17 +16,15 @@ const EquipmentStep = ({ data, updateData }: WizardStepProps) => {
   const [totalWeight, setTotalWeight] = useState(0);
   const [showPackages, setShowPackages] = useState(true);
   
-  const equipment = watch('equipment') || data.equipment || [];
   const startingCredits = watch('startingCredits') || data.startingCredits || 1000;
   const background = watch('background') || data.background;
-  const careers = watch('careers') || data.careers || [];
 
   useEffect(() => {
     // Calculate starting credits based on social class and career benefits
     let baseCredits = 1000;
     
-    if (background?.socialClass) {
-      baseCredits = SOCIAL_CLASSES[background.socialClass].startingCredits;
+    if (background?.socialClass && background.socialClass in SOCIAL_CLASSES) {
+      baseCredits = SOCIAL_CLASSES[background.socialClass as keyof typeof SOCIAL_CLASSES].startingCredits;
     }
     
     // Add career mustering out benefits (simplified)

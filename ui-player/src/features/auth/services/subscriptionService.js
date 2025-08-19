@@ -3,7 +3,7 @@
  * Handles subscription tier management, feature access control, and billing
  */
 
-import { tokenManager } from '../utils/tokenUtils';
+import authService from './authService';
 
 // Subscription tier definitions
 const SUBSCRIPTION_TIERS = {
@@ -84,14 +84,15 @@ class SubscriptionService {
    */
   async getUserSubscription(userId, createDefault = false) {
     try {
-      const tokens = await tokenManager.getTokens();
-      if (!tokens || !tokens.accessToken) {
+      if (!authService.isAuthenticated()) {
         throw new Error('Authentication required');
       }
+      
+      const accessToken = authService.getAccessToken();
 
       const response = await fetch(`/api/subscriptions/${userId}`, {
         headers: {
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         }
       });
 
@@ -125,16 +126,17 @@ class SubscriptionService {
    */
   async updateSubscription(userId, updateData) {
     try {
-      const tokens = await tokenManager.getTokens();
-      if (!tokens || !tokens.accessToken) {
+      if (!authService.isAuthenticated()) {
         throw new Error('Authentication required');
       }
+      
+      const accessToken = authService.getAccessToken();
 
       const response = await fetch(`/api/subscriptions/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify(updateData)
       });
@@ -158,15 +160,16 @@ class SubscriptionService {
    */
   async cancelSubscription(userId) {
     try {
-      const tokens = await tokenManager.getTokens();
-      if (!tokens || !tokens.accessToken) {
+      if (!authService.isAuthenticated()) {
         throw new Error('Authentication required');
       }
+      
+      const accessToken = authService.getAccessToken();
 
       const response = await fetch(`/api/subscriptions/${userId}/cancel`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${tokens.accessToken}`
+          'Authorization': `Bearer ${accessToken}`
         }
       });
 
