@@ -12,13 +12,20 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest,
+        // Vitest globals (when globals: true is set in vite.config.js)
         expect: 'readonly',
         describe: 'readonly',
         test: 'readonly',
         it: 'readonly',
+        vi: 'readonly',
+        vitest: 'readonly',
         beforeEach: 'readonly',
         afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        suite: 'readonly',
+        // Cucumber/BDD test globals
+        createMockFn: 'readonly',
         jest: 'readonly'
       },
       parserOptions: {
