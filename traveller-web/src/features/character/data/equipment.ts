@@ -1,20 +1,48 @@
 /**
  * Equipment data for Traveller RPG
  */
+import type { EquipmentCategory, EquipmentEffect } from '../types/characterSheet';
 
 export interface Equipment {
   id: string;
   name: string;
-  type: 'weapon' | 'armor' | 'tool' | 'survival' | 'medical' | 'computer' | 'communication' | 'misc';
+  category: EquipmentCategory;
   cost: number;
   weight: number;
   techLevel: number;
   description: string;
+  
+  // Combat properties
   damage?: string;
   protection?: number;
   range?: string;
   magazine?: number;
   traits?: string[];
+  
+  // Equipment effects on character
+  effects?: EquipmentEffect[];
+  
+  // Availability and legality
+  availability?: 'common' | 'uncommon' | 'rare' | 'very_rare' | 'illegal';
+  lawLevel?: number;
+  
+  // Power/ammunition
+  powerSource?: {
+    type: 'battery' | 'power_cell' | 'fusion' | 'chemical' | 'manual';
+    capacity: number;
+    cost: number;
+    rechargeable: boolean;
+  };
+  
+  ammunition?: {
+    type: string;
+    capacity: number;
+    cost: number;
+  };
+  
+  // Maintenance requirements
+  requiresMaintenance?: boolean;
+  maintenanceInterval?: number; // days between maintenance
 }
 
 export const WEAPONS: Equipment[] = [
@@ -22,7 +50,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'blade',
     name: 'Blade',
-    type: 'weapon',
+    category: 'weapon',
     cost: 100,
     weight: 0.5,
     techLevel: 2,
@@ -30,11 +58,21 @@ export const WEAPONS: Equipment[] = [
     damage: '2D',
     range: 'Melee',
     traits: ['Cutting'],
+    availability: 'common',
+    lawLevel: 2,
+    effects: [
+      {
+        type: 'skill',
+        target: 'Melee (Blade)',
+        modifier: 0,
+        condition: 'when equipped'
+      }
+    ]
   },
   {
     id: 'cutlass',
     name: 'Cutlass',
-    type: 'weapon',
+    category: 'weapon',
     cost: 200,
     weight: 1.5,
     techLevel: 3,
@@ -42,11 +80,21 @@ export const WEAPONS: Equipment[] = [
     damage: '3D',
     range: 'Melee',
     traits: ['Cutting', 'Parry'],
+    availability: 'common',
+    lawLevel: 3,
+    effects: [
+      {
+        type: 'skill',
+        target: 'Melee (Blade)',
+        modifier: 1,
+        condition: 'when equipped'
+      }
+    ]
   },
   {
     id: 'stunstick',
     name: 'Stunstick',
-    type: 'weapon',
+    category: 'weapon',
     cost: 300,
     weight: 0.5,
     techLevel: 8,
@@ -54,12 +102,22 @@ export const WEAPONS: Equipment[] = [
     damage: '2D stun',
     range: 'Melee',
     traits: ['Stun', 'Non-lethal'],
+    availability: 'uncommon',
+    lawLevel: 6,
+    powerSource: {
+      type: 'battery',
+      capacity: 100,
+      cost: 10,
+      rechargeable: true
+    },
+    requiresMaintenance: true,
+    maintenanceInterval: 30
   },
   // Slug Weapons
   {
     id: 'autopistol',
     name: 'Autopistol',
-    type: 'weapon',
+    category: 'weapon',
     cost: 200,
     weight: 0.75,
     techLevel: 5,
@@ -72,7 +130,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'revolver',
     name: 'Revolver',
-    type: 'weapon',
+    category: 'weapon',
     cost: 150,
     weight: 0.9,
     techLevel: 4,
@@ -85,7 +143,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'rifle',
     name: 'Rifle',
-    type: 'weapon',
+    category: 'weapon',
     cost: 300,
     weight: 3.5,
     techLevel: 5,
@@ -98,7 +156,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'assault-rifle',
     name: 'Assault Rifle',
-    type: 'weapon',
+    category: 'weapon',
     cost: 500,
     weight: 4,
     techLevel: 7,
@@ -111,7 +169,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'shotgun',
     name: 'Shotgun',
-    type: 'weapon',
+    category: 'weapon',
     cost: 250,
     weight: 3.5,
     techLevel: 4,
@@ -124,7 +182,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'snub-pistol',
     name: 'Snub Pistol',
-    type: 'weapon',
+    category: 'weapon',
     cost: 150,
     weight: 0.5,
     techLevel: 8,
@@ -138,7 +196,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'laser-pistol',
     name: 'Laser Pistol',
-    type: 'weapon',
+    category: 'weapon',
     cost: 2000,
     weight: 1.5,
     techLevel: 9,
@@ -151,7 +209,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'laser-rifle',
     name: 'Laser Rifle',
-    type: 'weapon',
+    category: 'weapon',
     cost: 3500,
     weight: 5,
     techLevel: 9,
@@ -164,7 +222,7 @@ export const WEAPONS: Equipment[] = [
   {
     id: 'stunner',
     name: 'Stunner',
-    type: 'weapon',
+    category: 'weapon',
     cost: 500,
     weight: 0.5,
     techLevel: 10,
@@ -180,40 +238,77 @@ export const ARMOR: Equipment[] = [
   {
     id: 'jack',
     name: 'Jack',
-    type: 'armor',
+    category: 'armor',
     cost: 50,
     weight: 1,
     techLevel: 1,
     description: 'Natural or synthetic leather armor',
     protection: 1,
     traits: ['Primitive'],
+    availability: 'common',
+    lawLevel: 0,
+    effects: [
+      {
+        type: 'protection',
+        target: 'armor',
+        modifier: 1,
+        condition: 'when worn'
+      }
+    ]
   },
   {
     id: 'mesh',
     name: 'Mesh',
-    type: 'armor',
+    category: 'armor',
     cost: 150,
     weight: 2,
     techLevel: 6,
     description: 'Flexible metal mesh armor',
     protection: 2,
     traits: ['Flexible'],
+    availability: 'common',
+    lawLevel: 2,
+    effects: [
+      {
+        type: 'protection',
+        target: 'armor',
+        modifier: 2,
+        condition: 'when worn'
+      }
+    ]
   },
   {
     id: 'cloth',
     name: 'Cloth',
-    type: 'armor',
+    category: 'armor',
     cost: 250,
     weight: 2,
     techLevel: 7,
     description: 'Ballistic cloth armor',
     protection: 3,
     traits: ['Concealable'],
+    availability: 'common',
+    lawLevel: 3,
+    effects: [
+      {
+        type: 'protection',
+        target: 'armor',
+        modifier: 3,
+        condition: 'when worn'
+      },
+      {
+        type: 'skill',
+        target: 'Stealth',
+        modifier: 1,
+        condition: 'when worn',
+        stackable: false
+      }
+    ]
   },
   {
     id: 'flak-jacket',
     name: 'Flak Jacket',
-    type: 'armor',
+    category: 'armor',
     cost: 100,
     weight: 3,
     techLevel: 6,
@@ -224,7 +319,7 @@ export const ARMOR: Equipment[] = [
   {
     id: 'ablat',
     name: 'Ablat',
-    type: 'armor',
+    category: 'armor',
     cost: 200,
     weight: 2,
     techLevel: 9,
@@ -235,7 +330,7 @@ export const ARMOR: Equipment[] = [
   {
     id: 'reflec',
     name: 'Reflec',
-    type: 'armor',
+    category: 'armor',
     cost: 1500,
     weight: 0.5,
     techLevel: 10,
@@ -246,7 +341,7 @@ export const ARMOR: Equipment[] = [
   {
     id: 'combat-armor',
     name: 'Combat Armor',
-    type: 'armor',
+    category: 'armor',
     cost: 20000,
     weight: 6,
     techLevel: 11,
@@ -257,7 +352,7 @@ export const ARMOR: Equipment[] = [
   {
     id: 'vacc-suit',
     name: 'Vacc Suit',
-    type: 'armor',
+    category: 'armor',
     cost: 10000,
     weight: 8,
     techLevel: 8,
@@ -268,7 +363,7 @@ export const ARMOR: Equipment[] = [
   {
     id: 'hostile-environment-suit',
     name: 'Hostile Environment Suit',
-    type: 'armor',
+    category: 'armor',
     cost: 14000,
     weight: 10,
     techLevel: 8,
@@ -283,27 +378,49 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'toolkit-mechanical',
     name: 'Mechanical Toolkit',
-    type: 'tool',
+    category: 'tool',
     cost: 1000,
     weight: 12,
     techLevel: 4,
     description: 'Tools for mechanical repairs',
     traits: ['Required for Mechanic skill'],
+    availability: 'common',
+    lawLevel: 0,
+    effects: [
+      {
+        type: 'skill',
+        target: 'Mechanic',
+        modifier: 2,
+        condition: 'when equipped',
+        stackable: false
+      }
+    ]
   },
   {
     id: 'toolkit-electronics',
     name: 'Electronics Toolkit',
-    type: 'tool',
+    category: 'tool',
     cost: 2000,
     weight: 5,
     techLevel: 7,
     description: 'Tools for electronic repairs',
     traits: ['Required for Electronics skill'],
+    availability: 'common',
+    lawLevel: 0,
+    effects: [
+      {
+        type: 'skill',
+        target: 'Electronics',
+        modifier: 2,
+        condition: 'when equipped',
+        stackable: false
+      }
+    ]
   },
   {
     id: 'toolkit-engineering',
     name: 'Engineering Toolkit',
-    type: 'tool',
+    category: 'tool',
     cost: 4000,
     weight: 12,
     techLevel: 7,
@@ -314,7 +431,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'binoculars',
     name: 'Binoculars',
-    type: 'survival',
+    category: 'survival',
     cost: 75,
     weight: 1,
     techLevel: 3,
@@ -324,7 +441,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'cold-weather-clothing',
     name: 'Cold Weather Clothing',
-    type: 'survival',
+    category: 'survival',
     cost: 200,
     weight: 4,
     techLevel: 0,
@@ -334,7 +451,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'filter-mask',
     name: 'Filter Mask',
-    type: 'survival',
+    category: 'survival',
     cost: 10,
     weight: 0.5,
     techLevel: 3,
@@ -344,7 +461,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'respirator',
     name: 'Respirator',
-    type: 'survival',
+    category: 'survival',
     cost: 100,
     weight: 1,
     techLevel: 5,
@@ -354,7 +471,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'artificial-gill',
     name: 'Artificial Gill',
-    type: 'survival',
+    category: 'survival',
     cost: 4000,
     weight: 4,
     techLevel: 8,
@@ -365,7 +482,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'medikit',
     name: 'Medikit',
-    type: 'medical',
+    category: 'medical',
     cost: 1000,
     weight: 2,
     techLevel: 7,
@@ -375,7 +492,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'medical-supplies',
     name: 'Medical Supplies',
-    type: 'medical',
+    category: 'medical',
     cost: 20,
     weight: 0.5,
     techLevel: 5,
@@ -385,17 +502,35 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'combat-drug',
     name: 'Combat Drug',
-    type: 'medical',
+    category: 'medical',
     cost: 500,
     weight: 0.1,
     techLevel: 8,
     description: 'Military performance enhancer',
     traits: ['+2 Initiative, +1 Strength'],
+    availability: 'rare',
+    lawLevel: 8,
+    effects: [
+      {
+        type: 'characteristic',
+        target: 'strength',
+        modifier: 1,
+        condition: 'when used',
+        stackable: false
+      },
+      {
+        type: 'characteristic',
+        target: 'dexterity',
+        modifier: 2,
+        condition: 'when used',
+        stackable: false
+      }
+    ]
   },
   {
     id: 'anti-rad',
     name: 'Anti-Rad',
-    type: 'medical',
+    category: 'medical',
     cost: 200,
     weight: 0.1,
     techLevel: 8,
@@ -406,7 +541,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'hand-computer',
     name: 'Hand Computer',
-    type: 'computer',
+    category: 'computer',
     cost: 1000,
     weight: 0.5,
     techLevel: 7,
@@ -416,7 +551,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'computer-terminal',
     name: 'Computer Terminal',
-    type: 'computer',
+    category: 'computer',
     cost: 2000,
     weight: 10,
     techLevel: 7,
@@ -427,7 +562,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'commdot',
     name: 'Commdot',
-    type: 'communication',
+    category: 'communication',
     cost: 10,
     weight: 0,
     techLevel: 10,
@@ -437,7 +572,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'comm',
     name: 'Comm',
-    type: 'communication',
+    category: 'communication',
     cost: 100,
     weight: 0.3,
     techLevel: 6,
@@ -447,7 +582,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'long-range-comm',
     name: 'Long Range Comm',
-    type: 'communication',
+    category: 'communication',
     cost: 500,
     weight: 1.5,
     techLevel: 6,
@@ -458,7 +593,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'rope',
     name: 'Rope (10m)',
-    type: 'misc',
+    category: 'misc',
     cost: 5,
     weight: 2,
     techLevel: 1,
@@ -468,7 +603,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'handcuffs',
     name: 'Handcuffs',
-    type: 'misc',
+    category: 'misc',
     cost: 10,
     weight: 0.5,
     techLevel: 1,
@@ -478,7 +613,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'flashlight',
     name: 'Flashlight',
-    type: 'misc',
+    category: 'misc',
     cost: 10,
     weight: 0.25,
     techLevel: 3,
@@ -488,7 +623,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'grappling-hook',
     name: 'Grappling Hook',
-    type: 'misc',
+    category: 'misc',
     cost: 20,
     weight: 1,
     techLevel: 2,
@@ -498,7 +633,7 @@ export const EQUIPMENT: Equipment[] = [
   {
     id: 'tent',
     name: 'Tent (2-person)',
-    type: 'misc',
+    category: 'misc',
     cost: 200,
     weight: 3,
     techLevel: 3,

@@ -49,6 +49,35 @@ type Character {
   history: [LifeEvent!]!
   notes: String
   portrait: String
+  status: CharacterStatus!
+  species: String
+  gender: String
+  age: Int
+  homeworld: String
+  backgroundData: AWSJSON
+  careerData: AWSJSON
+  avatarSeed: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum CharacterStatus {
+  DRAFT
+  COMPLETE
+  ACTIVE
+  RETIRED
+  DECEASED
+}
+
+type CharacterDraft {
+  id: ID!
+  draftName: String
+  step: Int!
+  characterData: AWSJSON!
+  isAutoSave: Boolean!
+  character: Character
+  player: User!
+  campaign: Campaign!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -133,6 +162,11 @@ type Query {
   listCharacters(campaignId: ID!): [Character!]!
   listUserCharacters: [Character!]!
   
+  # Character draft queries
+  getCharacterDraft(id: ID!): CharacterDraft
+  getCharacterDrafts(campaignId: ID!): [CharacterDraft!]!
+  listUserCharacterDrafts: [CharacterDraft!]!
+  
   # Session queries
   getSession(id: ID!): Session
   listSessions(campaignId: ID!): [Session!]!
@@ -155,7 +189,13 @@ type Mutation {
   # Character mutations
   createCharacter(input: CreateCharacterInput!): Character
   updateCharacter(id: ID!, input: UpdateCharacterInput!): Character
+  updateCharacterFull(id: ID!, input: UpdateCharacterFullInput!): Character
   deleteCharacter(id: ID!): Boolean
+  
+  # Character draft mutations
+  saveCharacterDraft(input: SaveCharacterDraftInput!): CharacterDraft
+  deleteCharacterDraft(id: ID!): Boolean
+  createCharacterFromDraft(input: CreateCharacterFromDraftInput!): Character
   
   # Session mutations
   createSession(input: CreateSessionInput!): Session
@@ -227,6 +267,38 @@ input UpdateCharacterInput {
   credits: Int
   notes: String
   portrait: String
+}
+
+input UpdateCharacterFullInput {
+  name: String
+  species: String
+  gender: String
+  age: Int
+  status: CharacterStatus
+  characteristics: CharacteristicsInput
+  skills: [SkillInput!]
+  equipment: [EquipmentInput!]
+  credits: Int
+  notes: String
+  portrait: String
+  homeworld: String
+  backgroundData: AWSJSON
+  careerData: AWSJSON
+  avatarSeed: String
+}
+
+input SaveCharacterDraftInput {
+  campaignId: ID!
+  draftName: String
+  step: Int!
+  characterData: AWSJSON!
+  isAutoSave: Boolean!
+  characterId: ID
+}
+
+input CreateCharacterFromDraftInput {
+  draftId: ID!
+  campaignId: ID!
 }
 
 input CharacteristicsInput {

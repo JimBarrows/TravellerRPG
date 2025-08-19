@@ -3,10 +3,15 @@ import type { WizardStepProps } from '../../../types/characterCreation';
 import Button from '../../../../../shared/components/atoms/Button';
 import Card from '../../../../../shared/components/molecules/Card';
 import { getCharacteristicModifier, toUPP } from '../../../utils/diceRoller';
+import { getPDFGenerationService, type PDFLayout } from '../../../services/pdfGenerationService';
 
 const ReviewStep = ({ data }: WizardStepProps) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [selectedPDFLayout, setSelectedPDFLayout] = useState<PDFLayout>('detailed');
+  const [showPDFOptions, setShowPDFOptions] = useState(false);
+  
+  const pdfService = getPDFGenerationService();
 
   const handleSaveCharacter = async () => {
     setIsSaving(true);
@@ -31,76 +36,36 @@ const ReviewStep = ({ data }: WizardStepProps) => {
     }
   };
 
-  const handleGeneratePDF = async () => {
+  const handleGeneratePDF = async (layout: PDFLayout = selectedPDFLayout) => {
     setIsGeneratingPDF(true);
     try {
-      // In a real app, this would generate a PDF using a library like jsPDF
-      console.log('Generating PDF for character:', data);
-      
-      // For now, we'll create a simple text representation
-      const characterSheet = `
-TRAVELLER CHARACTER SHEET
-=========================
-
-BASIC INFORMATION
------------------
-Name: ${data.name}
-Species: ${data.species}
-Gender: ${data.gender}
-Age: ${data.age}
-
-CHARACTERISTICS
----------------
-STR: ${data.characteristics.strength} (${getCharacteristicModifier(data.characteristics.strength) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.strength)})
-DEX: ${data.characteristics.dexterity} (${getCharacteristicModifier(data.characteristics.dexterity) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.dexterity)})
-END: ${data.characteristics.endurance} (${getCharacteristicModifier(data.characteristics.endurance) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.endurance)})
-INT: ${data.characteristics.intelligence} (${getCharacteristicModifier(data.characteristics.intelligence) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.intelligence)})
-EDU: ${data.characteristics.education} (${getCharacteristicModifier(data.characteristics.education) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.education)})
-SOC: ${data.characteristics.social} (${getCharacteristicModifier(data.characteristics.social) >= 0 ? '+' : ''}${getCharacteristicModifier(data.characteristics.social)})
-
-UPP: ${toUPP(data.characteristics)}
-
-BACKGROUND
-----------
-Homeworld: ${data.background.homeworld}
-Social Class: ${data.background.socialClass}
-Upbringing: ${data.background.upbringing}
-Family: ${data.background.family}
-Early Life: ${data.background.earlyLife}
-
-CAREER HISTORY
---------------
-${data.careers.map((career: { career: string; rank: number }) => `${career.career} - Rank ${career.rank}`).join('\n')}
-Total Terms: ${data.totalTerms}
-
-SKILLS
-------
-${data.skills.map((skill: { name: string; level: number }) => `${skill.name}-${skill.level}`).join('\n')}
-
-EQUIPMENT
----------
-${data.equipment.map((item: { name: string; quantity: number }) => `${item.name} x${item.quantity}`).join('\n')}
-
-Credits: ${data.startingCredits} Cr
-`;
-      
-      // Create a blob and download it
-      const blob = new Blob([characterSheet], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${data.name.replace(/\s+/g, '_')}_character_sheet.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
+      await pdfService.downloadCharacterSheet(data, {
+        layout,
+        includePortrait: true,
+        includeBackground: true,
+        includeCareerHistory: true,
+        includeEquipment: true,
+        colorScheme: 'color'
+      });
     } catch (error) {
       console.error('Failed to generate PDF:', error);
       alert('Failed to generate PDF. Please try again.');
     } finally {
       setIsGeneratingPDF(false);
+      setShowPDFOptions(false);
     }
+  };
+
+  const handleQuickPDF = () => {
+    handleGeneratePDF('compact');
+  };
+
+  const handleDetailedPDF = () => {
+    handleGeneratePDF('detailed');
+  };
+
+  const handleCustomPDF = () => {
+    setShowPDFOptions(!showPDFOptions);
   };
 
   const upp = toUPP(data.characteristics);
@@ -295,27 +260,110 @@ Credits: ${data.startingCredits} Cr
         <div className="p-6">
           <h3 className="font-semibold mb-4">Finalize Character</h3>
           <p className="text-sm text-muted-foreground mb-6">
-            Save your character to the database and optionally generate a PDF character sheet.
+            Save your character to the database and generate professional PDF character sheets.
           </p>
-          <div className="flex gap-3">
-            <Button
-              type="button"
-              variant="primary"
-              onClick={handleSaveCharacter}
-              disabled={isSaving}
-              loading={isSaving}
-            >
-              Save Character
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleGeneratePDF}
-              disabled={isGeneratingPDF}
-              loading={isGeneratingPDF}
-            >
-              Download Character Sheet
-            </Button>
+          
+          <div className="space-y-4">
+            {/* Save Character */}
+            <div>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={handleSaveCharacter}
+                disabled={isSaving}
+                loading={isSaving}
+                className="w-full sm:w-auto"
+              >
+                Save Character
+              </Button>
+            </div>
+
+            {/* PDF Generation Options */}
+            <div>
+              <h4 className="font-medium mb-3">Download Character Sheet</h4>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleQuickPDF}
+                  disabled={isGeneratingPDF}
+                  loading={isGeneratingPDF && selectedPDFLayout === 'compact'}
+                  size="sm"
+                >
+                  Quick PDF (1 page)
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleDetailedPDF}
+                  disabled={isGeneratingPDF}
+                  loading={isGeneratingPDF && selectedPDFLayout === 'detailed'}
+                  size="sm"
+                >
+                  Detailed PDF
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCustomPDF}
+                  disabled={isGeneratingPDF}
+                  size="sm"
+                >
+                  Custom Options
+                </Button>
+              </div>
+
+              {/* Custom PDF Options */}
+              {showPDFOptions && (
+                <Card className="p-4 bg-background">
+                  <h5 className="font-medium mb-3">PDF Layout Options</h5>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Layout Style</label>
+                      <select
+                        value={selectedPDFLayout}
+                        onChange={(e) => setSelectedPDFLayout(e.target.value as PDFLayout)}
+                        className="w-full p-2 border rounded-md"
+                      >
+                        <option value="compact">Compact (1 page, essential info)</option>
+                        <option value="detailed">Detailed (multi-page, comprehensive)</option>
+                        <option value="official">Official (classic Traveller layout)</option>
+                        <option value="printable">Print-friendly (black & white)</option>
+                      </select>
+                    </div>
+                    
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        type="button"
+                        variant="primary"
+                        onClick={() => handleGeneratePDF()}
+                        disabled={isGeneratingPDF}
+                        loading={isGeneratingPDF}
+                        size="sm"
+                      >
+                        Generate PDF
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowPDFOptions(false)}
+                        size="sm"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              <p className="text-xs text-muted-foreground mt-2">
+                PDF generation includes characteristics, skills, equipment, and career history.
+                {selectedPDFLayout === 'compact' && ' Compact layout fits everything on one page.'}
+                {selectedPDFLayout === 'detailed' && ' Detailed layout provides comprehensive character information.'}
+                {selectedPDFLayout === 'official' && ' Official layout mimics the classic Traveller character sheet.'}
+                {selectedPDFLayout === 'printable' && ' Print-friendly layout optimized for black and white printing.'}
+              </p>
+            </div>
           </div>
         </div>
       </Card>
