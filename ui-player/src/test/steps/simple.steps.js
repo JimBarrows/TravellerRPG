@@ -9,7 +9,7 @@ Given("I have a working test environment", function () {
 });
 
 When("I run a simple test", function () {
-  testRun = true;
+  _testRun = true;
   testResult = testEnvironment;
 });
 

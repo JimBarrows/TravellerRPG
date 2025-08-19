@@ -426,7 +426,7 @@ When('I click on {string}', async function (buttonText) {
   await this.user.click(button);
 });
 
-Then('I should be redirected to Facebook\\'s authorization page', async function () {
+Then('I should be redirected to Facebook\'s authorization page', async function () {
   // This would be mocked in a real test environment
   expect(window.location.href).toContain('facebook.com');
 });

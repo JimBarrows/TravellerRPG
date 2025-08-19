@@ -9,8 +9,8 @@ class MockFunction {
     this.mockName = undefined;
   }
 
-  // Mock function call
-  (...args) {
+  // Mock function call handler
+  call(...args) {
     this.calls.push(args);
     try {
       const result = this.implementation(...args);
@@ -96,9 +96,13 @@ class MockFunction {
 
 // Create a mock function factory
 export const createMockFn = (implementation) => {
-  const mockFn = (...args) => mockFn.implementation(...args);
+  const mockInstance = new MockFunction(implementation);
+  const mockFn = (...args) => mockInstance.call(...args);
+  
+  // Copy all MockFunction methods to the function
   Object.setPrototypeOf(mockFn, MockFunction.prototype);
-  MockFunction.call(mockFn, implementation);
+  Object.assign(mockFn, mockInstance);
+  
   return mockFn;
 };
 
