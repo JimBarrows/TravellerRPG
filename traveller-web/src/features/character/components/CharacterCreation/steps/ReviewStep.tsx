@@ -187,16 +187,16 @@ Credits: ${data.startingCredits} Cr
           <div className="p-4">
             <h3 className="font-semibold mb-4">Career History</h3>
             <div className="space-y-2">
-              {data.careers.map((career: { career: string; rank: number; terms: number }, index: number) => (
+              {data.careers.map((career, index: number) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <div>
                     <span className="font-medium">{career.career}</span>
                     <span className="text-sm text-muted-foreground ml-2">
-                      Rank {career.rank}
+                      {career.rankTitle} (Rank {career.rank})
                     </span>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    {career.skills.length} skills gained
+                    {career.skillsGained.length} skills gained
                   </div>
                 </div>
               ))}
@@ -232,7 +232,7 @@ Credits: ${data.startingCredits} Cr
           <div className="p-4">
             <h3 className="font-semibold mb-4">Equipment ({totalEquipment} items, {totalWeight.toFixed(1)}kg)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {data.equipment.map((item: { name: string; quantity: number; weight: number }, index: number) => (
+              {data.equipment.map((item, index: number) => (
                 <div key={index} className="flex justify-between items-center p-2 bg-muted/50 rounded">
                   <span className="text-sm">
                     {item.name} {item.quantity > 1 && `x${item.quantity}`}
@@ -278,11 +278,11 @@ Credits: ${data.startingCredits} Cr
                 <span>{data.background.earlyLife}</span>
               </div>
             )}
-            {data.careers.map((career: { career: string; rank: number }) => 
-              career.events?.map((event: string, idx: number) => (
+            {data.careers.map((career) => 
+              career.events?.map((event, idx: number) => (
                 <div key={`${career.career}-${idx}`}>
                   <span className="text-muted-foreground">{career.career} Event:</span>{' '}
-                  <span>{event}</span>
+                  <span>{event.description}</span>
                 </div>
               ))
             )}
