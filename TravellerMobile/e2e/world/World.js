@@ -28,7 +28,12 @@ class TravellerWorld {
     await waitFor(element).toBeVisible().withTimeout(timeout);
   }
 
-  async scrollUntilVisible(scrollElement, targetElement, direction = 'down', speed = 'fast') {
+  async scrollUntilVisible(
+    scrollElement,
+    targetElement,
+    direction = 'down',
+    speed = 'fast',
+  ) {
     await waitFor(targetElement)
       .toBeVisible()
       .whileElement(by.id(scrollElement))
@@ -38,17 +43,19 @@ class TravellerWorld {
 
 setWorldConstructor(TravellerWorld);
 
-Before(async function() {
+Before(async function () {
   // Setup before each scenario
   await device.reloadReactNative();
 });
 
-After(async function(scenario) {
+After(async function (scenario) {
   // Take screenshot if scenario failed
   if (scenario.result.status === 'failed') {
-    await this.takeScreenshot(`failed-${scenario.pickle.name.replace(/\s+/g, '-')}`);
+    await this.takeScreenshot(
+      `failed-${scenario.pickle.name.replace(/\s+/g, '-')}`,
+    );
   }
-  
+
   // Clean up test data
   this.testData = {};
 });

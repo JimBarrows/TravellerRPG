@@ -4,20 +4,20 @@ module.exports = {
     require: [
       'e2e/support/**/*.js',
       'e2e/step-definitions/**/*.js',
-      'e2e/world/**/*.js'
+      'e2e/world/**/*.js',
     ],
     format: [
       '@cucumber/pretty-formatter',
       'json:e2e/reports/cucumber-report.json',
-      'html:e2e/reports/cucumber-report.html'
+      'html:e2e/reports/cucumber-report.html',
     ],
     formatOptions: {
-      snippetInterface: 'async-await'
+      snippetInterface: 'async-await',
     },
     parallel: 1,
     timeout: 120000,
     worldParameters: {
-      detoxLaunchTimeout: 120000
-    }
-  }
+      detoxLaunchTimeout: 120000,
+    },
+  },
 };

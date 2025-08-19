@@ -5,6 +5,7 @@ A comprehensive end-to-end testing framework using Playwright and Cucumber for t
 ## 🎯 Overview
 
 This E2E testing suite provides:
+
 - **Cross-platform testing** across web, mobile web, and API
 - **Multi-browser support** (Chrome, Firefox, Safari, Mobile browsers)
 - **BDD approach** with Cucumber for readable test scenarios
@@ -50,16 +51,19 @@ e2e/
 ### Installation
 
 1. **Install dependencies:**
+
 ```bash
 npm install
 ```
 
 2. **Install Playwright browsers:**
+
 ```bash
 npm run e2e:install
 ```
 
 3. **Set up environment variables:**
+
 ```bash
 # Copy and edit environment file
 cp .env.example .env
@@ -123,35 +127,45 @@ TAGS=@performance npm run e2e:test
 ## 🧪 Test Categories
 
 ### Smoke Tests (`@smoke`)
+
 Critical path scenarios that must pass for basic functionality:
+
 - User registration and login
 - Character creation basics
 - Campaign joining
 - API health checks
 
 ### Regression Tests (`@regression`)
+
 Comprehensive testing covering all features:
+
 - Complete user workflows
 - Edge cases and error scenarios
 - Cross-platform synchronization
 - Performance requirements
 
 ### Mobile Tests (`@mobile`)
+
 Mobile-specific scenarios:
+
 - Touch interface interactions
 - Responsive design validation
 - Mobile navigation patterns
 - Offline functionality
 
 ### API Tests (`@api`)
+
 Backend and GraphQL testing:
+
 - CRUD operations
 - Data validation
 - Authentication/authorization
 - Performance and scalability
 
 ### Cross-Platform Tests (`@cross-platform`)
+
 Multi-platform synchronization:
+
 - Data sync across devices
 - Real-time updates
 - Session management
@@ -160,6 +174,7 @@ Multi-platform synchronization:
 ## 🎮 Test Features Coverage
 
 ### Authentication & User Management
+
 - ✅ User registration with email verification
 - ✅ Login/logout across platforms
 - ✅ JWT token management and refresh
@@ -168,6 +183,7 @@ Multi-platform synchronization:
 - ✅ Account lockout protection
 
 ### Character Creation & Management
+
 - ✅ Complete character creation wizard
 - ✅ Characteristic generation and modification
 - ✅ Career path selection and progression
@@ -178,6 +194,7 @@ Multi-platform synchronization:
 - ✅ Character data synchronization
 
 ### Campaign & Real-Time Features
+
 - ✅ Campaign creation and management
 - ✅ Player invitation and joining
 - ✅ Real-time dice rolling
@@ -188,6 +205,7 @@ Multi-platform synchronization:
 - ✅ Notification system
 
 ### Cross-Platform & Data Sync
+
 - ✅ Character sync between devices
 - ✅ Campaign state synchronization
 - ✅ Real-time update propagation
@@ -196,6 +214,7 @@ Multi-platform synchronization:
 - ✅ Progressive sync with poor connectivity
 
 ### API & GraphQL Integration
+
 - ✅ GraphQL query optimization
 - ✅ Mutation error handling
 - ✅ Pagination with Relay connections
@@ -221,8 +240,9 @@ npm run e2e:teardown
 ### Test Data Structure
 
 The system creates:
+
 - **Admin user**: Full system access
-- **GM user**: Game master capabilities  
+- **GM user**: Game master capabilities
 - **Player users**: Regular player accounts (3)
 - **Test characters**: Sample characters for each user
 - **Test campaigns**: Sample campaigns for testing
@@ -264,6 +284,7 @@ npx cucumber-html-reporter --input e2e-results/cucumber-report.json --output cus
 ### CI Integration
 
 The test suite includes GitHub Actions workflow (`.github/workflows/e2e-tests.yml`) that:
+
 - Runs tests on PR and push to main/develop
 - Executes nightly comprehensive test runs
 - Provides test result comments on PRs
@@ -295,22 +316,22 @@ Feature: New Feature Testing
 ### Implementing Step Definitions
 
 ```javascript
-import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
+import { Given, When, Then } from "@cucumber/cucumber";
+import { expect } from "@playwright/test";
 
-Given('I am on the new feature page', async function () {
-  await this.navigateTo('/new-feature');
+Given("I am on the new feature page", async function () {
+  await this.navigateTo("/new-feature");
   await this.waitForElement('[data-testid="new-feature-page"]');
 });
 
-When('I perform some action', async function () {
+When("I perform some action", async function () {
   await this.clickElement('[data-testid="action-button"]');
 });
 
-Then('I should see expected results', async function () {
+Then("I should see expected results", async function () {
   await this.waitForElement('[data-testid="results"]');
   const results = await this.page.textContent('[data-testid="results"]');
-  expect(results).toContain('Expected text');
+  expect(results).toContain("Expected text");
 });
 ```
 
@@ -320,44 +341,45 @@ The custom world provides helpful methods:
 
 ```javascript
 // Navigation
-await this.navigateTo('/path');
+await this.navigateTo("/path");
 
 // Form interaction
-await this.fillField('[data-testid="input"]', 'value');
+await this.fillField('[data-testid="input"]', "value");
 await this.clickElement('[data-testid="button"]');
 
 // Waiting and verification
 await this.waitForElement('[data-testid="element"]');
-await this.waitForAPIResponse('endpoint', 'POST');
+await this.waitForAPIResponse("endpoint", "POST");
 
 // Test data management
 const user = this.generateTestUser();
-this.storeTestData('key', value);
-const data = this.getTestData('key');
+this.storeTestData("key", value);
+const data = this.getTestData("key");
 
 // Screenshots
-await this.takeScreenshot('test-state');
+await this.takeScreenshot("test-state");
 ```
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `API_URL` | `http://localhost:8080` | Backend API base URL |
-| `BASE_URL` | `http://localhost:5173` | Frontend application URL |
-| `DATABASE_URL` | - | PostgreSQL connection string |
-| `HEADLESS` | `true` | Run browsers in headless mode |
-| `SLOW_MO` | `0` | Slow down actions (ms) |
-| `BROWSER` | `chromium` | Primary browser for testing |
-| `TAGS` | `@smoke` | Cucumber tags to execute |
-| `VIDEO` | `false` | Record test videos |
-| `TRACE` | `false` | Capture Playwright traces |
+| Variable       | Default                 | Description                   |
+| -------------- | ----------------------- | ----------------------------- |
+| `API_URL`      | `http://localhost:8080` | Backend API base URL          |
+| `BASE_URL`     | `http://localhost:5173` | Frontend application URL      |
+| `DATABASE_URL` | -                       | PostgreSQL connection string  |
+| `HEADLESS`     | `true`                  | Run browsers in headless mode |
+| `SLOW_MO`      | `0`                     | Slow down actions (ms)        |
+| `BROWSER`      | `chromium`              | Primary browser for testing   |
+| `TAGS`         | `@smoke`                | Cucumber tags to execute      |
+| `VIDEO`        | `false`                 | Record test videos            |
+| `TRACE`        | `false`                 | Capture Playwright traces     |
 
 ### Browser Configuration
 
 Supported browsers and devices:
+
 - **Desktop**: Chrome, Firefox, Safari (1280x720)
 - **Mobile**: iPhone 12, Pixel 5, iPad Pro
 - **Custom**: Define viewport and user agent
@@ -365,6 +387,7 @@ Supported browsers and devices:
 ### Tag Strategy
 
 Test organization using Cucumber tags:
+
 - `@smoke`: Critical functionality (runs on every PR)
 - `@regression`: Full feature coverage (nightly runs)
 - `@api`: Backend/GraphQL testing
@@ -395,6 +418,7 @@ TAGS=@performance npm run e2e:test
 ### Performance Assertions
 
 Tests include performance validations:
+
 - Page load times < 3 seconds
 - API responses < 2 seconds
 - Character creation < 5 seconds
@@ -405,6 +429,7 @@ Tests include performance validations:
 ### Common Issues
 
 **Tests failing with timeout errors:**
+
 ```bash
 # Increase timeout globally
 TIMEOUT=120000 npm run e2e:test
@@ -414,12 +439,14 @@ npm run e2e:playwright:debug
 ```
 
 **Browser installation issues:**
+
 ```bash
 # Reinstall browsers
 npx playwright install --force --with-deps
 ```
 
 **API connection failures:**
+
 ```bash
 # Verify API is running
 curl http://localhost:8080/health
@@ -429,6 +456,7 @@ psql $DATABASE_URL -c "SELECT 1"
 ```
 
 **Test data conflicts:**
+
 ```bash
 # Clean up existing data
 npm run e2e:teardown --force
@@ -450,6 +478,7 @@ npx cucumber-js e2e/features/authentication/login-flow.feature:15 --require e2e/
 ### Verbose Logging
 
 Enable detailed logging:
+
 ```bash
 # Set in environment or .env file
 CUCUMBER_VERBOSE=true

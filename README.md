@@ -84,7 +84,7 @@ The project uses GitHub Actions for CI/CD. Deployments are triggered automatical
 Current project test coverage status:
 
 - **UI Player**: 73.91% (Good)
-- **Infrastructure**: 100% statements, 85%+ branches (Excellent) 
+- **Infrastructure**: 100% statements, 85%+ branches (Excellent)
 - **API**: 29% with JaCoCo reporting enabled (Improving)
 - **Database**: Tests exist but some failing (Needs attention)
 

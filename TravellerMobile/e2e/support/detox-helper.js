@@ -59,10 +59,14 @@ class DetoxHelper {
   }
 
   // Scroll helpers
-  static async scrollToElement(scrollElementId, targetElementId, direction = 'down') {
+  static async scrollToElement(
+    scrollElementId,
+    targetElementId,
+    direction = 'down',
+  ) {
     const scrollElement = element(by.id(scrollElementId));
     const targetElement = element(by.id(targetElementId));
-    
+
     await waitFor(targetElement)
       .toBeVisible()
       .whileElement(scrollElement)
@@ -72,7 +76,7 @@ class DetoxHelper {
   static async scrollToText(scrollElementId, text, direction = 'down') {
     const scrollElement = element(by.id(scrollElementId));
     const targetElement = element(by.text(text));
-    
+
     await waitFor(targetElement)
       .toBeVisible()
       .whileElement(scrollElement)

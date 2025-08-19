@@ -5,18 +5,18 @@
  * Sets up initial test data for E2E testing
  */
 
-import { TestDataManager } from './test-data-manager.js';
-import fs from 'fs/promises';
-import path from 'path';
-import dotenv from 'dotenv';
+import { TestDataManager } from "./test-data-manager.js";
+import fs from "fs/promises";
+import path from "path";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const API_URL = process.env.API_URL || 'http://localhost:8080';
-const OUTPUT_FILE = path.join(process.cwd(), 'e2e-results', 'test-data.json');
+const API_URL = process.env.API_URL || "http://localhost:8080";
+const OUTPUT_FILE = path.join(process.cwd(), "e2e-results", "test-data.json");
 
 async function setupTestData() {
-  console.log('🚀 Setting up test data for E2E tests...');
+  console.log("🚀 Setting up test data for E2E tests...");
   console.log(`API URL: ${API_URL}`);
 
   const testDataManager = new TestDataManager(API_URL);
@@ -26,34 +26,36 @@ async function setupTestData() {
     await fs.mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
 
     // Check if API is available
-    const { default: axios } = await import('axios');
-    
+    const { default: axios } = await import("axios");
+
     try {
       await axios.get(`${API_URL}/health`);
-      console.log('✅ API is available');
+      console.log("✅ API is available");
     } catch (error) {
-      console.error('❌ API is not available. Please start the API server first.');
+      console.error(
+        "❌ API is not available. Please start the API server first.",
+      );
       process.exit(1);
     }
 
     // Create base test data
-    console.log('\n📊 Creating base test data...');
+    console.log("\n📊 Creating base test data...");
 
     // Create admin user
     const adminUser = await testDataManager.createTestUser({
-      email: 'e2e-admin@traveller-rpg.test',
-      username: 'e2e-admin',
-      firstName: 'E2E',
-      lastName: 'Admin'
+      email: "e2e-admin@traveller-rpg.test",
+      username: "e2e-admin",
+      firstName: "E2E",
+      lastName: "Admin",
     });
     console.log(`✅ Created admin user: ${adminUser.email}`);
 
     // Create GM user
     const gmUser = await testDataManager.createTestUser({
-      email: 'e2e-gm@traveller-rpg.test',
-      username: 'e2e-gamemaster',
-      firstName: 'Game',
-      lastName: 'Master'
+      email: "e2e-gm@traveller-rpg.test",
+      username: "e2e-gamemaster",
+      firstName: "Game",
+      lastName: "Master",
     });
     console.log(`✅ Created GM user: ${gmUser.email}`);
 
@@ -64,7 +66,7 @@ async function setupTestData() {
         email: `e2e-player${i}@traveller-rpg.test`,
         username: `e2e-player${i}`,
         firstName: `Player`,
-        lastName: `${i}`
+        lastName: `${i}`,
       });
       playerUsers.push(player);
       console.log(`✅ Created player user: ${player.email}`);
@@ -74,49 +76,57 @@ async function setupTestData() {
     const allCharacters = [];
     for (const player of playerUsers) {
       testDataManager.setAuthToken(player.token);
-      
+
       const character = await testDataManager.createTestCharacter(player.id, {
         name: `${player.firstName} ${player.lastName}'s Character`,
-        background: `Test character for ${player.username}`
+        background: `Test character for ${player.username}`,
       });
-      
+
       allCharacters.push(character);
-      console.log(`✅ Created character: ${character.name} for ${player.username}`);
+      console.log(
+        `✅ Created character: ${character.name} for ${player.username}`,
+      );
     }
 
     // Create a test campaign with the GM
     testDataManager.setAuthToken(gmUser.token);
     const testCampaign = await testDataManager.createTestCampaign(gmUser.id, {
-      name: 'E2E Test Campaign',
-      description: 'Campaign created for end-to-end testing purposes',
+      name: "E2E Test Campaign",
+      description: "Campaign created for end-to-end testing purposes",
       maxPlayers: 4,
-      isPublic: false
+      isPublic: false,
     });
     console.log(`✅ Created test campaign: ${testCampaign.name}`);
 
     // Create some additional test data for specific scenarios
-    console.log('\n🎲 Creating scenario-specific test data...');
+    console.log("\n🎲 Creating scenario-specific test data...");
 
     // Character with complete career history
     testDataManager.setAuthToken(playerUsers[0].token);
-    const veteranCharacter = await testDataManager.createTestCharacter(playerUsers[0].id, {
-      name: 'Veteran Spacer',
-      age: 38,
-      background: 'Experienced character with multiple career terms for testing advanced features'
-    });
+    const veteranCharacter = await testDataManager.createTestCharacter(
+      playerUsers[0].id,
+      {
+        name: "Veteran Spacer",
+        age: 38,
+        background:
+          "Experienced character with multiple career terms for testing advanced features",
+      },
+    );
     console.log(`✅ Created veteran character: ${veteranCharacter.name}`);
 
     // Load test data (smaller set)
-    if (process.argv.includes('--with-load-data')) {
-      console.log('\n⚡ Creating load test data...');
-      
+    if (process.argv.includes("--with-load-data")) {
+      console.log("\n⚡ Creating load test data...");
+
       const loadData = await testDataManager.generateLoadTestData({
         userCount: 5,
         charactersPerUser: 2,
-        campaignCount: 1
+        campaignCount: 1,
       });
-      
-      console.log(`✅ Load test data created: ${loadData.summary.totalUsers} users, ${loadData.summary.totalCharacters} characters, ${loadData.summary.totalCampaigns} campaigns`);
+
+      console.log(
+        `✅ Load test data created: ${loadData.summary.totalUsers} users, ${loadData.summary.totalCharacters} characters, ${loadData.summary.totalCampaigns} campaigns`,
+      );
     }
 
     // Save test data manifest
@@ -126,26 +136,35 @@ async function setupTestData() {
       users: {
         admin: { email: adminUser.email, token: adminUser.token },
         gm: { email: gmUser.email, token: gmUser.token },
-        players: playerUsers.map(p => ({ email: p.email, token: p.token, username: p.username }))
+        players: playerUsers.map((p) => ({
+          email: p.email,
+          token: p.token,
+          username: p.username,
+        })),
       },
-      characters: allCharacters.map(c => ({ id: c.id, name: c.name })),
+      characters: allCharacters.map((c) => ({ id: c.id, name: c.name })),
       campaigns: [{ id: testCampaign.id, name: testCampaign.name }],
-      summary: testDataManager.exportTestData()
+      summary: testDataManager.exportTestData(),
     };
 
     await fs.writeFile(OUTPUT_FILE, JSON.stringify(testDataManifest, null, 2));
     console.log(`\n💾 Test data manifest saved to: ${OUTPUT_FILE}`);
 
     // Validate created data
-    console.log('\n🔍 Validating created test data...');
-    
+    console.log("\n🔍 Validating created test data...");
+
     let validationErrors = 0;
     for (const character of allCharacters) {
       testDataManager.setAuthToken(adminUser.token);
-      const validation = await testDataManager.validateCharacterData(character.id);
-      
+      const validation = await testDataManager.validateCharacterData(
+        character.id,
+      );
+
       if (!validation.isValid) {
-        console.error(`❌ Character ${character.name} validation failed:`, validation.validations);
+        console.error(
+          `❌ Character ${character.name} validation failed:`,
+          validation.validations,
+        );
         validationErrors++;
       } else {
         console.log(`✅ Character ${character.name} validated successfully`);
@@ -156,8 +175,8 @@ async function setupTestData() {
       console.warn(`⚠️  ${validationErrors} characters failed validation`);
     }
 
-    console.log('\n🎉 Test data setup completed successfully!');
-    console.log('\nTest Credentials:');
+    console.log("\n🎉 Test data setup completed successfully!");
+    console.log("\nTest Credentials:");
     console.log(`Admin: ${adminUser.email} / TestPass123!`);
     console.log(`GM: ${gmUser.email} / TestPass123!`);
     playerUsers.forEach((player, index) => {
@@ -165,18 +184,17 @@ async function setupTestData() {
     });
 
     console.log(`\nTest data manifest: ${OUTPUT_FILE}`);
-
   } catch (error) {
-    console.error('❌ Test data setup failed:', error.message);
+    console.error("❌ Test data setup failed:", error.message);
     console.error(error.stack);
 
     // Attempt cleanup on failure
     try {
-      console.log('\n🧹 Attempting to clean up partial data...');
+      console.log("\n🧹 Attempting to clean up partial data...");
       await testDataManager.cleanupTestData();
-      console.log('✅ Cleanup completed');
+      console.log("✅ Cleanup completed");
     } catch (cleanupError) {
-      console.error('❌ Cleanup failed:', cleanupError.message);
+      console.error("❌ Cleanup failed:", cleanupError.message);
     }
 
     process.exit(1);
@@ -184,7 +202,7 @@ async function setupTestData() {
 }
 
 async function main() {
-  if (process.argv.includes('--help')) {
+  if (process.argv.includes("--help")) {
     console.log(`
 E2E Test Data Setup
 

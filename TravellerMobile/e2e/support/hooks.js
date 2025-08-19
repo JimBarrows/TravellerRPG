@@ -5,7 +5,7 @@ const path = require('path');
 
 BeforeAll(async () => {
   console.log('Starting Detox E2E tests...');
-  
+
   // Create directories for test artifacts
   const dirs = ['e2e/screenshots', 'e2e/reports'];
   dirs.forEach(dir => {
@@ -13,14 +13,14 @@ BeforeAll(async () => {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
-  
+
   // Initialize Detox
   await device.launchApp({
     newInstance: true,
     permissions: {
       notifications: 'YES',
-      location: 'inuse'
-    }
+      location: 'inuse',
+    },
   });
 });
 

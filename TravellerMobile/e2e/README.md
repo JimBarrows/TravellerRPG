@@ -43,30 +43,35 @@ e2e/
 ## Features Coverage
 
 ### 🔐 Authentication (7 scenarios)
+
 - Login with valid/invalid credentials
 - User registration and email verification
 - Biometric authentication setup and usage
 - Secure logout process
 
-### 👤 Character Creation (10 scenarios)  
+### 👤 Character Creation (10 scenarios)
+
 - Mobile wizard interface navigation
 - Form validation and data persistence
 - Mobile-specific input methods (touch, swipe, scroll)
 - Camera integration for character portraits
 
 ### 📱 Mobile Navigation (14 scenarios)
+
 - Tab bar and drawer navigation
 - Touch gestures (swipe, pinch, long-press)
 - Hardware back button handling
 - Accessibility navigation support
 
 ### 🔄 Offline Functionality (12 scenarios)
+
 - Offline character access and editing
 - Data synchronization and conflict resolution
 - Network status management
 - Background sync processing
 
 ### 🔔 Push Notifications (13 scenarios)
+
 - Campaign invitations and session reminders
 - Character updates and dice roll notifications
 - Notification settings and quiet hours
@@ -121,7 +126,7 @@ The Detox configuration is set up for both iOS and Android platforms:
 # Run all iOS E2E tests
 npm run e2e:run:ios
 
-# Run all Android E2E tests  
+# Run all Android E2E tests
 npm run e2e:run:android
 
 # Build only (without running tests)
@@ -186,7 +191,7 @@ await DetoxHelper.swipeLeft('carousel-id');
 await DetoxHelper.longPress('item-id');
 await DetoxHelper.scrollToElement('list-id', 'target-id');
 
-// Assertions  
+// Assertions
 await DetoxHelper.expectElementVisible('element-id');
 await DetoxHelper.expectTextVisible('Expected Text');
 
@@ -216,9 +221,11 @@ Centralized test data including:
 ## Reporting
 
 ### Console Output
+
 Real-time test execution with detailed step information and failure details.
 
-### HTML Reports  
+### HTML Reports
+
 Comprehensive HTML reports generated in `e2e/reports/cucumber-report.html` including:
 
 - Scenario execution status
@@ -228,17 +235,20 @@ Comprehensive HTML reports generated in `e2e/reports/cucumber-report.html` inclu
 - Test duration metrics
 
 ### Screenshots
+
 Automatic screenshot capture on test failures saved to `e2e/screenshots/`.
 
 ## Best Practices
 
 ### Test Organization
+
 - Keep scenarios focused on single user journeys
 - Use Background steps to reduce duplication
 - Tag scenarios appropriately for selective execution
 - Maintain clear Given-When-Then structure
 
 ### Mobile Testing
+
 - Always wait for elements before interaction
 - Use appropriate timeouts for mobile operations
 - Test both portrait and landscape orientations
@@ -246,14 +256,16 @@ Automatic screenshot capture on test failures saved to `e2e/screenshots/`.
 - Test with different device sizes
 
 ### Data Management
+
 - Use the TestDataManager for consistent test data
 - Clean up test data between scenarios
 - Isolate tests to avoid dependencies
 - Use appropriate test data for different scenarios
 
 ### Performance Considerations
+
 - Run tests on simulators/emulators for consistency
-- Use parallel execution cautiously with mobile tests  
+- Use parallel execution cautiously with mobile tests
 - Include performance assertions where relevant
 - Monitor test execution times
 
@@ -262,6 +274,7 @@ Automatic screenshot capture on test failures saved to `e2e/screenshots/`.
 ### Common Issues
 
 1. **App Build Failures**
+
    ```bash
    # Clean builds
    cd ios && xcodebuild clean
@@ -269,10 +282,11 @@ Automatic screenshot capture on test failures saved to `e2e/screenshots/`.
    ```
 
 2. **Simulator/Emulator Issues**
+
    ```bash
    # Reset iOS simulator
    xcrun simctl erase all
-   
+
    # Cold boot Android emulator
    emulator -avd Pixel_3a_API_30_x86 -cold-boot
    ```
@@ -314,7 +328,7 @@ When adding new scenarios:
 
 This BDD test suite integrates with:
 
-- **CI/CD**: Scripts can be run in automated pipelines  
+- **CI/CD**: Scripts can be run in automated pipelines
 - **Performance Monitoring**: Metrics collection during test runs
 - **Bug Tracking**: Link test failures to bug reports
 - **Code Coverage**: Integration with coverage tools

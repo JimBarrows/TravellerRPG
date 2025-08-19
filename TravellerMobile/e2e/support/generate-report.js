@@ -18,9 +18,9 @@ const options = {
   metadata: {
     'App Version': require('../../package.json').version,
     'Test Environment': process.env.NODE_ENV || 'development',
-    'Platform': process.platform,
-    'Executed': new Date().toISOString()
-  }
+    Platform: process.platform,
+    Executed: new Date().toISOString(),
+  },
 };
 
 try {

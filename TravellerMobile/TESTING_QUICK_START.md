@@ -9,7 +9,7 @@ npm start
 # 2. Build and run iOS tests
 npm run e2e:run:ios
 
-# 3. Build and run Android tests  
+# 3. Build and run Android tests
 npm run e2e:run:android
 
 # 4. Run specific feature
@@ -24,30 +24,35 @@ npm run cucumber:report
 **61 BDD Scenarios** across **5 Feature Files**:
 
 ### 🔐 Authentication (7 scenarios)
+
 - Login/logout flows
-- Registration & verification  
+- Registration & verification
 - Biometric authentication
 - Security management
 
 ### 👤 Character Creation (12 scenarios)
+
 - Mobile wizard interface
 - Form validation
 - Touch/swipe interactions
 - Camera integration
 
 ### 📱 Mobile Navigation (15 scenarios)
+
 - Tab bar navigation
 - Gesture support (swipe, pinch, long-press)
 - Hardware back button
 - Accessibility features
 
 ### 🔄 Offline Functionality (13 scenarios)
+
 - Offline character access
 - Data synchronization
 - Conflict resolution
 - Network status management
 
 ### 🔔 Push Notifications (14 scenarios)
+
 - Campaign invitations
 - Session reminders
 - Character updates
@@ -83,14 +88,16 @@ npx cucumber-js e2e/features --tags "@gestures"
 ## 🔧 Troubleshooting
 
 **Build Issues:**
+
 ```bash
 # Clean iOS build
 cd ios && xcodebuild clean
-# Clean Android build  
+# Clean Android build
 cd android && ./gradlew clean
 ```
 
 **Simulator Issues:**
+
 ```bash
 # Reset iOS simulator
 xcrun simctl erase all
@@ -99,6 +106,7 @@ emulator -avd Pixel_3a_API_30_x86 -cold-boot
 ```
 
 **Validation:**
+
 ```bash
 # Check setup
 node e2e/support/validate-setup.js
@@ -113,7 +121,7 @@ node e2e/support/validate-setup.js
 ✅ **Rich reporting** with failure screenshots  
 ✅ **Test utilities** for mobile interactions  
 ✅ **Offline testing** with network simulation  
-✅ **Push notification** testing scenarios  
+✅ **Push notification** testing scenarios
 
 ## 🎯 Next Steps
 

@@ -1,12 +1,12 @@
-import * as cdk from 'aws-cdk-lib';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { Construct } from 'constructs';
-import { AuthStack } from './stacks/auth-stack';
-import { DatabaseStack } from './stacks/database-stack';
-import { StorageStack } from './stacks/storage-stack';
-import { ApiStack } from './stacks/api-stack';
-import { ComputeStack } from './stacks/compute-stack';
-import { ConfigStack } from './stacks/config-stack';
+import * as cdk from "aws-cdk-lib";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import { Construct } from "constructs";
+import { AuthStack } from "./stacks/auth-stack";
+import { DatabaseStack } from "./stacks/database-stack";
+import { StorageStack } from "./stacks/storage-stack";
+import { ApiStack } from "./stacks/api-stack";
+import { ComputeStack } from "./stacks/compute-stack";
+import { ConfigStack } from "./stacks/config-stack";
 
 export interface TravellerInfrastructureStackProps extends cdk.StackProps {
   appName: string;
@@ -14,30 +14,34 @@ export interface TravellerInfrastructureStackProps extends cdk.StackProps {
 }
 
 export class TravellerInfrastructureStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: TravellerInfrastructureStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: TravellerInfrastructureStackProps,
+  ) {
     super(scope, id, props);
 
     const { appName, environment } = props;
 
     // Create VPC for the application
-    const vpc = new ec2.Vpc(this, 'VPC', {
+    const vpc = new ec2.Vpc(this, "VPC", {
       vpcName: `${appName}-${environment}-vpc`,
-      cidr: '10.0.0.0/16',
-      maxAzs: environment === 'prod' ? 3 : 2,
-      natGateways: environment === 'prod' ? 2 : 1,
+      cidr: "10.0.0.0/16",
+      maxAzs: environment === "prod" ? 3 : 2,
+      natGateways: environment === "prod" ? 2 : 1,
       subnetConfiguration: [
         {
-          name: 'Public',
+          name: "Public",
           subnetType: ec2.SubnetType.PUBLIC,
           cidrMask: 24,
         },
         {
-          name: 'PrivateWithEgress',
+          name: "PrivateWithEgress",
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
           cidrMask: 24,
         },
         {
-          name: 'PrivateIsolated',
+          name: "PrivateIsolated",
           subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
           cidrMask: 24,
         },
@@ -47,7 +51,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create VPC endpoints for AWS services to reduce NAT Gateway costs
-    new ec2.InterfaceVpcEndpoint(this, 'SecretsManagerEndpoint', {
+    new ec2.InterfaceVpcEndpoint(this, "SecretsManagerEndpoint", {
       vpc,
       service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
       privateDnsEnabled: true,
@@ -56,7 +60,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
       },
     });
 
-    new ec2.GatewayVpcEndpoint(this, 'S3Endpoint', {
+    new ec2.GatewayVpcEndpoint(this, "S3Endpoint", {
       vpc,
       service: ec2.GatewayVpcEndpointAwsService.S3,
       subnets: [
@@ -70,7 +74,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create Configuration Stack first (for parameters and secrets)
-    const configStack = new ConfigStack(this, 'ConfigStack', {
+    const configStack = new ConfigStack(this, "ConfigStack", {
       appName,
       environment,
       stackName: `${appName}-${environment}-config`,
@@ -78,7 +82,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create Authentication Stack
-    const authStack = new AuthStack(this, 'AuthStack', {
+    const authStack = new AuthStack(this, "AuthStack", {
       appName,
       environment,
       stackName: `${appName}-${environment}-auth`,
@@ -86,7 +90,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create Storage Stack
-    const storageStack = new StorageStack(this, 'StorageStack', {
+    const storageStack = new StorageStack(this, "StorageStack", {
       appName,
       environment,
       stackName: `${appName}-${environment}-storage`,
@@ -94,7 +98,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create Database Stack
-    const databaseStack = new DatabaseStack(this, 'DatabaseStack', {
+    const databaseStack = new DatabaseStack(this, "DatabaseStack", {
       appName,
       environment,
       vpc,
@@ -103,7 +107,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create Compute Stack
-    const computeStack = new ComputeStack(this, 'ComputeStack', {
+    const computeStack = new ComputeStack(this, "ComputeStack", {
       appName,
       environment,
       vpc,
@@ -118,7 +122,7 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     });
 
     // Create API Stack
-    const apiStack = new ApiStack(this, 'ApiStack', {
+    const apiStack = new ApiStack(this, "ApiStack", {
       appName,
       environment,
       userPool: authStack.userPool,
@@ -140,15 +144,15 @@ export class TravellerInfrastructureStack extends cdk.Stack {
     // storageStack.userUploadsBucket.addEventNotification(...)
 
     // Output VPC information
-    new cdk.CfnOutput(this, 'VpcId', {
+    new cdk.CfnOutput(this, "VpcId", {
       value: vpc.vpcId,
-      description: 'VPC ID',
+      description: "VPC ID",
       exportName: `${appName}-${environment}-vpc-id`,
     });
 
-    new cdk.CfnOutput(this, 'VpcCidr', {
+    new cdk.CfnOutput(this, "VpcCidr", {
       value: vpc.vpcCidrBlock,
-      description: 'VPC CIDR Block',
+      description: "VPC CIDR Block",
       exportName: `${appName}-${environment}-vpc-cidr`,
     });
   }

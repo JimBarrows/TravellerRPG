@@ -10,14 +10,16 @@ const createExpect = (actual) => {
     },
     toEqual: (expected) => {
       if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-        throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
+        throw new Error(
+          `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`,
+        );
       }
     },
     toBeTruthy: () => {
       if (!actual) {
         throw new Error(`Expected ${actual} to be truthy`);
       }
-    }
+    },
   };
 
   return expectObj;
@@ -26,12 +28,12 @@ const createExpect = (actual) => {
 global.expect = createExpect;
 
 // Basic Node.js environment
-if (typeof window === 'undefined') {
+if (typeof window === "undefined") {
   global.window = {};
 }
 
-if (typeof document === 'undefined') {
+if (typeof document === "undefined") {
   global.document = {};
 }
 
-console.log('Minimal Cucumber setup loaded');
+console.log("Minimal Cucumber setup loaded");

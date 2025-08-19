@@ -6,10 +6,10 @@
 
 export interface EnvironmentConfig {
   // Basic environment settings
-  environment: 'dev' | 'staging' | 'prod';
+  environment: "dev" | "staging" | "prod";
   appName: string;
   region: string;
-  
+
   // Database configuration
   database: {
     name: string;
@@ -30,7 +30,7 @@ export interface EnvironmentConfig {
       requireUppercase: boolean;
       requireLowercase: boolean;
     };
-    mfaConfiguration: 'OFF' | 'OPTIONAL' | 'REQUIRED';
+    mfaConfiguration: "OFF" | "OPTIONAL" | "REQUIRED";
     enableSelfSignup: boolean;
     enableSocialLogin: boolean;
   };
@@ -65,7 +65,7 @@ export interface EnvironmentConfig {
 
   // Monitoring and logging
   monitoring: {
-    logLevel: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
+    logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
     enableDetailedMonitoring: boolean;
     enableAlarms: boolean;
     enableDashboards: boolean;
@@ -116,14 +116,14 @@ export interface EnvironmentConfig {
  * Development environment configuration
  */
 export const devConfig: EnvironmentConfig = {
-  environment: 'dev',
-  appName: 'TravellerRPG',
-  region: 'us-east-1',
-  
+  environment: "dev",
+  appName: "TravellerRPG",
+  region: "us-east-1",
+
   database: {
-    name: 'travellerrpg',
+    name: "travellerrpg",
     port: 5432,
-    instanceClass: 'db.t3.micro',
+    instanceClass: "db.t3.micro",
     multiAz: false,
     backupRetention: 7,
     deletionProtection: false,
@@ -138,13 +138,17 @@ export const devConfig: EnvironmentConfig = {
       requireUppercase: true,
       requireLowercase: true,
     },
-    mfaConfiguration: 'OPTIONAL',
+    mfaConfiguration: "OPTIONAL",
     enableSelfSignup: true,
     enableSocialLogin: true,
   },
 
   api: {
-    corsOrigins: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:5173'],
+    corsOrigins: [
+      "http://localhost:3000",
+      "http://localhost:8080",
+      "http://localhost:5173",
+    ],
     enableCaching: false,
     cacheTimeToLive: 300,
     enableFieldLevelAuth: true,
@@ -168,7 +172,7 @@ export const devConfig: EnvironmentConfig = {
   },
 
   monitoring: {
-    logLevel: 'DEBUG',
+    logLevel: "DEBUG",
     enableDetailedMonitoring: false,
     enableAlarms: false,
     enableDashboards: false,
@@ -216,11 +220,11 @@ export const devConfig: EnvironmentConfig = {
  */
 export const stagingConfig: EnvironmentConfig = {
   ...devConfig,
-  environment: 'staging',
-  
+  environment: "staging",
+
   database: {
     ...devConfig.database,
-    instanceClass: 'db.t3.small',
+    instanceClass: "db.t3.small",
     multiAz: true,
     backupRetention: 14,
     deletionProtection: true,
@@ -229,7 +233,7 @@ export const stagingConfig: EnvironmentConfig = {
 
   api: {
     ...devConfig.api,
-    corsOrigins: ['https://staging.travellerrpg.com'],
+    corsOrigins: ["https://staging.travellerrpg.com"],
     enableCaching: true,
   },
 
@@ -249,7 +253,7 @@ export const stagingConfig: EnvironmentConfig = {
 
   monitoring: {
     ...devConfig.monitoring,
-    logLevel: 'INFO',
+    logLevel: "INFO",
     enableDetailedMonitoring: true,
     enableAlarms: true,
     enableDashboards: true,
@@ -275,11 +279,11 @@ export const stagingConfig: EnvironmentConfig = {
  */
 export const prodConfig: EnvironmentConfig = {
   ...stagingConfig,
-  environment: 'prod',
-  
+  environment: "prod",
+
   database: {
     ...stagingConfig.database,
-    instanceClass: 'db.r5.large',
+    instanceClass: "db.r5.large",
     multiAz: true,
     backupRetention: 30,
     deletionProtection: true,
@@ -288,12 +292,12 @@ export const prodConfig: EnvironmentConfig = {
 
   auth: {
     ...stagingConfig.auth,
-    mfaConfiguration: 'OPTIONAL', // Can be upgraded to REQUIRED based on security requirements
+    mfaConfiguration: "OPTIONAL", // Can be upgraded to REQUIRED based on security requirements
   },
 
   api: {
     ...stagingConfig.api,
-    corsOrigins: ['https://travellerrpg.com', 'https://www.travellerrpg.com'],
+    corsOrigins: ["https://travellerrpg.com", "https://www.travellerrpg.com"],
     enableCaching: true,
     cacheTimeToLive: 3600, // 1 hour
   },
@@ -307,7 +311,7 @@ export const prodConfig: EnvironmentConfig = {
 
   monitoring: {
     ...stagingConfig.monitoring,
-    logLevel: 'WARN',
+    logLevel: "WARN",
     enableDetailedMonitoring: true,
     enableAlarms: true,
     enableDashboards: true,
@@ -351,11 +355,11 @@ export const prodConfig: EnvironmentConfig = {
  */
 export function getEnvironmentConfig(environment: string): EnvironmentConfig {
   switch (environment) {
-    case 'dev':
+    case "dev":
       return devConfig;
-    case 'staging':
+    case "staging":
       return stagingConfig;
-    case 'prod':
+    case "prod":
       return prodConfig;
     default:
       throw new Error(`Unknown environment: ${environment}`);
@@ -368,47 +372,58 @@ export function getEnvironmentConfig(environment: string): EnvironmentConfig {
 export function validateEnvironmentConfig(config: EnvironmentConfig): void {
   // Basic validation
   if (!config.appName) {
-    throw new Error('App name is required');
+    throw new Error("App name is required");
   }
-  
+
   if (!config.region) {
-    throw new Error('Region is required');
+    throw new Error("Region is required");
   }
-  
-  if (!['dev', 'staging', 'prod'].includes(config.environment)) {
-    throw new Error('Environment must be dev, staging, or prod');
+
+  if (!["dev", "staging", "prod"].includes(config.environment)) {
+    throw new Error("Environment must be dev, staging, or prod");
   }
-  
+
   // Database validation
-  if (config.database.backupRetention < 1 || config.database.backupRetention > 35) {
-    throw new Error('Backup retention must be between 1 and 35 days');
+  if (
+    config.database.backupRetention < 1 ||
+    config.database.backupRetention > 35
+  ) {
+    throw new Error("Backup retention must be between 1 and 35 days");
   }
-  
+
   // Lambda validation
   if (config.lambda.timeout < 1 || config.lambda.timeout > 900) {
-    throw new Error('Lambda timeout must be between 1 and 900 seconds');
+    throw new Error("Lambda timeout must be between 1 and 900 seconds");
   }
-  
+
   if (config.lambda.memorySize < 128 || config.lambda.memorySize > 10240) {
-    throw new Error('Lambda memory size must be between 128 and 10240 MB');
+    throw new Error("Lambda memory size must be between 128 and 10240 MB");
   }
-  
+
   // Performance validation
   if (config.performance.maxConcurrentUsers < 1) {
-    throw new Error('Max concurrent users must be at least 1');
+    throw new Error("Max concurrent users must be at least 1");
   }
 }
 
 /**
  * Get parameter store path for a given key
  */
-export function getParameterPath(appName: string, environment: string, key: string): string {
+export function getParameterPath(
+  appName: string,
+  environment: string,
+  key: string,
+): string {
   return `/${appName}/${environment}/${key}`;
 }
 
 /**
  * Get secret name for a given key
  */
-export function getSecretName(appName: string, environment: string, key: string): string {
+export function getSecretName(
+  appName: string,
+  environment: string,
+  key: string,
+): string {
   return `/${appName}/${environment}/${key}`;
 }

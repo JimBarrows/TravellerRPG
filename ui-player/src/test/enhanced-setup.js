@@ -10,7 +10,9 @@ const createExpect = (actual) => {
     },
     toEqual: (expected) => {
       if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-        throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
+        throw new Error(
+          `Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`,
+        );
       }
     },
     toBeTruthy: () => {
@@ -20,32 +22,36 @@ const createExpect = (actual) => {
     },
     toBeInTheDocument: () => {
       // Basic check for DOM element
-      if (!actual || typeof actual.ownerDocument === 'undefined') {
-        throw new Error('Expected element to be in the document');
+      if (!actual || typeof actual.ownerDocument === "undefined") {
+        throw new Error("Expected element to be in the document");
       }
     },
     toHaveClass: (className) => {
-      if (!actual || !actual.classList || !actual.classList.contains(className)) {
+      if (
+        !actual ||
+        !actual.classList ||
+        !actual.classList.contains(className)
+      ) {
         throw new Error(`Expected element to have class "${className}"`);
       }
     },
     toBeEnabled: () => {
       if (!actual || actual.disabled) {
-        throw new Error('Expected element to be enabled');
+        throw new Error("Expected element to be enabled");
       }
     },
     toBeDisabled: () => {
       if (!actual || !actual.disabled) {
-        throw new Error('Expected element to be disabled');
+        throw new Error("Expected element to be disabled");
       }
     },
     not: {
       toBeInTheDocument: () => {
-        if (actual && typeof actual.ownerDocument !== 'undefined') {
-          throw new Error('Expected element not to be in the document');
+        if (actual && typeof actual.ownerDocument !== "undefined") {
+          throw new Error("Expected element not to be in the document");
         }
-      }
-    }
+      },
+    },
   };
 
   return expectObj;
@@ -55,9 +61,9 @@ global.expect = createExpect;
 
 // Set up DOM environment with Happy-DOM if available
 try {
-  const { GlobalWindow } = require('happy-dom');
+  const { GlobalWindow } = require("happy-dom");
   const happyDOM = new GlobalWindow({
-    url: 'http://localhost:3000',
+    url: "http://localhost:3000",
     width: 1024,
     height: 768,
   });
@@ -73,10 +79,10 @@ try {
   global.KeyboardEvent = happyDOM.window.KeyboardEvent;
   global.MouseEvent = happyDOM.window.MouseEvent;
 
-  console.log('Happy-DOM environment initialized for React testing');
+  console.log("Happy-DOM environment initialized for React testing");
 } catch (error) {
-  console.warn('Happy-DOM not available, using basic DOM setup');
-  
+  console.warn("Happy-DOM not available, using basic DOM setup");
+
   // Basic DOM setup
   global.window = {
     matchMedia: (query) => ({
@@ -105,9 +111,9 @@ try {
       body: {},
     },
     navigator: {},
-    location: { pathname: '/' },
+    location: { pathname: "/" },
   };
-  
+
   global.document = global.window.document;
   global.HTMLElement = class HTMLElement {};
   global.Event = class Event {};
@@ -115,7 +121,9 @@ try {
 
 // Mock additional APIs
 global.ResizeObserver = class ResizeObserver {
-  constructor(callback) { this.callback = callback; }
+  constructor(callback) {
+    this.callback = callback;
+  }
   observe() {}
   unobserve() {}
   disconnect() {}
@@ -150,47 +158,47 @@ const createMockFn = (implementation) => {
   const mockFn = (...args) => mockFn.implementation(...args);
   mockFn.implementation = implementation || (() => {});
   mockFn.calls = [];
-  
+
   mockFn.mockImplementation = (fn) => {
     mockFn.implementation = fn;
     return mockFn;
   };
-  
+
   mockFn.mockReturnValue = (value) => {
     mockFn.implementation = () => value;
     return mockFn;
   };
-  
+
   mockFn.mockResolvedValue = (value) => {
     mockFn.implementation = () => Promise.resolve(value);
     return mockFn;
   };
-  
+
   mockFn.mockRejectedValue = (value) => {
     mockFn.implementation = () => Promise.reject(value);
     return mockFn;
   };
-  
+
   mockFn.mockClear = () => {
     mockFn.calls = [];
     return mockFn;
   };
-  
+
   mockFn.mockReset = () => {
     mockFn.calls = [];
     mockFn.implementation = () => {};
     return mockFn;
   };
-  
+
   return new Proxy(mockFn, {
     apply(target, thisArg, argumentsList) {
       target.calls.push(argumentsList);
       return target.implementation.apply(thisArg, argumentsList);
-    }
+    },
   });
 };
 
 global.jest = { fn: createMockFn };
 global.createMockFn = createMockFn;
 
-console.log('Enhanced Cucumber setup loaded with React support');
+console.log("Enhanced Cucumber setup loaded with React support");

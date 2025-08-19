@@ -151,26 +151,26 @@ type Query {
   # User queries
   getUser(id: ID!): User
   getCurrentUser: User
-  
+
   # Campaign queries
   getCampaign(id: ID!): Campaign
   listCampaigns(filter: CampaignFilter): [Campaign!]!
   listUserCampaigns: [Campaign!]!
-  
+
   # Character queries
   getCharacter(id: ID!): Character
   listCharacters(campaignId: ID!): [Character!]!
   listUserCharacters: [Character!]!
-  
+
   # Character draft queries
   getCharacterDraft(id: ID!): CharacterDraft
   getCharacterDrafts(campaignId: ID!): [CharacterDraft!]!
   listUserCharacterDrafts: [CharacterDraft!]!
-  
+
   # Session queries
   getSession(id: ID!): Session
   listSessions(campaignId: ID!): [Session!]!
-  
+
   # Dice roll queries
   listDiceRolls(campaignId: ID!, limit: Int): [DiceRoll!]!
 }
@@ -179,28 +179,28 @@ type Query {
 type Mutation {
   # User mutations
   updateUserProfile(input: UpdateUserProfileInput!): User
-  
+
   # Campaign mutations
   createCampaign(input: CreateCampaignInput!): Campaign
   updateCampaign(id: ID!, input: UpdateCampaignInput!): Campaign
   deleteCampaign(id: ID!): Boolean
   invitePlayerToCampaign(campaignId: ID!, email: String!): Boolean
-  
+
   # Character mutations
   createCharacter(input: CreateCharacterInput!): Character
   updateCharacter(id: ID!, input: UpdateCharacterInput!): Character
   updateCharacterFull(id: ID!, input: UpdateCharacterFullInput!): Character
   deleteCharacter(id: ID!): Boolean
-  
+
   # Character draft mutations
   saveCharacterDraft(input: SaveCharacterDraftInput!): CharacterDraft
   deleteCharacterDraft(id: ID!): Boolean
   createCharacterFromDraft(input: CreateCharacterFromDraftInput!): Character
-  
+
   # Session mutations
   createSession(input: CreateSessionInput!): Session
   updateSession(id: ID!, input: UpdateSessionInput!): Session
-  
+
   # Dice roll mutations
   rollDice(input: RollDiceInput!): DiceRoll
 }
@@ -210,13 +210,12 @@ type Subscription {
   # Real-time updates
   onCampaignUpdate(campaignId: ID!): Campaign
     @aws_subscribe(mutations: ["updateCampaign"])
-  
+
   onCharacterUpdate(characterId: ID!): Character
     @aws_subscribe(mutations: ["updateCharacter"])
-    
-  onDiceRoll(campaignId: ID!): DiceRoll
-    @aws_subscribe(mutations: ["rollDice"])
-    
+
+  onDiceRoll(campaignId: ID!): DiceRoll @aws_subscribe(mutations: ["rollDice"])
+
   onSessionUpdate(campaignId: ID!): Session
     @aws_subscribe(mutations: ["createSession", "updateSession"])
 }

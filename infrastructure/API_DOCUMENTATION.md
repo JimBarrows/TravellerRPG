@@ -7,10 +7,12 @@ The Traveller RPG Digital Platform provides a comprehensive GraphQL API built on
 ## Authentication
 
 ### Cognito User Pool
+
 - **Primary Authentication**: AWS Cognito User Pool with JWT tokens
 - **API Key**: Available for development and testing (limited functionality)
 
 ### Authorization Levels
+
 - **Public**: Read access to public campaigns and general game data
 - **User**: Full access to own data and campaigns they're members of
 - **Gamemaster**: Full control over campaigns they manage
@@ -19,6 +21,7 @@ The Traveller RPG Digital Platform provides a comprehensive GraphQL API built on
 ## Core Types
 
 ### User
+
 Represents a platform user with subscription tiers and profile information.
 
 ```graphql
@@ -34,13 +37,14 @@ type User {
 }
 
 enum SubscriptionTier {
-  FREE      # Basic features, 1 campaign
-  STANDARD  # Enhanced features, 5 campaigns
-  PREMIUM   # Full features, unlimited campaigns
+  FREE # Basic features, 1 campaign
+  STANDARD # Enhanced features, 5 campaigns
+  PREMIUM # Full features, unlimited campaigns
 }
 ```
 
 ### Campaign
+
 Represents a game campaign with settings and membership management.
 
 ```graphql
@@ -58,14 +62,15 @@ type Campaign {
 }
 
 type CampaignSettings {
-  houseRules: AWSJSON      # Custom rule modifications
-  allowedBooks: [String!]  # Permitted rulebooks
-  maxPlayers: Int          # Maximum player count
-  isPublic: Boolean        # Public visibility
+  houseRules: AWSJSON # Custom rule modifications
+  allowedBooks: [String!] # Permitted rulebooks
+  maxPlayers: Int # Maximum player count
+  isPublic: Boolean # Public visibility
 }
 ```
 
 ### Character
+
 Represents a player character with full Traveller RPG statistics.
 
 ```graphql
@@ -86,16 +91,17 @@ type Character {
 }
 
 type Characteristics {
-  strength: Int!        # 1-15 range
-  dexterity: Int!       # 1-15 range
-  endurance: Int!       # 1-15 range
-  intelligence: Int!    # 1-15 range
-  education: Int!       # 1-15 range
-  socialStanding: Int!  # 1-15 range
+  strength: Int! # 1-15 range
+  dexterity: Int! # 1-15 range
+  endurance: Int! # 1-15 range
+  intelligence: Int! # 1-15 range
+  education: Int! # 1-15 range
+  socialStanding: Int! # 1-15 range
 }
 ```
 
 ### Session
+
 Represents a game session with scheduling and notes.
 
 ```graphql
@@ -120,6 +126,7 @@ enum SessionStatus {
 ```
 
 ### DiceRoll
+
 Represents dice rolls with full Traveller mechanics support.
 
 ```graphql
@@ -127,24 +134,25 @@ type DiceRoll {
   id: ID!
   roller: User!
   campaign: Campaign!
-  dice: String!           # Dice notation (e.g., "2d6+1")
-  result: Int!            # Final result after modifiers
-  modifiers: [String!]    # Applied modifiers
+  dice: String! # Dice notation (e.g., "2d6+1")
+  result: Int! # Final result after modifiers
+  modifiers: [String!] # Applied modifiers
   timestamp: AWSDateTime!
-  isPublic: Boolean!      # Visibility to other players
+  isPublic: Boolean! # Visibility to other players
 }
 ```
 
 ## Extended Types
 
 ### StarSystem & Planet
+
 World building support with Universal World Profile (UWP) integration.
 
 ```graphql
 type StarSystem {
   id: ID!
   name: String!
-  hexLocation: String!    # Hex coordinates (e.g., "1910")
+  hexLocation: String! # Hex coordinates (e.g., "1910")
   sector: String!
   subsector: String
   allegiance: String
@@ -157,21 +165,22 @@ type Planet {
   id: ID!
   name: String!
   starSystem: StarSystem!
-  uwp: String!            # Universal World Profile
-  tradeCodes: [String!]!  # Trade classifications
-  starport: String!       # A, B, C, D, E, X
-  size: Int!              # 0-10 (A)
-  atmosphere: Int!        # 0-15 (F)
-  hydrographics: Int!     # 0-10 (A)
-  population: Int!        # 0-15 (F)
-  government: Int!        # 0-15 (F)
-  lawLevel: Int!          # 0-15 (F)
-  techLevel: Int!         # 0-15+ (F+)
+  uwp: String! # Universal World Profile
+  tradeCodes: [String!]! # Trade classifications
+  starport: String! # A, B, C, D, E, X
+  size: Int! # 0-10 (A)
+  atmosphere: Int! # 0-15 (F)
+  hydrographics: Int! # 0-10 (A)
+  population: Int! # 0-15 (F)
+  government: Int! # 0-15 (F)
+  lawLevel: Int! # 0-15 (F)
+  techLevel: Int! # 0-15+ (F+)
   gasGiant: Boolean!
 }
 ```
 
 ### Starship
+
 Starship management with full specifications.
 
 ```graphql
@@ -180,11 +189,11 @@ type Starship {
   name: String!
   shipClass: String!
   tonnage: Int!
-  jumpDrive: Int          # Jump rating
-  maneuverDrive: Int      # Maneuver rating
-  powerPlant: Int         # Power plant rating
-  fuel: Int!              # Fuel capacity
-  cargo: Int!             # Cargo capacity
+  jumpDrive: Int # Jump rating
+  maneuverDrive: Int # Maneuver rating
+  powerPlant: Int # Power plant rating
+  fuel: Int! # Fuel capacity
+  cargo: Int! # Cargo capacity
   crew: [Character!]!
   currentLocation: StarSystem
 }
@@ -193,6 +202,7 @@ type Starship {
 ## Queries
 
 ### User Queries
+
 ```graphql
 # Get specific user (limited info for others)
 getUser(id: ID!): User
@@ -202,6 +212,7 @@ getCurrentUser: User
 ```
 
 ### Campaign Queries
+
 ```graphql
 # Get specific campaign (requires membership)
 getCampaign(id: ID!): Campaign
@@ -221,6 +232,7 @@ campaignsPaginated(
 ```
 
 ### Character Queries
+
 ```graphql
 # Get specific character (requires campaign access)
 getCharacter(id: ID!): Character
@@ -233,6 +245,7 @@ listUserCharacters: [Character!]!
 ```
 
 ### Session Queries
+
 ```graphql
 # Get specific session
 getSession(id: ID!): Session
@@ -242,6 +255,7 @@ listSessions(campaignId: ID!): [Session!]!
 ```
 
 ### Dice Roll Queries
+
 ```graphql
 # List dice rolls for campaign
 listDiceRolls(campaignId: ID!, limit: Int): [DiceRoll!]!
@@ -257,12 +271,14 @@ diceRollsPaginated(
 ## Mutations
 
 ### User Mutations
+
 ```graphql
 # Update user profile
 updateUserProfile(input: UpdateUserProfileInput!): User
 ```
 
 ### Campaign Mutations
+
 ```graphql
 # Create new campaign
 createCampaign(input: CreateCampaignInput!): Campaign
@@ -278,6 +294,7 @@ invitePlayerToCampaign(campaignId: ID!, email: String!): Boolean
 ```
 
 ### Character Mutations
+
 ```graphql
 # Create character
 createCharacter(input: CreateCharacterInput!): Character
@@ -290,6 +307,7 @@ deleteCharacter(id: ID!): Boolean
 ```
 
 ### Session Mutations
+
 ```graphql
 # Create session (GM only)
 createSession(input: CreateSessionInput!): Session
@@ -299,6 +317,7 @@ updateSession(id: ID!, input: UpdateSessionInput!): Session
 ```
 
 ### Dice Roll Mutations
+
 ```graphql
 # Roll dice with Traveller mechanics
 rollDice(input: RollDiceInput!): DiceRoll
@@ -325,6 +344,7 @@ onSessionUpdate(campaignId: ID!): Session
 ## Input Types
 
 ### Campaign Inputs
+
 ```graphql
 input CreateCampaignInput {
   name: String!
@@ -341,6 +361,7 @@ input CampaignSettingsInput {
 ```
 
 ### Character Inputs
+
 ```graphql
 input CreateCharacterInput {
   name: String!
@@ -350,26 +371,27 @@ input CreateCharacterInput {
 }
 
 input CharacteristicsInput {
-  strength: Int!        # Must be 1-15
-  dexterity: Int!       # Must be 1-15
-  endurance: Int!       # Must be 1-15
-  intelligence: Int!    # Must be 1-15
-  education: Int!       # Must be 1-15
-  socialStanding: Int!  # Must be 1-15
+  strength: Int! # Must be 1-15
+  dexterity: Int! # Must be 1-15
+  endurance: Int! # Must be 1-15
+  intelligence: Int! # Must be 1-15
+  education: Int! # Must be 1-15
+  socialStanding: Int! # Must be 1-15
 }
 
 input SkillInput {
   name: String!
-  level: Int!           # Must be 0-15
+  level: Int! # Must be 0-15
   specialization: String
 }
 ```
 
 ### Dice Roll Inputs
+
 ```graphql
 input RollDiceInput {
   campaignId: ID!
-  dice: String!         # Format: "XdY" or "XdY+Z" (e.g., "2d6+1")
+  dice: String! # Format: "XdY" or "XdY+Z" (e.g., "2d6+1")
   modifiers: [String!]
   isPublic: Boolean!
   description: String
@@ -385,7 +407,7 @@ The API uses standard GraphQL error responses with detailed error messages:
   "errors": [
     {
       "message": "Access denied: Not a member of this campaign",
-      "locations": [{"line": 2, "column": 3}],
+      "locations": [{ "line": 2, "column": 3 }],
       "path": ["getCampaign"],
       "extensions": {
         "code": "FORBIDDEN",
@@ -397,6 +419,7 @@ The API uses standard GraphQL error responses with detailed error messages:
 ```
 
 ### Common Error Codes
+
 - `UNAUTHENTICATED`: User not logged in
 - `FORBIDDEN`: Insufficient permissions
 - `NOT_FOUND`: Resource doesn't exist
@@ -408,7 +431,7 @@ The API uses standard GraphQL error responses with detailed error messages:
 The API implements rate limiting based on subscription tiers:
 
 - **FREE**: 100 requests/hour
-- **STANDARD**: 500 requests/hour  
+- **STANDARD**: 500 requests/hour
 - **PREMIUM**: 2000 requests/hour
 
 ## Caching
@@ -445,24 +468,28 @@ type PageInfo {
 ## Traveller RPG Integration
 
 ### Dice Mechanics
+
 - Supports standard Traveller 2d6 system
 - Handles skill levels, characteristic modifiers
 - Automatic difficulty calculation
 - Effect calculation (margin of success/failure)
 
 ### Character Creation
+
 - Full lifepath system support
 - Career progression tracking
 - Skill development rules
 - Equipment management
 
 ### World Building
+
 - UWP (Universal World Profile) parsing
 - Trade code generation
 - Hex map coordinate system
 - Jump route calculation
 
 ### Game Mechanics
+
 - Initiative and combat tracking
 - Damage and healing systems
 - Experience and advancement
@@ -471,6 +498,7 @@ type PageInfo {
 ## Examples
 
 ### Create a Campaign
+
 ```graphql
 mutation CreateCampaign {
   createCampaign(input: {
@@ -500,15 +528,18 @@ mutation CreateCampaign {
 ```
 
 ### Roll Dice
+
 ```graphql
 mutation RollDice {
-  rollDice(input: {
-    campaignId: "campaign123"
-    dice: "2d6+2"
-    isPublic: true
-    description: "Attack with Blade skill"
-    modifiers: ["Blade-2", "Dexterity+1"]
-  }) {
+  rollDice(
+    input: {
+      campaignId: "campaign123"
+      dice: "2d6+2"
+      isPublic: true
+      description: "Attack with Blade skill"
+      modifiers: ["Blade-2", "Dexterity+1"]
+    }
+  ) {
     id
     result
     individual
@@ -521,6 +552,7 @@ mutation RollDice {
 ```
 
 ### Subscribe to Campaign Updates
+
 ```graphql
 subscription CampaignUpdates {
   onCampaignUpdate(campaignId: "campaign123") {
@@ -542,20 +574,26 @@ subscription CampaignUpdates {
 ## Client Integration
 
 ### Apollo Client Setup
+
 ```typescript
-import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  split,
+} from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { WebSocketLink } from "@apollo/client/link/ws";
 
 const httpLink = createHttpLink({
-  uri: 'https://your-appsync-endpoint/graphql',
+  uri: "https://your-appsync-endpoint/graphql",
   headers: {
     authorization: `Bearer ${userToken}`,
   },
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://your-appsync-endpoint/graphql',
+  uri: "wss://your-appsync-endpoint/graphql",
   options: {
     reconnect: true,
     connectionParams: {
@@ -568,12 +606,12 @@ const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
     );
   },
   wsLink,
-  httpLink
+  httpLink,
 );
 
 const client = new ApolloClient({
