@@ -4,19 +4,16 @@ import userEvent from '@testing-library/user-event';
 import { AuthProvider } from '../../features/auth/context/AuthContext';
 import ProfilePage from '../../features/auth/components/ProfilePage';
 import TestRouter from '../support/TestRouter';
+import { createMockFn } from '../cucumber-mocks.js';
 
 // Mock AWS Amplify Storage
-const mockUpload = jest.fn();
-const mockRemove = jest.fn();
-jest.mock('@aws-amplify/storage', () => ({
-  uploadData: mockUpload,
-  remove: mockRemove,
-  getUrl: jest.fn(() => Promise.resolve({ url: 'https://example.com/avatar.jpg' }))
-}));
+const mockUpload = createMockFn();
+const mockRemove = createMockFn();
+const mockGetUrl = createMockFn(() => Promise.resolve({ url: 'https://example.com/avatar.jpg' }));
 
 // Mock auth service
 const mockAuthService = {
-  getCurrentUser: jest.fn(() => Promise.resolve({
+  getCurrentUser: createMockFn(() => Promise.resolve({
     id: 'user-123',
     username: 'john.doe@example.com',
     email: 'john.doe@example.com',
@@ -29,13 +26,13 @@ const mockAuthService = {
       created_at: '2024-01-01T00:00:00Z'
     }
   })),
-  updateUserAttributes: jest.fn(() => Promise.resolve({})),
-  changePassword: jest.fn(() => Promise.resolve(true)),
-  enableMFA: jest.fn(() => Promise.resolve({
+  updateUserAttributes: createMockFn(() => Promise.resolve({})),
+  changePassword: createMockFn(() => Promise.resolve(true)),
+  enableMFA: createMockFn(() => Promise.resolve({
     qrCode: 'data:image/png;base64,mock-qr-code',
     secretCode: 'MOCK-SECRET-CODE'
   })),
-  verifyMFA: jest.fn(() => Promise.resolve({ isVerified: true }))
+  verifyMFA: createMockFn(() => Promise.resolve({ isVerified: true }))
 };
 
 let component;

@@ -50,26 +50,33 @@ Tests for individual GraphQL query resolvers:
 - **listDiceRolls**: Dice roll history with campaign access
 
 **Example Test:**
+
 ```javascript
-it('should return campaign data with access check', async () => {
-  const mockUser = { id: 'user1', username: 'testuser' };
-  const mockCampaign = { /* campaign data */ };
+it("should return campaign data with access check", async () => {
+  const mockUser = { id: "user1", username: "testuser" };
+  const mockCampaign = {
+    /* campaign data */
+  };
 
   getUserFromEvent.mockReturnValue(mockUser);
   requireCampaignAccess.mockResolvedValue(true);
-  
+
   // Mock database response
   withDatabase.mockImplementation(async (callback) => {
     const mockPrisma = {
-      campaign: { findUnique: jest.fn().mockResolvedValue(mockCampaign) }
+      campaign: { findUnique: jest.fn().mockResolvedValue(mockCampaign) },
     };
     return callback(mockPrisma);
   });
 
-  const result = await queries.getCampaign(event, { id: 'campaign1' });
-  
-  expect(result.name).toBe('Test Campaign');
-  expect(requireCampaignAccess).toHaveBeenCalledWith(mockPrisma, mockUser, 'campaign1');
+  const result = await queries.getCampaign(event, { id: "campaign1" });
+
+  expect(result.name).toBe("Test Campaign");
+  expect(requireCampaignAccess).toHaveBeenCalledWith(
+    mockPrisma,
+    mockUser,
+    "campaign1",
+  );
 });
 ```
 
@@ -84,25 +91,27 @@ Tests for GraphQL mutation resolvers:
 - **invitePlayerToCampaign**: Player invitation management
 
 **Example Test:**
+
 ```javascript
-it('should create a dice roll with valid notation', async () => {
+it("should create a dice roll with valid notation", async () => {
   const mockInput = {
-    campaignId: 'campaign1',
-    dice: '2d6',
+    campaignId: "campaign1",
+    dice: "2d6",
     isPublic: true,
-    description: 'Attack roll'
+    description: "Attack roll",
   };
 
   validateDiceNotation.mockReturnValue({ count: 2, sides: 6, modifier: 0 });
-  
+
   // Mock Math.random for predictable results
-  Math.random = jest.fn()
+  Math.random = jest
+    .fn()
     .mockReturnValueOnce(0.33) // First die: 3
     .mockReturnValueOnce(0.67); // Second die: 5
 
   const result = await mutations.rollDice(event, { input: mockInput });
-  
-  expect(result.dice).toBe('2d6');
+
+  expect(result.dice).toBe("2d6");
   expect(result.individual).toEqual([3, 5]);
   expect(result.result).toBe(8);
 });
@@ -129,11 +138,13 @@ Demonstrates complete API usage patterns:
 Use AWS AppSync console or GraphQL Playground for manual testing:
 
 1. **Access the GraphQL endpoint**:
+
    ```
    https://your-appsync-id.appsync-api.region.amazonaws.com/graphql
    ```
 
 2. **Authentication headers**:
+
    ```json
    {
      "Authorization": "Bearer YOUR_JWT_TOKEN"
@@ -157,6 +168,7 @@ Create a Postman collection with:
 ### 1. Test Structure
 
 Follow the AAA pattern:
+
 - **Arrange**: Set up mocks and test data
 - **Act**: Execute the function under test
 - **Assert**: Verify the results
@@ -172,6 +184,7 @@ Follow the AAA pattern:
 ### 3. Test Data
 
 Use realistic Traveller RPG data:
+
 - **Characteristics**: Values 1-15
 - **UWP codes**: Valid format (A788899-C)
 - **Dice notation**: Standard formats (2d6, 1d20+3)
@@ -180,6 +193,7 @@ Use realistic Traveller RPG data:
 ### 4. Error Testing
 
 Test all error conditions:
+
 - Authentication failures
 - Authorization denials
 - Validation errors
@@ -193,13 +207,17 @@ Test all error conditions:
 Test Traveller character mechanics:
 
 ```javascript
-it('validates Traveller characteristics range', () => {
+it("validates Traveller characteristics range", () => {
   const characteristics = {
-    strength: 8, dexterity: 10, endurance: 9,
-    intelligence: 12, education: 11, socialStanding: 7
+    strength: 8,
+    dexterity: 10,
+    endurance: 9,
+    intelligence: 12,
+    education: 11,
+    socialStanding: 7,
   };
-  
-  Object.values(characteristics).forEach(stat => {
+
+  Object.values(characteristics).forEach((stat) => {
     expect(stat).toBeGreaterThanOrEqual(1);
     expect(stat).toBeLessThanOrEqual(15);
   });
@@ -211,7 +229,7 @@ it('validates Traveller characteristics range', () => {
 Test 2d6 system:
 
 ```javascript
-it('validates 2d6 roll results', () => {
+it("validates 2d6 roll results", () => {
   const result = rollTwoDSix();
   expect(result.total).toBeGreaterThanOrEqual(2);
   expect(result.total).toBeLessThanOrEqual(12);
@@ -224,8 +242,8 @@ it('validates 2d6 roll results', () => {
 Test Universal World Profile format:
 
 ```javascript
-it('validates UWP format', () => {
-  const uwp = 'A788899-C';
+it("validates UWP format", () => {
+  const uwp = "A788899-C";
   expect(uwp).toMatch(/^[A-EX][0-9A-F]{6}-[0-9A-F]+$/);
 });
 ```
@@ -235,15 +253,30 @@ it('validates UWP format', () => {
 Test trade classification system:
 
 ```javascript
-it('validates trade codes', () => {
-  const tradeCodes = ['Ri', 'In', 'Hi'];
+it("validates trade codes", () => {
+  const tradeCodes = ["Ri", "In", "Hi"];
   const validCodes = [
-    'Ag', 'As', 'Ba', 'De', 'Fl', 'Ga', 'Hi', 'Ht',
-    'IC', 'In', 'Lo', 'Lt', 'Na', 'Ni', 'Po', 'Ri',
-    'Va', 'Wa'
+    "Ag",
+    "As",
+    "Ba",
+    "De",
+    "Fl",
+    "Ga",
+    "Hi",
+    "Ht",
+    "IC",
+    "In",
+    "Lo",
+    "Lt",
+    "Na",
+    "Ni",
+    "Po",
+    "Ri",
+    "Va",
+    "Wa",
   ];
-  
-  tradeCodes.forEach(code => {
+
+  tradeCodes.forEach((code) => {
     expect(validCodes).toContain(code);
   });
 });
@@ -256,11 +289,11 @@ it('validates trade codes', () => {
 Test response times for complex queries:
 
 ```javascript
-it('should respond within acceptable time limits', async () => {
+it("should respond within acceptable time limits", async () => {
   const startTime = Date.now();
-  
-  await queries.getCampaign(event, { id: 'campaign1' });
-  
+
+  await queries.getCampaign(event, { id: "campaign1" });
+
   const endTime = Date.now();
   expect(endTime - startTime).toBeLessThan(1000); // 1 second max
 });
@@ -271,10 +304,10 @@ it('should respond within acceptable time limits', async () => {
 Test large dataset handling:
 
 ```javascript
-it('should handle large paginated results efficiently', async () => {
+it("should handle large paginated results efficiently", async () => {
   const args = { first: 100 };
   const result = await queries.campaignsPaginated(event, args);
-  
+
   expect(result.edges).toHaveLength(100);
   expect(result.pageInfo.hasNextPage).toBeDefined();
 });
@@ -285,16 +318,16 @@ it('should handle large paginated results efficiently', async () => {
 Test multiple simultaneous requests:
 
 ```javascript
-it('should handle concurrent dice rolls', async () => {
-  const promises = Array(10).fill().map(() => 
-    mutations.rollDice(event, { input: diceRollInput })
-  );
-  
+it("should handle concurrent dice rolls", async () => {
+  const promises = Array(10)
+    .fill()
+    .map(() => mutations.rollDice(event, { input: diceRollInput }));
+
   const results = await Promise.all(promises);
   expect(results).toHaveLength(10);
-  
+
   // Ensure all rolls have unique IDs
-  const ids = results.map(r => r.id);
+  const ids = results.map((r) => r.id);
   expect(new Set(ids).size).toBe(10);
 });
 ```
@@ -306,16 +339,17 @@ it('should handle concurrent dice rolls', async () => {
 Verify access control:
 
 ```javascript
-it('should deny access to private campaigns', async () => {
-  const unauthorizedUser = { id: 'user2' };
-  
+it("should deny access to private campaigns", async () => {
+  const unauthorizedUser = { id: "user2" };
+
   getUserFromEvent.mockReturnValue(unauthorizedUser);
   requireCampaignAccess.mockRejectedValue(
-    new Error('Access denied: Not a member of this campaign')
+    new Error("Access denied: Not a member of this campaign"),
   );
-  
-  await expect(queries.getCampaign(event, { id: 'campaign1' }))
-    .rejects.toThrow('Access denied');
+
+  await expect(queries.getCampaign(event, { id: "campaign1" })).rejects.toThrow(
+    "Access denied",
+  );
 });
 ```
 
@@ -324,15 +358,16 @@ it('should deny access to private campaigns', async () => {
 Test malicious input handling:
 
 ```javascript
-it('should sanitize malicious input', async () => {
+it("should sanitize malicious input", async () => {
   const maliciousInput = {
     name: '<script>alert("xss")</script>',
-    description: 'DROP TABLE campaigns;'
+    description: "DROP TABLE campaigns;",
   };
-  
+
   // Should throw validation error before reaching database
-  await expect(mutations.createCampaign(event, { input: maliciousInput }))
-    .rejects.toThrow('Validation failed');
+  await expect(
+    mutations.createCampaign(event, { input: maliciousInput }),
+  ).rejects.toThrow("Validation failed");
 });
 ```
 
@@ -341,16 +376,16 @@ it('should sanitize malicious input', async () => {
 Test API rate limits:
 
 ```javascript
-it('should enforce rate limits', async () => {
+it("should enforce rate limits", async () => {
   // Simulate rapid requests
-  const rapidRequests = Array(101).fill().map(() => 
-    queries.getCurrentUser(event)
-  );
-  
+  const rapidRequests = Array(101)
+    .fill()
+    .map(() => queries.getCurrentUser(event));
+
   // Some requests should be rate limited
   const results = await Promise.allSettled(rapidRequests);
-  const rejected = results.filter(r => r.status === 'rejected');
-  
+  const rejected = results.filter((r) => r.status === "rejected");
+
   expect(rejected.length).toBeGreaterThan(0);
 });
 ```
@@ -370,18 +405,18 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
-      
+          node-version: "18"
+
       - name: Install dependencies
         run: |
           cd infrastructure/lambda/resolvers
           npm install
-      
+
       - name: Run tests
         run: |
           cd infrastructure/lambda/resolvers
           npm test -- --coverage --ci
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
@@ -408,7 +443,7 @@ Common mock debugging:
 
 ```javascript
 // Debug mock calls
-console.log('Mock calls:', mockFunction.mock.calls);
+console.log("Mock calls:", mockFunction.mock.calls);
 
 // Reset mocks between tests
 beforeEach(() => {
@@ -425,14 +460,14 @@ Handle promises correctly:
 
 ```javascript
 // Use async/await
-it('should handle async operations', async () => {
+it("should handle async operations", async () => {
   const result = await asyncFunction();
   expect(result).toBeDefined();
 });
 
 // Or return promises
-it('should handle promises', () => {
-  return asyncFunction().then(result => {
+it("should handle promises", () => {
+  return asyncFunction().then((result) => {
     expect(result).toBeDefined();
   });
 });
@@ -444,14 +479,14 @@ Ensure proper database mocking:
 
 ```javascript
 // Mock the entire database module
-jest.mock('../database', () => ({
-  withDatabase: jest.fn()
+jest.mock("../database", () => ({
+  withDatabase: jest.fn(),
 }));
 
 // Implement specific mock behavior
 withDatabase.mockImplementation(async (callback) => {
   const mockPrisma = {
-    user: { findUnique: jest.fn().mockResolvedValue(mockUser) }
+    user: { findUnique: jest.fn().mockResolvedValue(mockUser) },
   };
   return callback(mockPrisma);
 });
@@ -479,6 +514,7 @@ open coverage/lcov-report/index.html
 ### Test Results
 
 Track test metrics:
+
 - Pass/fail rates
 - Coverage percentages
 - Performance benchmarks

@@ -1,13 +1,16 @@
 export default {
-  paths: ['features/**/*.feature'],
-  import: ['src/test/steps/**/*.js'],
+  paths: ["features/auth/**/*.feature"],
+  import: [
+    "src/test/enhanced-setup.js",
+    "src/test/steps/auth-business-logic.steps.js",
+  ],
   format: [
-    'progress',
-    'json:test-results/cucumber-report.json',
-    'html:test-results/cucumber-report.html'
+    "progress",
+    "json:test-results/cucumber-report.json",
+    "html:test-results/cucumber-report.html",
   ],
   formatOptions: {
-    snippetInterface: 'async-await'
+    snippetInterface: "async-await",
   },
-  publishQuiet: true
+  publishQuiet: true,
 };

@@ -150,18 +150,18 @@ extend type Query {
   listStarSystems(campaignId: ID!): [StarSystem!]!
   getPlanet(id: ID!): Planet
   listPlanets(systemId: ID!): [Planet!]!
-  
+
   # Trade queries
   getTradeGood(id: ID!): TradeGood
   listTradeGoods(filter: TradeGoodFilter): [TradeGood!]!
   getTradeRoute(id: ID!): TradeRoute
   listTradeRoutes(campaignId: ID!): [TradeRoute!]!
-  
+
   # Starship queries
   getStarship(id: ID!): Starship
   listStarships(campaignId: ID!): [Starship!]!
   listUserStarships: [Starship!]!
-  
+
   # Combat queries
   getEncounter(id: ID!): Encounter
   listEncounters(campaignId: ID!): [Encounter!]!
@@ -175,27 +175,31 @@ extend type Mutation {
   createStarSystem(input: CreateStarSystemInput!): StarSystem
   updateStarSystem(id: ID!, input: UpdateStarSystemInput!): StarSystem
   deleteStarSystem(id: ID!): Boolean
-  
+
   createPlanet(input: CreatePlanetInput!): Planet
   updatePlanet(id: ID!, input: UpdatePlanetInput!): Planet
   deletePlanet(id: ID!): Boolean
-  
+
   # Trade mutations
   createTradeRoute(input: CreateTradeRouteInput!): TradeRoute
   updateTradeRoute(id: ID!, input: UpdateTradeRouteInput!): TradeRoute
   deleteTradeRoute(id: ID!): Boolean
-  
+
   # Starship mutations
   createStarship(input: CreateStarshipInput!): Starship
   updateStarship(id: ID!, input: UpdateStarshipInput!): Starship
   deleteStarship(id: ID!): Boolean
-  assignStarshipCrew(starshipId: ID!, characterId: ID!, position: String!): Boolean
-  
+  assignStarshipCrew(
+    starshipId: ID!
+    characterId: ID!
+    position: String!
+  ): Boolean
+
   # Combat mutations
   createEncounter(input: CreateEncounterInput!): Encounter
   updateEncounter(id: ID!, input: UpdateEncounterInput!): Encounter
   deleteEncounter(id: ID!): Boolean
-  
+
   startCombat(input: StartCombatInput!): CombatSession
   endCombat(combatSessionId: ID!): CombatSession
   addCombatAction(input: CombatActionInput!): CombatAction
@@ -206,10 +210,10 @@ extend type Subscription {
   # Combat subscriptions
   onCombatUpdate(combatSessionId: ID!): CombatSession
     @aws_subscribe(mutations: ["startCombat", "endCombat", "addCombatAction"])
-    
+
   onEncounterUpdate(campaignId: ID!): Encounter
     @aws_subscribe(mutations: ["createEncounter", "updateEncounter"])
-    
+
   # World updates
   onStarSystemUpdate(campaignId: ID!): StarSystem
     @aws_subscribe(mutations: ["createStarSystem", "updateStarSystem"])

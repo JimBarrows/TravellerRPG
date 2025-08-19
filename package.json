@@ -1,0 +1,43 @@
+{
+  "name": "traveller-rpg-e2e",
+  "version": "1.0.0",
+  "description": "E2E Testing Suite for Traveller RPG Platform",
+  "type": "module",
+  "scripts": {
+    "e2e:install": "npx playwright install --with-deps",
+    "e2e:test": "cucumber-js --config cucumber.config.js",
+    "e2e:test:headed": "HEADLESS=false npm run e2e:test",
+    "e2e:test:smoke": "TAGS=@smoke npm run e2e:test",
+    "e2e:test:regression": "TAGS=@regression npm run e2e:test",
+    "e2e:test:api": "TAGS=@api npm run e2e:test",
+    "e2e:test:ui": "TAGS=@ui npm run e2e:test",
+    "e2e:test:mobile": "TAGS=@mobile npm run e2e:test",
+    "e2e:test:cross-platform": "TAGS=@cross-platform npm run e2e:test",
+    "e2e:playwright": "playwright test",
+    "e2e:playwright:ui": "playwright test --ui",
+    "e2e:playwright:headed": "playwright test --headed",
+    "e2e:playwright:debug": "playwright test --debug",
+    "e2e:report": "playwright show-report e2e-results/html-report",
+    "e2e:clean": "rimraf e2e-results",
+    "e2e:setup": "node e2e/support/setup-test-data.js",
+    "e2e:teardown": "node e2e/support/cleanup-test-data.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/register": "^7.24.6",
+    "@cucumber/cucumber": "^12.1.0",
+    "@cucumber/html-formatter": "^21.7.0",
+    "@cucumber/pretty-formatter": "^2.1.0",
+    "@playwright/test": "^1.54.2",
+    "axios": "^1.7.7",
+    "cucumber-html-reporter": "^7.2.0",
+    "dotenv": "^16.4.7",
+    "faker": "^6.6.6",
+    "playwright": "^1.54.2",
+    "rimraf": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

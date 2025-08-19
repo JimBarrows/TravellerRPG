@@ -1,14 +1,14 @@
-import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as logs from 'aws-cdk-lib/aws-logs';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as targets from 'aws-cdk-lib/aws-events-targets';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
-import * as path from 'path';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
+import * as events from "aws-cdk-lib/aws-events";
+import * as targets from "aws-cdk-lib/aws-events-targets";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
+import * as path from "path";
+import { Construct } from "constructs";
 
 export interface ComputeStackProps extends cdk.StackProps {
   appName: string;
@@ -32,33 +32,32 @@ export class ComputeStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: ComputeStackProps) {
     super(scope, id, props);
 
-    const { 
-      appName, 
-      environment, 
-      vpc, 
-      databaseSecret, 
-      databaseSecurityGroup,
-    } = props;
+    const { appName, environment, vpc, databaseSecret, databaseSecurityGroup } =
+      props;
 
     // Common Lambda layer for shared dependencies
-    const commonLayer = new lambda.LayerVersion(this, 'CommonLayer', {
+    const commonLayer = new lambda.LayerVersion(this, "CommonLayer", {
       layerVersionName: `${appName}-${environment}-common`,
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'layers', 'common')),
+      code: lambda.Code.fromAsset(
+        path.join(__dirname, "..", "..", "lambda", "layers", "common"),
+      ),
       compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
-      description: 'Common dependencies and utilities',
+      description: "Common dependencies and utilities",
     });
 
     // Game engine Lambda function for complex game mechanics
-    this.gameEngineFunction = new lambda.Function(this, 'GameEngineFunction', {
+    this.gameEngineFunction = new lambda.Function(this, "GameEngineFunction", {
       functionName: `${appName}-${environment}-game-engine`,
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'game-engine')),
+      handler: "index.handler",
+      code: lambda.Code.fromAsset(
+        path.join(__dirname, "..", "..", "lambda", "game-engine"),
+      ),
       layers: [commonLayer],
       environment: {
         NODE_ENV: environment,
         DATABASE_SECRET_ARN: databaseSecret.secretArn,
-        DATABASE_NAME: 'travellerrpg',
+        DATABASE_NAME: "travellerrpg",
         // ASSETS_BUCKET: assetsBucket.bucketName, // Removed to avoid circular dependency
       },
       vpc,
@@ -67,12 +66,13 @@ export class ComputeStack extends cdk.Stack {
       },
       securityGroups: [databaseSecurityGroup],
       timeout: cdk.Duration.minutes(5),
-      memorySize: environment === 'prod' ? 2048 : 1024,
+      memorySize: environment === "prod" ? 2048 : 1024,
       tracing: lambda.Tracing.ACTIVE,
-      logRetention: environment === 'prod'
-        ? logs.RetentionDays.ONE_MONTH
-        : logs.RetentionDays.ONE_WEEK,
-      reservedConcurrentExecutions: environment === 'prod' ? 100 : 10,
+      logRetention:
+        environment === "prod"
+          ? logs.RetentionDays.ONE_MONTH
+          : logs.RetentionDays.ONE_WEEK,
+      reservedConcurrentExecutions: environment === "prod" ? 100 : 10,
     });
 
     // Grant necessary permissions
@@ -80,52 +80,66 @@ export class ComputeStack extends cdk.Stack {
     // assetsBucket.grantRead(this.gameEngineFunction); // Removed to avoid circular dependency
 
     // Auth triggers Lambda function for Cognito pre/post authentication
-    this.authTriggersFunction = new lambda.Function(this, 'AuthTriggersFunction', {
-      functionName: `${appName}-${environment}-auth-triggers`,
-      runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'auth-triggers')),
-      layers: [commonLayer],
-      environment: {
-        NODE_ENV: environment,
-        DATABASE_SECRET_ARN: databaseSecret.secretArn,
-        DATABASE_NAME: 'travellerrpg',
+    this.authTriggersFunction = new lambda.Function(
+      this,
+      "AuthTriggersFunction",
+      {
+        functionName: `${appName}-${environment}-auth-triggers`,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: "index.handler",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "..", "..", "lambda", "auth-triggers"),
+        ),
+        layers: [commonLayer],
+        environment: {
+          NODE_ENV: environment,
+          DATABASE_SECRET_ARN: databaseSecret.secretArn,
+          DATABASE_NAME: "travellerrpg",
+        },
+        vpc,
+        vpcSubnets: {
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [databaseSecurityGroup],
+        timeout: cdk.Duration.seconds(30),
+        memorySize: 512,
+        tracing: lambda.Tracing.ACTIVE,
+        logRetention:
+          environment === "prod"
+            ? logs.RetentionDays.ONE_MONTH
+            : logs.RetentionDays.ONE_WEEK,
       },
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-      },
-      securityGroups: [databaseSecurityGroup],
-      timeout: cdk.Duration.seconds(30),
-      memorySize: 512,
-      tracing: lambda.Tracing.ACTIVE,
-      logRetention: environment === 'prod'
-        ? logs.RetentionDays.ONE_MONTH
-        : logs.RetentionDays.ONE_WEEK,
-    });
+    );
 
     // Grant auth triggers access to database
     databaseSecret.grantRead(this.authTriggersFunction);
 
     // Image processing Lambda function
-    this.imageProcessingFunction = new lambda.Function(this, 'ImageProcessingFunction', {
-      functionName: `${appName}-${environment}-image-processing`,
-      runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'image-processing')),
-      layers: [commonLayer],
-      environment: {
-        NODE_ENV: environment,
-        // UPLOADS_BUCKET: userUploadsBucket.bucketName, // Removed to avoid circular dependency
-        // ASSETS_BUCKET: assetsBucket.bucketName, // Removed to avoid circular dependency
+    this.imageProcessingFunction = new lambda.Function(
+      this,
+      "ImageProcessingFunction",
+      {
+        functionName: `${appName}-${environment}-image-processing`,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: "index.handler",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "..", "..", "lambda", "image-processing"),
+        ),
+        layers: [commonLayer],
+        environment: {
+          NODE_ENV: environment,
+          // UPLOADS_BUCKET: userUploadsBucket.bucketName, // Removed to avoid circular dependency
+          // ASSETS_BUCKET: assetsBucket.bucketName, // Removed to avoid circular dependency
+        },
+        timeout: cdk.Duration.minutes(2),
+        memorySize: environment === "prod" ? 3008 : 1024,
+        tracing: lambda.Tracing.ACTIVE,
+        logRetention:
+          environment === "prod"
+            ? logs.RetentionDays.ONE_MONTH
+            : logs.RetentionDays.ONE_WEEK,
       },
-      timeout: cdk.Duration.minutes(2),
-      memorySize: environment === 'prod' ? 3008 : 1024,
-      tracing: lambda.Tracing.ACTIVE,
-      logRetention: environment === 'prod'
-        ? logs.RetentionDays.ONE_MONTH
-        : logs.RetentionDays.ONE_WEEK,
-    });
+    );
 
     // Grant image processing function access to buckets (TODO: Add after deployment)
     // userUploadsBucket.grantReadWrite(this.imageProcessingFunction); // Removed to avoid circular dependency
@@ -138,25 +152,29 @@ export class ComputeStack extends cdk.Stack {
     // });
 
     // Uploads Lambda function for generating presigned URLs
-    this.uploadsFunction = new lambda.Function(this, 'UploadsFunction', {
+    this.uploadsFunction = new lambda.Function(this, "UploadsFunction", {
       functionName: `${appName}-${environment}-uploads`,
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'uploads')),
+      handler: "index.handler",
+      code: lambda.Code.fromAsset(
+        path.join(__dirname, "..", "..", "lambda", "uploads"),
+      ),
       layers: [commonLayer],
       environment: {
         NODE_ENV: environment,
         // UPLOADS_BUCKET_NAME will be set in main stack after bucket creation
-        ALLOWED_ORIGINS: environment === 'prod' 
-          ? 'https://app.traveller-rpg.com' 
-          : 'http://localhost:5173',
+        ALLOWED_ORIGINS:
+          environment === "prod"
+            ? "https://app.traveller-rpg.com"
+            : "http://localhost:5173",
       },
       timeout: cdk.Duration.seconds(30),
       memorySize: 256,
       tracing: lambda.Tracing.ACTIVE,
-      logRetention: environment === 'prod'
-        ? logs.RetentionDays.ONE_MONTH
-        : logs.RetentionDays.ONE_WEEK,
+      logRetention:
+        environment === "prod"
+          ? logs.RetentionDays.ONE_MONTH
+          : logs.RetentionDays.ONE_WEEK,
     });
 
     // Grant uploads function S3 permissions (TODO: Add after deployment)
@@ -164,16 +182,18 @@ export class ComputeStack extends cdk.Stack {
     // userUploadsBucket.grantRead(this.uploadsFunction);
 
     // Backup Lambda function
-    this.backupFunction = new lambda.Function(this, 'BackupFunction', {
+    this.backupFunction = new lambda.Function(this, "BackupFunction", {
       functionName: `${appName}-${environment}-backup`,
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'backup')),
+      handler: "index.handler",
+      code: lambda.Code.fromAsset(
+        path.join(__dirname, "..", "..", "lambda", "backup"),
+      ),
       layers: [commonLayer],
       environment: {
         NODE_ENV: environment,
         DATABASE_SECRET_ARN: databaseSecret.secretArn,
-        DATABASE_NAME: 'travellerrpg',
+        DATABASE_NAME: "travellerrpg",
         // BACKUP_BUCKET: backupBucket.bucketName, // Removed to avoid circular dependency
       },
       vpc,
@@ -184,9 +204,10 @@ export class ComputeStack extends cdk.Stack {
       timeout: cdk.Duration.minutes(15),
       memorySize: 1024,
       tracing: lambda.Tracing.ACTIVE,
-      logRetention: environment === 'prod'
-        ? logs.RetentionDays.THREE_MONTHS
-        : logs.RetentionDays.ONE_WEEK,
+      logRetention:
+        environment === "prod"
+          ? logs.RetentionDays.THREE_MONTHS
+          : logs.RetentionDays.ONE_WEEK,
     });
 
     // Grant backup function access to resources
@@ -194,27 +215,29 @@ export class ComputeStack extends cdk.Stack {
     // backupBucket.grantWrite(this.backupFunction); // Removed to avoid circular dependency
 
     // Schedule daily backups for production
-    if (environment === 'prod') {
-      new events.Rule(this, 'DailyBackupRule', {
+    if (environment === "prod") {
+      new events.Rule(this, "DailyBackupRule", {
         ruleName: `${appName}-${environment}-daily-backup`,
-        description: 'Trigger daily database backup',
+        description: "Trigger daily database backup",
         schedule: events.Schedule.cron({
-          minute: '0',
-          hour: '2', // 2 AM UTC
-          day: '*',
-          month: '*',
-          year: '*',
+          minute: "0",
+          hour: "2", // 2 AM UTC
+          day: "*",
+          month: "*",
+          year: "*",
         }),
         targets: [new targets.LambdaFunction(this.backupFunction)],
       });
     }
 
     // Create dead letter queue Lambda function
-    const dlqFunction = new lambda.Function(this, 'DLQFunction', {
+    const dlqFunction = new lambda.Function(this, "DLQFunction", {
       functionName: `${appName}-${environment}-dlq-processor`,
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'dlq-processor')),
+      handler: "index.handler",
+      code: lambda.Code.fromAsset(
+        path.join(__dirname, "..", "..", "lambda", "dlq-processor"),
+      ),
       layers: [commonLayer],
       environment: {
         NODE_ENV: environment,
@@ -225,72 +248,78 @@ export class ComputeStack extends cdk.Stack {
     });
 
     // Create maintenance Lambda function
-    const maintenanceFunction = new lambda.Function(this, 'MaintenanceFunction', {
-      functionName: `${appName}-${environment}-maintenance`,
-      runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'lambda', 'maintenance')),
-      layers: [commonLayer],
-      environment: {
-        NODE_ENV: environment,
-        DATABASE_SECRET_ARN: databaseSecret.secretArn,
-        DATABASE_NAME: 'travellerrpg',
+    const maintenanceFunction = new lambda.Function(
+      this,
+      "MaintenanceFunction",
+      {
+        functionName: `${appName}-${environment}-maintenance`,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: "index.handler",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "..", "..", "lambda", "maintenance"),
+        ),
+        layers: [commonLayer],
+        environment: {
+          NODE_ENV: environment,
+          DATABASE_SECRET_ARN: databaseSecret.secretArn,
+          DATABASE_NAME: "travellerrpg",
+        },
+        vpc,
+        vpcSubnets: {
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [databaseSecurityGroup],
+        timeout: cdk.Duration.minutes(15),
+        memorySize: 512,
+        logRetention: logs.RetentionDays.ONE_WEEK,
       },
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-      },
-      securityGroups: [databaseSecurityGroup],
-      timeout: cdk.Duration.minutes(15),
-      memorySize: 512,
-      logRetention: logs.RetentionDays.ONE_WEEK,
-    });
+    );
 
     // Grant maintenance function database access
     databaseSecret.grantRead(maintenanceFunction);
 
     // Schedule weekly maintenance for production
-    if (environment === 'prod') {
-      new events.Rule(this, 'WeeklyMaintenanceRule', {
+    if (environment === "prod") {
+      new events.Rule(this, "WeeklyMaintenanceRule", {
         ruleName: `${appName}-${environment}-weekly-maintenance`,
-        description: 'Trigger weekly maintenance tasks',
+        description: "Trigger weekly maintenance tasks",
         schedule: events.Schedule.cron({
-          minute: '0',
-          hour: '3', // 3 AM UTC on Sundays
-          weekDay: 'SUN',
+          minute: "0",
+          hour: "3", // 3 AM UTC on Sundays
+          weekDay: "SUN",
         }),
         targets: [new targets.LambdaFunction(maintenanceFunction)],
       });
     }
 
     // Output Lambda function information
-    new cdk.CfnOutput(this, 'GameEngineFunctionArn', {
+    new cdk.CfnOutput(this, "GameEngineFunctionArn", {
       value: this.gameEngineFunction.functionArn,
-      description: 'Game Engine Lambda Function ARN',
+      description: "Game Engine Lambda Function ARN",
       exportName: `${appName}-${environment}-game-engine-arn`,
     });
 
-    new cdk.CfnOutput(this, 'AuthTriggersFunctionArn', {
+    new cdk.CfnOutput(this, "AuthTriggersFunctionArn", {
       value: this.authTriggersFunction.functionArn,
-      description: 'Auth Triggers Lambda Function ARN',
+      description: "Auth Triggers Lambda Function ARN",
       exportName: `${appName}-${environment}-auth-triggers-arn`,
     });
 
-    new cdk.CfnOutput(this, 'ImageProcessingFunctionArn', {
+    new cdk.CfnOutput(this, "ImageProcessingFunctionArn", {
       value: this.imageProcessingFunction.functionArn,
-      description: 'Image Processing Lambda Function ARN',
+      description: "Image Processing Lambda Function ARN",
       exportName: `${appName}-${environment}-image-processing-arn`,
     });
 
-    new cdk.CfnOutput(this, 'BackupFunctionArn', {
+    new cdk.CfnOutput(this, "BackupFunctionArn", {
       value: this.backupFunction.functionArn,
-      description: 'Backup Lambda Function ARN',
+      description: "Backup Lambda Function ARN",
       exportName: `${appName}-${environment}-backup-arn`,
     });
 
-    new cdk.CfnOutput(this, 'UploadsFunctionArn', {
+    new cdk.CfnOutput(this, "UploadsFunctionArn", {
       value: this.uploadsFunction.functionArn,
-      description: 'Uploads Lambda Function ARN',
+      description: "Uploads Lambda Function ARN",
       exportName: `${appName}-${environment}-uploads-arn`,
     });
   }
