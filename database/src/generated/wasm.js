@@ -168,6 +168,23 @@ exports.Prisma.CharacterScalarFieldEnum = {
   age: 'age',
   gender: 'gender',
   species: 'species',
+  status: 'status',
+  backgroundData: 'backgroundData',
+  careerData: 'careerData',
+  avatarSeed: 'avatarSeed',
+  playerId: 'playerId',
+  campaignId: 'campaignId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CharacterDraftScalarFieldEnum = {
+  id: 'id',
+  draftName: 'draftName',
+  step: 'step',
+  characterData: 'characterData',
+  isAutoSave: 'isAutoSave',
+  characterId: 'characterId',
   playerId: 'playerId',
   campaignId: 'campaignId',
   createdAt: 'createdAt',
@@ -480,6 +497,14 @@ exports.CampaignRole = exports.$Enums.CampaignRole = {
   OBSERVER: 'OBSERVER'
 };
 
+exports.CharacterStatus = exports.$Enums.CharacterStatus = {
+  DRAFT: 'DRAFT',
+  COMPLETE: 'COMPLETE',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED',
+  DECEASED: 'DECEASED'
+};
+
 exports.SessionStatus = exports.$Enums.SessionStatus = {
   SCHEDULED: 'SCHEDULED',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -492,6 +517,7 @@ exports.Prisma.ModelName = {
   Campaign: 'Campaign',
   CampaignMember: 'CampaignMember',
   Character: 'Character',
+  CharacterDraft: 'CharacterDraft',
   Characteristics: 'Characteristics',
   CharacterSkill: 'CharacterSkill',
   CharacterEquipment: 'CharacterEquipment',

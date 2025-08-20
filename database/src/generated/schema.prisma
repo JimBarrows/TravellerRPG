@@ -36,6 +36,7 @@ model User {
   ownedCampaigns  Campaign[]       @relation("CampaignGamemaster")
   campaignMembers CampaignMember[]
   characters      Character[]
+  characterDrafts CharacterDraft[]
   diceRolls       DiceRoll[]
   customContent   CustomContent[]
   sessionNotes    SessionNote[]
@@ -74,17 +75,18 @@ model Campaign {
   gamemaster   User   @relation("CampaignGamemaster", fields: [gamemasterId], references: [id], onDelete: Cascade)
   gamemasterId String
 
-  members        CampaignMember[]
-  characters     Character[]
-  sessions       Session[]
-  diceRolls      DiceRoll[]
-  encounters     Encounter[]
-  starSystems    StarSystem[]
-  starships      Starship[]
-  customContent  CustomContent[]
-  houseRulesData HouseRule[]
-  handouts       Handout[]
-  sessionNotes   SessionNote[]
+  members         CampaignMember[]
+  characters      Character[]
+  characterDrafts CharacterDraft[]
+  sessions        Session[]
+  diceRolls       DiceRoll[]
+  encounters      Encounter[]
+  starSystems     StarSystem[]
+  starships       Starship[]
+  customContent   CustomContent[]
+  houseRulesData  HouseRule[]
+  handouts        Handout[]
+  sessionNotes    SessionNote[]
 
   // Audit fields
   createdAt DateTime @default(now())
@@ -139,6 +141,14 @@ model Character {
   gender    String?
   species   String? @default("Human")
 
+  // Character status for creation workflow
+  status CharacterStatus @default(DRAFT)
+
+  // Additional background data (JSON for flexibility)
+  backgroundData Json? // Stores complete background information, UWP, social class, etc.
+  careerData     Json? // Stores career progression, terms served, etc.
+  avatarSeed     String? // For generated avatars
+
   // Relationships
   player     User     @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId   String
@@ -150,6 +160,7 @@ model Character {
   equipment       CharacterEquipment[]
   lifeEvents      LifeEvent[]
   combatActions   CombatAction[]
+  characterDrafts CharacterDraft[] // For saving drafts during creation
 
   // Audit fields
   createdAt DateTime @default(now())
@@ -159,7 +170,51 @@ model Character {
   @@index([playerId])
   @@index([campaignId])
   @@index([name])
+  @@index([status])
   @@map("characters")
+}
+
+enum CharacterStatus {
+  DRAFT // Character is being created
+  COMPLETE // Character creation is finished
+  ACTIVE // Character is in active play
+  RETIRED // Character is no longer played
+  DECEASED // Character has died
+
+  @@map("character_status")
+}
+
+// New table for storing character creation drafts
+model CharacterDraft {
+  id String @id @default(cuid())
+
+  // Draft metadata
+  draftName String? // Optional name for the draft
+  step      Int     @default(0) // Current step in creation process
+
+  // Complete character data as JSON
+  characterData Json // Stores the complete CharacterCreationData structure
+
+  // Auto-save tracking
+  isAutoSave Boolean @default(false)
+
+  // Relationships
+  character   Character? @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId String? // Null for new characters not yet created
+  player      User       @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId    String
+  campaign    Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaignId  String
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([playerId])
+  @@index([campaignId])
+  @@index([characterId])
+  @@index([isAutoSave])
+  @@map("character_drafts")
 }
 
 model Characteristics {
