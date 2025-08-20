@@ -9,6 +9,7 @@ import { PrismaClient } from './generated';
 
 // Global Prisma client instance for serverless optimization
 declare global {
+  // eslint-disable-next-line no-var
   var __prisma: PrismaClient | undefined;
 }
 
@@ -30,7 +31,6 @@ export interface DatabaseConfig {
 export function createDatabaseClient(config: DatabaseConfig = {}): PrismaClient {
   const {
     databaseUrl = process.env.DATABASE_URL,
-    maxConnections = 20,
     enableLogging = process.env.NODE_ENV === 'development',
     logQueries = process.env.ENABLE_QUERY_LOGGING === 'true',
     logSlowQueries = true,
@@ -41,7 +41,7 @@ export function createDatabaseClient(config: DatabaseConfig = {}): PrismaClient 
     throw new Error('DATABASE_URL is required');
   }
 
-  const logLevel: any[] = [];
+  const logLevel: ('info' | 'query' | 'warn' | 'error')[] = [];
   if (enableLogging) {
     logLevel.push('info', 'warn', 'error');
   }

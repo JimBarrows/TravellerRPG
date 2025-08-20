@@ -34,6 +34,11 @@ export type CampaignMember = $Result.DefaultSelection<Prisma.$CampaignMemberPayl
  */
 export type Character = $Result.DefaultSelection<Prisma.$CharacterPayload>
 /**
+ * Model CharacterDraft
+ * 
+ */
+export type CharacterDraft = $Result.DefaultSelection<Prisma.$CharacterDraftPayload>
+/**
  * Model Characteristics
  * 
  */
@@ -146,6 +151,17 @@ export const CampaignRole: {
 export type CampaignRole = (typeof CampaignRole)[keyof typeof CampaignRole]
 
 
+export const CharacterStatus: {
+  DRAFT: 'DRAFT',
+  COMPLETE: 'COMPLETE',
+  ACTIVE: 'ACTIVE',
+  RETIRED: 'RETIRED',
+  DECEASED: 'DECEASED'
+};
+
+export type CharacterStatus = (typeof CharacterStatus)[keyof typeof CharacterStatus]
+
+
 export const SessionStatus: {
   SCHEDULED: 'SCHEDULED',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -164,6 +180,10 @@ export const SubscriptionTier: typeof $Enums.SubscriptionTier
 export type CampaignRole = $Enums.CampaignRole
 
 export const CampaignRole: typeof $Enums.CampaignRole
+
+export type CharacterStatus = $Enums.CharacterStatus
+
+export const CharacterStatus: typeof $Enums.CharacterStatus
 
 export type SessionStatus = $Enums.SessionStatus
 
@@ -331,6 +351,16 @@ export class PrismaClient<
     * ```
     */
   get character(): Prisma.CharacterDelegate<ExtArgs>;
+
+  /**
+   * `prisma.characterDraft`: Exposes CRUD operations for the **CharacterDraft** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CharacterDrafts
+    * const characterDrafts = await prisma.characterDraft.findMany()
+    * ```
+    */
+  get characterDraft(): Prisma.CharacterDraftDelegate<ExtArgs>;
 
   /**
    * `prisma.characteristics`: Exposes CRUD operations for the **Characteristics** model.
@@ -956,6 +986,7 @@ export namespace Prisma {
     Campaign: 'Campaign',
     CampaignMember: 'CampaignMember',
     Character: 'Character',
+    CharacterDraft: 'CharacterDraft',
     Characteristics: 'Characteristics',
     CharacterSkill: 'CharacterSkill',
     CharacterEquipment: 'CharacterEquipment',
@@ -989,7 +1020,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "campaign" | "campaignMember" | "character" | "characteristics" | "characterSkill" | "characterEquipment" | "lifeEvent" | "starSystem" | "planet" | "starship" | "tradeGood" | "tradeRoute" | "session" | "encounter" | "combatSession" | "combatAction" | "diceRoll" | "customContent" | "houseRule" | "handout" | "sessionNote"
+      modelProps: "user" | "campaign" | "campaignMember" | "character" | "characterDraft" | "characteristics" | "characterSkill" | "characterEquipment" | "lifeEvent" | "starSystem" | "planet" | "starship" | "tradeGood" | "tradeRoute" | "session" | "encounter" | "combatSession" | "combatAction" | "diceRoll" | "customContent" | "houseRule" | "handout" | "sessionNote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1270,6 +1301,76 @@ export namespace Prisma {
           count: {
             args: Prisma.CharacterCountArgs<ExtArgs>
             result: $Utils.Optional<CharacterCountAggregateOutputType> | number
+          }
+        }
+      }
+      CharacterDraft: {
+        payload: Prisma.$CharacterDraftPayload<ExtArgs>
+        fields: Prisma.CharacterDraftFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CharacterDraftFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CharacterDraftFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          findFirst: {
+            args: Prisma.CharacterDraftFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CharacterDraftFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          findMany: {
+            args: Prisma.CharacterDraftFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>[]
+          }
+          create: {
+            args: Prisma.CharacterDraftCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          createMany: {
+            args: Prisma.CharacterDraftCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CharacterDraftCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>[]
+          }
+          delete: {
+            args: Prisma.CharacterDraftDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          update: {
+            args: Prisma.CharacterDraftUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          deleteMany: {
+            args: Prisma.CharacterDraftDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CharacterDraftUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CharacterDraftUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CharacterDraftPayload>
+          }
+          aggregate: {
+            args: Prisma.CharacterDraftAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCharacterDraft>
+          }
+          groupBy: {
+            args: Prisma.CharacterDraftGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CharacterDraftGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CharacterDraftCountArgs<ExtArgs>
+            result: $Utils.Optional<CharacterDraftCountAggregateOutputType> | number
           }
         }
       }
@@ -2697,6 +2798,7 @@ export namespace Prisma {
     ownedCampaigns: number
     campaignMembers: number
     characters: number
+    characterDrafts: number
     diceRolls: number
     customContent: number
     sessionNotes: number
@@ -2707,6 +2809,7 @@ export namespace Prisma {
     ownedCampaigns?: boolean | UserCountOutputTypeCountOwnedCampaignsArgs
     campaignMembers?: boolean | UserCountOutputTypeCountCampaignMembersArgs
     characters?: boolean | UserCountOutputTypeCountCharactersArgs
+    characterDrafts?: boolean | UserCountOutputTypeCountCharacterDraftsArgs
     diceRolls?: boolean | UserCountOutputTypeCountDiceRollsArgs
     customContent?: boolean | UserCountOutputTypeCountCustomContentArgs
     sessionNotes?: boolean | UserCountOutputTypeCountSessionNotesArgs
@@ -2748,6 +2851,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountCharacterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CharacterDraftWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountDiceRollsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DiceRollWhereInput
   }
@@ -2781,6 +2891,7 @@ export namespace Prisma {
   export type CampaignCountOutputType = {
     members: number
     characters: number
+    characterDrafts: number
     sessions: number
     diceRolls: number
     encounters: number
@@ -2795,6 +2906,7 @@ export namespace Prisma {
   export type CampaignCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | CampaignCountOutputTypeCountMembersArgs
     characters?: boolean | CampaignCountOutputTypeCountCharactersArgs
+    characterDrafts?: boolean | CampaignCountOutputTypeCountCharacterDraftsArgs
     sessions?: boolean | CampaignCountOutputTypeCountSessionsArgs
     diceRolls?: boolean | CampaignCountOutputTypeCountDiceRollsArgs
     encounters?: boolean | CampaignCountOutputTypeCountEncountersArgs
@@ -2829,6 +2941,13 @@ export namespace Prisma {
    */
   export type CampaignCountOutputTypeCountCharactersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CharacterWhereInput
+  }
+
+  /**
+   * CampaignCountOutputType without action
+   */
+  export type CampaignCountOutputTypeCountCharacterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CharacterDraftWhereInput
   }
 
   /**
@@ -2904,6 +3023,7 @@ export namespace Prisma {
     equipment: number
     lifeEvents: number
     combatActions: number
+    characterDrafts: number
   }
 
   export type CharacterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2911,6 +3031,7 @@ export namespace Prisma {
     equipment?: boolean | CharacterCountOutputTypeCountEquipmentArgs
     lifeEvents?: boolean | CharacterCountOutputTypeCountLifeEventsArgs
     combatActions?: boolean | CharacterCountOutputTypeCountCombatActionsArgs
+    characterDrafts?: boolean | CharacterCountOutputTypeCountCharacterDraftsArgs
   }
 
   // Custom InputTypes
@@ -2950,6 +3071,13 @@ export namespace Prisma {
    */
   export type CharacterCountOutputTypeCountCombatActionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CombatActionWhereInput
+  }
+
+  /**
+   * CharacterCountOutputType without action
+   */
+  export type CharacterCountOutputTypeCountCharacterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CharacterDraftWhereInput
   }
 
 
@@ -3363,6 +3491,7 @@ export namespace Prisma {
     ownedCampaigns?: boolean | User$ownedCampaignsArgs<ExtArgs>
     campaignMembers?: boolean | User$campaignMembersArgs<ExtArgs>
     characters?: boolean | User$charactersArgs<ExtArgs>
+    characterDrafts?: boolean | User$characterDraftsArgs<ExtArgs>
     diceRolls?: boolean | User$diceRollsArgs<ExtArgs>
     customContent?: boolean | User$customContentArgs<ExtArgs>
     sessionNotes?: boolean | User$sessionNotesArgs<ExtArgs>
@@ -3402,6 +3531,7 @@ export namespace Prisma {
     ownedCampaigns?: boolean | User$ownedCampaignsArgs<ExtArgs>
     campaignMembers?: boolean | User$campaignMembersArgs<ExtArgs>
     characters?: boolean | User$charactersArgs<ExtArgs>
+    characterDrafts?: boolean | User$characterDraftsArgs<ExtArgs>
     diceRolls?: boolean | User$diceRollsArgs<ExtArgs>
     customContent?: boolean | User$customContentArgs<ExtArgs>
     sessionNotes?: boolean | User$sessionNotesArgs<ExtArgs>
@@ -3416,6 +3546,7 @@ export namespace Prisma {
       ownedCampaigns: Prisma.$CampaignPayload<ExtArgs>[]
       campaignMembers: Prisma.$CampaignMemberPayload<ExtArgs>[]
       characters: Prisma.$CharacterPayload<ExtArgs>[]
+      characterDrafts: Prisma.$CharacterDraftPayload<ExtArgs>[]
       diceRolls: Prisma.$DiceRollPayload<ExtArgs>[]
       customContent: Prisma.$CustomContentPayload<ExtArgs>[]
       sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
@@ -3800,6 +3931,7 @@ export namespace Prisma {
     ownedCampaigns<T extends User$ownedCampaignsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedCampaignsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany"> | Null>
     campaignMembers<T extends User$campaignMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$campaignMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignMemberPayload<ExtArgs>, T, "findMany"> | Null>
     characters<T extends User$charactersArgs<ExtArgs> = {}>(args?: Subset<T, User$charactersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findMany"> | Null>
+    characterDrafts<T extends User$characterDraftsArgs<ExtArgs> = {}>(args?: Subset<T, User$characterDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findMany"> | Null>
     diceRolls<T extends User$diceRollsArgs<ExtArgs> = {}>(args?: Subset<T, User$diceRollsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiceRollPayload<ExtArgs>, T, "findMany"> | Null>
     customContent<T extends User$customContentArgs<ExtArgs> = {}>(args?: Subset<T, User$customContentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomContentPayload<ExtArgs>, T, "findMany"> | Null>
     sessionNotes<T extends User$sessionNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany"> | Null>
@@ -4218,6 +4350,26 @@ export namespace Prisma {
   }
 
   /**
+   * User.characterDrafts
+   */
+  export type User$characterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    where?: CharacterDraftWhereInput
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    cursor?: CharacterDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
+  }
+
+  /**
    * User.diceRolls
    */
   export type User$diceRollsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4545,6 +4697,7 @@ export namespace Prisma {
     gamemaster?: boolean | UserDefaultArgs<ExtArgs>
     members?: boolean | Campaign$membersArgs<ExtArgs>
     characters?: boolean | Campaign$charactersArgs<ExtArgs>
+    characterDrafts?: boolean | Campaign$characterDraftsArgs<ExtArgs>
     sessions?: boolean | Campaign$sessionsArgs<ExtArgs>
     diceRolls?: boolean | Campaign$diceRollsArgs<ExtArgs>
     encounters?: boolean | Campaign$encountersArgs<ExtArgs>
@@ -4588,6 +4741,7 @@ export namespace Prisma {
     gamemaster?: boolean | UserDefaultArgs<ExtArgs>
     members?: boolean | Campaign$membersArgs<ExtArgs>
     characters?: boolean | Campaign$charactersArgs<ExtArgs>
+    characterDrafts?: boolean | Campaign$characterDraftsArgs<ExtArgs>
     sessions?: boolean | Campaign$sessionsArgs<ExtArgs>
     diceRolls?: boolean | Campaign$diceRollsArgs<ExtArgs>
     encounters?: boolean | Campaign$encountersArgs<ExtArgs>
@@ -4609,6 +4763,7 @@ export namespace Prisma {
       gamemaster: Prisma.$UserPayload<ExtArgs>
       members: Prisma.$CampaignMemberPayload<ExtArgs>[]
       characters: Prisma.$CharacterPayload<ExtArgs>[]
+      characterDrafts: Prisma.$CharacterDraftPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       diceRolls: Prisma.$DiceRollPayload<ExtArgs>[]
       encounters: Prisma.$EncounterPayload<ExtArgs>[]
@@ -4997,6 +5152,7 @@ export namespace Prisma {
     gamemaster<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     members<T extends Campaign$membersArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignMemberPayload<ExtArgs>, T, "findMany"> | Null>
     characters<T extends Campaign$charactersArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$charactersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findMany"> | Null>
+    characterDrafts<T extends Campaign$characterDraftsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$characterDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findMany"> | Null>
     sessions<T extends Campaign$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany"> | Null>
     diceRolls<T extends Campaign$diceRollsArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$diceRollsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiceRollPayload<ExtArgs>, T, "findMany"> | Null>
     encounters<T extends Campaign$encountersArgs<ExtArgs> = {}>(args?: Subset<T, Campaign$encountersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EncounterPayload<ExtArgs>, T, "findMany"> | Null>
@@ -5400,6 +5556,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CharacterScalarFieldEnum | CharacterScalarFieldEnum[]
+  }
+
+  /**
+   * Campaign.characterDrafts
+   */
+  export type Campaign$characterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    where?: CharacterDraftWhereInput
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    cursor?: CharacterDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
   }
 
   /**
@@ -6580,6 +6756,8 @@ export namespace Prisma {
     age: number | null
     gender: string | null
     species: string | null
+    status: $Enums.CharacterStatus | null
+    avatarSeed: string | null
     playerId: string | null
     campaignId: string | null
     createdAt: Date | null
@@ -6596,6 +6774,8 @@ export namespace Prisma {
     age: number | null
     gender: string | null
     species: string | null
+    status: $Enums.CharacterStatus | null
+    avatarSeed: string | null
     playerId: string | null
     campaignId: string | null
     createdAt: Date | null
@@ -6612,6 +6792,10 @@ export namespace Prisma {
     age: number
     gender: number
     species: number
+    status: number
+    backgroundData: number
+    careerData: number
+    avatarSeed: number
     playerId: number
     campaignId: number
     createdAt: number
@@ -6640,6 +6824,8 @@ export namespace Prisma {
     age?: true
     gender?: true
     species?: true
+    status?: true
+    avatarSeed?: true
     playerId?: true
     campaignId?: true
     createdAt?: true
@@ -6656,6 +6842,8 @@ export namespace Prisma {
     age?: true
     gender?: true
     species?: true
+    status?: true
+    avatarSeed?: true
     playerId?: true
     campaignId?: true
     createdAt?: true
@@ -6672,6 +6860,10 @@ export namespace Prisma {
     age?: true
     gender?: true
     species?: true
+    status?: true
+    backgroundData?: true
+    careerData?: true
+    avatarSeed?: true
     playerId?: true
     campaignId?: true
     createdAt?: true
@@ -6775,6 +6967,10 @@ export namespace Prisma {
     age: number | null
     gender: string | null
     species: string | null
+    status: $Enums.CharacterStatus
+    backgroundData: JsonValue | null
+    careerData: JsonValue | null
+    avatarSeed: string | null
     playerId: string
     campaignId: string
     createdAt: Date
@@ -6810,6 +7006,10 @@ export namespace Prisma {
     age?: boolean
     gender?: boolean
     species?: boolean
+    status?: boolean
+    backgroundData?: boolean
+    careerData?: boolean
+    avatarSeed?: boolean
     playerId?: boolean
     campaignId?: boolean
     createdAt?: boolean
@@ -6821,6 +7021,7 @@ export namespace Prisma {
     equipment?: boolean | Character$equipmentArgs<ExtArgs>
     lifeEvents?: boolean | Character$lifeEventsArgs<ExtArgs>
     combatActions?: boolean | Character$combatActionsArgs<ExtArgs>
+    characterDrafts?: boolean | Character$characterDraftsArgs<ExtArgs>
     _count?: boolean | CharacterCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["character"]>
 
@@ -6834,6 +7035,10 @@ export namespace Prisma {
     age?: boolean
     gender?: boolean
     species?: boolean
+    status?: boolean
+    backgroundData?: boolean
+    careerData?: boolean
+    avatarSeed?: boolean
     playerId?: boolean
     campaignId?: boolean
     createdAt?: boolean
@@ -6852,6 +7057,10 @@ export namespace Prisma {
     age?: boolean
     gender?: boolean
     species?: boolean
+    status?: boolean
+    backgroundData?: boolean
+    careerData?: boolean
+    avatarSeed?: boolean
     playerId?: boolean
     campaignId?: boolean
     createdAt?: boolean
@@ -6866,6 +7075,7 @@ export namespace Prisma {
     equipment?: boolean | Character$equipmentArgs<ExtArgs>
     lifeEvents?: boolean | Character$lifeEventsArgs<ExtArgs>
     combatActions?: boolean | Character$combatActionsArgs<ExtArgs>
+    characterDrafts?: boolean | Character$characterDraftsArgs<ExtArgs>
     _count?: boolean | CharacterCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CharacterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6883,6 +7093,7 @@ export namespace Prisma {
       equipment: Prisma.$CharacterEquipmentPayload<ExtArgs>[]
       lifeEvents: Prisma.$LifeEventPayload<ExtArgs>[]
       combatActions: Prisma.$CombatActionPayload<ExtArgs>[]
+      characterDrafts: Prisma.$CharacterDraftPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6894,6 +7105,10 @@ export namespace Prisma {
       age: number | null
       gender: string | null
       species: string | null
+      status: $Enums.CharacterStatus
+      backgroundData: Prisma.JsonValue | null
+      careerData: Prisma.JsonValue | null
+      avatarSeed: string | null
       playerId: string
       campaignId: string
       createdAt: Date
@@ -7269,6 +7484,7 @@ export namespace Prisma {
     equipment<T extends Character$equipmentArgs<ExtArgs> = {}>(args?: Subset<T, Character$equipmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterEquipmentPayload<ExtArgs>, T, "findMany"> | Null>
     lifeEvents<T extends Character$lifeEventsArgs<ExtArgs> = {}>(args?: Subset<T, Character$lifeEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LifeEventPayload<ExtArgs>, T, "findMany"> | Null>
     combatActions<T extends Character$combatActionsArgs<ExtArgs> = {}>(args?: Subset<T, Character$combatActionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CombatActionPayload<ExtArgs>, T, "findMany"> | Null>
+    characterDrafts<T extends Character$characterDraftsArgs<ExtArgs> = {}>(args?: Subset<T, Character$characterDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7307,6 +7523,10 @@ export namespace Prisma {
     readonly age: FieldRef<"Character", 'Int'>
     readonly gender: FieldRef<"Character", 'String'>
     readonly species: FieldRef<"Character", 'String'>
+    readonly status: FieldRef<"Character", 'CharacterStatus'>
+    readonly backgroundData: FieldRef<"Character", 'Json'>
+    readonly careerData: FieldRef<"Character", 'Json'>
+    readonly avatarSeed: FieldRef<"Character", 'String'>
     readonly playerId: FieldRef<"Character", 'String'>
     readonly campaignId: FieldRef<"Character", 'String'>
     readonly createdAt: FieldRef<"Character", 'DateTime'>
@@ -7724,6 +7944,26 @@ export namespace Prisma {
   }
 
   /**
+   * Character.characterDrafts
+   */
+  export type Character$characterDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    where?: CharacterDraftWhereInput
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    cursor?: CharacterDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
+  }
+
+  /**
    * Character without action
    */
   export type CharacterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7735,6 +7975,1056 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CharacterInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CharacterDraft
+   */
+
+  export type AggregateCharacterDraft = {
+    _count: CharacterDraftCountAggregateOutputType | null
+    _avg: CharacterDraftAvgAggregateOutputType | null
+    _sum: CharacterDraftSumAggregateOutputType | null
+    _min: CharacterDraftMinAggregateOutputType | null
+    _max: CharacterDraftMaxAggregateOutputType | null
+  }
+
+  export type CharacterDraftAvgAggregateOutputType = {
+    step: number | null
+  }
+
+  export type CharacterDraftSumAggregateOutputType = {
+    step: number | null
+  }
+
+  export type CharacterDraftMinAggregateOutputType = {
+    id: string | null
+    draftName: string | null
+    step: number | null
+    isAutoSave: boolean | null
+    characterId: string | null
+    playerId: string | null
+    campaignId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CharacterDraftMaxAggregateOutputType = {
+    id: string | null
+    draftName: string | null
+    step: number | null
+    isAutoSave: boolean | null
+    characterId: string | null
+    playerId: string | null
+    campaignId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CharacterDraftCountAggregateOutputType = {
+    id: number
+    draftName: number
+    step: number
+    characterData: number
+    isAutoSave: number
+    characterId: number
+    playerId: number
+    campaignId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CharacterDraftAvgAggregateInputType = {
+    step?: true
+  }
+
+  export type CharacterDraftSumAggregateInputType = {
+    step?: true
+  }
+
+  export type CharacterDraftMinAggregateInputType = {
+    id?: true
+    draftName?: true
+    step?: true
+    isAutoSave?: true
+    characterId?: true
+    playerId?: true
+    campaignId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CharacterDraftMaxAggregateInputType = {
+    id?: true
+    draftName?: true
+    step?: true
+    isAutoSave?: true
+    characterId?: true
+    playerId?: true
+    campaignId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CharacterDraftCountAggregateInputType = {
+    id?: true
+    draftName?: true
+    step?: true
+    characterData?: true
+    isAutoSave?: true
+    characterId?: true
+    playerId?: true
+    campaignId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CharacterDraftAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CharacterDraft to aggregate.
+     */
+    where?: CharacterDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CharacterDrafts to fetch.
+     */
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CharacterDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CharacterDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CharacterDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CharacterDrafts
+    **/
+    _count?: true | CharacterDraftCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CharacterDraftAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CharacterDraftSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CharacterDraftMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CharacterDraftMaxAggregateInputType
+  }
+
+  export type GetCharacterDraftAggregateType<T extends CharacterDraftAggregateArgs> = {
+        [P in keyof T & keyof AggregateCharacterDraft]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCharacterDraft[P]>
+      : GetScalarType<T[P], AggregateCharacterDraft[P]>
+  }
+
+
+
+
+  export type CharacterDraftGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CharacterDraftWhereInput
+    orderBy?: CharacterDraftOrderByWithAggregationInput | CharacterDraftOrderByWithAggregationInput[]
+    by: CharacterDraftScalarFieldEnum[] | CharacterDraftScalarFieldEnum
+    having?: CharacterDraftScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CharacterDraftCountAggregateInputType | true
+    _avg?: CharacterDraftAvgAggregateInputType
+    _sum?: CharacterDraftSumAggregateInputType
+    _min?: CharacterDraftMinAggregateInputType
+    _max?: CharacterDraftMaxAggregateInputType
+  }
+
+  export type CharacterDraftGroupByOutputType = {
+    id: string
+    draftName: string | null
+    step: number
+    characterData: JsonValue
+    isAutoSave: boolean
+    characterId: string | null
+    playerId: string
+    campaignId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CharacterDraftCountAggregateOutputType | null
+    _avg: CharacterDraftAvgAggregateOutputType | null
+    _sum: CharacterDraftSumAggregateOutputType | null
+    _min: CharacterDraftMinAggregateOutputType | null
+    _max: CharacterDraftMaxAggregateOutputType | null
+  }
+
+  type GetCharacterDraftGroupByPayload<T extends CharacterDraftGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CharacterDraftGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CharacterDraftGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CharacterDraftGroupByOutputType[P]>
+            : GetScalarType<T[P], CharacterDraftGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CharacterDraftSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftName?: boolean
+    step?: boolean
+    characterData?: boolean
+    isAutoSave?: boolean
+    characterId?: boolean
+    playerId?: boolean
+    campaignId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    character?: boolean | CharacterDraft$characterArgs<ExtArgs>
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["characterDraft"]>
+
+  export type CharacterDraftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftName?: boolean
+    step?: boolean
+    characterData?: boolean
+    isAutoSave?: boolean
+    characterId?: boolean
+    playerId?: boolean
+    campaignId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    character?: boolean | CharacterDraft$characterArgs<ExtArgs>
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["characterDraft"]>
+
+  export type CharacterDraftSelectScalar = {
+    id?: boolean
+    draftName?: boolean
+    step?: boolean
+    characterData?: boolean
+    isAutoSave?: boolean
+    characterId?: boolean
+    playerId?: boolean
+    campaignId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CharacterDraftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    character?: boolean | CharacterDraft$characterArgs<ExtArgs>
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+  }
+  export type CharacterDraftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    character?: boolean | CharacterDraft$characterArgs<ExtArgs>
+    player?: boolean | UserDefaultArgs<ExtArgs>
+    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+  }
+
+  export type $CharacterDraftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CharacterDraft"
+    objects: {
+      character: Prisma.$CharacterPayload<ExtArgs> | null
+      player: Prisma.$UserPayload<ExtArgs>
+      campaign: Prisma.$CampaignPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      draftName: string | null
+      step: number
+      characterData: Prisma.JsonValue
+      isAutoSave: boolean
+      characterId: string | null
+      playerId: string
+      campaignId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["characterDraft"]>
+    composites: {}
+  }
+
+  type CharacterDraftGetPayload<S extends boolean | null | undefined | CharacterDraftDefaultArgs> = $Result.GetResult<Prisma.$CharacterDraftPayload, S>
+
+  type CharacterDraftCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CharacterDraftFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CharacterDraftCountAggregateInputType | true
+    }
+
+  export interface CharacterDraftDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CharacterDraft'], meta: { name: 'CharacterDraft' } }
+    /**
+     * Find zero or one CharacterDraft that matches the filter.
+     * @param {CharacterDraftFindUniqueArgs} args - Arguments to find a CharacterDraft
+     * @example
+     * // Get one CharacterDraft
+     * const characterDraft = await prisma.characterDraft.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CharacterDraftFindUniqueArgs>(args: SelectSubset<T, CharacterDraftFindUniqueArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CharacterDraft that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CharacterDraftFindUniqueOrThrowArgs} args - Arguments to find a CharacterDraft
+     * @example
+     * // Get one CharacterDraft
+     * const characterDraft = await prisma.characterDraft.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CharacterDraftFindUniqueOrThrowArgs>(args: SelectSubset<T, CharacterDraftFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CharacterDraft that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftFindFirstArgs} args - Arguments to find a CharacterDraft
+     * @example
+     * // Get one CharacterDraft
+     * const characterDraft = await prisma.characterDraft.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CharacterDraftFindFirstArgs>(args?: SelectSubset<T, CharacterDraftFindFirstArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CharacterDraft that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftFindFirstOrThrowArgs} args - Arguments to find a CharacterDraft
+     * @example
+     * // Get one CharacterDraft
+     * const characterDraft = await prisma.characterDraft.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CharacterDraftFindFirstOrThrowArgs>(args?: SelectSubset<T, CharacterDraftFindFirstOrThrowArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CharacterDrafts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CharacterDrafts
+     * const characterDrafts = await prisma.characterDraft.findMany()
+     * 
+     * // Get first 10 CharacterDrafts
+     * const characterDrafts = await prisma.characterDraft.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const characterDraftWithIdOnly = await prisma.characterDraft.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CharacterDraftFindManyArgs>(args?: SelectSubset<T, CharacterDraftFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CharacterDraft.
+     * @param {CharacterDraftCreateArgs} args - Arguments to create a CharacterDraft.
+     * @example
+     * // Create one CharacterDraft
+     * const CharacterDraft = await prisma.characterDraft.create({
+     *   data: {
+     *     // ... data to create a CharacterDraft
+     *   }
+     * })
+     * 
+     */
+    create<T extends CharacterDraftCreateArgs>(args: SelectSubset<T, CharacterDraftCreateArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CharacterDrafts.
+     * @param {CharacterDraftCreateManyArgs} args - Arguments to create many CharacterDrafts.
+     * @example
+     * // Create many CharacterDrafts
+     * const characterDraft = await prisma.characterDraft.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CharacterDraftCreateManyArgs>(args?: SelectSubset<T, CharacterDraftCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CharacterDrafts and returns the data saved in the database.
+     * @param {CharacterDraftCreateManyAndReturnArgs} args - Arguments to create many CharacterDrafts.
+     * @example
+     * // Create many CharacterDrafts
+     * const characterDraft = await prisma.characterDraft.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CharacterDrafts and only return the `id`
+     * const characterDraftWithIdOnly = await prisma.characterDraft.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CharacterDraftCreateManyAndReturnArgs>(args?: SelectSubset<T, CharacterDraftCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CharacterDraft.
+     * @param {CharacterDraftDeleteArgs} args - Arguments to delete one CharacterDraft.
+     * @example
+     * // Delete one CharacterDraft
+     * const CharacterDraft = await prisma.characterDraft.delete({
+     *   where: {
+     *     // ... filter to delete one CharacterDraft
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CharacterDraftDeleteArgs>(args: SelectSubset<T, CharacterDraftDeleteArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CharacterDraft.
+     * @param {CharacterDraftUpdateArgs} args - Arguments to update one CharacterDraft.
+     * @example
+     * // Update one CharacterDraft
+     * const characterDraft = await prisma.characterDraft.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CharacterDraftUpdateArgs>(args: SelectSubset<T, CharacterDraftUpdateArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CharacterDrafts.
+     * @param {CharacterDraftDeleteManyArgs} args - Arguments to filter CharacterDrafts to delete.
+     * @example
+     * // Delete a few CharacterDrafts
+     * const { count } = await prisma.characterDraft.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CharacterDraftDeleteManyArgs>(args?: SelectSubset<T, CharacterDraftDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CharacterDrafts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CharacterDrafts
+     * const characterDraft = await prisma.characterDraft.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CharacterDraftUpdateManyArgs>(args: SelectSubset<T, CharacterDraftUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CharacterDraft.
+     * @param {CharacterDraftUpsertArgs} args - Arguments to update or create a CharacterDraft.
+     * @example
+     * // Update or create a CharacterDraft
+     * const characterDraft = await prisma.characterDraft.upsert({
+     *   create: {
+     *     // ... data to create a CharacterDraft
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CharacterDraft we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CharacterDraftUpsertArgs>(args: SelectSubset<T, CharacterDraftUpsertArgs<ExtArgs>>): Prisma__CharacterDraftClient<$Result.GetResult<Prisma.$CharacterDraftPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CharacterDrafts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftCountArgs} args - Arguments to filter CharacterDrafts to count.
+     * @example
+     * // Count the number of CharacterDrafts
+     * const count = await prisma.characterDraft.count({
+     *   where: {
+     *     // ... the filter for the CharacterDrafts we want to count
+     *   }
+     * })
+    **/
+    count<T extends CharacterDraftCountArgs>(
+      args?: Subset<T, CharacterDraftCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CharacterDraftCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CharacterDraft.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CharacterDraftAggregateArgs>(args: Subset<T, CharacterDraftAggregateArgs>): Prisma.PrismaPromise<GetCharacterDraftAggregateType<T>>
+
+    /**
+     * Group by CharacterDraft.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CharacterDraftGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CharacterDraftGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CharacterDraftGroupByArgs['orderBy'] }
+        : { orderBy?: CharacterDraftGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CharacterDraftGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCharacterDraftGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CharacterDraft model
+   */
+  readonly fields: CharacterDraftFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CharacterDraft.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CharacterDraftClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    character<T extends CharacterDraft$characterArgs<ExtArgs> = {}>(args?: Subset<T, CharacterDraft$characterArgs<ExtArgs>>): Prisma__CharacterClient<$Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    player<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    campaign<T extends CampaignDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CampaignDefaultArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CharacterDraft model
+   */ 
+  interface CharacterDraftFieldRefs {
+    readonly id: FieldRef<"CharacterDraft", 'String'>
+    readonly draftName: FieldRef<"CharacterDraft", 'String'>
+    readonly step: FieldRef<"CharacterDraft", 'Int'>
+    readonly characterData: FieldRef<"CharacterDraft", 'Json'>
+    readonly isAutoSave: FieldRef<"CharacterDraft", 'Boolean'>
+    readonly characterId: FieldRef<"CharacterDraft", 'String'>
+    readonly playerId: FieldRef<"CharacterDraft", 'String'>
+    readonly campaignId: FieldRef<"CharacterDraft", 'String'>
+    readonly createdAt: FieldRef<"CharacterDraft", 'DateTime'>
+    readonly updatedAt: FieldRef<"CharacterDraft", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CharacterDraft findUnique
+   */
+  export type CharacterDraftFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which CharacterDraft to fetch.
+     */
+    where: CharacterDraftWhereUniqueInput
+  }
+
+  /**
+   * CharacterDraft findUniqueOrThrow
+   */
+  export type CharacterDraftFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which CharacterDraft to fetch.
+     */
+    where: CharacterDraftWhereUniqueInput
+  }
+
+  /**
+   * CharacterDraft findFirst
+   */
+  export type CharacterDraftFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which CharacterDraft to fetch.
+     */
+    where?: CharacterDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CharacterDrafts to fetch.
+     */
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CharacterDrafts.
+     */
+    cursor?: CharacterDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CharacterDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CharacterDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CharacterDrafts.
+     */
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
+  }
+
+  /**
+   * CharacterDraft findFirstOrThrow
+   */
+  export type CharacterDraftFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which CharacterDraft to fetch.
+     */
+    where?: CharacterDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CharacterDrafts to fetch.
+     */
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CharacterDrafts.
+     */
+    cursor?: CharacterDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CharacterDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CharacterDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CharacterDrafts.
+     */
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
+  }
+
+  /**
+   * CharacterDraft findMany
+   */
+  export type CharacterDraftFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which CharacterDrafts to fetch.
+     */
+    where?: CharacterDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CharacterDrafts to fetch.
+     */
+    orderBy?: CharacterDraftOrderByWithRelationInput | CharacterDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CharacterDrafts.
+     */
+    cursor?: CharacterDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CharacterDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CharacterDrafts.
+     */
+    skip?: number
+    distinct?: CharacterDraftScalarFieldEnum | CharacterDraftScalarFieldEnum[]
+  }
+
+  /**
+   * CharacterDraft create
+   */
+  export type CharacterDraftCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CharacterDraft.
+     */
+    data: XOR<CharacterDraftCreateInput, CharacterDraftUncheckedCreateInput>
+  }
+
+  /**
+   * CharacterDraft createMany
+   */
+  export type CharacterDraftCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CharacterDrafts.
+     */
+    data: CharacterDraftCreateManyInput | CharacterDraftCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CharacterDraft createManyAndReturn
+   */
+  export type CharacterDraftCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CharacterDrafts.
+     */
+    data: CharacterDraftCreateManyInput | CharacterDraftCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CharacterDraft update
+   */
+  export type CharacterDraftUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CharacterDraft.
+     */
+    data: XOR<CharacterDraftUpdateInput, CharacterDraftUncheckedUpdateInput>
+    /**
+     * Choose, which CharacterDraft to update.
+     */
+    where: CharacterDraftWhereUniqueInput
+  }
+
+  /**
+   * CharacterDraft updateMany
+   */
+  export type CharacterDraftUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CharacterDrafts.
+     */
+    data: XOR<CharacterDraftUpdateManyMutationInput, CharacterDraftUncheckedUpdateManyInput>
+    /**
+     * Filter which CharacterDrafts to update
+     */
+    where?: CharacterDraftWhereInput
+  }
+
+  /**
+   * CharacterDraft upsert
+   */
+  export type CharacterDraftUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CharacterDraft to update in case it exists.
+     */
+    where: CharacterDraftWhereUniqueInput
+    /**
+     * In case the CharacterDraft found by the `where` argument doesn't exist, create a new CharacterDraft with this data.
+     */
+    create: XOR<CharacterDraftCreateInput, CharacterDraftUncheckedCreateInput>
+    /**
+     * In case the CharacterDraft was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CharacterDraftUpdateInput, CharacterDraftUncheckedUpdateInput>
+  }
+
+  /**
+   * CharacterDraft delete
+   */
+  export type CharacterDraftDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
+    /**
+     * Filter which CharacterDraft to delete.
+     */
+    where: CharacterDraftWhereUniqueInput
+  }
+
+  /**
+   * CharacterDraft deleteMany
+   */
+  export type CharacterDraftDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CharacterDrafts to delete
+     */
+    where?: CharacterDraftWhereInput
+  }
+
+  /**
+   * CharacterDraft.character
+   */
+  export type CharacterDraft$characterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Character
+     */
+    select?: CharacterSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterInclude<ExtArgs> | null
+    where?: CharacterWhereInput
+  }
+
+  /**
+   * CharacterDraft without action
+   */
+  export type CharacterDraftDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CharacterDraft
+     */
+    select?: CharacterDraftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CharacterDraftInclude<ExtArgs> | null
   }
 
 
@@ -26980,6 +28270,10 @@ export namespace Prisma {
     age: 'age',
     gender: 'gender',
     species: 'species',
+    status: 'status',
+    backgroundData: 'backgroundData',
+    careerData: 'careerData',
+    avatarSeed: 'avatarSeed',
     playerId: 'playerId',
     campaignId: 'campaignId',
     createdAt: 'createdAt',
@@ -26987,6 +28281,22 @@ export namespace Prisma {
   };
 
   export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
+
+
+  export const CharacterDraftScalarFieldEnum: {
+    id: 'id',
+    draftName: 'draftName',
+    step: 'step',
+    characterData: 'characterData',
+    isAutoSave: 'isAutoSave',
+    characterId: 'characterId',
+    playerId: 'playerId',
+    campaignId: 'campaignId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CharacterDraftScalarFieldEnum = (typeof CharacterDraftScalarFieldEnum)[keyof typeof CharacterDraftScalarFieldEnum]
 
 
   export const CharacteristicsScalarFieldEnum: {
@@ -27446,6 +28756,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CharacterStatus'
+   */
+  export type EnumCharacterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CharacterStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CharacterStatus[]'
+   */
+  export type ListEnumCharacterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CharacterStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -27494,6 +28818,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignListRelationFilter
     campaignMembers?: CampaignMemberListRelationFilter
     characters?: CharacterListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
     diceRolls?: DiceRollListRelationFilter
     customContent?: CustomContentListRelationFilter
     sessionNotes?: SessionNoteListRelationFilter
@@ -27515,6 +28840,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignOrderByRelationAggregateInput
     campaignMembers?: CampaignMemberOrderByRelationAggregateInput
     characters?: CharacterOrderByRelationAggregateInput
+    characterDrafts?: CharacterDraftOrderByRelationAggregateInput
     diceRolls?: DiceRollOrderByRelationAggregateInput
     customContent?: CustomContentOrderByRelationAggregateInput
     sessionNotes?: SessionNoteOrderByRelationAggregateInput
@@ -27539,6 +28865,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignListRelationFilter
     campaignMembers?: CampaignMemberListRelationFilter
     characters?: CharacterListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
     diceRolls?: DiceRollListRelationFilter
     customContent?: CustomContentListRelationFilter
     sessionNotes?: SessionNoteListRelationFilter
@@ -27596,6 +28923,7 @@ export namespace Prisma {
     gamemaster?: XOR<UserRelationFilter, UserWhereInput>
     members?: CampaignMemberListRelationFilter
     characters?: CharacterListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
     sessions?: SessionListRelationFilter
     diceRolls?: DiceRollListRelationFilter
     encounters?: EncounterListRelationFilter
@@ -27621,6 +28949,7 @@ export namespace Prisma {
     gamemaster?: UserOrderByWithRelationInput
     members?: CampaignMemberOrderByRelationAggregateInput
     characters?: CharacterOrderByRelationAggregateInput
+    characterDrafts?: CharacterDraftOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     diceRolls?: DiceRollOrderByRelationAggregateInput
     encounters?: EncounterOrderByRelationAggregateInput
@@ -27649,6 +28978,7 @@ export namespace Prisma {
     gamemaster?: XOR<UserRelationFilter, UserWhereInput>
     members?: CampaignMemberListRelationFilter
     characters?: CharacterListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
     sessions?: SessionListRelationFilter
     diceRolls?: DiceRollListRelationFilter
     encounters?: EncounterListRelationFilter
@@ -27771,6 +29101,10 @@ export namespace Prisma {
     age?: IntNullableFilter<"Character"> | number | null
     gender?: StringNullableFilter<"Character"> | string | null
     species?: StringNullableFilter<"Character"> | string | null
+    status?: EnumCharacterStatusFilter<"Character"> | $Enums.CharacterStatus
+    backgroundData?: JsonNullableFilter<"Character">
+    careerData?: JsonNullableFilter<"Character">
+    avatarSeed?: StringNullableFilter<"Character"> | string | null
     playerId?: StringFilter<"Character"> | string
     campaignId?: StringFilter<"Character"> | string
     createdAt?: DateTimeFilter<"Character"> | Date | string
@@ -27782,6 +29116,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentListRelationFilter
     lifeEvents?: LifeEventListRelationFilter
     combatActions?: CombatActionListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
   }
 
   export type CharacterOrderByWithRelationInput = {
@@ -27794,6 +29129,10 @@ export namespace Prisma {
     age?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     species?: SortOrderInput | SortOrder
+    status?: SortOrder
+    backgroundData?: SortOrderInput | SortOrder
+    careerData?: SortOrderInput | SortOrder
+    avatarSeed?: SortOrderInput | SortOrder
     playerId?: SortOrder
     campaignId?: SortOrder
     createdAt?: SortOrder
@@ -27805,6 +29144,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentOrderByRelationAggregateInput
     lifeEvents?: LifeEventOrderByRelationAggregateInput
     combatActions?: CombatActionOrderByRelationAggregateInput
+    characterDrafts?: CharacterDraftOrderByRelationAggregateInput
   }
 
   export type CharacterWhereUniqueInput = Prisma.AtLeast<{
@@ -27821,6 +29161,10 @@ export namespace Prisma {
     age?: IntNullableFilter<"Character"> | number | null
     gender?: StringNullableFilter<"Character"> | string | null
     species?: StringNullableFilter<"Character"> | string | null
+    status?: EnumCharacterStatusFilter<"Character"> | $Enums.CharacterStatus
+    backgroundData?: JsonNullableFilter<"Character">
+    careerData?: JsonNullableFilter<"Character">
+    avatarSeed?: StringNullableFilter<"Character"> | string | null
     playerId?: StringFilter<"Character"> | string
     campaignId?: StringFilter<"Character"> | string
     createdAt?: DateTimeFilter<"Character"> | Date | string
@@ -27832,6 +29176,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentListRelationFilter
     lifeEvents?: LifeEventListRelationFilter
     combatActions?: CombatActionListRelationFilter
+    characterDrafts?: CharacterDraftListRelationFilter
   }, "id" | "playerId_campaignId_name">
 
   export type CharacterOrderByWithAggregationInput = {
@@ -27844,6 +29189,10 @@ export namespace Prisma {
     age?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     species?: SortOrderInput | SortOrder
+    status?: SortOrder
+    backgroundData?: SortOrderInput | SortOrder
+    careerData?: SortOrderInput | SortOrder
+    avatarSeed?: SortOrderInput | SortOrder
     playerId?: SortOrder
     campaignId?: SortOrder
     createdAt?: SortOrder
@@ -27868,10 +29217,102 @@ export namespace Prisma {
     age?: IntNullableWithAggregatesFilter<"Character"> | number | null
     gender?: StringNullableWithAggregatesFilter<"Character"> | string | null
     species?: StringNullableWithAggregatesFilter<"Character"> | string | null
+    status?: EnumCharacterStatusWithAggregatesFilter<"Character"> | $Enums.CharacterStatus
+    backgroundData?: JsonNullableWithAggregatesFilter<"Character">
+    careerData?: JsonNullableWithAggregatesFilter<"Character">
+    avatarSeed?: StringNullableWithAggregatesFilter<"Character"> | string | null
     playerId?: StringWithAggregatesFilter<"Character"> | string
     campaignId?: StringWithAggregatesFilter<"Character"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Character"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Character"> | Date | string
+  }
+
+  export type CharacterDraftWhereInput = {
+    AND?: CharacterDraftWhereInput | CharacterDraftWhereInput[]
+    OR?: CharacterDraftWhereInput[]
+    NOT?: CharacterDraftWhereInput | CharacterDraftWhereInput[]
+    id?: StringFilter<"CharacterDraft"> | string
+    draftName?: StringNullableFilter<"CharacterDraft"> | string | null
+    step?: IntFilter<"CharacterDraft"> | number
+    characterData?: JsonFilter<"CharacterDraft">
+    isAutoSave?: BoolFilter<"CharacterDraft"> | boolean
+    characterId?: StringNullableFilter<"CharacterDraft"> | string | null
+    playerId?: StringFilter<"CharacterDraft"> | string
+    campaignId?: StringFilter<"CharacterDraft"> | string
+    createdAt?: DateTimeFilter<"CharacterDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"CharacterDraft"> | Date | string
+    character?: XOR<CharacterNullableRelationFilter, CharacterWhereInput> | null
+    player?: XOR<UserRelationFilter, UserWhereInput>
+    campaign?: XOR<CampaignRelationFilter, CampaignWhereInput>
+  }
+
+  export type CharacterDraftOrderByWithRelationInput = {
+    id?: SortOrder
+    draftName?: SortOrderInput | SortOrder
+    step?: SortOrder
+    characterData?: SortOrder
+    isAutoSave?: SortOrder
+    characterId?: SortOrderInput | SortOrder
+    playerId?: SortOrder
+    campaignId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    character?: CharacterOrderByWithRelationInput
+    player?: UserOrderByWithRelationInput
+    campaign?: CampaignOrderByWithRelationInput
+  }
+
+  export type CharacterDraftWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CharacterDraftWhereInput | CharacterDraftWhereInput[]
+    OR?: CharacterDraftWhereInput[]
+    NOT?: CharacterDraftWhereInput | CharacterDraftWhereInput[]
+    draftName?: StringNullableFilter<"CharacterDraft"> | string | null
+    step?: IntFilter<"CharacterDraft"> | number
+    characterData?: JsonFilter<"CharacterDraft">
+    isAutoSave?: BoolFilter<"CharacterDraft"> | boolean
+    characterId?: StringNullableFilter<"CharacterDraft"> | string | null
+    playerId?: StringFilter<"CharacterDraft"> | string
+    campaignId?: StringFilter<"CharacterDraft"> | string
+    createdAt?: DateTimeFilter<"CharacterDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"CharacterDraft"> | Date | string
+    character?: XOR<CharacterNullableRelationFilter, CharacterWhereInput> | null
+    player?: XOR<UserRelationFilter, UserWhereInput>
+    campaign?: XOR<CampaignRelationFilter, CampaignWhereInput>
+  }, "id">
+
+  export type CharacterDraftOrderByWithAggregationInput = {
+    id?: SortOrder
+    draftName?: SortOrderInput | SortOrder
+    step?: SortOrder
+    characterData?: SortOrder
+    isAutoSave?: SortOrder
+    characterId?: SortOrderInput | SortOrder
+    playerId?: SortOrder
+    campaignId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CharacterDraftCountOrderByAggregateInput
+    _avg?: CharacterDraftAvgOrderByAggregateInput
+    _max?: CharacterDraftMaxOrderByAggregateInput
+    _min?: CharacterDraftMinOrderByAggregateInput
+    _sum?: CharacterDraftSumOrderByAggregateInput
+  }
+
+  export type CharacterDraftScalarWhereWithAggregatesInput = {
+    AND?: CharacterDraftScalarWhereWithAggregatesInput | CharacterDraftScalarWhereWithAggregatesInput[]
+    OR?: CharacterDraftScalarWhereWithAggregatesInput[]
+    NOT?: CharacterDraftScalarWhereWithAggregatesInput | CharacterDraftScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CharacterDraft"> | string
+    draftName?: StringNullableWithAggregatesFilter<"CharacterDraft"> | string | null
+    step?: IntWithAggregatesFilter<"CharacterDraft"> | number
+    characterData?: JsonWithAggregatesFilter<"CharacterDraft">
+    isAutoSave?: BoolWithAggregatesFilter<"CharacterDraft"> | boolean
+    characterId?: StringNullableWithAggregatesFilter<"CharacterDraft"> | string | null
+    playerId?: StringWithAggregatesFilter<"CharacterDraft"> | string
+    campaignId?: StringWithAggregatesFilter<"CharacterDraft"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CharacterDraft"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CharacterDraft"> | Date | string
   }
 
   export type CharacteristicsWhereInput = {
@@ -29569,6 +31010,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
@@ -29590,6 +31032,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
@@ -29611,6 +31054,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
@@ -29632,6 +31076,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
@@ -29693,6 +31138,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -29717,6 +31163,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -29741,6 +31188,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -29765,6 +31213,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -29885,6 +31334,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -29894,6 +31347,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateInput = {
@@ -29906,6 +31360,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -29915,6 +31373,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUpdateInput = {
@@ -29927,6 +31386,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -29936,6 +31399,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateInput = {
@@ -29948,6 +31412,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29957,6 +31425,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterCreateManyInput = {
@@ -29969,6 +31438,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -29985,6 +31458,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29999,6 +31476,98 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftCreateInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    character?: CharacterCreateNestedOneWithoutCharacterDraftsInput
+    player: UserCreateNestedOneWithoutCharacterDraftsInput
+    campaign: CampaignCreateNestedOneWithoutCharacterDraftsInput
+  }
+
+  export type CharacterDraftUncheckedCreateInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
+    playerId: string
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    character?: CharacterUpdateOneWithoutCharacterDraftsNestedInput
+    player?: UserUpdateOneRequiredWithoutCharacterDraftsNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutCharacterDraftsNestedInput
+  }
+
+  export type CharacterDraftUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftCreateManyInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
+    playerId: string
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31951,6 +33520,12 @@ export namespace Prisma {
     none?: CharacterWhereInput
   }
 
+  export type CharacterDraftListRelationFilter = {
+    every?: CharacterDraftWhereInput
+    some?: CharacterDraftWhereInput
+    none?: CharacterDraftWhereInput
+  }
+
   export type DiceRollListRelationFilter = {
     every?: DiceRollWhereInput
     some?: DiceRollWhereInput
@@ -31989,6 +33564,10 @@ export namespace Prisma {
   }
 
   export type CharacterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CharacterDraftOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32377,6 +33956,13 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumCharacterStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CharacterStatus | EnumCharacterStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCharacterStatusFilter<$PrismaModel> | $Enums.CharacterStatus
+  }
+
   export type CharacteristicsNullableRelationFilter = {
     is?: CharacteristicsWhereInput | null
     isNot?: CharacteristicsWhereInput | null
@@ -32438,6 +34024,10 @@ export namespace Prisma {
     age?: SortOrder
     gender?: SortOrder
     species?: SortOrder
+    status?: SortOrder
+    backgroundData?: SortOrder
+    careerData?: SortOrder
+    avatarSeed?: SortOrder
     playerId?: SortOrder
     campaignId?: SortOrder
     createdAt?: SortOrder
@@ -32459,6 +34049,8 @@ export namespace Prisma {
     age?: SortOrder
     gender?: SortOrder
     species?: SortOrder
+    status?: SortOrder
+    avatarSeed?: SortOrder
     playerId?: SortOrder
     campaignId?: SortOrder
     createdAt?: SortOrder
@@ -32475,6 +34067,8 @@ export namespace Prisma {
     age?: SortOrder
     gender?: SortOrder
     species?: SortOrder
+    status?: SortOrder
+    avatarSeed?: SortOrder
     playerId?: SortOrder
     campaignId?: SortOrder
     createdAt?: SortOrder
@@ -32500,6 +34094,113 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumCharacterStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CharacterStatus | EnumCharacterStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCharacterStatusWithAggregatesFilter<$PrismaModel> | $Enums.CharacterStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCharacterStatusFilter<$PrismaModel>
+    _max?: NestedEnumCharacterStatusFilter<$PrismaModel>
+  }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type CharacterNullableRelationFilter = {
+    is?: CharacterWhereInput | null
+    isNot?: CharacterWhereInput | null
+  }
+
+  export type CharacterDraftCountOrderByAggregateInput = {
+    id?: SortOrder
+    draftName?: SortOrder
+    step?: SortOrder
+    characterData?: SortOrder
+    isAutoSave?: SortOrder
+    characterId?: SortOrder
+    playerId?: SortOrder
+    campaignId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CharacterDraftAvgOrderByAggregateInput = {
+    step?: SortOrder
+  }
+
+  export type CharacterDraftMaxOrderByAggregateInput = {
+    id?: SortOrder
+    draftName?: SortOrder
+    step?: SortOrder
+    isAutoSave?: SortOrder
+    characterId?: SortOrder
+    playerId?: SortOrder
+    campaignId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CharacterDraftMinOrderByAggregateInput = {
+    id?: SortOrder
+    draftName?: SortOrder
+    step?: SortOrder
+    isAutoSave?: SortOrder
+    characterId?: SortOrder
+    playerId?: SortOrder
+    campaignId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CharacterDraftSumOrderByAggregateInput = {
+    step?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type CharacterRelationFilter = {
@@ -33283,11 +34984,6 @@ export namespace Prisma {
     round?: SortOrder
   }
 
-  export type CharacterNullableRelationFilter = {
-    is?: CharacterWhereInput | null
-    isNot?: CharacterWhereInput | null
-  }
-
   export type CombatSessionRelationFilter = {
     is?: CombatSessionWhereInput
     isNot?: CombatSessionWhereInput
@@ -33405,28 +35101,6 @@ export namespace Prisma {
     result?: SortOrder
     individual?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type CustomContentCountOrderByAggregateInput = {
     id?: SortOrder
@@ -33470,31 +35144,6 @@ export namespace Prisma {
     campaignId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type HouseRuleCountOrderByAggregateInput = {
@@ -33643,6 +35292,13 @@ export namespace Prisma {
     connect?: CharacterWhereUniqueInput | CharacterWhereUniqueInput[]
   }
 
+  export type CharacterDraftCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput> | CharacterDraftCreateWithoutPlayerInput[] | CharacterDraftUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutPlayerInput | CharacterDraftCreateOrConnectWithoutPlayerInput[]
+    createMany?: CharacterDraftCreateManyPlayerInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+  }
+
   export type DiceRollCreateNestedManyWithoutRollerInput = {
     create?: XOR<DiceRollCreateWithoutRollerInput, DiceRollUncheckedCreateWithoutRollerInput> | DiceRollCreateWithoutRollerInput[] | DiceRollUncheckedCreateWithoutRollerInput[]
     connectOrCreate?: DiceRollCreateOrConnectWithoutRollerInput | DiceRollCreateOrConnectWithoutRollerInput[]
@@ -33690,6 +35346,13 @@ export namespace Prisma {
     connectOrCreate?: CharacterCreateOrConnectWithoutPlayerInput | CharacterCreateOrConnectWithoutPlayerInput[]
     createMany?: CharacterCreateManyPlayerInputEnvelope
     connect?: CharacterWhereUniqueInput | CharacterWhereUniqueInput[]
+  }
+
+  export type CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput> | CharacterDraftCreateWithoutPlayerInput[] | CharacterDraftUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutPlayerInput | CharacterDraftCreateOrConnectWithoutPlayerInput[]
+    createMany?: CharacterDraftCreateManyPlayerInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
   }
 
   export type DiceRollUncheckedCreateNestedManyWithoutRollerInput = {
@@ -33784,6 +35447,20 @@ export namespace Prisma {
     update?: CharacterUpdateWithWhereUniqueWithoutPlayerInput | CharacterUpdateWithWhereUniqueWithoutPlayerInput[]
     updateMany?: CharacterUpdateManyWithWhereWithoutPlayerInput | CharacterUpdateManyWithWhereWithoutPlayerInput[]
     deleteMany?: CharacterScalarWhereInput | CharacterScalarWhereInput[]
+  }
+
+  export type CharacterDraftUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput> | CharacterDraftCreateWithoutPlayerInput[] | CharacterDraftUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutPlayerInput | CharacterDraftCreateOrConnectWithoutPlayerInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutPlayerInput | CharacterDraftUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: CharacterDraftCreateManyPlayerInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutPlayerInput | CharacterDraftUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutPlayerInput | CharacterDraftUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
   }
 
   export type DiceRollUpdateManyWithoutRollerNestedInput = {
@@ -33884,6 +35561,20 @@ export namespace Prisma {
     deleteMany?: CharacterScalarWhereInput | CharacterScalarWhereInput[]
   }
 
+  export type CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput> | CharacterDraftCreateWithoutPlayerInput[] | CharacterDraftUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutPlayerInput | CharacterDraftCreateOrConnectWithoutPlayerInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutPlayerInput | CharacterDraftUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: CharacterDraftCreateManyPlayerInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutPlayerInput | CharacterDraftUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutPlayerInput | CharacterDraftUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
+  }
+
   export type DiceRollUncheckedUpdateManyWithoutRollerNestedInput = {
     create?: XOR<DiceRollCreateWithoutRollerInput, DiceRollUncheckedCreateWithoutRollerInput> | DiceRollCreateWithoutRollerInput[] | DiceRollUncheckedCreateWithoutRollerInput[]
     connectOrCreate?: DiceRollCreateOrConnectWithoutRollerInput | DiceRollCreateOrConnectWithoutRollerInput[]
@@ -33964,6 +35655,13 @@ export namespace Prisma {
     connect?: CharacterWhereUniqueInput | CharacterWhereUniqueInput[]
   }
 
+  export type CharacterDraftCreateNestedManyWithoutCampaignInput = {
+    create?: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput> | CharacterDraftCreateWithoutCampaignInput[] | CharacterDraftUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCampaignInput | CharacterDraftCreateOrConnectWithoutCampaignInput[]
+    createMany?: CharacterDraftCreateManyCampaignInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+  }
+
   export type SessionCreateNestedManyWithoutCampaignInput = {
     create?: XOR<SessionCreateWithoutCampaignInput, SessionUncheckedCreateWithoutCampaignInput> | SessionCreateWithoutCampaignInput[] | SessionUncheckedCreateWithoutCampaignInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutCampaignInput | SessionCreateOrConnectWithoutCampaignInput[]
@@ -34039,6 +35737,13 @@ export namespace Prisma {
     connectOrCreate?: CharacterCreateOrConnectWithoutCampaignInput | CharacterCreateOrConnectWithoutCampaignInput[]
     createMany?: CharacterCreateManyCampaignInputEnvelope
     connect?: CharacterWhereUniqueInput | CharacterWhereUniqueInput[]
+  }
+
+  export type CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput = {
+    create?: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput> | CharacterDraftCreateWithoutCampaignInput[] | CharacterDraftUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCampaignInput | CharacterDraftCreateOrConnectWithoutCampaignInput[]
+    createMany?: CharacterDraftCreateManyCampaignInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutCampaignInput = {
@@ -34151,6 +35856,20 @@ export namespace Prisma {
     update?: CharacterUpdateWithWhereUniqueWithoutCampaignInput | CharacterUpdateWithWhereUniqueWithoutCampaignInput[]
     updateMany?: CharacterUpdateManyWithWhereWithoutCampaignInput | CharacterUpdateManyWithWhereWithoutCampaignInput[]
     deleteMany?: CharacterScalarWhereInput | CharacterScalarWhereInput[]
+  }
+
+  export type CharacterDraftUpdateManyWithoutCampaignNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput> | CharacterDraftCreateWithoutCampaignInput[] | CharacterDraftUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCampaignInput | CharacterDraftCreateOrConnectWithoutCampaignInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutCampaignInput | CharacterDraftUpsertWithWhereUniqueWithoutCampaignInput[]
+    createMany?: CharacterDraftCreateManyCampaignInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutCampaignInput | CharacterDraftUpdateWithWhereUniqueWithoutCampaignInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutCampaignInput | CharacterDraftUpdateManyWithWhereWithoutCampaignInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
   }
 
   export type SessionUpdateManyWithoutCampaignNestedInput = {
@@ -34305,6 +36024,20 @@ export namespace Prisma {
     update?: CharacterUpdateWithWhereUniqueWithoutCampaignInput | CharacterUpdateWithWhereUniqueWithoutCampaignInput[]
     updateMany?: CharacterUpdateManyWithWhereWithoutCampaignInput | CharacterUpdateManyWithWhereWithoutCampaignInput[]
     deleteMany?: CharacterScalarWhereInput | CharacterScalarWhereInput[]
+  }
+
+  export type CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput> | CharacterDraftCreateWithoutCampaignInput[] | CharacterDraftUncheckedCreateWithoutCampaignInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCampaignInput | CharacterDraftCreateOrConnectWithoutCampaignInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutCampaignInput | CharacterDraftUpsertWithWhereUniqueWithoutCampaignInput[]
+    createMany?: CharacterDraftCreateManyCampaignInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutCampaignInput | CharacterDraftUpdateWithWhereUniqueWithoutCampaignInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutCampaignInput | CharacterDraftUpdateManyWithWhereWithoutCampaignInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateManyWithoutCampaignNestedInput = {
@@ -34511,6 +36244,13 @@ export namespace Prisma {
     connect?: CombatActionWhereUniqueInput | CombatActionWhereUniqueInput[]
   }
 
+  export type CharacterDraftCreateNestedManyWithoutCharacterInput = {
+    create?: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput> | CharacterDraftCreateWithoutCharacterInput[] | CharacterDraftUncheckedCreateWithoutCharacterInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCharacterInput | CharacterDraftCreateOrConnectWithoutCharacterInput[]
+    createMany?: CharacterDraftCreateManyCharacterInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+  }
+
   export type CharacteristicsUncheckedCreateNestedOneWithoutCharacterInput = {
     create?: XOR<CharacteristicsCreateWithoutCharacterInput, CharacteristicsUncheckedCreateWithoutCharacterInput>
     connectOrCreate?: CharacteristicsCreateOrConnectWithoutCharacterInput
@@ -34545,12 +36285,23 @@ export namespace Prisma {
     connect?: CombatActionWhereUniqueInput | CombatActionWhereUniqueInput[]
   }
 
+  export type CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput = {
+    create?: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput> | CharacterDraftCreateWithoutCharacterInput[] | CharacterDraftUncheckedCreateWithoutCharacterInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCharacterInput | CharacterDraftCreateOrConnectWithoutCharacterInput[]
+    createMany?: CharacterDraftCreateManyCharacterInputEnvelope
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumCharacterStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CharacterStatus
   }
 
   export type UserUpdateOneRequiredWithoutCharactersNestedInput = {
@@ -34635,6 +36386,20 @@ export namespace Prisma {
     deleteMany?: CombatActionScalarWhereInput | CombatActionScalarWhereInput[]
   }
 
+  export type CharacterDraftUpdateManyWithoutCharacterNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput> | CharacterDraftCreateWithoutCharacterInput[] | CharacterDraftUncheckedCreateWithoutCharacterInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCharacterInput | CharacterDraftCreateOrConnectWithoutCharacterInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutCharacterInput | CharacterDraftUpsertWithWhereUniqueWithoutCharacterInput[]
+    createMany?: CharacterDraftCreateManyCharacterInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutCharacterInput | CharacterDraftUpdateWithWhereUniqueWithoutCharacterInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutCharacterInput | CharacterDraftUpdateManyWithWhereWithoutCharacterInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
+  }
+
   export type CharacteristicsUncheckedUpdateOneWithoutCharacterNestedInput = {
     create?: XOR<CharacteristicsCreateWithoutCharacterInput, CharacteristicsUncheckedCreateWithoutCharacterInput>
     connectOrCreate?: CharacteristicsCreateOrConnectWithoutCharacterInput
@@ -34699,6 +36464,64 @@ export namespace Prisma {
     update?: CombatActionUpdateWithWhereUniqueWithoutCharacterInput | CombatActionUpdateWithWhereUniqueWithoutCharacterInput[]
     updateMany?: CombatActionUpdateManyWithWhereWithoutCharacterInput | CombatActionUpdateManyWithWhereWithoutCharacterInput[]
     deleteMany?: CombatActionScalarWhereInput | CombatActionScalarWhereInput[]
+  }
+
+  export type CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput = {
+    create?: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput> | CharacterDraftCreateWithoutCharacterInput[] | CharacterDraftUncheckedCreateWithoutCharacterInput[]
+    connectOrCreate?: CharacterDraftCreateOrConnectWithoutCharacterInput | CharacterDraftCreateOrConnectWithoutCharacterInput[]
+    upsert?: CharacterDraftUpsertWithWhereUniqueWithoutCharacterInput | CharacterDraftUpsertWithWhereUniqueWithoutCharacterInput[]
+    createMany?: CharacterDraftCreateManyCharacterInputEnvelope
+    set?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    disconnect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    delete?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    connect?: CharacterDraftWhereUniqueInput | CharacterDraftWhereUniqueInput[]
+    update?: CharacterDraftUpdateWithWhereUniqueWithoutCharacterInput | CharacterDraftUpdateWithWhereUniqueWithoutCharacterInput[]
+    updateMany?: CharacterDraftUpdateManyWithWhereWithoutCharacterInput | CharacterDraftUpdateManyWithWhereWithoutCharacterInput[]
+    deleteMany?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
+  }
+
+  export type CharacterCreateNestedOneWithoutCharacterDraftsInput = {
+    create?: XOR<CharacterCreateWithoutCharacterDraftsInput, CharacterUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: CharacterCreateOrConnectWithoutCharacterDraftsInput
+    connect?: CharacterWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCharacterDraftsInput = {
+    create?: XOR<UserCreateWithoutCharacterDraftsInput, UserUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCharacterDraftsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CampaignCreateNestedOneWithoutCharacterDraftsInput = {
+    create?: XOR<CampaignCreateWithoutCharacterDraftsInput, CampaignUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: CampaignCreateOrConnectWithoutCharacterDraftsInput
+    connect?: CampaignWhereUniqueInput
+  }
+
+  export type CharacterUpdateOneWithoutCharacterDraftsNestedInput = {
+    create?: XOR<CharacterCreateWithoutCharacterDraftsInput, CharacterUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: CharacterCreateOrConnectWithoutCharacterDraftsInput
+    upsert?: CharacterUpsertWithoutCharacterDraftsInput
+    disconnect?: CharacterWhereInput | boolean
+    delete?: CharacterWhereInput | boolean
+    connect?: CharacterWhereUniqueInput
+    update?: XOR<XOR<CharacterUpdateToOneWithWhereWithoutCharacterDraftsInput, CharacterUpdateWithoutCharacterDraftsInput>, CharacterUncheckedUpdateWithoutCharacterDraftsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCharacterDraftsNestedInput = {
+    create?: XOR<UserCreateWithoutCharacterDraftsInput, UserUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCharacterDraftsInput
+    upsert?: UserUpsertWithoutCharacterDraftsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCharacterDraftsInput, UserUpdateWithoutCharacterDraftsInput>, UserUncheckedUpdateWithoutCharacterDraftsInput>
+  }
+
+  export type CampaignUpdateOneRequiredWithoutCharacterDraftsNestedInput = {
+    create?: XOR<CampaignCreateWithoutCharacterDraftsInput, CampaignUncheckedCreateWithoutCharacterDraftsInput>
+    connectOrCreate?: CampaignCreateOrConnectWithoutCharacterDraftsInput
+    upsert?: CampaignUpsertWithoutCharacterDraftsInput
+    connect?: CampaignWhereUniqueInput
+    update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutCharacterDraftsInput, CampaignUpdateWithoutCharacterDraftsInput>, CampaignUncheckedUpdateWithoutCharacterDraftsInput>
   }
 
   export type CharacterCreateNestedOneWithoutCharacteristicsInput = {
@@ -35816,6 +37639,13 @@ export namespace Prisma {
     _max?: NestedEnumCampaignRoleFilter<$PrismaModel>
   }
 
+  export type NestedEnumCharacterStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CharacterStatus | EnumCharacterStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCharacterStatusFilter<$PrismaModel> | $Enums.CharacterStatus
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -35841,6 +37671,38 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumCharacterStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CharacterStatus | EnumCharacterStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CharacterStatus[] | ListEnumCharacterStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCharacterStatusWithAggregatesFilter<$PrismaModel> | $Enums.CharacterStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCharacterStatusFilter<$PrismaModel>
+    _max?: NestedEnumCharacterStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -35875,28 +37737,6 @@ export namespace Prisma {
     _min?: NestedEnumSessionStatusFilter<$PrismaModel>
     _max?: NestedEnumSessionStatusFilter<$PrismaModel>
   }
-  export type NestedJsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type CampaignCreateWithoutGamemasterInput = {
     id?: string
@@ -35910,6 +37750,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -35933,6 +37774,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -35990,6 +37832,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     campaign: CampaignCreateNestedOneWithoutCharactersInput
@@ -35998,6 +37844,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutPlayerInput = {
@@ -36010,6 +37857,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     campaignId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36018,6 +37869,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutPlayerInput = {
@@ -36027,6 +37879,40 @@ export namespace Prisma {
 
   export type CharacterCreateManyPlayerInputEnvelope = {
     data: CharacterCreateManyPlayerInput | CharacterCreateManyPlayerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CharacterDraftCreateWithoutPlayerInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    character?: CharacterCreateNestedOneWithoutCharacterDraftsInput
+    campaign: CampaignCreateNestedOneWithoutCharacterDraftsInput
+  }
+
+  export type CharacterDraftUncheckedCreateWithoutPlayerInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftCreateOrConnectWithoutPlayerInput = {
+    where: CharacterDraftWhereUniqueInput
+    create: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type CharacterDraftCreateManyPlayerInputEnvelope = {
+    data: CharacterDraftCreateManyPlayerInput | CharacterDraftCreateManyPlayerInput[]
     skipDuplicates?: boolean
   }
 
@@ -36273,10 +38159,46 @@ export namespace Prisma {
     age?: IntNullableFilter<"Character"> | number | null
     gender?: StringNullableFilter<"Character"> | string | null
     species?: StringNullableFilter<"Character"> | string | null
+    status?: EnumCharacterStatusFilter<"Character"> | $Enums.CharacterStatus
+    backgroundData?: JsonNullableFilter<"Character">
+    careerData?: JsonNullableFilter<"Character">
+    avatarSeed?: StringNullableFilter<"Character"> | string | null
     playerId?: StringFilter<"Character"> | string
     campaignId?: StringFilter<"Character"> | string
     createdAt?: DateTimeFilter<"Character"> | Date | string
     updatedAt?: DateTimeFilter<"Character"> | Date | string
+  }
+
+  export type CharacterDraftUpsertWithWhereUniqueWithoutPlayerInput = {
+    where: CharacterDraftWhereUniqueInput
+    update: XOR<CharacterDraftUpdateWithoutPlayerInput, CharacterDraftUncheckedUpdateWithoutPlayerInput>
+    create: XOR<CharacterDraftCreateWithoutPlayerInput, CharacterDraftUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type CharacterDraftUpdateWithWhereUniqueWithoutPlayerInput = {
+    where: CharacterDraftWhereUniqueInput
+    data: XOR<CharacterDraftUpdateWithoutPlayerInput, CharacterDraftUncheckedUpdateWithoutPlayerInput>
+  }
+
+  export type CharacterDraftUpdateManyWithWhereWithoutPlayerInput = {
+    where: CharacterDraftScalarWhereInput
+    data: XOR<CharacterDraftUpdateManyMutationInput, CharacterDraftUncheckedUpdateManyWithoutPlayerInput>
+  }
+
+  export type CharacterDraftScalarWhereInput = {
+    AND?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
+    OR?: CharacterDraftScalarWhereInput[]
+    NOT?: CharacterDraftScalarWhereInput | CharacterDraftScalarWhereInput[]
+    id?: StringFilter<"CharacterDraft"> | string
+    draftName?: StringNullableFilter<"CharacterDraft"> | string | null
+    step?: IntFilter<"CharacterDraft"> | number
+    characterData?: JsonFilter<"CharacterDraft">
+    isAutoSave?: BoolFilter<"CharacterDraft"> | boolean
+    characterId?: StringNullableFilter<"CharacterDraft"> | string | null
+    playerId?: StringFilter<"CharacterDraft"> | string
+    campaignId?: StringFilter<"CharacterDraft"> | string
+    createdAt?: DateTimeFilter<"CharacterDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"CharacterDraft"> | Date | string
   }
 
   export type DiceRollUpsertWithWhereUniqueWithoutRollerInput = {
@@ -36430,6 +38352,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
@@ -36450,6 +38373,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
@@ -36497,6 +38421,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -36505,6 +38433,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutCampaignInput = {
@@ -36517,6 +38446,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36525,6 +38458,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutCampaignInput = {
@@ -36534,6 +38468,40 @@ export namespace Prisma {
 
   export type CharacterCreateManyCampaignInputEnvelope = {
     data: CharacterCreateManyCampaignInput | CharacterCreateManyCampaignInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CharacterDraftCreateWithoutCampaignInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    character?: CharacterCreateNestedOneWithoutCharacterDraftsInput
+    player: UserCreateNestedOneWithoutCharacterDraftsInput
+  }
+
+  export type CharacterDraftUncheckedCreateWithoutCampaignInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
+    playerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftCreateOrConnectWithoutCampaignInput = {
+    where: CharacterDraftWhereUniqueInput
+    create: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type CharacterDraftCreateManyCampaignInputEnvelope = {
+    data: CharacterDraftCreateManyCampaignInput | CharacterDraftCreateManyCampaignInput[]
     skipDuplicates?: boolean
   }
 
@@ -36936,6 +38904,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
@@ -36956,6 +38925,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
@@ -36992,6 +38962,22 @@ export namespace Prisma {
   export type CharacterUpdateManyWithWhereWithoutCampaignInput = {
     where: CharacterScalarWhereInput
     data: XOR<CharacterUpdateManyMutationInput, CharacterUncheckedUpdateManyWithoutCampaignInput>
+  }
+
+  export type CharacterDraftUpsertWithWhereUniqueWithoutCampaignInput = {
+    where: CharacterDraftWhereUniqueInput
+    update: XOR<CharacterDraftUpdateWithoutCampaignInput, CharacterDraftUncheckedUpdateWithoutCampaignInput>
+    create: XOR<CharacterDraftCreateWithoutCampaignInput, CharacterDraftUncheckedCreateWithoutCampaignInput>
+  }
+
+  export type CharacterDraftUpdateWithWhereUniqueWithoutCampaignInput = {
+    where: CharacterDraftWhereUniqueInput
+    data: XOR<CharacterDraftUpdateWithoutCampaignInput, CharacterDraftUncheckedUpdateWithoutCampaignInput>
+  }
+
+  export type CharacterDraftUpdateManyWithWhereWithoutCampaignInput = {
+    where: CharacterDraftScalarWhereInput
+    data: XOR<CharacterDraftUpdateManyMutationInput, CharacterDraftUncheckedUpdateManyWithoutCampaignInput>
   }
 
   export type SessionUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -37248,6 +39234,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -37271,6 +39258,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -37301,6 +39289,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
@@ -37321,6 +39310,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
@@ -37355,6 +39345,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -37378,6 +39369,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -37414,6 +39406,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
@@ -37434,6 +39427,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
@@ -37454,6 +39448,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
@@ -37474,6 +39469,7 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
@@ -37497,6 +39493,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -37520,6 +39517,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -37703,6 +39701,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CharacterDraftCreateWithoutCharacterInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    player: UserCreateNestedOneWithoutCharacterDraftsInput
+    campaign: CampaignCreateNestedOneWithoutCharacterDraftsInput
+  }
+
+  export type CharacterDraftUncheckedCreateWithoutCharacterInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    playerId: string
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftCreateOrConnectWithoutCharacterInput = {
+    where: CharacterDraftWhereUniqueInput
+    create: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput>
+  }
+
+  export type CharacterDraftCreateManyCharacterInputEnvelope = {
+    data: CharacterDraftCreateManyCharacterInput | CharacterDraftCreateManyCharacterInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCharactersInput = {
     update: XOR<UserUpdateWithoutCharactersInput, UserUncheckedUpdateWithoutCharactersInput>
     create: XOR<UserCreateWithoutCharactersInput, UserUncheckedCreateWithoutCharactersInput>
@@ -37728,6 +39760,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
@@ -37748,6 +39781,7 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
@@ -37777,6 +39811,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -37800,6 +39835,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -37975,6 +40011,350 @@ export namespace Prisma {
     timestamp?: DateTimeFilter<"CombatAction"> | Date | string
   }
 
+  export type CharacterDraftUpsertWithWhereUniqueWithoutCharacterInput = {
+    where: CharacterDraftWhereUniqueInput
+    update: XOR<CharacterDraftUpdateWithoutCharacterInput, CharacterDraftUncheckedUpdateWithoutCharacterInput>
+    create: XOR<CharacterDraftCreateWithoutCharacterInput, CharacterDraftUncheckedCreateWithoutCharacterInput>
+  }
+
+  export type CharacterDraftUpdateWithWhereUniqueWithoutCharacterInput = {
+    where: CharacterDraftWhereUniqueInput
+    data: XOR<CharacterDraftUpdateWithoutCharacterInput, CharacterDraftUncheckedUpdateWithoutCharacterInput>
+  }
+
+  export type CharacterDraftUpdateManyWithWhereWithoutCharacterInput = {
+    where: CharacterDraftScalarWhereInput
+    data: XOR<CharacterDraftUpdateManyMutationInput, CharacterDraftUncheckedUpdateManyWithoutCharacterInput>
+  }
+
+  export type CharacterCreateWithoutCharacterDraftsInput = {
+    id?: string
+    name: string
+    credits?: number
+    notes?: string | null
+    portrait?: string | null
+    homeworld?: string | null
+    age?: number | null
+    gender?: string | null
+    species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    player: UserCreateNestedOneWithoutCharactersInput
+    campaign: CampaignCreateNestedOneWithoutCharactersInput
+    characteristics?: CharacteristicsCreateNestedOneWithoutCharacterInput
+    skills?: CharacterSkillCreateNestedManyWithoutCharacterInput
+    equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
+    lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
+    combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+  }
+
+  export type CharacterUncheckedCreateWithoutCharacterDraftsInput = {
+    id?: string
+    name: string
+    credits?: number
+    notes?: string | null
+    portrait?: string | null
+    homeworld?: string | null
+    age?: number | null
+    gender?: string | null
+    species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
+    playerId: string
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    characteristics?: CharacteristicsUncheckedCreateNestedOneWithoutCharacterInput
+    skills?: CharacterSkillUncheckedCreateNestedManyWithoutCharacterInput
+    equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
+    lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
+    combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+  }
+
+  export type CharacterCreateOrConnectWithoutCharacterDraftsInput = {
+    where: CharacterWhereUniqueInput
+    create: XOR<CharacterCreateWithoutCharacterDraftsInput, CharacterUncheckedCreateWithoutCharacterDraftsInput>
+  }
+
+  export type UserCreateWithoutCharacterDraftsInput = {
+    id?: string
+    email: string
+    displayName?: string | null
+    avatar?: string | null
+    timezone?: string
+    subscriptionTier?: $Enums.SubscriptionTier
+    cognitoUserId: string
+    emailVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
+    campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
+    characters?: CharacterCreateNestedManyWithoutPlayerInput
+    diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
+    customContent?: CustomContentCreateNestedManyWithoutAuthorInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
+    handouts?: HandoutCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutCharacterDraftsInput = {
+    id?: string
+    email: string
+    displayName?: string | null
+    avatar?: string | null
+    timezone?: string
+    subscriptionTier?: $Enums.SubscriptionTier
+    cognitoUserId: string
+    emailVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
+    campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
+    characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
+    customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
+    handouts?: HandoutUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutCharacterDraftsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCharacterDraftsInput, UserUncheckedCreateWithoutCharacterDraftsInput>
+  }
+
+  export type CampaignCreateWithoutCharacterDraftsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxPlayers?: number | null
+    isPublic?: boolean
+    allowedBooks?: CampaignCreateallowedBooksInput | string[]
+    houseRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
+    members?: CampaignMemberCreateNestedManyWithoutCampaignInput
+    characters?: CharacterCreateNestedManyWithoutCampaignInput
+    sessions?: SessionCreateNestedManyWithoutCampaignInput
+    diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
+    encounters?: EncounterCreateNestedManyWithoutCampaignInput
+    starSystems?: StarSystemCreateNestedManyWithoutCampaignInput
+    starships?: StarshipCreateNestedManyWithoutCampaignInput
+    customContent?: CustomContentCreateNestedManyWithoutCampaignInput
+    houseRulesData?: HouseRuleCreateNestedManyWithoutCampaignInput
+    handouts?: HandoutCreateNestedManyWithoutCampaignInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignUncheckedCreateWithoutCharacterDraftsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxPlayers?: number | null
+    isPublic?: boolean
+    allowedBooks?: CampaignCreateallowedBooksInput | string[]
+    houseRules?: NullableJsonNullValueInput | InputJsonValue
+    gamemasterId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
+    characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
+    diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
+    encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
+    starSystems?: StarSystemUncheckedCreateNestedManyWithoutCampaignInput
+    starships?: StarshipUncheckedCreateNestedManyWithoutCampaignInput
+    customContent?: CustomContentUncheckedCreateNestedManyWithoutCampaignInput
+    houseRulesData?: HouseRuleUncheckedCreateNestedManyWithoutCampaignInput
+    handouts?: HandoutUncheckedCreateNestedManyWithoutCampaignInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutCampaignInput
+  }
+
+  export type CampaignCreateOrConnectWithoutCharacterDraftsInput = {
+    where: CampaignWhereUniqueInput
+    create: XOR<CampaignCreateWithoutCharacterDraftsInput, CampaignUncheckedCreateWithoutCharacterDraftsInput>
+  }
+
+  export type CharacterUpsertWithoutCharacterDraftsInput = {
+    update: XOR<CharacterUpdateWithoutCharacterDraftsInput, CharacterUncheckedUpdateWithoutCharacterDraftsInput>
+    create: XOR<CharacterCreateWithoutCharacterDraftsInput, CharacterUncheckedCreateWithoutCharacterDraftsInput>
+    where?: CharacterWhereInput
+  }
+
+  export type CharacterUpdateToOneWithWhereWithoutCharacterDraftsInput = {
+    where?: CharacterWhereInput
+    data: XOR<CharacterUpdateWithoutCharacterDraftsInput, CharacterUncheckedUpdateWithoutCharacterDraftsInput>
+  }
+
+  export type CharacterUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    portrait?: NullableStringFieldUpdateOperationsInput | string | null
+    homeworld?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    player?: UserUpdateOneRequiredWithoutCharactersNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutCharactersNestedInput
+    characteristics?: CharacteristicsUpdateOneWithoutCharacterNestedInput
+    skills?: CharacterSkillUpdateManyWithoutCharacterNestedInput
+    equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
+    lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
+    combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+  }
+
+  export type CharacterUncheckedUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    credits?: IntFieldUpdateOperationsInput | number
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    portrait?: NullableStringFieldUpdateOperationsInput | string | null
+    homeworld?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    characteristics?: CharacteristicsUncheckedUpdateOneWithoutCharacterNestedInput
+    skills?: CharacterSkillUncheckedUpdateManyWithoutCharacterNestedInput
+    equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
+    lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
+    combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+  }
+
+  export type UserUpsertWithoutCharacterDraftsInput = {
+    update: XOR<UserUpdateWithoutCharacterDraftsInput, UserUncheckedUpdateWithoutCharacterDraftsInput>
+    create: XOR<UserCreateWithoutCharacterDraftsInput, UserUncheckedCreateWithoutCharacterDraftsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCharacterDraftsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCharacterDraftsInput, UserUncheckedUpdateWithoutCharacterDraftsInput>
+  }
+
+  export type UserUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionTier?: EnumSubscriptionTierFieldUpdateOperationsInput | $Enums.SubscriptionTier
+    cognitoUserId?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
+    campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
+    characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
+    customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
+    handouts?: HandoutUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    subscriptionTier?: EnumSubscriptionTierFieldUpdateOperationsInput | $Enums.SubscriptionTier
+    cognitoUserId?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
+    campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
+    characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
+    customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
+    handouts?: HandoutUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type CampaignUpsertWithoutCharacterDraftsInput = {
+    update: XOR<CampaignUpdateWithoutCharacterDraftsInput, CampaignUncheckedUpdateWithoutCharacterDraftsInput>
+    create: XOR<CampaignCreateWithoutCharacterDraftsInput, CampaignUncheckedCreateWithoutCharacterDraftsInput>
+    where?: CampaignWhereInput
+  }
+
+  export type CampaignUpdateToOneWithWhereWithoutCharacterDraftsInput = {
+    where?: CampaignWhereInput
+    data: XOR<CampaignUpdateWithoutCharacterDraftsInput, CampaignUncheckedUpdateWithoutCharacterDraftsInput>
+  }
+
+  export type CampaignUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxPlayers?: NullableIntFieldUpdateOperationsInput | number | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    allowedBooks?: CampaignUpdateallowedBooksInput | string[]
+    houseRules?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
+    members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
+    characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    sessions?: SessionUpdateManyWithoutCampaignNestedInput
+    diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
+    encounters?: EncounterUpdateManyWithoutCampaignNestedInput
+    starSystems?: StarSystemUpdateManyWithoutCampaignNestedInput
+    starships?: StarshipUpdateManyWithoutCampaignNestedInput
+    customContent?: CustomContentUpdateManyWithoutCampaignNestedInput
+    houseRulesData?: HouseRuleUpdateManyWithoutCampaignNestedInput
+    handouts?: HandoutUpdateManyWithoutCampaignNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutCampaignNestedInput
+  }
+
+  export type CampaignUncheckedUpdateWithoutCharacterDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxPlayers?: NullableIntFieldUpdateOperationsInput | number | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    allowedBooks?: CampaignUpdateallowedBooksInput | string[]
+    houseRules?: NullableJsonNullValueInput | InputJsonValue
+    gamemasterId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
+    characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
+    diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
+    encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
+    starSystems?: StarSystemUncheckedUpdateManyWithoutCampaignNestedInput
+    starships?: StarshipUncheckedUpdateManyWithoutCampaignNestedInput
+    customContent?: CustomContentUncheckedUpdateManyWithoutCampaignNestedInput
+    houseRulesData?: HouseRuleUncheckedUpdateManyWithoutCampaignNestedInput
+    handouts?: HandoutUncheckedUpdateManyWithoutCampaignNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutCampaignNestedInput
+  }
+
   export type CharacterCreateWithoutCharacteristicsInput = {
     id?: string
     name: string
@@ -37985,6 +40365,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -37993,6 +40377,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutCharacteristicsInput = {
@@ -38005,6 +40390,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -38013,6 +40402,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutCharacteristicsInput = {
@@ -38041,6 +40431,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -38049,6 +40443,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutCharacteristicsInput = {
@@ -38061,6 +40456,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38069,6 +40468,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterCreateWithoutSkillsInput = {
@@ -38081,6 +40481,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -38089,6 +40493,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutSkillsInput = {
@@ -38101,6 +40506,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -38109,6 +40518,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutSkillsInput = {
@@ -38137,6 +40547,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -38145,6 +40559,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutSkillsInput = {
@@ -38157,6 +40572,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38165,6 +40584,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterCreateWithoutEquipmentInput = {
@@ -38177,6 +40597,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -38185,6 +40609,7 @@ export namespace Prisma {
     skills?: CharacterSkillCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutEquipmentInput = {
@@ -38197,6 +40622,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -38205,6 +40634,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutEquipmentInput = {
@@ -38233,6 +40663,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -38241,6 +40675,7 @@ export namespace Prisma {
     skills?: CharacterSkillUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutEquipmentInput = {
@@ -38253,6 +40688,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38261,6 +40700,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterCreateWithoutLifeEventsInput = {
@@ -38273,6 +40713,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -38281,6 +40725,7 @@ export namespace Prisma {
     skills?: CharacterSkillCreateNestedManyWithoutCharacterInput
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutLifeEventsInput = {
@@ -38293,6 +40738,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -38301,6 +40750,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedCreateNestedManyWithoutCharacterInput
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     combatActions?: CombatActionUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutLifeEventsInput = {
@@ -38329,6 +40779,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -38337,6 +40791,7 @@ export namespace Prisma {
     skills?: CharacterSkillUpdateManyWithoutCharacterNestedInput
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutLifeEventsInput = {
@@ -38349,6 +40804,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38357,6 +40816,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedUpdateManyWithoutCharacterNestedInput
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CampaignCreateWithoutStarSystemsInput = {
@@ -38372,6 +40832,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -38395,6 +40856,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -38544,6 +41006,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -38567,6 +41030,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -38819,6 +41283,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -38842,6 +41307,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -38881,6 +41347,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -38904,6 +41371,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -39191,6 +41659,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemCreateNestedManyWithoutCampaignInput
@@ -39214,6 +41683,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemUncheckedCreateNestedManyWithoutCampaignInput
@@ -39371,6 +41841,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUpdateManyWithoutCampaignNestedInput
@@ -39394,6 +41865,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUncheckedUpdateManyWithoutCampaignNestedInput
@@ -39481,6 +41953,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemCreateNestedManyWithoutCampaignInput
@@ -39504,6 +41977,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemUncheckedCreateNestedManyWithoutCampaignInput
@@ -39614,6 +42088,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUpdateManyWithoutCampaignNestedInput
@@ -39637,6 +42112,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUncheckedUpdateManyWithoutCampaignNestedInput
@@ -39932,6 +42408,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     player: UserCreateNestedOneWithoutCharactersInput
@@ -39940,6 +42420,7 @@ export namespace Prisma {
     skills?: CharacterSkillCreateNestedManyWithoutCharacterInput
     equipment?: CharacterEquipmentCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterUncheckedCreateWithoutCombatActionsInput = {
@@ -39952,6 +42433,10 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
     playerId: string
     campaignId: string
     createdAt?: Date | string
@@ -39960,6 +42445,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedCreateNestedManyWithoutCharacterInput
     equipment?: CharacterEquipmentUncheckedCreateNestedManyWithoutCharacterInput
     lifeEvents?: LifeEventUncheckedCreateNestedManyWithoutCharacterInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCharacterInput
   }
 
   export type CharacterCreateOrConnectWithoutCombatActionsInput = {
@@ -40019,6 +42505,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -40027,6 +42517,7 @@ export namespace Prisma {
     skills?: CharacterSkillUpdateManyWithoutCharacterNestedInput
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutCombatActionsInput = {
@@ -40039,6 +42530,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40047,6 +42542,7 @@ export namespace Prisma {
     skills?: CharacterSkillUncheckedUpdateManyWithoutCharacterNestedInput
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CombatSessionUpsertWithoutActionsInput = {
@@ -40101,6 +42597,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
     handouts?: HandoutCreateNestedManyWithoutAuthorInput
@@ -40121,6 +42618,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
     handouts?: HandoutUncheckedCreateNestedManyWithoutAuthorInput
@@ -40144,6 +42642,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemCreateNestedManyWithoutCampaignInput
@@ -40167,6 +42666,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
     starSystems?: StarSystemUncheckedCreateNestedManyWithoutCampaignInput
@@ -40208,6 +42708,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUpdateManyWithoutAuthorNestedInput
@@ -40228,6 +42729,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUncheckedUpdateManyWithoutAuthorNestedInput
@@ -40257,6 +42759,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUpdateManyWithoutCampaignNestedInput
@@ -40280,6 +42783,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
     starSystems?: StarSystemUncheckedUpdateManyWithoutCampaignNestedInput
@@ -40305,6 +42809,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
     handouts?: HandoutCreateNestedManyWithoutAuthorInput
@@ -40325,6 +42830,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
     handouts?: HandoutUncheckedCreateNestedManyWithoutAuthorInput
@@ -40348,6 +42854,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -40371,6 +42878,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -40412,6 +42920,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUpdateManyWithoutAuthorNestedInput
@@ -40432,6 +42941,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUncheckedUpdateManyWithoutAuthorNestedInput
@@ -40461,6 +42971,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -40484,6 +42995,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -40507,6 +43019,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -40530,6 +43043,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -40569,6 +43083,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -40592,6 +43107,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -40617,6 +43133,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteCreateNestedManyWithoutAuthorInput
@@ -40637,6 +43154,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutAuthorInput
@@ -40660,6 +43178,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -40683,6 +43202,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -40724,6 +43244,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUpdateManyWithoutAuthorNestedInput
@@ -40744,6 +43265,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     sessionNotes?: SessionNoteUncheckedUpdateManyWithoutAuthorNestedInput
@@ -40773,6 +43295,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -40796,6 +43319,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -40821,6 +43345,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberCreateNestedManyWithoutUserInput
     characters?: CharacterCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollCreateNestedManyWithoutRollerInput
     customContent?: CustomContentCreateNestedManyWithoutAuthorInput
     handouts?: HandoutCreateNestedManyWithoutAuthorInput
@@ -40841,6 +43366,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedCreateNestedManyWithoutGamemasterInput
     campaignMembers?: CampaignMemberUncheckedCreateNestedManyWithoutUserInput
     characters?: CharacterUncheckedCreateNestedManyWithoutPlayerInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutPlayerInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutRollerInput
     customContent?: CustomContentUncheckedCreateNestedManyWithoutAuthorInput
     handouts?: HandoutUncheckedCreateNestedManyWithoutAuthorInput
@@ -40864,6 +43390,7 @@ export namespace Prisma {
     gamemaster: UserCreateNestedOneWithoutOwnedCampaignsInput
     members?: CampaignMemberCreateNestedManyWithoutCampaignInput
     characters?: CharacterCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftCreateNestedManyWithoutCampaignInput
     sessions?: SessionCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollCreateNestedManyWithoutCampaignInput
     encounters?: EncounterCreateNestedManyWithoutCampaignInput
@@ -40887,6 +43414,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: CampaignMemberUncheckedCreateNestedManyWithoutCampaignInput
     characters?: CharacterUncheckedCreateNestedManyWithoutCampaignInput
+    characterDrafts?: CharacterDraftUncheckedCreateNestedManyWithoutCampaignInput
     sessions?: SessionUncheckedCreateNestedManyWithoutCampaignInput
     diceRolls?: DiceRollUncheckedCreateNestedManyWithoutCampaignInput
     encounters?: EncounterUncheckedCreateNestedManyWithoutCampaignInput
@@ -40963,6 +43491,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUpdateManyWithoutUserNestedInput
     characters?: CharacterUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUpdateManyWithoutAuthorNestedInput
@@ -40983,6 +43512,7 @@ export namespace Prisma {
     ownedCampaigns?: CampaignUncheckedUpdateManyWithoutGamemasterNestedInput
     campaignMembers?: CampaignMemberUncheckedUpdateManyWithoutUserNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutPlayerNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutPlayerNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutRollerNestedInput
     customContent?: CustomContentUncheckedUpdateManyWithoutAuthorNestedInput
     handouts?: HandoutUncheckedUpdateManyWithoutAuthorNestedInput
@@ -41012,6 +43542,7 @@ export namespace Prisma {
     gamemaster?: UserUpdateOneRequiredWithoutOwnedCampaignsNestedInput
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -41035,6 +43566,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -41116,6 +43648,22 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftCreateManyPlayerInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
     campaignId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -41190,6 +43738,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUpdateManyWithoutCampaignNestedInput
@@ -41213,6 +43762,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: CampaignMemberUncheckedUpdateManyWithoutCampaignNestedInput
     characters?: CharacterUncheckedUpdateManyWithoutCampaignNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCampaignNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutCampaignNestedInput
     diceRolls?: DiceRollUncheckedUpdateManyWithoutCampaignNestedInput
     encounters?: EncounterUncheckedUpdateManyWithoutCampaignNestedInput
@@ -41270,6 +43820,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneRequiredWithoutCharactersNestedInput
@@ -41278,6 +43832,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutPlayerInput = {
@@ -41290,6 +43845,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41298,6 +43857,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateManyWithoutPlayerInput = {
@@ -41310,6 +43870,46 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUpdateWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    character?: CharacterUpdateOneWithoutCharacterDraftsNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutCharacterDraftsNestedInput
+  }
+
+  export type CharacterDraftUncheckedUpdateWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUncheckedUpdateManyWithoutPlayerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
     campaignId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41504,6 +44104,22 @@ export namespace Prisma {
     age?: number | null
     gender?: string | null
     species?: string | null
+    status?: $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: string | null
+    playerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CharacterDraftCreateManyCampaignInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    characterId?: string | null
     playerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -41678,6 +44294,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     player?: UserUpdateOneRequiredWithoutCharactersNestedInput
@@ -41686,6 +44306,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateWithoutCampaignInput = {
@@ -41698,6 +44319,10 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41706,6 +44331,7 @@ export namespace Prisma {
     equipment?: CharacterEquipmentUncheckedUpdateManyWithoutCharacterNestedInput
     lifeEvents?: LifeEventUncheckedUpdateManyWithoutCharacterNestedInput
     combatActions?: CombatActionUncheckedUpdateManyWithoutCharacterNestedInput
+    characterDrafts?: CharacterDraftUncheckedUpdateManyWithoutCharacterNestedInput
   }
 
   export type CharacterUncheckedUpdateManyWithoutCampaignInput = {
@@ -41718,6 +44344,46 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     species?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCharacterStatusFieldUpdateOperationsInput | $Enums.CharacterStatus
+    backgroundData?: NullableJsonNullValueInput | InputJsonValue
+    careerData?: NullableJsonNullValueInput | InputJsonValue
+    avatarSeed?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    character?: CharacterUpdateOneWithoutCharacterDraftsNestedInput
+    player?: UserUpdateOneRequiredWithoutCharacterDraftsNestedInput
+  }
+
+  export type CharacterDraftUncheckedUpdateWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
+    playerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUncheckedUpdateManyWithoutCampaignInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    characterId?: NullableStringFieldUpdateOperationsInput | string | null
     playerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42191,6 +44857,18 @@ export namespace Prisma {
     timestamp?: Date | string
   }
 
+  export type CharacterDraftCreateManyCharacterInput = {
+    id?: string
+    draftName?: string | null
+    step?: number
+    characterData: JsonNullValueInput | InputJsonValue
+    isAutoSave?: boolean
+    playerId: string
+    campaignId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CharacterSkillUpdateWithoutCharacterInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -42336,6 +45014,42 @@ export namespace Prisma {
     combatSessionId?: StringFieldUpdateOperationsInput | string
     round?: IntFieldUpdateOperationsInput | number
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUpdateWithoutCharacterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    player?: UserUpdateOneRequiredWithoutCharacterDraftsNestedInput
+    campaign?: CampaignUpdateOneRequiredWithoutCharacterDraftsNestedInput
+  }
+
+  export type CharacterDraftUncheckedUpdateWithoutCharacterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    playerId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CharacterDraftUncheckedUpdateManyWithoutCharacterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftName?: NullableStringFieldUpdateOperationsInput | string | null
+    step?: IntFieldUpdateOperationsInput | number
+    characterData?: JsonNullValueInput | InputJsonValue
+    isAutoSave?: BoolFieldUpdateOperationsInput | boolean
+    playerId?: StringFieldUpdateOperationsInput | string
+    campaignId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlanetCreateManyStarSystemInput = {
@@ -42867,6 +45581,10 @@ export namespace Prisma {
      * @deprecated Use CharacterDefaultArgs instead
      */
     export type CharacterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CharacterDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CharacterDraftDefaultArgs instead
+     */
+    export type CharacterDraftArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CharacterDraftDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CharacteristicsDefaultArgs instead
      */

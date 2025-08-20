@@ -116,7 +116,7 @@ export function generateUWP(profile: UniversalWorldProfile): string {
  */
 export function determineTradeClassifications(profile: UniversalWorldProfile): string[] {
   const classifications: string[] = [];
-  const { size, atmosphere, hydrographics, population, government, lawLevel, techLevel } = profile;
+  const { size, atmosphere, hydrographics, population, government, techLevel } = profile;
 
   // Agricultural
   if (atmosphere >= 4 && atmosphere <= 9 && hydrographics >= 4 && hydrographics <= 8 && population >= 5 && population <= 7) {
@@ -209,9 +209,7 @@ export function calculateHexDistance(hex1: string, hex2: string): number {
   const pos1 = parseHex(hex1);
   const pos2 = parseHex(hex2);
 
-  // Hex grid distance calculation
-  const dx = pos2.x - pos1.x;
-  const dy = pos2.y - pos1.y;
+  // Hex grid distance calculation using cube coordinates
 
   // Convert to cube coordinates for hex distance
   const q1 = pos1.x - Math.floor((pos1.y + (pos1.y & 1)) / 2);
