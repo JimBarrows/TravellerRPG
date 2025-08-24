@@ -54,7 +54,7 @@ public class WorldGenerationStepDefinitions {
         // Initialize world generation process
         generatedWorld = new World();
         generatedWorld.setName("Generated World");
-        // generatedWorld.setHexLocation("0101"); // Method not available in current model
+        generatedWorld.setHexCoordinates("0101"); // Use hexCoordinates instead of hexLocation
         
         testHelper.storeInContext("worldGeneration", true);
         testHelper.storeInContext("generatedWorld", generatedWorld);
@@ -98,7 +98,7 @@ public class WorldGenerationStepDefinitions {
             default: atmosphereType = AtmosphereType.EXOTIC; break;
         }
         
-        generatedWorld.setAtmosphere(atmosphereType.ordinal()); // Convert enum to int
+        generatedWorld.setAtmosphere(atmosphereCode); // Use int directly
         testHelper.storeInContext("atmosphereType", atmosphereType);
         testHelper.storeInContext("atmosphereCode", atmosphereCode);
         
@@ -123,7 +123,7 @@ public class WorldGenerationStepDefinitions {
         hydrographics = Math.max(0, Math.min(10, hydrographics)); // Clamp to 0-10
         int hydrographicPercentage = hydrographics * 10; // Convert to percentage
         
-        generatedWorld.setHydrographics(hydrographicPercentage);
+        generatedWorld.setHydrographics(hydrographics); // Use 0-10 range, not percentage
         testHelper.storeInContext("hydrographics", hydrographics);
         testHelper.storeInContext("hydrographicPercentage", hydrographicPercentage);
         
@@ -145,7 +145,7 @@ public class WorldGenerationStepDefinitions {
             actualPopulation = (long) (Math.pow(10, populationCode) * (1 + Math.random()));
         }
         
-        generatedWorld.setPopulation((int) actualPopulation); // Cast long to int
+        generatedWorld.setPopulation(populationCode); // Use population code 0-10, not actual population
         testHelper.storeInContext("populationCode", populationCode);
         testHelper.storeInContext("actualPopulation", actualPopulation);
         
