@@ -33,7 +33,7 @@ public class CharacterCreationStepDefinitions {
     @Autowired
     private CareerRepository careerRepository;
 
-    private com.barrows.travller.api.model.Character currentCharacter;
+    private Character currentCharacter;
 
     @Given("I am on the character creation page")
     public void iAmOnTheCharacterCreationPage() {
@@ -42,7 +42,7 @@ public class CharacterCreationStepDefinitions {
         testHelper.clearContext();
         
         // Create a new character for testing
-        currentCharacter = new com.barrows.travller.api.model.Character();
+        currentCharacter = new Character();
         currentCharacter.setName("Test Character");
         currentCharacter.setAge(18);
         currentCharacter.setStatus(CharacterStatus.ALIVE);

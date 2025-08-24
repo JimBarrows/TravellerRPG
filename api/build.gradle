@@ -91,7 +91,8 @@ task verifyWithCucumber {
 	dependsOn runCucumberTests
 }
 
-// Add our custom verification task to the build process (temporarily disabled due to compilation issues)
+// Add our custom verification task to the build process
+// Temporarily disabled until Cucumber runtime configuration is complete
 // tasks.named('build') {
 //     dependsOn verifyWithCucumber
 // }
