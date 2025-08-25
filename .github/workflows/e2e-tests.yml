@@ -181,13 +181,13 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
 
       - name: Download API artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: api-service
           path: ./api
 
       - name: Download web build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: web-build
           path: ./ui-player/dist
@@ -311,7 +311,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: ./artifacts
 
@@ -385,7 +385,7 @@ jobs:
 
     steps:
       - name: Download all test results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: all-results
 
