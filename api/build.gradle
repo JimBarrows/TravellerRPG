@@ -79,7 +79,7 @@ task runCucumberTests(type: JavaExec) {
 		'--plugin', 'pretty',
 		'--plugin', 'html:build/reports/cucumber/cucumber.html',
 		'--glue', 'com.barrows.travller.api.cucumber',
-		'../features'
+		'src/test/resources/features'
 	]
 }
 
@@ -92,10 +92,10 @@ task verifyWithCucumber {
 }
 
 // Add our custom verification task to the build process
-// Temporarily disabled until Cucumber runtime configuration is complete
-// tasks.named('build') {
-//     dependsOn verifyWithCucumber
-// }
+// Re-enabled after fixing Cucumber runtime configuration
+tasks.named('build') {
+    dependsOn verifyWithCucumber
+}
 
 // JaCoCo Configuration
 jacoco {
