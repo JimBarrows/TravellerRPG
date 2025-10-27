@@ -245,7 +245,7 @@ jobs:
         uses: actions/checkout@v5
         
       - name: Download API artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: api-jar
           path: ./api-artifacts
@@ -278,7 +278,7 @@ jobs:
         uses: actions/checkout@v5
         
       - name: Download web artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: web-dist
           path: ./web-dist
