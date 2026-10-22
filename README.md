@@ -6,7 +6,7 @@ A comprehensive digital platform for playing the Traveller tabletop role-playing
 
 This is a blank project for CDK development with TypeScript.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The `cdk/cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Useful commands
 
