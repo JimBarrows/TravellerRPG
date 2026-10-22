@@ -1,5 +1,0 @@
-# Production profile
-spring:
-  graphql:
-    graphiql:
-      enabled: false

@@ -1,5 +1,0 @@
-# CICD profile
-spring:
-  graphql:
-    graphiql:
-      enabled: false

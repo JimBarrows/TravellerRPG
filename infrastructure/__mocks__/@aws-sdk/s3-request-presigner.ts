@@ -1,1 +1,0 @@
-export const getSignedUrl = jest.fn(() => Promise.resolve("https://presigned.url/test"));
