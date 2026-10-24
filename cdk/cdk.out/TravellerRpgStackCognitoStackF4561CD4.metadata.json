@@ -1,0 +1,173 @@
+{
+  "/TravellerRpgStack/CognitoStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new TravellerRpgStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/traveller_rpg-stack.ts:9:26)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:6:1)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "TravellerRpgStackCognitoStackF4561CD4.template.json"
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/TravellerRPGUserPool": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "userPoolName": "*",
+        "selfSignUpEnabled": true,
+        "signInAliases": {
+          "email": true,
+          "username": false
+        },
+        "autoVerify": {
+          "email": true
+        },
+        "passwordPolicy": {
+          "minLength": "*",
+          "requireLowercase": true,
+          "requireUppercase": true,
+          "requireDigits": true,
+          "requireSymbols": true
+        },
+        "accountRecovery": 2,
+        "removalPolicy": "destroy"
+      }
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/TravellerRPGUserPoolClient": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "userPool": "*",
+        "userPoolClientName": "*",
+        "generateSecret": false,
+        "authFlows": {
+          "userSrp": true
+        }
+      }
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/UserPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CognitoStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/cognito-stack.ts:43:9)",
+        "new TravellerRpgStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/traveller_rpg-stack.ts:9:26)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:6:1)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/UserPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClientId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CognitoStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/cognito-stack.ts:47:9)",
+        "new TravellerRpgStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/traveller_rpg-stack.ts:9:26)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:6:1)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/TravellerRPGUserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TravellerRPGUserPoolB5B8371F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in aws-cdk-lib...",
+        "new CognitoStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/cognito-stack.ts:11:26)",
+        "new TravellerRpgStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/traveller_rpg-stack.ts:9:26)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:6:1)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/TravellerRPGUserPoolClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TravellerRPGUserPoolClientB0F2D4FF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPoolClient2 in aws-cdk-lib...",
+        "new CognitoStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/cognito-stack.ts:33:32)",
+        "new TravellerRpgStack (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/lib/traveller_rpg-stack.ts:9:26)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:6:1)",
+        "<anonymous> (/Users/JimBarrows/projects.nosync/TravellerRPG/cdk/bin/traveller_rpg.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/TravellerRpgStack/CognitoStack/CDKMetadata/Condition": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadataAvailable"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}

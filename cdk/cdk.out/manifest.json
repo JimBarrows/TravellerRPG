@@ -1,6 +1,41 @@
 {
   "version": "55.0.0",
   "artifacts": {
+    "TravellerRpgStackCognitoStackF4561CD4.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "TravellerRpgStackCognitoStackF4561CD4.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "TravellerRpgStackCognitoStackF4561CD4": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "TravellerRpgStackCognitoStackF4561CD4.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/7d316fe8de74183dc361720fe322fe5b1c97599c232b41f9382ba7a069fade74.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "TravellerRpgStackCognitoStackF4561CD4.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "TravellerRpgStackCognitoStackF4561CD4.assets"
+      ],
+      "additionalMetadataFile": "TravellerRpgStackCognitoStackF4561CD4.metadata.json",
+      "displayName": "TravellerRpgStack/CognitoStack"
+    },
     "TravellerRpgStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {

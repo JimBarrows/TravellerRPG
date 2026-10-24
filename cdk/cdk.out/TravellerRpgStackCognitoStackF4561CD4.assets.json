@@ -1,0 +1,20 @@
+{
+  "version": "55.0.0",
+  "files": {
+    "7d316fe8de74183dc361720fe322fe5b1c97599c232b41f9382ba7a069fade74": {
+      "displayName": "TravellerRpgStackCognitoStackF4561CD4 Template",
+      "source": {
+        "path": "TravellerRpgStackCognitoStackF4561CD4.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-6f5535de": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "7d316fe8de74183dc361720fe322fe5b1c97599c232b41f9382ba7a069fade74.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
